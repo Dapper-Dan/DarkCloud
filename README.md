@@ -1,1 +1,1 @@
-![](https://github.com/Dapper-Dan/DARKCLOUD/blob/master/Images/DarkCloudLogo_WhiteOut.jpg?raw=true)
+![](https://github.com/Dapper-Dan/DarkCloud/blob/master/Images/DarkCloudLogoGreen.jpg?raw=true)

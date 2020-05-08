@@ -228,17 +228,87 @@ document.addEventListener("DOMContentLoaded", function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _session_signup_form_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session/signup_form.jsx */ "./frontend/components/session/signup_form.jsx");
+/* harmony import */ var _nav_bar_nav_bar_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nav_bar/nav_bar.jsx */ "./frontend/components/nav_bar/nav_bar.jsx");
 /* harmony import */ var _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session/signup_form_container.jsx */ "./frontend/components/session/signup_form_container.jsx");
 
 
 
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: "main"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+/***/ "./frontend/components/nav_bar/nav_bar.jsx":
+/*!*************************************************!*\
+  !*** ./frontend/components/nav_bar/nav_bar.jsx ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NavBar; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../session/signup_form_container.jsx */ "./frontend/components/session/signup_form_container.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var NavBar = /*#__PURE__*/function (_React$Component) {
+  _inherits(NavBar, _React$Component);
+
+  var _super = _createSuper(NavBar);
+
+  function NavBar() {
+    _classCallCheck(this, NavBar);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(NavBar, [{
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "nav_bar"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "signup-modal-button",
+        onClick: this.renderComp
+      }, " Create account"));
+    }
+  }]);
+
+  return NavBar;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+
 
 /***/ }),
 
@@ -329,7 +399,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      currentStep: 1,
+      step: 1,
       email: "",
       password: "",
       display_name: "",
@@ -339,7 +409,6 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this._next = _this._next.bind(_assertThisInitialized(_this));
-    _this._prev = _this._prev.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -347,7 +416,19 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSignup",
     value: function handleSignup(e) {
       e.preventDefault();
-      this.props.action(this.state);
+      var _this$state = this.state,
+          email = _this$state.email,
+          password = _this$state.password,
+          display_name = _this$state.display_name,
+          age = _this$state.age,
+          gender = _this$state.gender;
+      this.props.action({
+        email: email,
+        password: password,
+        display_name: display_name,
+        age: age,
+        gender: gender
+      });
     }
   }, {
     key: "update",
@@ -361,52 +442,57 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "_next",
     value: function _next() {
-      var currentStep = this.state.currentStep; //delete if goes wrong
-
-      if (currentStep !== 4) currentStep += 1;
+      var step = this.state.step;
       this.setState({
-        currentStep: currentStep
-      });
-    }
-  }, {
-    key: "_prev",
-    value: function _prev() {
-      var currentStep = this.state.currentStep;
-      if (currentStep !== 1) currentStep -= 1;
-      this.setState({
-        currentStep: currentStep
+        step: step + 1
       });
     }
   }, {
     key: "render",
     value: function render() {
-      if (this.state.currentStep === 1) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step1_form_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          next: this._next,
-          update: this.update
-        });
-      } else if (this.state.currentStep === 2) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step2_form_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          email: this.state.email,
-          next: this._next,
-          update: this.update
-        });
-      } else if (this.state.currentStep === 3) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step3_form_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          email: this.state.email,
-          next: this._next,
-          password: this.state.password,
-          update: this.update
-        });
-      } else if (this.state.currentStep === 4) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step4_form_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          email: this.state.email,
-          password: this.state.password,
-          handleSignup: this.handleSignup,
-          age: this.state.age,
-          gender: this.state.gender,
-          update: this.update
-        });
+      var step = this.state.step;
+      var _this$state2 = this.state,
+          email = _this$state2.email,
+          password = _this$state2.password,
+          displayName = _this$state2.displayName,
+          age = _this$state2.age,
+          gender = _this$state2.gender;
+      var values = {
+        email: email,
+        password: password,
+        displayName: displayName,
+        age: age,
+        gender: gender
+      };
+
+      switch (step) {
+        case 1:
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step1_form_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            next: this._next,
+            update: this.update,
+            values: values
+          });
+
+        case 2:
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step2_form_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            next: this._next,
+            update: this.update,
+            values: values
+          });
+
+        case 3:
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step3_form_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            next: this._next,
+            update: this.update,
+            values: values
+          });
+
+        case 4:
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_signup_step4_form_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            handleSignup: this.handleSignup,
+            update: this.update,
+            values: values
+          });
       }
     }
   }]);
@@ -469,8 +555,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -504,35 +588,31 @@ var Step1 = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Step1);
 
     _this = _super.call(this, props);
-    _this.state = {
-      email: ""
-    };
+    _this.saveAndContinue = _this.saveAndContinue.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Step1, [{
-    key: "update",
-    value: function update(value) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, value, e.target.value));
-      };
+    key: "saveAndContinue",
+    value: function saveAndContinue(e) {
+      e.preventDefault();
+      this.props.next();
     }
   }, {
     key: "render",
     value: function render() {
+      var values = this.props.values;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "signup-form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "signup-email-input",
         placeholder: "Your email address",
         type: "text",
-        value: this.state.email,
-        onChange: this.props.update('email')
+        onChange: this.props.update('email'),
+        value: values.email
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "signup-form-button",
-        onClick: this.props.next
+        onClick: this.saveAndContinue
       }, " Continue "));
     }
   }]);
@@ -557,8 +637,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -593,25 +671,20 @@ var Step2 = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Step2);
 
     _this = _super.call(this, props);
-    _this.state = {
-      email: _this.props.email,
-      password: ""
-    };
+    _this.saveAndContinue = _this.saveAndContinue.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Step2, [{
-    key: "update",
-    value: function update(value) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, value, e.target.value));
-      };
+    key: "saveAndContinue",
+    value: function saveAndContinue(e) {
+      e.preventDefault();
+      this.props.next();
     }
   }, {
     key: "render",
     value: function render() {
+      var values = this.props.values;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "signup-form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -621,13 +694,13 @@ var Step2 = /*#__PURE__*/function (_React$Component) {
       }, "Choose a password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "signup-password-input",
         type: "password",
-        value: this.state.password,
-        onChange: this.update('password')
+        value: values.password,
+        onChange: this.props.update('password')
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "accept-cookies"
       }, " By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "signup-form-button",
-        onClick: this.props.next
+        onClick: this.saveAndContinue
       }, " Accept & continue "));
     }
   }]);
@@ -652,8 +725,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -688,27 +759,20 @@ var Step3 = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Step3);
 
     _this = _super.call(this, props);
-    _this.state = {
-      email: _this.props.email,
-      password: _this.props.password,
-      age: "",
-      gender: ""
-    };
+    _this.saveAndContinue = _this.saveAndContinue.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Step3, [{
-    key: "update",
-    value: function update(value) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, value, e.target.value));
-      };
+    key: "saveAndContinue",
+    value: function saveAndContinue(e) {
+      e.preventDefault();
+      this.props.next();
     }
   }, {
     key: "render",
     value: function render() {
+      var values = this.props.values;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "signup-form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -718,13 +782,14 @@ var Step3 = /*#__PURE__*/function (_React$Component) {
       }, "Tell us your age"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "signup-age-input",
         type: "number",
-        value: this.state.age,
-        onChange: this.update('age')
+        value: values.age,
+        onChange: this.props.update('age')
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "signup-gender-req"
       }, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "signup-gender-select",
-        onChange: this.update('gender')
+        onChange: this.props.update('gender'),
+        defaultValue: ""
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         disabled: true,
         value: ""
@@ -738,7 +803,7 @@ var Step3 = /*#__PURE__*/function (_React$Component) {
         value: "Other"
       }, "Other")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "signup-form-button",
-        onClick: this.props.next
+        onClick: this.saveAndContinue
       }, " Continue "));
     }
   }]);
@@ -763,8 +828,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -794,40 +857,21 @@ var Step4 = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(Step4);
 
   function Step4(props) {
-    var _this;
-
     _classCallCheck(this, Step4);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      email: _this.props.email,
-      password: _this.props.password,
-      age: _this.props.age,
-      gender: _this.props.gender,
-      display_name: ""
-    };
-    _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
-    return _this;
+    return _super.call(this, props);
   }
 
   _createClass(Step4, [{
-    key: "update",
-    value: function update(value) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, value, e.target.value));
-      };
-    }
-  }, {
-    key: "handleSignup",
-    value: function handleSignup(e) {
+    key: "saveAndContinue",
+    value: function saveAndContinue(e) {
       e.preventDefault();
-      this.props.action(this.state);
+      this.props.next();
     }
   }, {
     key: "render",
     value: function render() {
+      var values = this.props.values;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "signup-form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -837,8 +881,8 @@ var Step4 = /*#__PURE__*/function (_React$Component) {
       }, "Choose your display name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "signup-displayName-input",
         type: "text",
-        value: this.state.display_name,
-        onChange: this.update('display_name')
+        value: values.displayName,
+        onChange: this.props.update('display_name')
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "display-name"
       }, " Your display name can be anything you like. Your name or artist name are good choices."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {

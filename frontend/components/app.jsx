@@ -1,14 +1,18 @@
 import React from 'react';
-import SignupForm from './session/signup_form.jsx';
+import NavBar from './nav_bar/nav_bar.jsx'
 import SignupFormContainer from './session/signup_form_container.jsx';
 
 
+
 const App = () => (
-  <div>
-  <SignupFormContainer />
+  <div id='main'>
+  <NavBar />
+  <SignupFormContainer/>
+  
 
     
   </div>
 );
 
 export default App;
+

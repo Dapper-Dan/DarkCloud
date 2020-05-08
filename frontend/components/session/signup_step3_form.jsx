@@ -2,23 +2,25 @@ import React from 'react';
 
 export default class Step3 extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            email: this.props.email,
-            password: this.props.password,
-            age: "",
-            gender: ""
-        }
-    }
+         super(props);
+    
 
-    update(value) {
-        return e => this.setState({ [value]: e.target.value });
+    this.saveAndContinue = this.saveAndContinue.bind(this)
+     }
+
+    
+
+    saveAndContinue(e) {
+        e.preventDefault();
+        this.props.next();
     }
 
 
 
 
     render() {
+        const { values } = this.props;
+
         return (
         <div className="signup-form-group">
         <h1 className="createYourAccountHeader">Create your AudioCloud account</h1>
@@ -26,12 +28,12 @@ export default class Step3 extends React.Component {
         <input
           className="signup-age-input"
           type="number"
-          value={this.state.age}
-          onChange={this.update('age')}
+          value={values.age}
+          onChange={this.props.update('age')}
         />
 
         <p className="signup-gender-req">Gender</p>
-        <select className="signup-gender-select" onChange={ this.update('gender') }>
+        <select className="signup-gender-select" onChange={ this.props.update('gender') } defaultValue='' >
             <option disabled value="">Indicate your gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -39,7 +41,7 @@ export default class Step3 extends React.Component {
             <option value="Other">Other</option>
         </select>
 
-        <button className="signup-form-button" onClick={ this.props.next }> Continue </button>
+        <button className="signup-form-button" onClick={ this.saveAndContinue }> Continue </button>
         </div>
         )
     }

@@ -1,0 +1,21 @@
+.nav_bar {
+    font-size: 18px;
+    background-image: linear-gradient(260deg, #0e2c0b 0%, #349e1a   100%);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 10px;
+    height: 50px;
+}
+
+.formModal {
+    z-index: 998;
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+    background: rgba(0, 0, 0, .3);
+}
+
+.signup-modal-button {
+    margin-left: 900px;
+}

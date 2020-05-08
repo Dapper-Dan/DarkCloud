@@ -8,7 +8,7 @@ class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 1, 
+      step: 1, 
       email: "",
       password: "",
       display_name: "",
@@ -20,39 +20,44 @@ class SignupForm extends React.Component {
     this.handleSignup = this.handleSignup.bind(this);
     this.update = this.update.bind(this);
     this._next = this._next.bind(this);
-    this._prev = this._prev.bind(this);
+    
   }
     
   handleSignup(e) {
       e.preventDefault();
-      this.props.action(this.state);
+      const {email, password, display_name, age, gender } = this.state;
+      this.props.action({email, password, display_name, age, gender });
   }
+
 
   update(value) {
-      return e => this.setState({ [value]: e.target.value });
-  }
+        return e => this.setState({ [value]: e.target.value });
+    }
   
   _next() {
-    let currentStep = this.state.currentStep;   //delete if goes wrong
-    if (currentStep !== 4) currentStep += 1;
-    this.setState({ currentStep: currentStep });
+    const { step } = this.state
+        this.setState({
+            step : step + 1
+        })
   }
 
-  _prev() {
-    let currentStep = this.state.currentStep;
-    if (currentStep !== 1) currentStep -= 1;
-    this.setState({ currentStep: currentStep });
-  }
+  
 
   render() {
-      if (this.state.currentStep === 1) {
-        return <Step1 next={ this._next } update={ this.update } />
-      } else if (this.state.currentStep === 2) {
-        return <Step2 email={ this.state.email } next={ this._next } update={ this.update }/>
-      } else if (this.state.currentStep === 3) {
-        return <Step3 email={ this.state.email } next={ this._next } password={ this.state.password} update={ this.update } />
-      } else if (this.state.currentStep === 4) {
-        return <Step4 email={ this.state.email } password={ this.state.password} handleSignup={ this.handleSignup } age={ this.state.age} gender={ this.state.gender} update={ this.update }/>
+    const {step} = this.state;
+    const {email, password, displayName, age, gender } = this.state;
+    const values = {email, password, displayName, age, gender };
+
+
+    switch(step) {
+      case 1: 
+        return <Step1 next={ this._next } update={ this.update } values={values} />
+      case 2: 
+        return <Step2 next={ this._next } update={ this.update } values={values} />
+      case 3: 
+        return <Step3 next={ this._next } update={ this.update } values={values} />
+      case 4: 
+        return <Step4 handleSignup={ this.handleSignup } update={ this.update } values={values} />
       }
         
     

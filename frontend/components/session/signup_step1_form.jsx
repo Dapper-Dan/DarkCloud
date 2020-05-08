@@ -2,20 +2,18 @@ import React from 'react';
 
 export default class Step1 extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = { email: "" }
-
-        
+         super(props);
+   
+    this.saveAndContinue = this.saveAndContinue.bind(this)
+    }
+    saveAndContinue(e) {
+        e.preventDefault();
+        this.props.next();
     }
 
-    update(value) {
-        return e => this.setState({ [value]: e.target.value });
-    }
-
-    
 
     render() {
-      
+    const { values } = this.props;
 
       return (
           <div className="signup-form-group">
@@ -23,11 +21,11 @@ export default class Step1 extends React.Component {
                 className="signup-email-input" 
                 placeholder="Your email address"
                 type="text"
-                value={this.state.email}   
                 onChange={this.props.update('email')}
+                value={values.email}   
               />
 
-          <button className="signup-form-button" onClick={ this.props.next }> Continue </button>
+          <button className="signup-form-button" onClick={ this.saveAndContinue }> Continue </button>
           </div>
       )
     }

@@ -2,21 +2,23 @@ import React from 'react';
 
 export default class Step2 extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            email: this.props.email,
-            password: ""
-        }
-        
+         super(props);
+   
+    this.saveAndContinue = this.saveAndContinue.bind(this)
     }
 
-    update(value) {
-        return e => this.setState({ [value]: e.target.value });
+    
+
+    saveAndContinue(e) {
+        e.preventDefault();
+        this.props.next();
     }
 
 
 
     render() {
+        const { values } = this.props;
+
         return (
         <div className="signup-form-group">
         <h1 className="createYourAccountHeader">Create your AudioCloud account</h1>
@@ -24,13 +26,13 @@ export default class Step2 extends React.Component {
         <input
           className="signup-password-input"
           type="password"
-          value={this.state.password}
-          onChange={this.update('password')}
+          value={values.password}
+          onChange={this.props.update('password')}
         />
 
         <p className="accept-cookies"> By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy.</p>
 
-        <button className="signup-form-button" onClick={ this.props.next }> Accept & continue </button>
+        <button className="signup-form-button" onClick={ this.saveAndContinue }> Accept & continue </button>
         </div>
         )
     }

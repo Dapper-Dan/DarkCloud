@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-    validates :display_name, :email, :session_token, presence: true, uniqueness: true
-    validates :password_digest, :full_name, presence: true
+    validates :email, :session_token, :display_name, presence: true, uniqueness: true
+    validates :password_digest, :age, :gender, presence: true
     validates :password, length: { minimum: 6 }, allow_nil: true
 
     attr_reader :password
@@ -33,4 +33,3 @@ class User < ApplicationRecord
         self.session_token ||= SecureRandom.urlsafe_base64
     end
 end
-

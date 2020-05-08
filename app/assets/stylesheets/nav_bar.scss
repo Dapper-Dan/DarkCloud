@@ -1,6 +1,6 @@
 .nav_bar {
     font-size: 18px;
-    background-image: linear-gradient(260deg, #0e2c0b 0%, #349e1a   100%);
+    background-image: linear-gradient( #1d201d 0%, #60665e   100%);
     border: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 10px;
     height: 50px;
@@ -17,5 +17,10 @@
 }
 
 .signup-modal-button {
-    margin-left: 900px;
+    left: 900px;
+    height: 60px;
+    position: absolute;
+    background-color: green;
+    color: white;
+    
 }

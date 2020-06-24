@@ -12,7 +12,7 @@ export default class NavBar extends React.Component {
             
             <div className="nav_bar">
                
-               <img src={window.logoURL} width="105px" />
+               <img src={window.logoURL} width="200px" />
                
                 
                 <button className="signup-modal-button" onClick={ this.renderComp }> Create account</button>

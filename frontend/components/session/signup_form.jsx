@@ -1,8 +1,5 @@
 import React from 'react';
-import Step1 from './signup_step1_form.jsx';
-import Step2 from './signup_step2_form.jsx';
-import Step3 from './signup_step3_form.jsx';
-import Step4 from './signup_step4_form.jsx';
+
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -47,7 +44,7 @@ class SignupForm extends React.Component {
     const {step} = this.state;
     const {email, password, displayName, age, gender } = this.state;
     const values = {email, password, displayName, age, gender };
-
+    
      
     switch(step) {
       case 1: 
@@ -58,28 +55,32 @@ class SignupForm extends React.Component {
               className="signup-email-input" 
               placeholder="Your email address"
               type="text"
-              onChange={this.props.update('email')}
+              onChange={this.update('email')}
               value={values.email}   
             />
 
-        <button className="signup-form-button" onClick={ this.saveAndContinue }> Continue </button>
+        <button className="signup-form-button" onClick={ this._next }> Continue </button>
         </div>
     )
       case 2: 
       return (
+        
         <div className="signup-form-group">
+          <form>
         <h1 className="createYourAccountHeader">Create your AudioCloud account</h1>
         <p className="signup-password-req">Choose a password</p>
         <input
           className="signup-password-input"
+          autoComplete="password"
           type="password"
           value={values.password}
-          onChange={this.props.update('password')}
+          onChange={this.update('password')}
         />
 
         <p className="accept-cookies"> By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy.</p>
 
-        <button className="signup-form-button" onClick={ this.saveAndContinue }> Accept & continue </button>
+        <button className="signup-form-button" onClick={ this._next }> Accept & continue </button>
+        </form>
         </div>
         )
       case 3: 
@@ -91,11 +92,11 @@ class SignupForm extends React.Component {
           className="signup-age-input"
           type="number"
           value={values.age}
-          onChange={this.props.update('age')}
+          onChange={this.update('age')}
         />
 
         <p className="signup-gender-req">Gender</p>
-        <select className="signup-gender-select" onChange={ this.props.update('gender') } defaultValue='' >
+        <select className="signup-gender-select" onChange={ this.update('gender') } defaultValue='' >
             <option disabled value="">Indicate your gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -103,7 +104,7 @@ class SignupForm extends React.Component {
             <option value="Other">Other</option>
         </select>
 
-        <button className="signup-form-button" onClick={ this.saveAndContinue }> Continue </button>
+        <button className="signup-form-button" onClick={ this._next }> Continue </button>
         </div>
         )
       case 4: 
@@ -115,31 +116,15 @@ class SignupForm extends React.Component {
           className="signup-displayName-input"
           type="text"
           value={values.displayName}
-          onChange={this.props.update('display_name')}
+          onChange={this.update('display_name')}
         />
 
         <p className="display-name"> Your display name can be anything you like. Your name or artist name are good choices.</p>
 
-        <button className="signup-form-button" onClick={ this.props.handleSignup }> Get started </button>
+        <button className="signup-form-button" onClick={ this.handleSignup }> Get started </button>
         </div>
         )
       }
-
-
-
-
-    // switch(step) {
-    //   case 1: 
-    //     return <Step1 next={ this._next } update={ this.update } values={values} />
-    //   case 2: 
-    //     return <Step2 next={ this._next } update={ this.update } values={values} />
-    //   case 3: 
-    //     return <Step3 next={ this._next } update={ this.update } values={values} />
-    //   case 4: 
-    //     return <Step4 handleSignup={ this.handleSignup } update={ this.update } values={values} />
-    //   }
-        
-    
   }
 }
 

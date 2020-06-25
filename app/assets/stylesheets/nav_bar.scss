@@ -1,9 +1,59 @@
 .nav_bar {
-    font-size: 18px;
-    background-image: linear-gradient( #1d201d 0%, #60665e   100%);
+    font: 100 14px/1.5 Interstate,Lucida Grande,Arial,sans-serif;
+    font-size: 14px;
+    background-color: #333;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    padding-bottom: 10px;
-    height: 50px;
+    height: 46px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+
+.left_nav {
+    height: 46px;
+    display: flex;
+    flex-direction: row;
+    float: left;
+    
+}
+
+.home-button {
+    display: block;
+    padding: 12px 0;
+    width: 104px;
+    height: 46px;
+    border-right: 1px solid #111;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: #333;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.library-button {
+    display: block;
+    padding: 12px 0;
+    width: 104px;
+    height: 46px;
+    border-right: 1px solid #111;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: #333;
+    color: #ccc;
+    cursor: pointer;
+}
+
+
+.right_nav {
+
+    height: 46px;
+    display: block;
+    float: left;
+    padding: 9px 10px 10px;
 }
 
 .formModal {
@@ -17,10 +67,56 @@
 }
 
 .signup-modal-button {
-    left: 900px;
-    height: 60px;
-    position: absolute;
-    background-color: green;
-    color: white;
+    // left: 900px;
+    // height: 60px;
+    // position: absolute;
+   
+
+    display: inline-block;
+    position: relative;
+    height: 26px;
+    margin: 0;
+    padding: 2px 11px 2px 10px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    background-color: #1DB954;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 100;
+    text-align: center;
+    vertical-align: baseline;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    box-sizing: border-box;
     
+}
+
+.login-modal-button {
+    display: inline-block;
+    position: relative;
+    height: 26px;
+    margin: 0;
+    padding: 2px 11px 2px 10px;
+    border: 1px solid #333;
+    border-radius: 3px;
+    border-color: #666;
+    background-color: transparent;
+    cursor: pointer;
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+    font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+    font-weight: 100;
+    text-align: center;
+    vertical-align: baseline;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    box-sizing: border-box;
 }

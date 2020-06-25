@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ReactDOM from 'react-dom';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class SignupForm extends React.Component {
     this.handleSignup = this.handleSignup.bind(this);
     this.update = this.update.bind(this);
     this._next = this._next.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this)
     
   }
     
@@ -40,12 +41,31 @@ class SignupForm extends React.Component {
 
   
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutside, true);
+}
+
+componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, true);
+}
+
+handleClickOutside(event) {
+    const domNode = ReactDOM.findDOMNode(this);
+    
+    if (!domNode || !domNode.contains(event.target)) {
+      
+        this.props.changeShow()
+    }
+}
+
+  
+
   render() {
     const {step} = this.state;
     const {email, password, displayName, age, gender } = this.state;
     const values = {email, password, displayName, age, gender };
     
-     
+    if (this.props.formType === "signup") {
     switch(step) {
       case 1: 
         
@@ -125,6 +145,25 @@ class SignupForm extends React.Component {
         </div>
         )
       }
+    } else if (this.props.formType === "login") {
+      switch(step) {
+        case 1: 
+          
+        return (
+          <div className="signup-form-group">
+              <input
+                className="signup-email-input" 
+                placeholder="Your email address"
+                type="text"
+                onChange={this.update('email')}
+                value={values.email}   
+              />
+  
+          <button className="signup-form-button" onClick={ this._next }> Continue </button>
+          </div>
+        )
+      }
+    }
   }
 }
 

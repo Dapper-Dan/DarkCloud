@@ -7,6 +7,8 @@ import { createBrowserHistory } from 'history';
 import HomePage from './home_page/home_page.jsx';
 import LoginFormContainer from './session/login_form_container.jsx';
 
+ 
+
 const customHistory = createBrowserHistory();
 const App = () => (
     <Router history={customHistory}>
@@ -25,6 +27,7 @@ const App = () => (
              <Route exact path="/" component={HomePage} />
 
       </Switch>
+      
        </div>
     </Router>
     

@@ -4,6 +4,10 @@ import NavBar from '../nav_bar/nav_bar';
 import LoginFormContainer from '../session/login_form_container.jsx';
 import SignupFormContainer from '../session/signup_form_container.jsx';
 import ReactDOM from 'react-dom';
+import Carousel from 'react-bootstrap/Carousel';
+import Caro from '../caro'
+
+
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -62,8 +66,17 @@ class HomePage extends React.Component {
 
   render() {
     return (
+
         <>
-        {/* <NavBar /> */}
+    <div className="mainLanding">
+        <div className="frontHero" >
+        <div className="caro-container" >
+       <Caro />
+       </div>
+
+       
+     
+        {/* <NavBar /> */} 
         <img src={window.logoURL} width="105px" />
         <div className="homePage">
 
@@ -79,6 +92,15 @@ class HomePage extends React.Component {
            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
         </div>
+
+
+
+
+    
+
+      </div> 
+        </div>
+        
         </>
     )
     

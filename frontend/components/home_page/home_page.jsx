@@ -6,6 +6,11 @@ import SignupFormContainer from '../session/signup_form_container.jsx';
 import ReactDOM from 'react-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import Caro from '../caro'
+import SongList from '../song/song_index';
+import SongIndexContainer from '../song/song_index_container'
+import SongForm from '../song/song_form'
+import SongFormContainer from '../song/song_form_container'
+
 
 
 
@@ -69,38 +74,66 @@ class HomePage extends React.Component {
 
         <>
     <div className="mainLanding">
+        
+        
         <div className="frontHero" >
+            
+       
+        
+    
         <div className="caro-container" >
+            
        <Caro />
+      
        </div>
+       
+
 
        
      
         {/* <NavBar /> */} 
-        <img src={window.logoURL} width="105px" />
-        <div className="homePage">
+        {/* <img src={window.logoURL} width="105px" /> */}
+        {/* <div className="homePage"> */}
+            <div className="transLogo">
+        <img src={window.transLogo} width="105px" className="transWhite"  />
+        
+        </div>
+{/* 
+        <div className="signModal">
+           { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+           { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
 
-      
-           
+        </div> */}
+
+         <div className="buttonsDiv" >
            <button className="login-modal-button" onClick={ this.loginModelShow }> Sign in </button>
            
 
            
             <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
-          
-
+        </div>
+        {/* <div>
            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+           </div> */}
         </div>
 
 
 
 
     
+        <div className="signModal">
+           { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+           { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+
+        </div>
 
       </div> 
+        {/* </div> */}
+        <div className="filler">
+            <SongFormContainer/>
+            {/* <SongIndexContainer /> */}
         </div>
-        
         </>
     )
     

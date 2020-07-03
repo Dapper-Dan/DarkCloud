@@ -2,18 +2,12 @@ class Api::SongsController < ApplicationController
     def index
         @songs = Song.all
         render "/api/songs/index"
-        # @user = User.find_by(username: song_params[:username])
-        # if (@user)
-        #     @songs = @user.songs
-        #     render "/api/songs/index"
-        # else
-        #     render json: ["The user was not found. Can not fetch songs."], status: 404
-        # end
+  
     end
 
     def show
         @song = Song.find(params[:id])
-        # @user = User.find_by(username: @song.username)
+      
         if (@song)
             render "/api/songs/show"
         else
@@ -22,9 +16,7 @@ class Api::SongsController < ApplicationController
     end
 
     def create
-        # correct_params = song_params.deep_dup
-        # correct_params[:duration] = correct_params[:duration].to_f
-        # correct_params[:metadata] = correct_params[:metadata].split(",")
+     
         @song = Song.new(song_params)
         if (@song.save)
             @songs = Song.all

@@ -16,13 +16,21 @@ class SongList extends React.Component {
 
 
 
-
-
-
-
     render(){
-      //  const songs = Object.values(this.props.songs) 
-       console.log(this.props)
+      let songs = Object.values(this.props.songs);
+      return(
+       <div > 
+          <ul>
+            {songs.map((song) => (
+              <li key={song.id} className="song-box">
+                {song.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+    
+      
+      )
     }
 }
 

@@ -131,8 +131,8 @@ class HomePage extends React.Component {
       </div> 
         {/* </div> */}
         <div className="filler">
-            <SongFormContainer/>
-            {/* <SongIndexContainer /> */}
+            {/* <SongFormContainer/> */}
+            <SongIndexContainer />
         </div>
         </>
     )

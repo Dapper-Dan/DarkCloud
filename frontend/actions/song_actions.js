@@ -4,12 +4,14 @@ export const RECEIVE_SONG = "RECEIVE_SONG";
 export const RECEIVE_SONGS = "RECEIVE_SONGS";
 export const RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
 
-const receiveSong = (song) => ({
+export const receiveSong = (song) => ({
     type: RECEIVE_SONG,
     song
 });
 
-const receiveSongs = (songs) => ({
+
+
+export const receiveSongs = (songs) => ({
     type: RECEIVE_SONGS,
     songs
 });
@@ -46,17 +48,20 @@ export const getSong = (songId) => dispatch =>(
         // })
 );
 
-
-export const getSongs = () => (dispatch) =>(
+export const getSongs = () => dispatch => (
     APIUtil.getSongs()
-        .then((songs) => {
+        .then((songs) => 
+        // console.log(songs)
+           
             // const songs = res.data;
-            dispatch(receiveSongs(songs));
-        })
+           dispatch(receiveSongs(songs))  )
+        
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));
         // })
 );
+
+
 
 // export const updateGame = (game) => (dispatch)=>(
 //     APIUtil.updateGame(game)

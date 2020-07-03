@@ -161,7 +161,7 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/song_actions.js ***!
   \******************************************/
-/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, createSong, getSong, getSongs */
+/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, receiveSong, receiveSongs, createSong, getSong, getSongs */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -170,6 +170,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONG", function() { return RECEIVE_SONG; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONGS", function() { return RECEIVE_SONGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONG_ERRORS", function() { return RECEIVE_SONG_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSong", function() { return receiveSong; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSongs", function() { return receiveSongs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSong", function() { return createSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSong", function() { return getSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSongs", function() { return getSongs; });
@@ -179,14 +181,12 @@ var REMOVE_GAME_ERRORS = "REMOVE_GAME_ERRORS";
 var RECEIVE_SONG = "RECEIVE_SONG";
 var RECEIVE_SONGS = "RECEIVE_SONGS";
 var RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
-
 var receiveSong = function receiveSong(song) {
   return {
     type: RECEIVE_SONG,
     song: song
   };
 };
-
 var receiveSongs = function receiveSongs(songs) {
   return {
     type: RECEIVE_SONGS,
@@ -199,7 +199,6 @@ var receiveSongs = function receiveSongs(songs) {
 // export const removeErrors = () => ({
 //     type: REMOVE_GAME_ERRORS
 // });
-
 
 var createSong = function createSong(song) {
   return function (dispatch) {
@@ -226,8 +225,10 @@ var getSong = function getSong(songId) {
 var getSongs = function getSongs() {
   return function (dispatch) {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"]().then(function (songs) {
-      // const songs = res.data;
-      dispatch(receiveSongs(songs));
+      return (// console.log(songs)
+        // const songs = res.data;
+        dispatch(receiveSongs(songs))
+      );
     }) // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
@@ -309,6 +310,7 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener("DOMContentLoaded", function () {
   var store = Object(_store_store_js__WEBPACK_IMPORTED_MODULE_2__["default"])();
   var root = document.getElementById("root");
+  window.store = store;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);
@@ -629,7 +631,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         changeShow: this.changeShow
       }) : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filler"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_form_container__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
     }
   }]);
 
@@ -1294,8 +1296,13 @@ var SongList = /*#__PURE__*/function (_React$Component) {
   _createClass(SongList, [{
     key: "render",
     value: function render() {
-      //  const songs = Object.values(this.props.songs) 
-      console.log(this.props);
+      var songs = Object.values(this.props.songs);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: song.id,
+          className: "song-box"
+        }, song.name);
+      })));
     }
   }]);
 
@@ -1322,10 +1329,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mSTP = function mSTP(_ref) {
-  var entities = _ref.entities;
+var mSTP = function mSTP(state) {
   return {
-    songs: entities.songs
+    songs: state.entities.songs
   };
 };
 
@@ -1451,13 +1457,11 @@ var songsReducer = function songsReducer() {
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG"]:
       nextState[action.song.id] = action.song;
       return nextState;
-
-    case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SONG"]:
-      delete nextState[action.songId];
-      return nextState;
-
-    case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SONGS"]:
-      return {};
+    // case REMOVE_SONG:
+    //     delete nextState[action.songId]
+    //     return nextState;
+    // case REMOVE_SONGS:
+    //     return {};
 
     default:
       return state;

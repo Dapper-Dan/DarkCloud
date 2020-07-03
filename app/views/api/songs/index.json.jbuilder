@@ -1,5 +1,6 @@
 @songs.each do |song|
     json.set! song.id do
-        json.extract! song, :name
+        puts song
+        json.extract! song, :name, :id
     end
 end

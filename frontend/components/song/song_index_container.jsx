@@ -3,8 +3,8 @@ import { getSongs } from "../../actions/song_actions";
 import SongList from "./song_index";
 
 
-const mSTP = ({ entities }) => ({
-  songs: entities.songs,
+const mSTP = state => ({
+  songs: state.entities.songs
 });
 
 const mDTP = (dispatch) => ({

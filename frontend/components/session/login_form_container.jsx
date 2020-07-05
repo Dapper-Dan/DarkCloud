@@ -1,12 +1,13 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {signup} from '../../actions/session_actions.js'
+import {login} from '../../actions/session_actions.js'
 import SignupForm from './signup_form.jsx'
 
 
 const mapSTP = state => ({
     
-    formType: 'login'
+    formType: 'login',
+    users: state.entities.users
 
 })
 

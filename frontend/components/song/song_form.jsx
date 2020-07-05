@@ -11,8 +11,11 @@ class SongForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-          name: ""
+          title: "",
+          display_name: ""
+          
       }
+      this.props.getUser()
 
 
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,8 +28,9 @@ class SongForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const {name} = this.state;
-        this.props.action({name});
+        this.setState({display_name: this.props.user.display_name})
+        const {title, display_name} = this.state;
+        this.props.action({title, display_name});
     }
 
 
@@ -35,16 +39,16 @@ class SongForm extends React.Component {
 
 
     render(){
-        const {name} = this.state
-        const values = {name};
+        const {title} = this.state
+        const values = {title};
       return (
           <div className="songForm">
               <input 
                 className="nameInput"
-                placeholder="Enter track name"
+                placeholder="Enter track title"
                 type="text"
-                onChange={this.update('name')}
-                value={values.name} 
+                onChange={this.update('title')}
+                value={values.title} 
               />
 
               <button className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>

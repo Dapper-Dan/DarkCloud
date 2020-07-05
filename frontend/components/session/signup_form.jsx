@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {NavLink, Link, Redirect} from 'react-router-dom'
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -11,13 +12,15 @@ class SignupForm extends React.Component {
       display_name: "",
       age: "",
       gender: ""
+      
 
     };
-
+    
     this.handleSignup = this.handleSignup.bind(this);
     this.update = this.update.bind(this);
     this._next = this._next.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
     
   }
     
@@ -25,6 +28,14 @@ class SignupForm extends React.Component {
       e.preventDefault();
       const {email, password, display_name, age, gender } = this.state;
       this.props.action({email, password, display_name, age, gender });
+  }
+
+  handleLogin(e) {
+    e.preventDefault();
+    const {email, password} = this.state;
+    this.props.action({email, password});
+    this._next()
+    
   }
 
 
@@ -62,8 +73,8 @@ handleClickOutside(event) {
 
   render() {
     const {step} = this.state;
-    const {email, password, displayName, age, gender } = this.state;
-    const values = {email, password, displayName, age, gender };
+    const {email, password, display_name, age, gender } = this.state;
+    const values = {email, password, display_name, age, gender };
     
     if (this.props.formType === "signup") {
     switch(step) {
@@ -79,7 +90,7 @@ handleClickOutside(event) {
               value={values.email}   
             />
 
-        <button className="signup-form-button" onClick={ this._next }> Continue </button>
+        <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
         </div>
     )
       case 2: 
@@ -99,7 +110,7 @@ handleClickOutside(event) {
 
         <p className="accept-cookies"> By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy.</p>
 
-        <button className="signup-form-button" onClick={ this._next }> Accept & continue </button>
+        <button className="signup-form-button" type="button" onClick={ this._next }> Accept & continue </button>
         </form>
         </div>
         )
@@ -124,7 +135,7 @@ handleClickOutside(event) {
             <option value="Other">Other</option>
         </select>
 
-        <button className="signup-form-button" onClick={ this._next }> Continue </button>
+        <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
         </div>
         )
       case 4: 
@@ -135,13 +146,14 @@ handleClickOutside(event) {
         <input
           className="signup-displayName-input"
           type="text"
-          value={values.displayName}
+          value={values.display_name}
           onChange={this.update('display_name')}
         />
 
         <p className="display-name"> Your display name can be anything you like. Your name or artist name are good choices.</p>
-
-        <button className="signup-form-button" onClick={ this.handleSignup }> Get started </button>
+        <NavLink to="/discover">
+         <button className="signup-form-button" onClick={ this.handleSignup }> Get started </button>
+        </NavLink>
         </div>
         )
       }
@@ -159,9 +171,48 @@ handleClickOutside(event) {
                 value={values.email}   
               />
   
-          <button className="signup-form-button" onClick={ this._next }> Continue </button>
+          <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
           </div>
         )
+        case 2:
+    
+        return (
+          <div className="signup-form-group">
+            <input
+              className="signup-password-input"
+              autoComplete="password"
+              type="password"
+              value={values.password}
+              onChange={this.update('password')} 
+            />
+            
+                        
+              <button className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>
+              
+          </div>
+
+        )
+        case 3:
+          
+          if (Object.keys(this.props.users).length > 0) {
+            return (
+               <Redirect to="/discover" />
+            )} else {
+          return (
+            <div className="signup-form-group">
+            <input
+              className="signup-password-input"
+              autoComplete="password"
+              type="password"
+              value={values.password}
+              onChange={this.update('password')} 
+            />
+            
+                        
+              <button className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>
+              
+          </div>
+        )}
       }
     }
   }

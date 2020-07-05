@@ -90,7 +90,7 @@
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, signup, login, logout */
+/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, receiveCurrentUser, logoutCurrentUser, receiveErrors, signup, login, logout */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,6 +98,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CURRENT_USER", function() { return RECEIVE_CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT_CURRENT_USER", function() { return LOGOUT_CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SESSION_ERRORS", function() { return RECEIVE_SESSION_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveCurrentUser", function() { return receiveCurrentUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutCurrentUser", function() { return logoutCurrentUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -106,27 +109,23 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 var LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 var RECEIVE_SESSION_ERRORS = "RECEIVE_ERRORS";
-
 var receiveCurrentUser = function receiveCurrentUser(user) {
   return {
     type: RECEIVE_CURRENT_USER,
     user: user
   };
 };
-
 var logoutCurrentUser = function logoutCurrentUser() {
   return {
     type: LOGOUT_CURRENT_USER
   };
 };
-
 var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_SESSION_ERRORS,
     errors: errors
   };
 };
-
 var signup = function signup(user) {
   return function (dispatch) {
     return _util_session_api_util_jsx__WEBPACK_IMPORTED_MODULE_0__["signup"](user).then(function (user) {
@@ -366,6 +365,10 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
     exact: true,
     path: "/",
+    component: _home_page_home_page_jsx__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
+    exact: true,
+    path: "/discover",
     component: _home_page_home_page_jsx__WEBPACK_IMPORTED_MODULE_6__["default"]
   }))));
 };
@@ -777,14 +780,15 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapSTP = function mapSTP(state) {
   return {
-    formType: 'login'
+    formType: 'login',
+    users: state.entities.users
   };
 };
 
 var mapDTP = function mapDTP(dispatch) {
   return {
     action: function action(user) {
-      return dispatch(login(user));
+      return dispatch(Object(_actions_session_actions_js__WEBPACK_IMPORTED_MODULE_2__["login"])(user));
     }
   };
 };
@@ -806,6 +810,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -833,6 +838,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var SignupForm = /*#__PURE__*/function (_React$Component) {
   _inherits(SignupForm, _React$Component);
 
@@ -856,6 +862,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this._next = _this._next.bind(_assertThisInitialized(_this));
     _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
+    _this.handleLogin = _this.handleLogin.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -876,6 +883,20 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
         age: age,
         gender: gender
       });
+    }
+  }, {
+    key: "handleLogin",
+    value: function handleLogin(e) {
+      e.preventDefault();
+      var _this$state2 = this.state,
+          email = _this$state2.email,
+          password = _this$state2.password;
+      this.props.action({
+        email: email,
+        password: password
+      });
+
+      this._next();
     }
   }, {
     key: "update",
@@ -917,16 +938,16 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var step = this.state.step;
-      var _this$state2 = this.state,
-          email = _this$state2.email,
-          password = _this$state2.password,
-          displayName = _this$state2.displayName,
-          age = _this$state2.age,
-          gender = _this$state2.gender;
+      var _this$state3 = this.state,
+          email = _this$state3.email,
+          password = _this$state3.password,
+          display_name = _this$state3.display_name,
+          age = _this$state3.age,
+          gender = _this$state3.gender;
       var values = {
         email: email,
         password: password,
-        displayName: displayName,
+        display_name: display_name,
         age: age,
         gender: gender
       };
@@ -944,6 +965,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               value: values.email
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
+              type: "button",
               onClick: this._next
             }, " Continue "));
 
@@ -964,6 +986,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               className: "accept-cookies"
             }, " By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
+              type: "button",
               onClick: this._next
             }, " Accept & continue ")));
 
@@ -998,6 +1021,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               value: "Other"
             }, "Other")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
+              type: "button",
               onClick: this._next
             }, " Continue "));
 
@@ -1011,14 +1035,16 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
             }, "Choose your display name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-displayName-input",
               type: "text",
-              value: values.displayName,
+              value: values.display_name,
               onChange: this.update('display_name')
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
               className: "display-name"
-            }, " Your display name can be anything you like. Your name or artist name are good choices."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            }, " Your display name can be anything you like. Your name or artist name are good choices."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+              to: "/discover"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
               onClick: this.handleSignup
-            }, " Get started "));
+            }, " Get started ")));
         }
       } else if (this.props.formType === "login") {
         switch (step) {
@@ -1033,8 +1059,44 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               value: values.email
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
+              type: "button",
               onClick: this._next
             }, " Continue "));
+
+          case 2:
+            return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "signup-form-group"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+              className: "signup-password-input",
+              autoComplete: "password",
+              type: "password",
+              value: values.password,
+              onChange: this.update('password')
+            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: "signup-form-button",
+              onClick: this.handleLogin
+            }, " Sign in "));
+
+          case 3:
+            if (Object.keys(this.props.users).length > 0) {
+              return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+                to: "/discover"
+              });
+            } else {
+              return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+                className: "signup-form-group"
+              }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+                className: "signup-password-input",
+                autoComplete: "password",
+                type: "password",
+                value: values.password,
+                onChange: this.update('password')
+              }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+                className: "signup-form-button",
+                onClick: this.handleLogin
+              }, " Sign in "));
+            }
+
         }
       }
     }
@@ -1144,8 +1206,12 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      name: ""
+      title: "",
+      display_name: ""
     };
+
+    _this.props.getUser();
+
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     return _this;
@@ -1164,26 +1230,32 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      var name = this.state.name;
+      this.setState({
+        display_name: this.props.user.display_name
+      });
+      var _this$state = this.state,
+          title = _this$state.title,
+          display_name = _this$state.display_name;
       this.props.action({
-        name: name
+        title: title,
+        display_name: display_name
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var name = this.state.name;
+      var title = this.state.title;
       var values = {
-        name: name
+        title: title
       };
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "songForm"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "nameInput",
-        placeholder: "Enter track name",
+        placeholder: "Enter track title",
         type: "text",
-        onChange: this.update('name'),
-        value: values.name
+        onChange: this.update('title'),
+        value: values.title
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "songFormButton",
         onClick: this.handleSubmit
@@ -1210,13 +1282,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/song_actions */ "./frontend/actions/song_actions.js");
 /* harmony import */ var _song_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./song_form */ "./frontend/components/song/song_form.jsx");
+/* harmony import */ var _actions_session_actions_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions.js */ "./frontend/actions/session_actions.js");
+
 
 
 
 
 var mSTP = function mSTP(state) {
   return {
-    state: state
+    user: state.session.user
   };
 };
 
@@ -1224,6 +1298,9 @@ var mDTP = function mDTP(dispatch) {
   return {
     action: function action(song) {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_1__["createSong"])(song));
+    },
+    getUser: function getUser(user) {
+      return dispatch(Object(_actions_session_actions_js__WEBPACK_IMPORTED_MODULE_3__["login"])(user));
     }
   };
 };
@@ -1292,7 +1369,7 @@ var SongList = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: song.id,
           className: "song-box"
-        }, song.name);
+        }, song.title);
       })));
     }
   }]);
@@ -1406,9 +1483,9 @@ var sessionReducer = function sessionReducer() {
 
   switch (action.type) {
     case _actions_session_actions_js__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      return {
-        id: action.user.id
-      };
+      return Object.assign({}, state, {
+        user: action.user
+      });
 
     case _actions_session_actions_js__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
       return _nullSession;

@@ -25,6 +25,8 @@ const App = () => (
               />
               {/* <Route exact path="/navbar" component={NavBarContainer} /> */}
              <Route exact path="/" component={HomePage} />
+             <Route exact path="/discover" component={HomePage} />
+
 
       </Switch>
       

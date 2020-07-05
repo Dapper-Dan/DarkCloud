@@ -18,7 +18,7 @@ class SongList extends React.Component {
           <ul>
             {songs.map((song) => (
               <li key={song.id} className="song-box">
-                {song.name}
+                {song.title}
               </li>
             ))}
           </ul>

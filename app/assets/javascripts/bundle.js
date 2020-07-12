@@ -634,7 +634,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         changeShow: this.changeShow
       }) : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filler"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_form_container__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
     }
   }]);
 
@@ -1207,13 +1207,19 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       title: "",
-      display_name: ""
+      display_name: "",
+      songImageURL: "",
+      genre: "",
+      tags: [],
+      description: "",
+      songImageFile: ""
     };
 
     _this.props.getUser();
 
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
+    _this.showUploadInput = _this.showUploadInput.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1242,24 +1248,65 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "handleMusicUpload",
+    value: function handleMusicUpload(e) {}
+  }, {
+    key: "showUploadInput",
+    value: function showUploadInput() {
+      var input = document.getElementById("music-file-input");
+      input.click();
+    }
+  }, {
     key: "render",
     value: function render() {
       var title = this.state.title;
       var values = {
         title: title
       };
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var genres = ["Classical", "Country", "Dance & EDM", "Disco", "Jazz", "Indie", "Metal", "Latin", "R&B", "Rock", "World"];
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "fileUploadForm"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, " Drag and drop your tracks & albums here "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "fileUploadButton",
+        onClick: this.showUploadInput
+      }, " or choose files to upload "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "music-file-input",
+        type: "file",
+        style: {
+          display: 'none'
+        },
+        onChange: this.handleMusicUpload
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "songForm"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "nameInput",
         placeholder: "Enter track title",
         type: "text",
         onChange: this.update('title'),
         value: values.title
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Genre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "songFormGenre",
+        onChange: this.update('genre'),
+        defaultValue: ""
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        disabled: true,
+        value: ""
+      }, "None"), genres.map(function (genre, index) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: index,
+          value: genre
+        }, " ", genre, " ");
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "descriptionInput",
+        rows: "6",
+        cols: "60",
+        placeholder: "Describe your track",
+        onChange: this.update('description'),
+        value: values.description
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "songFormButton",
         onClick: this.handleSubmit
-      }, "  Submit Song "));
+      }, "  Submit Song ")));
     }
   }]);
 

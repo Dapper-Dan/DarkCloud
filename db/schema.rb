@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2020_07_05_042051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "display_name", null: false
+    t.string "genre", null: false
+    t.string "description"
   end
 
   create_table "users", force: :cascade do |t|

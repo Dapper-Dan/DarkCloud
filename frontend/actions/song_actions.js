@@ -28,6 +28,7 @@ export const receiveSongs = (songs) => ({
 export const createSong = (song) =>dispatch =>(
     APIUtil.createSong(song) 
         .then((song) => {
+            console.log(song)
             // const song = res.data;
             dispatch(receiveSong(song));
         })

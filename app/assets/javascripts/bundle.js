@@ -202,7 +202,8 @@ var receiveSongs = function receiveSongs(songs) {
 var createSong = function createSong(song) {
   return function (dispatch) {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["createSong"](song).then(function (song) {
-      // const song = res.data;
+      console.log(song); // const song = res.data;
+
       dispatch(receiveSong(song));
     }) // .catch(err => {
     //     return dispatch(receiveErrors(err.response.data));
@@ -1212,7 +1213,8 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       genre: "",
       tags: [],
       description: "",
-      songImageFile: ""
+      songImageFile: "",
+      music: null
     };
 
     _this.props.getUser();
@@ -1220,6 +1222,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.showUploadInput = _this.showUploadInput.bind(_assertThisInitialized(_this));
+    _this.handleMusicUpload = _this.handleMusicUpload.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1236,20 +1239,23 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      this.setState({
-        display_name: this.props.user.display_name
-      });
-      var _this$state = this.state,
-          title = _this$state.title,
-          display_name = _this$state.display_name;
-      this.props.action({
-        title: title,
-        display_name: display_name
-      });
+      var formData = new FormData();
+      formData.append('song[title]', this.state.title);
+      formData.append('song[genre]', this.state.genre); // formData.append('song[description]', this.state.description);
+
+      formData.append('song[display_name]', this.props.user.display_name);
+      formData.append('song[music]', this.state.music);
+      this.props.action(formData); // this.setState({display_name: this.props.user.display_name})
+      // const {title, display_name, music} = this.state;
+      // this.props.action({title, music, display_name});
     }
   }, {
     key: "handleMusicUpload",
-    value: function handleMusicUpload(e) {}
+    value: function handleMusicUpload(e) {
+      this.setState({
+        music: e.target.files[0]
+      });
+    }
   }, {
     key: "showUploadInput",
     value: function showUploadInput() {
@@ -1768,9 +1774,9 @@ var createSong = function createSong(song) {
   return $.ajax({
     url: "/api/songs",
     method: 'POST',
-    data: {
-      song: song
-    }
+    data: song,
+    contentType: false,
+    processData: false
   });
 };
 var getSong = function getSong(songId) {

@@ -17,7 +17,8 @@ class SongForm extends React.Component {
           genre: "",
           tags: [],
           description: "",
-          songImageFile: ""
+          songImageFile: "",
+          music: null
           
       }
       this.props.getUser()
@@ -26,6 +27,7 @@ class SongForm extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
       this.update = this.update.bind(this);
       this.showUploadInput = this.showUploadInput.bind(this)
+      this.handleMusicUpload = this.handleMusicUpload.bind(this)
     }
 
     update(value) {
@@ -33,14 +35,22 @@ class SongForm extends React.Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
-        this.setState({display_name: this.props.user.display_name})
-        const {title, display_name} = this.state;
-        this.props.action({title, display_name});
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('song[title]', this.state.title);
+      formData.append('song[genre]', this.state.genre);
+                // formData.append('song[description]', this.state.description);
+      formData.append('song[display_name]', this.props.user.display_name);
+      formData.append('song[music]', this.state.music);
+      this.props.action(formData)
+
+        // this.setState({display_name: this.props.user.display_name})
+        // const {title, display_name, music} = this.state;
+        // this.props.action({title, music, display_name});
     }
 
     handleMusicUpload(e) {
-
+      this.setState({ music: e.target.files[0] }); 
     }
 
     showUploadInput() {

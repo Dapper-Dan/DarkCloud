@@ -10,6 +10,8 @@ import SongList from '../song/song_index';
 import SongIndexContainer from '../song/song_index_container'
 import SongForm from '../song/song_form'
 import SongFormContainer from '../song/song_form_container'
+import MusicPlayerContainer from '../music_player/music_player_container'
+import MusicPlayer from '../music_player/music_player';
 
 
 
@@ -133,6 +135,10 @@ class HomePage extends React.Component {
         <div className="filler">
             <SongFormContainer/>
             {/* <SongIndexContainer /> */}
+        </div>
+
+        <div>
+          <MusicPlayerContainer/>
         </div>
         </>
     )

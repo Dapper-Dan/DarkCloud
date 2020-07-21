@@ -13,11 +13,11 @@ class SongForm extends React.Component {
       this.state = {
           title: "",
           display_name: "",
-          songImageURL: "",
+          songURL: "",
           genre: "",
           tags: [],
           description: "",
-          songImageFile: "",
+          songImage: null,
           music: null
           
       }

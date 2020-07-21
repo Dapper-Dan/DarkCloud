@@ -52,7 +52,7 @@ export const getSong = (songId) => dispatch =>(
 export const getSongs = () => dispatch => (
     APIUtil.getSongs()
         .then((songs) => 
-        // console.log(songs)
+        // console.log(songs))
            
             // const songs = res.data;
            dispatch(receiveSongs(songs))  )

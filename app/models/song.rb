@@ -4,6 +4,7 @@ class Song < ApplicationRecord
    
 
     has_one_attached :music
+    has_one_attached :songImage
 
 
     belongs_to :user,

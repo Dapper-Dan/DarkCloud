@@ -28,6 +28,7 @@ class SongForm extends React.Component {
       this.update = this.update.bind(this);
       this.showUploadInput = this.showUploadInput.bind(this)
       this.handleMusicUpload = this.handleMusicUpload.bind(this)
+      this.handlePictureUpload = this.handlePictureUpload.bind(this)
     }
 
     update(value) {
@@ -37,6 +38,7 @@ class SongForm extends React.Component {
     handleSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
+      formData.append('song[songImage]', this.state.songImage);
       formData.append('song[title]', this.state.title);
       formData.append('song[genre]', this.state.genre);
                 // formData.append('song[description]', this.state.description);
@@ -53,6 +55,10 @@ class SongForm extends React.Component {
       this.setState({ music: e.target.files[0] }); 
     }
 
+    handlePictureUpload(e) {
+      this.setState({ songImage: e.target.files[0] });
+    }
+
     showUploadInput() {
       let input = document.getElementById("music-file-input")
       input.click()
@@ -65,7 +71,7 @@ class SongForm extends React.Component {
     render(){
         const {title} = this.state
         const values = {title};
-        const genres = ["Classical", "Country", "Dance & EDM", "Disco", "Jazz", "Indie", "Metal", "Latin", "R&B", "Rock", "World"]
+        const genres = ["Classical", "Country", "Dance & EDM", "Disco", "Jazz", "Hip-Hop", "Indie", "Metal", "Latin", "R&B", "Rock", "World"]
       return (
         <>
           <div className="fileUploadForm">
@@ -79,7 +85,16 @@ class SongForm extends React.Component {
               style={{display:'none'}}
               onChange={this.handleMusicUpload}
             />
+            
 
+            <h2> Choose a picture </h2>
+            {/* <button className="fileUploadButton" onClick={this.showUploadInput}>  </button> */}
+            <input
+              id="pic-file-input"
+              type="file"
+            
+              onChange={this.handlePictureUpload}
+            />
           </div>
 
           <div className="songForm">

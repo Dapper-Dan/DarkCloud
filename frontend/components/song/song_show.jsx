@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Song from './song_part'
-import SongPartContainer from './song_part_container'
 
 
-class SongList extends React.Component {
+class SongShow extends React.Component {
     constructor(props) {
       super(props);
-      this.state = this.props.getSongs()
+      this.state = {
+          
+      }
     }
 
 
@@ -20,8 +20,7 @@ class SongList extends React.Component {
           <ul>
             {songs.map((song) => (
               <li key={song.id} className="song-box">
-                <SongPartContainer song={song} />
-                
+                {song.title}
               </li>
             ))}
           </ul>
@@ -32,4 +31,4 @@ class SongList extends React.Component {
     }
 }
 
-export default SongList;
+export default SongShow;

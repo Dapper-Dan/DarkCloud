@@ -20,7 +20,7 @@ class Caro extends React.Component {
       
 
       return (
-          <Carousel interval="5000" controls={false} className="caroMain"
+          <Carousel interval="3000" controls={false} className="caroMain"
             
           >
         <Carousel.Item >

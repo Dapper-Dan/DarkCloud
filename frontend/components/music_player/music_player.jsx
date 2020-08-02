@@ -52,16 +52,16 @@ class MusicPlayer extends React.Component {
     // }
 
     render() { 
-        const songs = Object.values(this.props.songs);
+        // const songs = Object.values(this.props.songs);
         // let song = songs[0]
         // this.setState({track: songs[0]})
         let song 
-        if (songs[0]) {
-            song = (songs[1].url)
+        if (this.props.state.session.song) {
+            song = (this.props.state.session.song.songUrl)
         } else {
             song = ''
         }
-        console.log(song)
+        console.log(this.props.state.session.song)
       return (
           <>
         {/* <div>

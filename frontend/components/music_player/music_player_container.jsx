@@ -5,7 +5,7 @@ import {receiveCurrentSong} from '../../actions/session_actions'
 import {getSongs} from '../../actions/song_actions'
 
 const mapSTP = state => ({
-    songs: state.entities.songs
+    state: state
 })
 
 const mapDTP = dispatch => ({

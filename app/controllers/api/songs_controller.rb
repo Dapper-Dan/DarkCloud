@@ -1,15 +1,20 @@
 class Api::SongsController < ApplicationController
     def index
-        @songs = Song.all
-        render "/api/songs/index"
-  
+        @user = User.find_by(display_name: song_params[:display_name])
+        if (@user)
+            @songs = @user.songs
+            render :index
+        else
+            render json: ["Can not find a user with that display name. Please try again"], status: 404
+        end
     end
+
 
     def show
         @song = Song.find(params[:id])
       
         if (@song)
-            render "/api/songs/show"
+            render :show
         else
             render json: ["The song was not found."], status: 404
         end
@@ -20,7 +25,7 @@ class Api::SongsController < ApplicationController
         @song = Song.new(song_params)
         if (@song.save)
             @songs = Song.all
-            render "/api/songs/index"
+            render :index
         else
             render json: @song.errors.full_messages, status: 422
         end
@@ -34,6 +39,7 @@ class Api::SongsController < ApplicationController
             render json: song.errors.full_messages, status: 422
         end
     end
+
     def destroy
         song = Song.find(params[:id])
         if song
@@ -42,6 +48,11 @@ class Api::SongsController < ApplicationController
         else
             render json: ["The song was not found."], status: 404
         end
+    end
+
+    def bunch_o_songs
+        @songs = Song.all
+        render :bunch_songs
     end
     private
     def song_params

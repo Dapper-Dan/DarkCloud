@@ -5,6 +5,8 @@
     position: absolute;
     top: 20px;
     right: 30px;
+    
+
 }
 
 .buttonsDiv {
@@ -13,6 +15,7 @@
     right: 30px;
     display: flex;
     flex-direction: row;
+  
 }
 
 .buttonsDiv .login-modal-button {
@@ -70,6 +73,7 @@
     width: 47%;
     margin: 0 auto;
     display: block;
+   
     
 }
 
@@ -94,6 +98,7 @@
     height: 453px;
     -webkit-font-smoothing: antialiased;
     display: block;
+    
     
     
 
@@ -156,3 +161,67 @@
 //     color: black;
     
 // }
+
+.songList ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+   
+    
+}
+
+.songList li {
+    margin: 10px;
+}
+
+.songUser {
+    margin-top: 5px;
+    font-weight: 100;
+    color: #999;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.songTitle {
+    font-weight: normal;
+    margin-top: 5px;
+    margin-bottom: -2px;
+    font-size: 14px;
+    color: #333;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+}
+
+.songTile .play {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    
+    display: none;
+    border-color: #1DB954;
+    background-color: #1DB954;
+    text-indent: -9999px;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('arrow.png');
+    background-size: 70% 80%;
+    background-position: 40%;
+    background-repeat: no-repeat;
+    
+  
+}
+
+.songTile:hover .play {
+    display: block;
+}
+
+
+.songTile:hover {
+    display: inline;
+    position: relative;
+    
+}

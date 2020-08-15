@@ -6,6 +6,7 @@ import { ProtectedRoute} from '../util/route_util';
 import { createBrowserHistory } from 'history';
 import HomePage from './home_page/home_page.jsx';
 import LoginFormContainer from './session/login_form_container.jsx';
+import ProfileContainer from './profile/profile_container';
 
  
 
@@ -26,6 +27,7 @@ const App = () => (
               {/* <Route exact path="/navbar" component={NavBarContainer} /> */}
              <Route exact path="/" component={HomePage} />
              <Route exact path="/discover" component={HomePage} />
+             <Route exact path="/:display_name" component={ProfileContainer} />
 
 
       </Switch>

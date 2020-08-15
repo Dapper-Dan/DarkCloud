@@ -16,7 +16,7 @@ class MusicPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = 
-            this.props.getSongs()
+            this.props.getBunchSongs()
             // songs: []
         
         // this.props.getSongs()

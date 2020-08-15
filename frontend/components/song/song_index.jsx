@@ -7,7 +7,8 @@ import SongPartContainer from './song_part_container'
 class SongList extends React.Component {
     constructor(props) {
       super(props);
-      this.state = this.props.getSongs()
+      // this.state = this.props.getSongs('dan')
+      this.state = this.props.getBunchSongs()
     }
 
 
@@ -16,7 +17,7 @@ class SongList extends React.Component {
     render(){
       let songs = Object.values(this.props.songs);
       return(
-       <div > 
+       <div className="songList"> 
           <ul>
             {songs.map((song) => (
               <li key={song.id} className="song-box">

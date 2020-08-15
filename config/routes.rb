@@ -4,11 +4,15 @@ Rails.application.routes.draw do
 
 
   get '/discover/', to: 'static_pages#root'
-
+  get '/:display_name/', to: 'static_pages#root'
 
   namespace :api, defaults: { format: :json } do
+    get 'songs/bunch', to: 'songs#bunch_o_songs'
+
     resources :users, only: [:create, :show]
     resource :session, only: [:create, :destroy]
     resources  :songs, only: [:create, :index, :show, :destroy, :update]
+
+    
   end
 end

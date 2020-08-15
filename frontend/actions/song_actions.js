@@ -49,8 +49,21 @@ export const getSong = (songId) => dispatch =>(
         // })
 );
 
-export const getSongs = () => dispatch => (
-    APIUtil.getSongs()
+export const getSongs = (display_name) => dispatch => (
+    APIUtil.getSongs(display_name)
+        .then((songs) => 
+        // console.log(songs))
+           
+            // const songs = res.data;
+           dispatch(receiveSongs(songs))  )
+        
+        // .catch((err) => {
+        //     return dispatch(receiveErrors(err.response.data));
+        // })
+);
+
+export const getBunchSongs = () => dispatch => (
+    APIUtil.bunch_o_songs()
         .then((songs) => 
         // console.log(songs))
            

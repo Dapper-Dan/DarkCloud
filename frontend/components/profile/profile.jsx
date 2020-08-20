@@ -39,18 +39,15 @@ class Profile extends React.Component {
       console.log(user)
       return(
         <>
-      <div className="nav" >
-        <NavBarContainer />
-      </div>
+    
+      <div className="nav_bar_background" ></div>
 
       <div className="outtermost"> 
-         
-        
-{/* 
-          <div className="nameplate" >
-            <img src={window.profile} className="profile-photo" />
-          </div>
-        */}
+
+
+        <div className="nav-con" >
+          <NavBarContainer />
+        </div>
 
           <div className="cover" >
             <img src={window.cover} className="cover-photo" />

@@ -174,7 +174,7 @@
     margin: 10px;
 }
 
-.songUser {
+.songTile .songUser {
     margin-top: 5px;
     font-weight: 100;
     color: #999;
@@ -183,7 +183,7 @@
     overflow: hidden;
 }
 
-.songTitle {
+.songTile .songTitle {
     font-weight: normal;
     margin-top: 5px;
     margin-bottom: -2px;
@@ -191,6 +191,7 @@
     color: #333;
     text-overflow: ellipsis;
     overflow: hidden;
+    line-height: normal;
     
 }
 

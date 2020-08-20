@@ -23,9 +23,21 @@ class Api::UsersController < ApplicationController
         end
     end
 
+
+    def fetchUserInfo
+        @user = User.find_by(display_name: user_params[:display_name])
+        if (@user)
+            render :show
+        else
+            render json: ["The user was not found."], status: 404
+        end
+    end
+
     private
 
     def user_params
+        puts params.inspect
+        params.inspect
         params.require(:user).permit(:email, :password, :display_name, :age, :gender)
     end
 

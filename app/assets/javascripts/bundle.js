@@ -284,7 +284,7 @@ var getBunchSongs = function getBunchSongs() {
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_USER, receiveUser, fetchUser */
+/*! exports provided: RECEIVE_USER, receiveUser, fetchUser, fetchUserInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -292,6 +292,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUser", function() { return receiveUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUserInfo", function() { return fetchUserInfo; });
 /* harmony import */ var _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_apil_util.jsx */ "./frontend/util/user_apil_util.jsx");
 
 var RECEIVE_USER = "RECEIVE_USER";
@@ -304,6 +305,13 @@ var receiveUser = function receiveUser(user) {
 var fetchUser = function fetchUser(userId) {
   return function (dispatch) {
     return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["fetchUser"](userId).then(function (user) {
+      return dispatch(receiveUser(user));
+    });
+  };
+};
+var fetchUserInfo = function fetchUserInfo(display_name) {
+  return function (dispatch) {
+    return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["fetchUserInfo"](display_name).then(function (user) {
       return dispatch(receiveUser(user));
     });
   };
@@ -904,26 +912,43 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
   _createClass(NavBar, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "nav_bar"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: window.logoURL,
-        width: "105px"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-        className: "left_nav"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "home-button"
-      }, " Home "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "library-button"
-      }, " Library ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-        className: "right_nav"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "login-modal-button"
-      }, " Sign in "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
-        to: "/register"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "signup-modal-button"
-      }, " Create account"))));
+      switch (this.props.navType) {
+        case 'default':
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "nav_bar"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "nav_buttons_container"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+            className: "left_nav"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: window.greenLogo,
+            width: "184px",
+            className: "nav-logo"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            className: "home-button"
+          }, " Home "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            className: "library-button"
+          }, " Library ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+            className: "right_nav"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "login-modal-button"
+          }, " Sign in "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+            to: "/register"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "signup-modal-button"
+          }, " Create account")))));
+
+        case 'song':
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "song_nav_bar"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            className: "all-songs-button"
+          }, " All "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            className: "popular-songs-button"
+          }, " Popular "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            className: "albums-button"
+          }, " Albums "));
+      }
     }
   }]);
 
@@ -931,6 +956,78 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 
+
+/***/ }),
+
+/***/ "./frontend/components/nav_bar/nav_bar_container.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/nav_bar/nav_bar_container.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _nav_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nav_bar */ "./frontend/components/nav_bar/nav_bar.jsx");
+
+
+
+var mSTP = function mSTP(state) {
+  return {
+    user: state.session.user,
+    navType: 'default'
+  };
+};
+
+var mDTP = function mDTP(dispatch) {
+  return {
+    action: function action(song) {
+      return dispatch(createSong(song));
+    },
+    getUser: function getUser(user) {
+      return dispatch(login(user));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_nav_bar__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/nav_bar/song_nav_bar_container.jsx":
+/*!****************************************************************!*\
+  !*** ./frontend/components/nav_bar/song_nav_bar_container.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _nav_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nav_bar */ "./frontend/components/nav_bar/nav_bar.jsx");
+
+
+
+var mSTP = function mSTP(state) {
+  return {
+    user: state.session.user,
+    navType: 'song'
+  };
+};
+
+var mDTP = function mDTP(dispatch) {
+  return {
+    action: function action(song) {
+      return dispatch(createSong(song));
+    },
+    getUser: function getUser(user) {
+      return dispatch(login(user));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_nav_bar__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -947,6 +1044,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _song_song_part_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../song/song_part_container */ "./frontend/components/song/song_part_container.jsx");
+/* harmony import */ var _nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nav_bar/nav_bar_container */ "./frontend/components/nav_bar/nav_bar_container.jsx");
+/* harmony import */ var _nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nav_bar/song_nav_bar_container */ "./frontend/components/nav_bar/song_nav_bar_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -973,6 +1072,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var Profile = /*#__PURE__*/function (_React$Component) {
   _inherits(Profile, _React$Component);
 
@@ -985,25 +1086,65 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = _this.props.getSongs(_this.props.match.params.display_name);
+
+    _this.props.fetchUserInfo(_this.props.match.params.display_name);
+
     return _this;
-  }
+  } // cover_photo: null,
+  // profile_photo: null
+
 
   _createClass(Profile, [{
     key: "render",
     value: function render() {
+      // console.log(this.props.state)
       var songs = Object.values(this.props.state.entities.songs);
+      var user;
+
+      if (Object.values(this.props.state.entities.users)[0]) {
+        user = Object.values(this.props.state.entities.users)[0];
+      } else {
+        user = "";
+      }
+
+      var location;
+
+      if (user.location) {
+        location = user.location;
+      } else {
+        location = "";
+      }
+
+      console.log(user);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "nav"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "outtermost"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cover"
-      }, "yoyoyo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window.cover,
+        className: "cover-photo"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-box"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window.profile,
+        className: "profile-photo"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "info-basic"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nameplate"
+      }, " ", user.display_name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "location-plate"
+      }, " ", location, " ")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-songs"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: song.id,
           className: "song-box"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          song: song
+          song: song,
+          profile: true
         }));
       })))));
     }
@@ -1031,8 +1172,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/song_actions */ "./frontend/actions/song_actions.js");
 /* harmony import */ var _profile__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./profile */ "./frontend/components/profile/profile.jsx");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
 
  // import MusicPlayer from './music_player.jsx'
+
 
 
 
@@ -1048,6 +1191,9 @@ var mapDTP = function mapDTP(dispatch) {
   return {
     getSongs: function getSongs(display_name) {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_3__["getSongs"])(display_name));
+    },
+    fetchUserInfo: function fetchUserInfo(display_name) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_5__["fetchUserInfo"])(display_name));
     }
   };
 };
@@ -1164,7 +1310,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
+ // import cover_def from '../../../app/assets/images/gradient_right.png'
+// import profile_def from '../../../app/assets/images/gradientLeft.png'
 
 var SignupForm = /*#__PURE__*/function (_React$Component) {
   _inherits(SignupForm, _React$Component);
@@ -1183,7 +1330,10 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       password: "",
       display_name: "",
       age: "",
-      gender: ""
+      gender: "",
+      cover_photo: null,
+      profile_photo: null,
+      location: ""
     };
     _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -1197,27 +1347,24 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSignup",
     value: function handleSignup(e) {
       e.preventDefault();
-      var _this$state = this.state,
-          email = _this$state.email,
-          password = _this$state.password,
-          display_name = _this$state.display_name,
-          age = _this$state.age,
-          gender = _this$state.gender;
-      this.props.action({
-        email: email,
-        password: password,
-        display_name: display_name,
-        age: age,
-        gender: gender
-      });
+      var formData = new FormData();
+      formData.append('user[email]', this.state.email);
+      formData.append('user[password]', this.state.password);
+      formData.append('user[display_name]', this.state.display_name);
+      formData.append('user[age]', this.state.age);
+      formData.append('user[gender]', this.state.gender);
+      formData.append('user[cover_photo]', this.state.cover_photo);
+      formData.append('user[profile_photo]', this.state.profile_photo);
+      this.props.action(formData); // const {email, password, display_name, age, gender } = this.state;
+      // this.props.action({email, password, display_name, age, gender });
     }
   }, {
     key: "handleLogin",
     value: function handleLogin(e) {
       e.preventDefault();
-      var _this$state2 = this.state,
-          email = _this$state2.email,
-          password = _this$state2.password;
+      var _this$state = this.state,
+          email = _this$state.email,
+          password = _this$state.password;
       this.props.action({
         email: email,
         password: password
@@ -1265,12 +1412,12 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var step = this.state.step;
-      var _this$state3 = this.state,
-          email = _this$state3.email,
-          password = _this$state3.password,
-          display_name = _this$state3.display_name,
-          age = _this$state3.age,
-          gender = _this$state3.gender;
+      var _this$state2 = this.state,
+          email = _this$state2.email,
+          password = _this$state2.password,
+          display_name = _this$state2.display_name,
+          age = _this$state2.age,
+          gender = _this$state2.gender;
       var values = {
         email: email,
         password: password,
@@ -1890,25 +2037,52 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var song = this.props.song;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "songTile"
-      }, song.pictureUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: song.pictureUrl,
-        height: "180px",
-        width: "180px"
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        role: "button",
-        className: "play",
-        onClick: this.handleClick
-      }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-        className: "songTitle"
-      }, song.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: song.display_name
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-        className: "songUser"
-      }, song.display_name))));
+
+      if (!this.props.profile) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "songTile"
+        }, song.pictureUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: song.pictureUrl,
+          height: "180px",
+          width: "180px"
+        }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.songGradient,
+          height: "180px",
+          width: "180px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          role: "button",
+          className: "play",
+          onClick: this.handleClick
+        }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "songTitle"
+        }, song.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: song.display_name
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "songUser"
+        }, song.display_name))));
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "songProfileTile"
+        }, song.pictureUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: song.pictureUrl,
+          height: "180px",
+          width: "180px"
+        }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.songGradient,
+          height: "180px",
+          width: "180px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          role: "button",
+          className: "play",
+          onClick: this.handleClick
+        }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "songTitle"
+        }, song.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: song.display_name
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "songUser"
+        }, song.display_name))));
+      }
     }
   }]);
 
@@ -2296,16 +2470,28 @@ var bunch_o_songs = function bunch_o_songs() {
 /*!******************************************!*\
   !*** ./frontend/util/user_apil_util.jsx ***!
   \******************************************/
-/*! exports provided: fetchUser */
+/*! exports provided: fetchUser, fetchUserInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUserInfo", function() { return fetchUserInfo; });
 var fetchUser = function fetchUser(userId) {
   return $.ajax({
     url: "api/users/".concat(userId),
     method: 'GET'
+  });
+};
+var fetchUserInfo = function fetchUserInfo(display_name) {
+  return $.ajax({
+    url: "api/users/".concat(display_name, "/fetchUserInfo"),
+    method: 'GET',
+    data: {
+      user: {
+        display_name: display_name
+      }
+    }
   });
 };
 

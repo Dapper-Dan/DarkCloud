@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     get 'songs/bunch', to: 'songs#bunch_o_songs'
+    get 'users/:display_name/fetchUserInfo', to: 'users#fetchUserInfo'
 
     resources :users, only: [:create, :show]
     resource :session, only: [:create, :destroy]

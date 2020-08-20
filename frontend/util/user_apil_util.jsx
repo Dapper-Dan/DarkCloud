@@ -5,3 +5,11 @@ export const fetchUser = userId => (
   })
 );
   
+export const fetchUserInfo = display_name => (
+  $.ajax({
+    url: `api/users/${display_name}/fetchUserInfo`,
+    method: 'GET',
+    data: {user: {display_name: display_name}}
+  })
+);
+  

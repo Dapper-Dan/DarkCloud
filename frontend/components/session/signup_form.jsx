@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {NavLink, Link, Redirect} from 'react-router-dom'
+// import cover_def from '../../../app/assets/images/gradient_right.png'
+// import profile_def from '../../../app/assets/images/gradientLeft.png'
+
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -11,7 +14,10 @@ class SignupForm extends React.Component {
       password: "",
       display_name: "",
       age: "",
-      gender: ""
+      gender: "",
+      cover_photo: null,
+      profile_photo: null,
+      location: ""
       
 
     };
@@ -26,8 +32,19 @@ class SignupForm extends React.Component {
     
   handleSignup(e) {
       e.preventDefault();
-      const {email, password, display_name, age, gender } = this.state;
-      this.props.action({email, password, display_name, age, gender });
+
+      const formData = new FormData();
+      formData.append('user[email]', this.state.email);
+      formData.append('user[password]', this.state.password);
+      formData.append('user[display_name]', this.state.display_name);
+      formData.append('user[age]', this.state.age);
+      formData.append('user[gender]', this.state.gender);
+      formData.append('user[cover_photo]', this.state.cover_photo);
+      formData.append('user[profile_photo]', this.state.profile_photo);
+      this.props.action(formData)
+
+      // const {email, password, display_name, age, gender } = this.state;
+      // this.props.action({email, password, display_name, age, gender });
   }
 
   handleLogin(e) {

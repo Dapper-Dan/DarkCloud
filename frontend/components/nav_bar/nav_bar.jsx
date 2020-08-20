@@ -8,39 +8,53 @@ export default class NavBar extends React.Component {
 
 
     render() {
-       
-        return (
-            
-            <div className="nav_bar">
-               
-               <img src={window.logoURL} width="105px" />
-               
-               <nav className="left_nav">
-                   <a className="home-button"> Home </a>
+        
+        switch(this.props.navType) {
+            case 'default':
 
-                   <a className="library-button"> Library </a>
-               </nav>
+            return (
+                
+                <div className="nav_bar">
+                
+            <div className="nav_buttons_container" >
+                <nav className="left_nav">
+                <img src={window.greenLogo} width="184px" className="nav-logo"/>
+                    <a className="home-button"> Home </a>
 
-               <nav className="right_nav">
+                    <a className="library-button"> Library </a>
+                </nav>
 
-                   
-                    {/* <NavLink to="/register"> */}
-                    <button className="login-modal-button"> Sign in </button>
-                    {/* </NavLink> */}
-
-                    <NavLink to="/register">
-                        <button className="signup-modal-button"> Create account</button>
-                    </NavLink>
+                <nav className="right_nav">
 
                     
-               </nav>
+                        {/* <NavLink to="/register"> */}
+                        <button className="login-modal-button"> Sign in </button>
+                        {/* </NavLink> */}
 
-               
-                
+                        <NavLink to="/register">
+                            <button className="signup-modal-button"> Create account</button>
+                        </NavLink>
+
+                        
+                </nav>
             </div>
-        )
-        
-        
+
+                
+                    
+                </div>
+            )
+
+
+            case 'song':
+            return (
+                <div className="song_nav_bar">
+                    <a className="all-songs-button"> All </a>
+                    <a className="popular-songs-button"> Popular </a>
+                    <a className="albums-button"> Albums </a>
+                </div>
+            )
+        }
+         
     }
 
 }

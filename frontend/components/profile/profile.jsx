@@ -8,17 +8,26 @@ class Profile extends React.Component {
     constructor(props) {
       super(props);
       this.state = this.props.getSongs(this.props.match.params.display_name);
-
+    
       this.props.fetchUserInfo(this.props.match.params.display_name);
-      
+
+      this.searchUpdate = this.searchUpdate.bind(this)
     }
     // cover_photo: null,
     // profile_photo: null
+    searchUpdate(value) {
+      return e => this.setState({ [value]: e.target.value });
+    }
 
+   
+
+    mysearchfunction() {
+      return this.state.searchInput.filter()
+    }
 
 
     render(){
-      // console.log(this.props.state)
+      console.log(this.state)
       let songs = Object.values(this.props.state.entities.songs);
 
       let user
@@ -47,6 +56,8 @@ class Profile extends React.Component {
 
         <div className="nav-con" >
           <NavBarContainer />
+          
+          <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput || ''} onChange={this.searchUpdate('searchInput')} />
         </div>
 
           <div className="cover" >

@@ -58,7 +58,7 @@ class SignupForm extends React.Component {
 
   update(value) {
         return e => this.setState({ [value]: e.target.value });
-    }
+  }
   
   _next() {
     const { step } = this.state

@@ -35,6 +35,10 @@ export default class NavBar extends React.Component {
                             <button className="signup-modal-button"> Create account</button>
                         </NavLink>
 
+
+                       
+                            <button className="upload-button"> Upload </button>
+                        
                         
                 </nav>
             </div>

@@ -936,7 +936,9 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
             to: "/register"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "signup-modal-button"
-          }, " Create account")))));
+          }, " Create account")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "upload-button"
+          }, " Upload "))));
 
         case 'song':
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1048,6 +1050,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nav_bar/song_nav_bar_container */ "./frontend/components/nav_bar/song_nav_bar_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1089,15 +1093,30 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
     _this.props.fetchUserInfo(_this.props.match.params.display_name);
 
+    _this.searchUpdate = _this.searchUpdate.bind(_assertThisInitialized(_this));
     return _this;
   } // cover_photo: null,
   // profile_photo: null
 
 
   _createClass(Profile, [{
+    key: "searchUpdate",
+    value: function searchUpdate(value) {
+      var _this2 = this;
+
+      return function (e) {
+        return _this2.setState(_defineProperty({}, value, e.target.value));
+      };
+    }
+  }, {
+    key: "mysearchfunction",
+    value: function mysearchfunction() {
+      return this.state.searchInput.filter();
+    }
+  }, {
     key: "render",
     value: function render() {
-      // console.log(this.props.state)
+      console.log(this.state);
       var songs = Object.values(this.props.state.entities.songs);
       var user;
 
@@ -1122,7 +1141,13 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "outtermost"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav-con"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "searchBar",
+        placeholder: "  Search for music or podcasts",
+        type: "text",
+        value: this.state.searchInput || '',
+        onChange: this.searchUpdate('searchInput')
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cover"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: window.cover,

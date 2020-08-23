@@ -26,10 +26,25 @@ class Profile extends React.Component {
       return this.state.searchInput.filter()
     }
 
+    // componentDidUpdate() {
+    //   console.log('1')
+    //   this.props.getSongs(this.props.match.params.display_name);
+    // }
+    // componentDidMount(){
+    //   console.log('1')
+    //   this.props.getSongs(this.props.match.params.display_name);
+    // }
+
 
     render(){
-      // console.log(this.state)
-      let songs = Object.values(this.props.state.entities.songs);
+     
+      // console.log(this.props.state)
+      let songs
+      if (this.props.state.entities.songs.songs) {
+      songs = Object.values(this.props.state.entities.songs.songs);
+      } else {
+        songs = Object.values(this.props.state.entities.songs)
+      }
 
       let user
       if (Object.values(this.props.state.entities.users)[0]) {

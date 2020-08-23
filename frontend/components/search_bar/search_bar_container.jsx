@@ -5,7 +5,9 @@ import {fetchUsers} from '../../actions/user_actions'
 
 
 const mSTP = state => ({
-  state: state
+  state: state,
+  songs: state.entities.songs.all_songs,
+  users: state.entities.users.all_users
 });
 
 const mDTP = (dispatch) => ({

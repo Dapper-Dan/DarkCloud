@@ -1140,12 +1140,27 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     key: "mysearchfunction",
     value: function mysearchfunction() {
       return this.state.searchInput.filter();
-    }
+    } // componentDidUpdate() {
+    //   console.log('1')
+    //   this.props.getSongs(this.props.match.params.display_name);
+    // }
+    // componentDidMount(){
+    //   console.log('1')
+    //   this.props.getSongs(this.props.match.params.display_name);
+    // }
+
   }, {
     key: "render",
     value: function render() {
-      // console.log(this.state)
-      var songs = Object.values(this.props.state.entities.songs);
+      // console.log(this.props.state)
+      var songs;
+
+      if (this.props.state.entities.songs.songs) {
+        songs = Object.values(this.props.state.entities.songs.songs);
+      } else {
+        songs = Object.values(this.props.state.entities.songs);
+      }
+
       var user;
 
       if (Object.values(this.props.state.entities.users)[0]) {
@@ -1239,7 +1254,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     state: state,
-    songs: state.entities.songs
+    songs: state.entities.songs.songs
   };
 };
 
@@ -1303,6 +1318,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1340,7 +1359,8 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      searchInput: ""
+      searchInput: "",
+      loading: true
     };
 
     _this.props.fetchUsers();
@@ -1352,6 +1372,22 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(SearchBar, [{
+    key: "shouldComponentUpdate",
+    value: function shouldComponentUpdate(nextProps) {
+      if (nextProps.songs === undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        loading: false
+      });
+    }
+  }, {
     key: "searchUpdate",
     value: function searchUpdate(value) {
       var _this2 = this;
@@ -1368,9 +1404,23 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      // console.log(this.props.state)
-      // <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate('searchInput')} />
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " im a div ");
+      if (this.state.loading) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
+      } else {
+        var songs = this.props.songs;
+        var users = this.props.users;
+        var options = {
+          all_songs: {},
+          all_users: {}
+        };
+        options.all_songs = _objectSpread({}, songs);
+        options.all_users = _objectSpread({}, users); // console.log(songs)
+        // console.log(users)
+
+        console.log(options); // <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate('searchInput')} />
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " im a div ");
+      }
     }
   }]);
 
@@ -1401,7 +1451,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var mSTP = function mSTP(state) {
   return {
-    state: state
+    state: state,
+    songs: state.entities.songs.all_songs,
+    users: state.entities.users.all_users
   };
 };
 
@@ -2416,25 +2468,45 @@ var sessionReducer = function sessionReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/song_actions */ "./frontend/actions/song_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var songsReducer = function songsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  Object.freeze(state);
-  var nextState = Object.assign({}, state);
+  Object.freeze(state); // let nextState = Object.assign({}, state)
+  // switch (action.type) {
+  //     case RECEIVE_SONGS:
+  //         nextState = action.songs
+  //     case RECEIVE_BUNCH_SONGS: 
+  //         nextState['all_songs'] = action.songs   
+  //         return nextState;
+  //     case RECEIVE_SONG:
+  //         nextState[action.song.id] = action.song
+  //         return nextState;
+  //     // case REMOVE_SONG:
+  //     //     delete nextState[action.songId]
+  //     //     return nextState;
+  //     // case REMOVE_SONGS:
+  //     //     return {};
+  //     default:
+  //         return state;
+  // }
 
   switch (action.type) {
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONGS"]:
-      nextState = action.songs;
+      return Object.assign({}, state, {
+        songs: action.songs
+      });
 
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_BUNCH_SONGS"]:
-      nextState = action.songs;
-      return nextState;
+      return Object.assign({}, state, {
+        all_songs: action.songs
+      });
 
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG"]:
-      nextState[action.song.id] = action.song;
-      return nextState;
+      return Object.assign({}, state, _defineProperty({}, action.song.id, action.song));
     // case REMOVE_SONG:
     //     delete nextState[action.songId]
     //     return nextState;
@@ -2443,20 +2515,7 @@ var songsReducer = function songsReducer() {
 
     default:
       return state;
-  } // case RECEIVE_SONGS:
-  //     return Object.assign({}, state, { songs: action.songs });
-  // case RECEIVE_BUNCH_SONGS:
-  //     return Object.assign({}, state, { all_songs: action.songs });
-  // case RECEIVE_SONG:
-  //     return Object.assign({}, state, { [action.song.id]: action.song });
-  // // case REMOVE_SONG:
-  // //     delete nextState[action.songId]
-  // //     return nextState;
-  // // case REMOVE_SONGS:
-  // //     return {};
-  // default:
-  //     return state;
-
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (songsReducer);

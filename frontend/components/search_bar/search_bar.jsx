@@ -7,13 +7,28 @@ export default class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchInput: ""
+            searchInput: "",
+            loading: true
 
         }
         this.props.fetchUsers()
         this.props.getBunchSongs()
         
         this.searchUpdate = this.searchUpdate.bind(this)
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.songs === undefined) {
+            return false
+        } else {
+            return true
+        }
+    }
+
+   
+
+    componentDidMount() {
+        this.setState( {loading: false})
     }
 
     searchUpdate(value) {
@@ -27,11 +42,27 @@ export default class SearchBar extends React.Component {
 
 
     render() {
-        // console.log(this.props.state)
+        if (this.state.loading) {
+            return (<p>loading...</p>)
+        } else {
+        let songs = this.props.songs
+        let users = this.props.users
+        let options = {all_songs: {}, all_users:{}}
+        options.all_songs = {
+            ...songs
+        }
+
+        options.all_users = {
+            ...users
+        }
+
+        // console.log(songs)
+        // console.log(users)
+        console.log(options)
         // <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate('searchInput')} />
         return (
             <div> im a div </div>
         )
-    }
+    }}
 
 }

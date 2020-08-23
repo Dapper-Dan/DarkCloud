@@ -10,6 +10,8 @@ export default class SearchBar extends React.Component {
             searchInput: ""
 
         }
+        this.props.fetchUsers()
+        this.props.getBunchSongs()
         
         this.searchUpdate = this.searchUpdate.bind(this)
     }
@@ -25,8 +27,11 @@ export default class SearchBar extends React.Component {
 
 
     render() {
-        <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate('searchInput')} />
-    
+        // console.log(this.props.state)
+        // <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate('searchInput')} />
+        return (
+            <div> im a div </div>
+        )
     }
 
 }

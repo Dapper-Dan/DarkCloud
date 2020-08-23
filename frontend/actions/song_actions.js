@@ -3,6 +3,7 @@ export const REMOVE_GAME_ERRORS = "REMOVE_GAME_ERRORS";
 export const RECEIVE_SONG = "RECEIVE_SONG";
 export const RECEIVE_SONGS = "RECEIVE_SONGS";
 export const RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
+export const RECEIVE_BUNCH_SONGS = "RECEIVE_BUNCH_SONGS";
 
 export const receiveSong = (song) => ({
     type: RECEIVE_SONG,
@@ -13,6 +14,11 @@ export const receiveSong = (song) => ({
 
 export const receiveSongs = (songs) => ({
     type: RECEIVE_SONGS,
+    songs
+});
+
+export const receiveBunchSongs = (songs) => ({
+    type: RECEIVE_BUNCH_SONGS,
     songs
 });
 
@@ -68,7 +74,7 @@ export const getBunchSongs = () => dispatch => (
         // console.log(songs))
            
             // const songs = res.data;
-           dispatch(receiveSongs(songs))  )
+           dispatch(receiveBunchSongs(songs))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));

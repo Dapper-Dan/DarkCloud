@@ -169,7 +169,7 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/song_actions.js ***!
   \******************************************/
-/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, receiveSong, receiveSongs, createSong, getSong, getSongs, getBunchSongs */
+/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, RECEIVE_BUNCH_SONGS, receiveSong, receiveSongs, receiveBunchSongs, createSong, getSong, getSongs, getBunchSongs */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -178,8 +178,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONG", function() { return RECEIVE_SONG; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONGS", function() { return RECEIVE_SONGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONG_ERRORS", function() { return RECEIVE_SONG_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_BUNCH_SONGS", function() { return RECEIVE_BUNCH_SONGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSong", function() { return receiveSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSongs", function() { return receiveSongs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveBunchSongs", function() { return receiveBunchSongs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSong", function() { return createSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSong", function() { return getSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSongs", function() { return getSongs; });
@@ -190,6 +192,7 @@ var REMOVE_GAME_ERRORS = "REMOVE_GAME_ERRORS";
 var RECEIVE_SONG = "RECEIVE_SONG";
 var RECEIVE_SONGS = "RECEIVE_SONGS";
 var RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
+var RECEIVE_BUNCH_SONGS = "RECEIVE_BUNCH_SONGS";
 var receiveSong = function receiveSong(song) {
   return {
     type: RECEIVE_SONG,
@@ -199,6 +202,12 @@ var receiveSong = function receiveSong(song) {
 var receiveSongs = function receiveSongs(songs) {
   return {
     type: RECEIVE_SONGS,
+    songs: songs
+  };
+};
+var receiveBunchSongs = function receiveBunchSongs(songs) {
+  return {
+    type: RECEIVE_BUNCH_SONGS,
     songs: songs
   };
 }; // export const receiveErrors = errors => ({
@@ -250,7 +259,7 @@ var getBunchSongs = function getBunchSongs() {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["bunch_o_songs"]().then(function (songs) {
       return (// console.log(songs))
         // const songs = res.data;
-        dispatch(receiveSongs(songs))
+        dispatch(receiveBunchSongs(songs))
       );
     }) // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
@@ -284,28 +293,45 @@ var getBunchSongs = function getBunchSongs() {
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_USER, receiveUser, fetchUser, fetchUserInfo */
+/*! exports provided: RECEIVE_USER, RECEIVE_USERS, receiveUser, receiveUsers, fetchUser, fetchUsers, fetchUserInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USERS", function() { return RECEIVE_USERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUser", function() { return receiveUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUsers", function() { return receiveUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUserInfo", function() { return fetchUserInfo; });
 /* harmony import */ var _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_apil_util.jsx */ "./frontend/util/user_apil_util.jsx");
 
 var RECEIVE_USER = "RECEIVE_USER";
+var RECEIVE_USERS = "RECEIVE_USERS";
 var receiveUser = function receiveUser(user) {
   return {
     type: RECEIVE_USER,
     user: user
   };
 };
+var receiveUsers = function receiveUsers(users) {
+  return {
+    type: RECEIVE_USERS,
+    users: users
+  };
+};
 var fetchUser = function fetchUser(userId) {
   return function (dispatch) {
     return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["fetchUser"](userId).then(function (user) {
       return dispatch(receiveUser(user));
+    });
+  };
+};
+var fetchUsers = function fetchUsers() {
+  return function (dispatch) {
+    return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["fetchUsers"]().then(function (users) {
+      return dispatch(receiveUsers(users));
     });
   };
 };
@@ -1048,6 +1074,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _song_song_part_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../song/song_part_container */ "./frontend/components/song/song_part_container.jsx");
 /* harmony import */ var _nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nav_bar/nav_bar_container */ "./frontend/components/nav_bar/nav_bar_container.jsx");
 /* harmony import */ var _nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nav_bar/song_nav_bar_container */ "./frontend/components/nav_bar/song_nav_bar_container.jsx");
+/* harmony import */ var _search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../search_bar/search_bar_container */ "./frontend/components/search_bar/search_bar_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1078,6 +1105,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Profile = /*#__PURE__*/function (_React$Component) {
   _inherits(Profile, _React$Component);
 
@@ -1096,7 +1124,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     _this.searchUpdate = _this.searchUpdate.bind(_assertThisInitialized(_this));
     return _this;
   } // cover_photo: null,
-  // profile_photo: null
+  //profile_photo: null
 
 
   _createClass(Profile, [{
@@ -1116,7 +1144,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state);
+      // console.log(this.state)
       var songs = Object.values(this.props.state.entities.songs);
       var user;
 
@@ -1132,9 +1160,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         location = user.location;
       } else {
         location = "";
-      }
+      } // console.log(user)
 
-      console.log(user);
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1173,7 +1201,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           song: song,
           profile: true
         }));
-      })))));
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_5__["default"], null));
     }
   }]);
 
@@ -1210,7 +1238,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapSTP = function mapSTP(state) {
   return {
-    state: state
+    state: state,
+    songs: state.entities.songs
   };
 };
 
@@ -1256,6 +1285,138 @@ var Root = function Root(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Root);
+
+/***/ }),
+
+/***/ "./frontend/components/search_bar/search_bar.jsx":
+/*!*******************************************************!*\
+  !*** ./frontend/components/search_bar/search_bar.jsx ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SearchBar; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var SearchBar = /*#__PURE__*/function (_React$Component) {
+  _inherits(SearchBar, _React$Component);
+
+  var _super = _createSuper(SearchBar);
+
+  function SearchBar(props) {
+    var _this;
+
+    _classCallCheck(this, SearchBar);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      searchInput: ""
+    };
+
+    _this.props.fetchUsers();
+
+    _this.props.getBunchSongs();
+
+    _this.searchUpdate = _this.searchUpdate.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(SearchBar, [{
+    key: "searchUpdate",
+    value: function searchUpdate(value) {
+      var _this2 = this;
+
+      return function (e) {
+        return _this2.setState(_defineProperty({}, value, e.target.value));
+      };
+    }
+  }, {
+    key: "mysearchfunction",
+    value: function mysearchfunction() {
+      return this.state.searchInput.filter();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      // console.log(this.props.state)
+      // <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate('searchInput')} />
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " im a div ");
+    }
+  }]);
+
+  return SearchBar;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+
+
+/***/ }),
+
+/***/ "./frontend/components/search_bar/search_bar_container.jsx":
+/*!*****************************************************************!*\
+  !*** ./frontend/components/search_bar/search_bar_container.jsx ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _search_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./search_bar */ "./frontend/components/search_bar/search_bar.jsx");
+/* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/song_actions */ "./frontend/actions/song_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
+
+
+
+
+var mSTP = function mSTP(state) {
+  return {
+    state: state
+  };
+};
+
+var mDTP = function mDTP(dispatch) {
+  return {
+    fetchUsers: function fetchUsers() {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchUsers"])());
+    },
+    getBunchSongs: function getBunchSongs() {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_2__["getBunchSongs"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_search_bar__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -2266,6 +2427,9 @@ var songsReducer = function songsReducer() {
   switch (action.type) {
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONGS"]:
       nextState = action.songs;
+
+    case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_BUNCH_SONGS"]:
+      nextState = action.songs;
       return nextState;
 
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG"]:
@@ -2279,7 +2443,20 @@ var songsReducer = function songsReducer() {
 
     default:
       return state;
-  }
+  } // case RECEIVE_SONGS:
+  //     return Object.assign({}, state, { songs: action.songs });
+  // case RECEIVE_BUNCH_SONGS:
+  //     return Object.assign({}, state, { all_songs: action.songs });
+  // case RECEIVE_SONG:
+  //     return Object.assign({}, state, { [action.song.id]: action.song });
+  // // case REMOVE_SONG:
+  // //     delete nextState[action.songId]
+  // //     return nextState;
+  // // case REMOVE_SONGS:
+  // //     return {};
+  // default:
+  //     return state;
+
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (songsReducer);
@@ -2302,6 +2479,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var usersReducer = function usersReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -2313,6 +2491,11 @@ var usersReducer = function usersReducer() {
 
     case _actions_user_actions_js__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER"]:
       return Object.assign({}, state, _defineProperty({}, action.user.id, action.user));
+
+    case _actions_user_actions_js__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USERS"]:
+      return Object.assign({}, state, {
+        all_users: action.users
+      });
 
     default:
       return state;
@@ -2497,16 +2680,23 @@ var bunch_o_songs = function bunch_o_songs() {
 /*!******************************************!*\
   !*** ./frontend/util/user_apil_util.jsx ***!
   \******************************************/
-/*! exports provided: fetchUser, fetchUserInfo */
+/*! exports provided: fetchUser, fetchUsers, fetchUserInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUserInfo", function() { return fetchUserInfo; });
 var fetchUser = function fetchUser(userId) {
   return $.ajax({
     url: "api/users/".concat(userId),
+    method: 'GET'
+  });
+};
+var fetchUsers = function fetchUsers() {
+  return $.ajax({
+    url: "api/users/",
     method: 'GET'
   });
 };

@@ -4,6 +4,13 @@ export const fetchUser = userId => (
     method: 'GET'
   })
 );
+
+export const fetchUsers = () => (
+  $.ajax({
+    url: `api/users/`,
+    method: 'GET'
+  })
+);
   
 export const fetchUserInfo = display_name => (
   $.ajax({

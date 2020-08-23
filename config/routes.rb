@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get 'songs/bunch', to: 'songs#bunch_o_songs'
     get 'users/:display_name/fetchUserInfo', to: 'users#fetchUserInfo'
 
-    resources :users, only: [:create, :show]
+    resources :users, only: [:index, :create, :show]
     resource :session, only: [:create, :destroy]
     resources  :songs, only: [:create, :index, :show, :destroy, :update]
 

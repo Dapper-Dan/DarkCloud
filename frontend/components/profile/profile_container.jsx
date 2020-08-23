@@ -7,7 +7,8 @@ import Profile from './profile'
 import {fetchUserInfo} from '../../actions/user_actions'
 
 const mapSTP = state => ({
-    state: state
+    state: state,
+    songs: state.entities.songs
 })
 
 const mapDTP = dispatch => ({

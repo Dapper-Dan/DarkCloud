@@ -5,8 +5,11 @@ import {getBunchSongs} from "../../actions/song_actions";
 
 
 const mSTP = state => ({
-  songs: state.entities.songs
+  songs: state.entities.songs.all_songs,
+  
 });
+
+
 
 const mDTP = (dispatch) => ({
   getSongs: (display_name) => dispatch(getSongs(display_name)),

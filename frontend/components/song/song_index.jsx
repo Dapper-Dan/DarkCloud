@@ -8,28 +8,51 @@ class SongList extends React.Component {
     constructor(props) {
       super(props);
       // this.state = this.props.getSongs('dan')
-      this.state = this.props.getBunchSongs()
+      this.state = {
+        loading: true
+      }
+      this.props.getBunchSongs()
+    }
+
+
+
+
+    shouldComponentUpdate(nextProps) {
+      if (nextProps.songs === undefined) {
+          return false
+      } else {
+          return true
+      }
+    }
+
+    componentDidMount() {
+      this.setState( {loading: false})
     }
 
 
 
 
     render(){
-      let songs = Object.values(this.props.songs);
-      return(
-       <div className="songList"> 
-          <ul>
-            {songs.map((song) => (
-              <li key={song.id} className="song-box">
-                <SongPartContainer song={song} />
-                
-              </li>
-            ))}
-          </ul>
-        </div>
-    
+      if (this.state.loading) {
+        return (<p>loading...</p>)
+      } else {
+        let songs = Object.values(this.props.songs);
       
-      )
+        return(
+        <div className="songList"> 
+            <ul>
+              {songs.map((song) => (
+                <li key={song.id} className="song-box">
+                  <SongPartContainer song={song} />
+                  
+                </li>
+              ))}
+            </ul>
+          </div>
+      
+        
+        )
+      }
     }
 }
 

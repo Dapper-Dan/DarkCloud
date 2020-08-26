@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 
 
 
@@ -21,6 +22,9 @@ export default class SearchBar extends React.Component {
         
         this.searchUpdate = this.searchUpdate.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
+        this.onMouseOver = this.onMouseOver.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     shouldComponentUpdate(nextProps) {
@@ -33,6 +37,8 @@ export default class SearchBar extends React.Component {
 
 
     componentDidMount() {
+        document.addEventListener('click', this.handleClickOutside, true);
+        
         this.setState( {loading: false})
       
     }
@@ -73,6 +79,24 @@ export default class SearchBar extends React.Component {
         });
     };
 
+    
+//   componentDidMount() {
+//     document.addEventListener('click', this.handleClickOutside, true);
+// }
+
+componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutside, true);
+}
+
+    handleClickOutside(event) {
+        const domNode = ReactDOM.findDOMNode(this);
+        
+        if (!domNode || !domNode.contains(event.target)) {
+            console.log('hello')
+            this.setState({ showOptions: false })
+        }
+    }
+
     onKeyDown(e) {
         const { activeOption, filteredOptions } = this.state;
 
@@ -95,6 +119,19 @@ export default class SearchBar extends React.Component {
         } 
     }
 
+    onMouseOver(e) {
+        const { activeOption, filteredOptions } = this.state; ////im heeeeeerrrrrrrrrrrrrrrrrrrrrrreeeeee!!!!!
+        console.log(e.currentTarget.innerText)
+        
+        for(let i = 0; i < filteredOptions.length; i++) {
+            if (Object.values(filteredOptions[i]).includes(e.currentTarget.innerText)) {
+                this.setState({
+                    activeOption: i
+                })
+            }
+        }
+    }
+
 
     render() {
         console.log(this.state)
@@ -106,8 +143,9 @@ export default class SearchBar extends React.Component {
             let optionList;
 
             if (this.state.showOptions && this.state.searchInput && this.state.filteredOptions.length) {
-                    console.log('working')
+                    
                     optionList = (
+                        <div className="options-drop">
                         <ul className="options">
                             {this.state.filteredOptions.map((optionName, index) => {
                             if (optionName.title) {
@@ -117,19 +155,20 @@ export default class SearchBar extends React.Component {
                             }
                             let className;
                             if (index === this.state.activeOption) {
-                                console.log('made it')
+                                
                                 className = 'option-active';
                             }
                             return (
-                                <li className={className} key={optionName} onClick={this.onClick}>
+                                <li className={className} key={optionName} onClick={this.onClick} onMouseOver={this.onMouseOver}>
                                 {optionName}
                                 </li>
                             );
                             })}
                         </ul>
+                        </div>
                     )
             } else {
-                console.log('notworking')
+               
             }
 
 
@@ -144,7 +183,7 @@ export default class SearchBar extends React.Component {
 
             return (
                 <>
-                <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate} />
+                <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate} onKeyDown={this.onKeyDown} onMouseOver={this.onMouseOver}/>
                 <input type="submit" className="search-button" />
                 {optionList}
                 

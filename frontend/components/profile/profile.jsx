@@ -40,8 +40,9 @@ class Profile extends React.Component {
       }
 
       let user
-      if (Object.values(this.props.state.entities.users)[0]) {
-        user = Object.values(this.props.state.entities.users)[0]
+      
+      if (this.props.state.entities.users.profile_user) {
+        user = this.props.state.entities.users.profile_user
       } else {
         user = ""
       }
@@ -54,7 +55,7 @@ class Profile extends React.Component {
       }
   
       
-      console.log(this.state)
+      
       return(
         <>
     

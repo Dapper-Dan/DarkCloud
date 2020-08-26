@@ -1155,8 +1155,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       var user;
 
-      if (Object.values(this.props.state.entities.users)[0]) {
-        user = Object.values(this.props.state.entities.users)[0];
+      if (this.props.state.entities.users.profile_user) {
+        user = this.props.state.entities.users.profile_user;
       } else {
         user = "";
       }
@@ -1169,7 +1169,6 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         location = "";
       }
 
-      console.log(this.state);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1302,6 +1301,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1323,6 +1324,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1352,6 +1354,9 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
 
     _this.searchUpdate = _this.searchUpdate.bind(_assertThisInitialized(_this));
     _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
+    _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
+    _this.onMouseOver = _this.onMouseOver.bind(_assertThisInitialized(_this));
+    _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1367,6 +1372,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
+      document.addEventListener('click', this.handleClickOutside, true);
       this.setState({
         loading: false
       });
@@ -1401,6 +1407,26 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "componentWillUnmount",
+    //   componentDidMount() {
+    //     document.addEventListener('click', this.handleClickOutside, true);
+    // }
+    value: function componentWillUnmount() {
+      document.removeEventListener('click', this.handleClickOutside, true);
+    }
+  }, {
+    key: "handleClickOutside",
+    value: function handleClickOutside(event) {
+      var domNode = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.findDOMNode(this);
+
+      if (!domNode || !domNode.contains(event.target)) {
+        console.log('hello');
+        this.setState({
+          showOptions: false
+        });
+      }
+    }
+  }, {
     key: "onKeyDown",
     value: function onKeyDown(e) {
       var _this$state = this.state,
@@ -1432,6 +1458,23 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "onMouseOver",
+    value: function onMouseOver(e) {
+      var _this$state2 = this.state,
+          activeOption = _this$state2.activeOption,
+          filteredOptions = _this$state2.filteredOptions; ////im heeeeeerrrrrrrrrrrrrrrrrrrrrrreeeeee!!!!!
+
+      console.log(e.currentTarget.innerText);
+
+      for (var i = 0; i < filteredOptions.length; i++) {
+        if (Object.values(filteredOptions[i]).includes(e.currentTarget.innerText)) {
+          this.setState({
+            activeOption: i
+          });
+        }
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -1444,8 +1487,9 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
         var optionList;
 
         if (this.state.showOptions && this.state.searchInput && this.state.filteredOptions.length) {
-          console.log('working');
-          optionList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          optionList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "options-drop"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
             className: "options"
           }, this.state.filteredOptions.map(function (optionName, index) {
             if (optionName.title) {
@@ -1457,26 +1501,26 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
             var className;
 
             if (index === _this2.state.activeOption) {
-              console.log('made it');
               className = 'option-active';
             }
 
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
               className: className,
               key: optionName,
-              onClick: _this2.onClick
+              onClick: _this2.onClick,
+              onMouseOver: _this2.onMouseOver
             }, optionName);
-          }));
-        } else {
-          console.log('notworking');
-        }
+          })));
+        } else {}
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           className: "searchBar",
           placeholder: "  Search for music or podcasts",
           type: "text",
           value: this.state.searchInput,
-          onChange: this.searchUpdate
+          onChange: this.searchUpdate,
+          onKeyDown: this.onKeyDown,
+          onMouseOver: this.onMouseOver
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "submit",
           className: "search-button"

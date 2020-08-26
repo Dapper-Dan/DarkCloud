@@ -1,7 +1,7 @@
 ul.options {
     display: block;
     list-style: none;
-    width: 30rem;
+    padding-inline-start: 0px !important;
     transition: width 0.3s;
     margin: auto;
     position: relative;
@@ -9,24 +9,27 @@ ul.options {
   
   ul.options li {
     display: block;
-    background: white;
+    background: black;
     margin: 10px auto;
     padding: 10px;
     font-size: 1.2rem;
     width: 100%;
     border-radius: 2px;
+    color: #fff;
+    
   }
   ul.options li:hover {
     font-weight: bold;
-    color: #00b4cc;
+    color: #fff;
     cursor: pointer;
     transition: 0.3s all;
+    background-color: #333;
   }
   
   ul.options li.option-active {
-    background: whitesmoke;
+    background: #333;
     font-size: 1.5rem;
-    color: #00b4cc;
+    color: #fff;
   }
 
 .searchBar {
@@ -40,4 +43,12 @@ ul.options {
     font-size: 14px;
     box-sizing: border-box;
     border:none; 
+}
+
+.options-drop {
+    background-color: black;
+    width: 36.5%;
+    margin: auto;
+    position: relative;
+    top: -40px;
 }

@@ -15,63 +15,77 @@ import ReactAudioPlayer from 'react-audio-player';
 class MusicPlayer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = 
-            this.props.getBunchSongs()
-            // songs: []
+        this.state = {
+            audioData: new Uint8Array(0),
+            playing: false
+        }
+
+        this.props.getBunchSongs()
+            
+        this.play = this.play.bind(this)
+        this.changeVolume = this.changeVolume.bind(this)
         
-        // this.props.getSongs()
-        // this.boop = this.boop.bind(this)
     }
 
-    // boop() {
-    //     const songs = Object.values(this.props.songs);
-    // //    songs.map((song) => {
-    // //        this.state.songs.push(song)
-    // //    })
-
-    // // this.setState({track: songs[0].url})
-    // console.log(this.state.track)
+   
+    play() {
+        const audioElement = document.querySelector('audio');
        
-    // }
+        if (this.trackConnect.context.state === 'suspended') { 
+            this.trackConnect.context.resume();
+        }
+    
+     
+        if (this.state.playing === false) {
+            audioElement.play();
+            this.state.playing = true;
+           
+        } else if (this.state.playing === true) {
+        
+            audioElement.pause();
+            this.state.playing = false;
+        }
+    
+    }
 
-    // bop() {
-    //     this.props.getSong({email, password});
-    // }
-
-    // componentDidMount() {
-       
-    //     const songs = Object.values(this.props.songs);
-    //     // this.setState({track: songs[0]})
-    //     console.log(songs)
-    // }
-
-    // componentDidUpdate() {
-    //     if (this.props.songs) {
-    //         this.setState({track: this.props.songs[0]})
-    //     }
-    // }
+    changeVolume() {
+        const volumeControl = document.querySelector('#volume')
+        this.gainNode.gain.value = volumeControl.value;
+    }
+   
 
     render() { 
-        // const songs = Object.values(this.props.songs);
-        // let song = songs[0]
-        // this.setState({track: songs[0]})
         let song 
         if (this.props.state.session.song) {
             song = (this.props.state.session.song.songUrl)
         } else {
             song = ''
         }
-        console.log(this.props.state.session.song)
+
+        if(song) {
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)()
+        const audioElement = document.querySelector('audio');
+        const track = audioContext.createMediaElementSource(audioElement);
+        this.trackConnect =  track.connect(audioContext.destination);
+        this.gainNode = audioContext.createGain();
+       
+        // const volumeControl = document.querySelector('#volume')
+        console.log(this)
+        }
+
+       
       return (
           <>
-        {/* <div>
-            <button className="songFormButton" onClick={this.boop}>  get Song </button>
-        </div> */}
-        <ReactAudioPlayer
-        src={song}
-        autoPlay={true}
-        controls
-        />
+          
+  
+          <div className="immaSong">
+            <audio src={song} > </audio>
+            <input type="range" id="volume" min="0" max="2" value="1" step="0.01" ></input>
+          </div>
+
+          <button data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
+            Play/Pause
+          </button>
         </>
       )}
 }

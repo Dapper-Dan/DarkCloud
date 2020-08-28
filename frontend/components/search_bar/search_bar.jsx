@@ -84,9 +84,9 @@ export default class SearchBar extends React.Component {
 //     document.addEventListener('click', this.handleClickOutside, true);
 // }
 
-componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutside, true);
-}
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleClickOutside, true);
+    }
 
     handleClickOutside(event) {
         const domNode = ReactDOM.findDOMNode(this);
@@ -120,7 +120,7 @@ componentWillUnmount() {
     }
 
     onMouseOver(e) {
-        const { activeOption, filteredOptions } = this.state; ////im heeeeeerrrrrrrrrrrrrrrrrrrrrrreeeeee!!!!!
+        const { activeOption, filteredOptions } = this.state; 
         console.log(e.currentTarget.innerText)
         
         for(let i = 0; i < filteredOptions.length; i++) {

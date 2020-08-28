@@ -794,40 +794,44 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, MusicPlayer);
 
     _this = _super.call(this, props);
-    _this.state = _this.props.getBunchSongs(); // songs: []
-    // this.props.getSongs()
-    // this.boop = this.boop.bind(this)
+    _this.state = {
+      audioData: new Uint8Array(0),
+      playing: false
+    };
 
+    _this.props.getBunchSongs();
+
+    _this.play = _this.play.bind(_assertThisInitialized(_this));
+    _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
     return _this;
-  } // boop() {
-  //     const songs = Object.values(this.props.songs);
-  // //    songs.map((song) => {
-  // //        this.state.songs.push(song)
-  // //    })
-  // // this.setState({track: songs[0].url})
-  // console.log(this.state.track)
-  // }
-  // bop() {
-  //     this.props.getSong({email, password});
-  // }
-  // componentDidMount() {
-  //     const songs = Object.values(this.props.songs);
-  //     // this.setState({track: songs[0]})
-  //     console.log(songs)
-  // }
-  // componentDidUpdate() {
-  //     if (this.props.songs) {
-  //         this.setState({track: this.props.songs[0]})
-  //     }
-  // }
-
+  }
 
   _createClass(MusicPlayer, [{
+    key: "play",
+    value: function play() {
+      var audioElement = document.querySelector('audio');
+
+      if (this.trackConnect.context.state === 'suspended') {
+        this.trackConnect.context.resume();
+      }
+
+      if (this.state.playing === false) {
+        audioElement.play();
+        this.state.playing = true;
+      } else if (this.state.playing === true) {
+        audioElement.pause();
+        this.state.playing = false;
+      }
+    }
+  }, {
+    key: "changeVolume",
+    value: function changeVolume() {
+      var volumeControl = document.querySelector('#volume');
+      this.gainNode.gain.value = volumeControl.value;
+    }
+  }, {
     key: "render",
     value: function render() {
-      // const songs = Object.values(this.props.songs);
-      // let song = songs[0]
-      // this.setState({track: songs[0]})
       var song;
 
       if (this.props.state.session.song) {
@@ -836,12 +840,33 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         song = '';
       }
 
-      console.log(this.props.state.session.song);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_audio_player__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        src: song,
-        autoPlay: true,
-        controls: true
-      }));
+      if (song) {
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var audioElement = document.querySelector('audio');
+        var track = audioContext.createMediaElementSource(audioElement);
+        this.trackConnect = track.connect(audioContext.destination);
+        this.gainNode = audioContext.createGain(); // const volumeControl = document.querySelector('#volume')
+
+        console.log(this);
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "immaSong"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
+        src: song
+      }, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "range",
+        id: "volume",
+        min: "0",
+        max: "2",
+        value: "1",
+        step: "0.01"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        "data-playing": "false",
+        role: "switch",
+        "aria-checked": "false",
+        onClick: this.play
+      }, "Play/Pause"));
     }
   }]);
 
@@ -1462,8 +1487,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
     value: function onMouseOver(e) {
       var _this$state2 = this.state,
           activeOption = _this$state2.activeOption,
-          filteredOptions = _this$state2.filteredOptions; ////im heeeeeerrrrrrrrrrrrrrrrrrrrrrreeeeee!!!!!
-
+          filteredOptions = _this$state2.filteredOptions;
       console.log(e.currentTarget.innerText);
 
       for (var i = 0; i < filteredOptions.length; i++) {

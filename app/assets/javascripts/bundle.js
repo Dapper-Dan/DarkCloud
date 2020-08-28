@@ -844,9 +844,8 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
         var audioElement = document.querySelector('audio');
         var track = audioContext.createMediaElementSource(audioElement);
-        this.trackConnect = track.connect(audioContext.destination);
-        this.gainNode = audioContext.createGain(); // const volumeControl = document.querySelector('#volume')
-
+        this.gainNode = audioContext.createGain();
+        this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination);
         console.log(this);
       }
 
@@ -859,8 +858,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         id: "volume",
         min: "0",
         max: "2",
-        value: "1",
-        step: "0.01"
+        defaultValue: "1",
+        step: "0.01",
+        onChange: this.changeVolume
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         "data-playing": "false",
         role: "switch",

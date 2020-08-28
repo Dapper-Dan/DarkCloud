@@ -51,6 +51,7 @@ class MusicPlayer extends React.Component {
     changeVolume() {
         const volumeControl = document.querySelector('#volume')
         this.gainNode.gain.value = volumeControl.value;
+       
     }
    
 
@@ -66,10 +67,8 @@ class MusicPlayer extends React.Component {
         let audioContext = new (window.AudioContext || window.webkitAudioContext)()
         const audioElement = document.querySelector('audio');
         const track = audioContext.createMediaElementSource(audioElement);
-        this.trackConnect =  track.connect(audioContext.destination);
         this.gainNode = audioContext.createGain();
-       
-        // const volumeControl = document.querySelector('#volume')
+        this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
         console.log(this)
         }
 
@@ -80,7 +79,7 @@ class MusicPlayer extends React.Component {
   
           <div className="immaSong">
             <audio src={song} > </audio>
-            <input type="range" id="volume" min="0" max="2" value="1" step="0.01" ></input>
+            <input type="range" id="volume" min="0" max="2" defaultValue="1" step="0.01" onChange={this.changeVolume}></input>
           </div>
 
           <button data-playing="false" role="switch" aria-checked="false" onClick={this.play}>

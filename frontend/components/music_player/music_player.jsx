@@ -17,7 +17,8 @@ class MusicPlayer extends React.Component {
         super(props);
         this.state = {
             audioData: new Uint8Array(0),
-            playing: false
+            playing: false,
+            // loading: true
         }
 
         this.props.getBunchSongs()
@@ -27,50 +28,93 @@ class MusicPlayer extends React.Component {
         
     }
 
+    // componentDidMount() {
+    //     console.log('mount')
+    //     console.log(this.props.state)
+    //     // this.setState( {loading: false})
+        
+    // }
+    
+    shouldComponentUpdate(nextProps) {
+        console.log('should')
+       
+        if (this.state.playing === true) {
+            this.audioElement.pause()
+            this.state.playing = false
+        } 
+        if (nextProps.state.session.song === undefined) {
+            return false
+        } else {
+            return true
+        }
+    }
+
    
     play() {
-        const audioElement = document.querySelector('audio');
-       
+    //     // const audioElement = document.querySelector('AUDIO');
+    //    if (this.audioElement === this.audioElement)
         if (this.trackConnect.context.state === 'suspended') { 
             this.trackConnect.context.resume();
         }
     
      
         if (this.state.playing === false) {
-            audioElement.play();
+            this.audioElement.play();
             this.state.playing = true;
            
         } else if (this.state.playing === true) {
         
-            audioElement.pause();
+            this.audioElement.pause();
             this.state.playing = false;
         }
-    
+        console.log(this.state)
     }
 
     changeVolume() {
-        const volumeControl = document.querySelector('#volume')
+        let volumeControl = document.querySelector('#volume')
         this.gainNode.gain.value = volumeControl.value;
        
+    }
+
+    establishAudio() {
+
     }
    
 
     render() { 
-        let song 
-        if (this.props.state.session.song) {
-            song = (this.props.state.session.song.songUrl)
-        } else {
-            song = ''
-        }
+        console.log('render')
+        // let song
+        // if (this.state.loading) {
+        //     song = ""
+        //     return ('loading')
+        // } else {
+            // console.log('not loading')
+            let song
+            if (this.props.state.session.song){
+            song = this.props.state.session.song.songUrl
+            } else {
+                song = ""
+            }
+            // console.log(song)
+        
+        // let audioElement
 
-        if(song) {
-        let audioContext = new (window.AudioContext || window.webkitAudioContext)()
-        const audioElement = document.querySelector('audio');
-        const track = audioContext.createMediaElementSource(audioElement);
-        this.gainNode = audioContext.createGain();
-        this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
-        console.log(this)
-        }
+        // if(audioElement === undefined){
+        //     console.log('its undefined')
+            if (song) {
+                let audioContext = new (window.AudioContext || window.webkitAudioContext)()
+                 this.audioElement = document.createElement("AUDIO"); 
+                // let audioElement = document.qu{erySelector('audio');
+                this.audioElement.setAttribute("src", song);
+                let track = audioContext.createMediaElementSource(this.audioElement);
+                // let gainNode = audioContext.createGain();
+                // let trackConnect =  track.connect(gainNode).connect(audioContext.destination);
+                this.gainNode = audioContext.createGain();
+                this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
+            }
+            console.log(this)
+            console.log(this.state)
+        // }
 
        
       return (
@@ -78,7 +122,7 @@ class MusicPlayer extends React.Component {
           
   
           <div className="immaSong">
-            <audio src={song} > </audio>
+            {/* <audio src={song} > </audio> */}
             <input type="range" id="volume" min="0" max="2" defaultValue="1" step="0.01" onChange={this.changeVolume}></input>
           </div>
 
@@ -86,7 +130,9 @@ class MusicPlayer extends React.Component {
             Play/Pause
           </button>
         </>
-      )}
+      )
+    
+    }
 }
 
 export default MusicPlayer;

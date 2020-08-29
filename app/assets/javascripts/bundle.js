@@ -796,7 +796,8 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       audioData: new Uint8Array(0),
-      playing: false
+      playing: false // loading: true
+
     };
 
     _this.props.getBunchSongs();
@@ -804,24 +805,47 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // componentDidMount() {
+  //     console.log('mount')
+  //     console.log(this.props.state)
+  //     // this.setState( {loading: false})
+  // }
+
 
   _createClass(MusicPlayer, [{
+    key: "shouldComponentUpdate",
+    value: function shouldComponentUpdate(nextProps) {
+      console.log('should');
+
+      if (this.state.playing === true) {
+        this.audioElement.pause();
+        this.state.playing = false;
+      }
+
+      if (nextProps.state.session.song === undefined) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }, {
     key: "play",
     value: function play() {
-      var audioElement = document.querySelector('audio');
-
+      //     // const audioElement = document.querySelector('AUDIO');
+      //    if (this.audioElement === this.audioElement)
       if (this.trackConnect.context.state === 'suspended') {
         this.trackConnect.context.resume();
       }
 
       if (this.state.playing === false) {
-        audioElement.play();
+        this.audioElement.play();
         this.state.playing = true;
       } else if (this.state.playing === true) {
-        audioElement.pause();
+        this.audioElement.pause();
         this.state.playing = false;
       }
+
+      console.log(this.state);
     }
   }, {
     key: "changeVolume",
@@ -830,30 +854,48 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       this.gainNode.gain.value = volumeControl.value;
     }
   }, {
+    key: "establishAudio",
+    value: function establishAudio() {}
+  }, {
     key: "render",
     value: function render() {
+      console.log('render'); // let song
+      // if (this.state.loading) {
+      //     song = ""
+      //     return ('loading')
+      // } else {
+      // console.log('not loading')
+
       var song;
 
       if (this.props.state.session.song) {
         song = this.props.state.session.song.songUrl;
       } else {
-        song = '';
-      }
+        song = "";
+      } // console.log(song)
+      // let audioElement
+      // if(audioElement === undefined){
+      //     console.log('its undefined')
+
 
       if (song) {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        var audioElement = document.querySelector('audio');
-        var track = audioContext.createMediaElementSource(audioElement);
+        this.audioElement = document.createElement("AUDIO"); // let audioElement = document.qu{erySelector('audio');
+
+        this.audioElement.setAttribute("src", song);
+        var track = audioContext.createMediaElementSource(this.audioElement); // let gainNode = audioContext.createGain();
+        // let trackConnect =  track.connect(gainNode).connect(audioContext.destination);
+
         this.gainNode = audioContext.createGain();
         this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination);
-        console.log(this);
       }
+
+      console.log(this);
+      console.log(this.state); // }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "immaSong"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
-        src: song
-      }, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "range",
         id: "volume",
         min: "0",
@@ -1535,7 +1577,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
               onMouseOver: _this2.onMouseOver
             }, optionName);
           })));
-        } else {}
+        }
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           className: "searchBar",

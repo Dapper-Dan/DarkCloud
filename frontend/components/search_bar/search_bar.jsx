@@ -167,8 +167,6 @@ export default class SearchBar extends React.Component {
                         </ul>
                         </div>
                     )
-            } else {
-               
             }
 
 

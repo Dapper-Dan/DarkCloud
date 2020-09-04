@@ -17,24 +17,18 @@ class MusicPlayer extends React.Component {
         super(props);
         this.state = {
             audioData: new Uint8Array(0),
-            playing: false,
-            // loading: true
+            playing: false
         }
 
         this.props.getBunchSongs()
             
         this.play = this.play.bind(this)
         this.changeVolume = this.changeVolume.bind(this)
+        this.draw = this.draw.bind(this)
         
     }
 
-    // componentDidMount() {
-    //     console.log('mount')
-    //     console.log(this.props.state)
-    //     // this.setState( {loading: false})
-        
-    // }
-    
+
     shouldComponentUpdate(nextProps) {
         console.log('should')
        
@@ -51,8 +45,6 @@ class MusicPlayer extends React.Component {
 
    
     play() {
-    //     // const audioElement = document.querySelector('AUDIO');
-    //    if (this.audioElement === this.audioElement)
         if (this.trackConnect.context.state === 'suspended') { 
             this.trackConnect.context.resume();
         }
@@ -67,7 +59,7 @@ class MusicPlayer extends React.Component {
             this.audioElement.pause();
             this.state.playing = false;
         }
-        console.log(this.state)
+      
     }
 
     changeVolume() {
@@ -76,45 +68,74 @@ class MusicPlayer extends React.Component {
        
     }
 
-    establishAudio() {
 
+    draw(normalizedData) {
+         const canvas = document.querySelector("canvas");
+         canvas.width = 2000
+         canvas.height = 900
+         const ctx = canvas.getContext("2d");
+         
+        for (let i = 0; i < normalizedData.length; i++) {
+           let height = normalizedData[i]
+           console.log(height)
+           ctx.fillStyle = "grey"
+           ctx.fillRect(i * 3.5, 600, 2.3, height * -50)
+           ctx.fillRect(i * 3.5, 600, 2.3, height * 50)
+        }
     }
-   
+        
 
     render() { 
         console.log('render')
-        // let song
-        // if (this.state.loading) {
-        //     song = ""
-        //     return ('loading')
-        // } else {
-            // console.log('not loading')
             let song
             if (this.props.state.session.song){
             song = this.props.state.session.song.songUrl
             } else {
                 song = ""
             }
-            // console.log(song)
-        
-        // let audioElement
-
-        // if(audioElement === undefined){
-        //     console.log('its undefined')
+       
             if (song) {
                 let audioContext = new (window.AudioContext || window.webkitAudioContext)()
-                 this.audioElement = document.createElement("AUDIO"); 
-                // let audioElement = document.qu{erySelector('audio');
+
+                const visualizeAudio = url => {
+                    console.log(url)
+                    fetch(url)
+                      .then(response => response.arrayBuffer())
+                      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                      .then(audioBuffer => this.draw(normalizeData(filterData(audioBuffer))))
+                }
+
+                const filterData = audioBuffer => {
+                    const rawData = audioBuffer.getChannelData(0);
+                    const samples = 200;
+                    const blockSize = Math.floor(rawData.length / samples);
+                    const filteredData = [];
+                    for (let i = 0; i < samples; i++) {
+                      let blockStart = blockSize * i;
+                      let sum = 0;
+                      for (let j = 0; j < blockSize; j++) {
+                        sum = sum + Math.abs(rawData[blockStart + j]);
+                      }
+                      filteredData.push(sum / blockSize);
+                    }
+                    return filteredData
+                }
+
+                const normalizeData = filteredData => {
+                    const multiplier = Math.pow(Math.max(...filteredData), -1);
+                    return filteredData.map(n => n * multiplier);
+                }
+
+                visualizeAudio(song)
+                this.audioElement = document.createElement("AUDIO"); 
                 this.audioElement.setAttribute("src", song);
                 let track = audioContext.createMediaElementSource(this.audioElement);
-                // let gainNode = audioContext.createGain();
-                // let trackConnect =  track.connect(gainNode).connect(audioContext.destination);
                 this.gainNode = audioContext.createGain();
                 this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
             }
-            console.log(this)
-            console.log(this.state)
-        // }
+          
+
+        
 
        
       return (
@@ -122,13 +143,15 @@ class MusicPlayer extends React.Component {
           
   
           <div className="immaSong">
-            {/* <audio src={song} > </audio> */}
+            
             <input type="range" id="volume" min="0" max="2" defaultValue="1" step="0.01" onChange={this.changeVolume}></input>
           </div>
 
           <button data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
             Play/Pause
           </button>
+
+          <canvas id="canvas"></canvas>
         </>
       )
     

@@ -749,6 +749,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_audio_player__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_audio_player__WEBPACK_IMPORTED_MODULE_12__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -796,21 +808,16 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       audioData: new Uint8Array(0),
-      playing: false // loading: true
-
+      playing: false
     };
 
     _this.props.getBunchSongs();
 
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
+    _this.draw = _this.draw.bind(_assertThisInitialized(_this));
     return _this;
-  } // componentDidMount() {
-  //     console.log('mount')
-  //     console.log(this.props.state)
-  //     // this.setState( {loading: false})
-  // }
-
+  }
 
   _createClass(MusicPlayer, [{
     key: "shouldComponentUpdate",
@@ -831,8 +838,6 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "play",
     value: function play() {
-      //     // const audioElement = document.querySelector('AUDIO');
-      //    if (this.audioElement === this.audioElement)
       if (this.trackConnect.context.state === 'suspended') {
         this.trackConnect.context.resume();
       }
@@ -844,8 +849,6 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         this.audioElement.pause();
         this.state.playing = false;
       }
-
-      console.log(this.state);
     }
   }, {
     key: "changeVolume",
@@ -854,44 +857,83 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       this.gainNode.gain.value = volumeControl.value;
     }
   }, {
-    key: "establishAudio",
-    value: function establishAudio() {}
+    key: "draw",
+    value: function draw(normalizedData) {
+      var canvas = document.querySelector("canvas");
+      canvas.width = 2000;
+      canvas.height = 900;
+      var ctx = canvas.getContext("2d");
+
+      for (var i = 0; i < normalizedData.length; i++) {
+        var height = normalizedData[i];
+        console.log(height);
+        ctx.fillStyle = "grey";
+        ctx.fillRect(i * 3.5, 600, 2.3, height * -50);
+        ctx.fillRect(i * 3.5, 600, 2.3, height * 50);
+      }
+    }
   }, {
     key: "render",
     value: function render() {
-      console.log('render'); // let song
-      // if (this.state.loading) {
-      //     song = ""
-      //     return ('loading')
-      // } else {
-      // console.log('not loading')
+      var _this2 = this;
 
+      console.log('render');
       var song;
 
       if (this.props.state.session.song) {
         song = this.props.state.session.song.songUrl;
       } else {
         song = "";
-      } // console.log(song)
-      // let audioElement
-      // if(audioElement === undefined){
-      //     console.log('its undefined')
-
+      }
 
       if (song) {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        this.audioElement = document.createElement("AUDIO"); // let audioElement = document.qu{erySelector('audio');
 
+        var visualizeAudio = function visualizeAudio(url) {
+          console.log(url);
+          fetch(url).then(function (response) {
+            return response.arrayBuffer();
+          }).then(function (arrayBuffer) {
+            return audioContext.decodeAudioData(arrayBuffer);
+          }).then(function (audioBuffer) {
+            return _this2.draw(normalizeData(filterData(audioBuffer)));
+          });
+        };
+
+        var filterData = function filterData(audioBuffer) {
+          var rawData = audioBuffer.getChannelData(0);
+          var samples = 200;
+          var blockSize = Math.floor(rawData.length / samples);
+          var filteredData = [];
+
+          for (var i = 0; i < samples; i++) {
+            var blockStart = blockSize * i;
+            var sum = 0;
+
+            for (var j = 0; j < blockSize; j++) {
+              sum = sum + Math.abs(rawData[blockStart + j]);
+            }
+
+            filteredData.push(sum / blockSize);
+          }
+
+          return filteredData;
+        };
+
+        var normalizeData = function normalizeData(filteredData) {
+          var multiplier = Math.pow(Math.max.apply(Math, _toConsumableArray(filteredData)), -1);
+          return filteredData.map(function (n) {
+            return n * multiplier;
+          });
+        };
+
+        visualizeAudio(song);
+        this.audioElement = document.createElement("AUDIO");
         this.audioElement.setAttribute("src", song);
-        var track = audioContext.createMediaElementSource(this.audioElement); // let gainNode = audioContext.createGain();
-        // let trackConnect =  track.connect(gainNode).connect(audioContext.destination);
-
+        var track = audioContext.createMediaElementSource(this.audioElement);
         this.gainNode = audioContext.createGain();
         this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination);
       }
-
-      console.log(this);
-      console.log(this.state); // }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "immaSong"
@@ -908,7 +950,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         role: "switch",
         "aria-checked": "false",
         onClick: this.play
-      }, "Play/Pause"));
+      }, "Play/Pause"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+        id: "canvas"
+      }));
     }
   }]);
 

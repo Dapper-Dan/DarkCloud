@@ -859,18 +859,23 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "draw",
     value: function draw(normalizedData) {
+      console.log('draw');
       var canvas = document.querySelector("canvas");
-      canvas.width = 2000;
-      canvas.height = 900;
+      canvas.width = 680;
+      canvas.height = 100;
       var ctx = canvas.getContext("2d");
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, 680, 100);
 
       for (var i = 0; i < normalizedData.length; i++) {
         var height = normalizedData[i];
         console.log(height);
         ctx.fillStyle = "grey";
-        ctx.fillRect(i * 3.5, 600, 2.3, height * -50);
-        ctx.fillRect(i * 3.5, 600, 2.3, height * 50);
+        ctx.fillRect(i * 3.5, 50, 2.3, height * -50);
+        ctx.fillRect(i * 3.5, 50, 2.3, height * 50);
       }
+
+      this.first = canvas.toDataURL('image/jpeg', 1.0);
     }
   }, {
     key: "render",
@@ -890,7 +895,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
         var visualizeAudio = function visualizeAudio(url) {
-          console.log(url);
+          // console.log(url)
           fetch(url).then(function (response) {
             return response.arrayBuffer();
           }).then(function (arrayBuffer) {
@@ -933,6 +938,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         var track = audioContext.createMediaElementSource(this.audioElement);
         this.gainNode = audioContext.createGain();
         this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination);
+        console.log('bottom');
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -952,6 +958,10 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         onClick: this.play
       }, "Play/Pause"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
         id: "canvas"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: this.first,
+        width: "680",
+        height: "100"
       }));
     }
   }]);

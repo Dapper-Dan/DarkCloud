@@ -70,18 +70,23 @@ class MusicPlayer extends React.Component {
 
 
     draw(normalizedData) {
-         const canvas = document.querySelector("canvas");
-         canvas.width = 2000
-         canvas.height = 900
-         const ctx = canvas.getContext("2d");
+        console.log('draw')
+        const canvas = document.querySelector("canvas");
+        canvas.width = 680
+        canvas.height = 100
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "white"
+        ctx.fillRect(0, 0, 680, 100)
+       
          
         for (let i = 0; i < normalizedData.length; i++) {
            let height = normalizedData[i]
            console.log(height)
            ctx.fillStyle = "grey"
-           ctx.fillRect(i * 3.5, 600, 2.3, height * -50)
-           ctx.fillRect(i * 3.5, 600, 2.3, height * 50)
+           ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
+           ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
         }
+        this.first = canvas.toDataURL('image/jpeg', 1.0)
     }
         
 
@@ -98,7 +103,7 @@ class MusicPlayer extends React.Component {
                 let audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
                 const visualizeAudio = url => {
-                    console.log(url)
+                    // console.log(url)
                     fetch(url)
                       .then(response => response.arrayBuffer())
                       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
@@ -132,6 +137,7 @@ class MusicPlayer extends React.Component {
                 let track = audioContext.createMediaElementSource(this.audioElement);
                 this.gainNode = audioContext.createGain();
                 this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
+                console.log('bottom')
             }
           
 
@@ -152,6 +158,8 @@ class MusicPlayer extends React.Component {
           </button>
 
           <canvas id="canvas"></canvas>
+          {/* {console.log(this.first)} */}
+          <img src={this.first} width="680" height="100" />
         </>
       )
     

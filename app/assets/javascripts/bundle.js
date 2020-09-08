@@ -810,12 +810,16 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       audioData: new Uint8Array(0),
       playing: false
     };
+    _this.totalTime = 0; // this.currentSec = 0
+
+    _this.time = 60;
 
     _this.props.getBunchSongs();
 
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
     _this.draw = _this.draw.bind(_assertThisInitialized(_this));
+    _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -859,30 +863,69 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "draw",
     value: function draw(normalizedData) {
-      console.log('draw');
+      // console.log('draw')
       var canvas = document.querySelector("canvas");
       canvas.width = 680;
       canvas.height = 100;
       var ctx = canvas.getContext("2d");
-      ctx.fillStyle = "white";
+      ctx.clearRect(0, 0, 680, 100);
+      ctx.fillStyle = "transparent";
       ctx.fillRect(0, 0, 680, 100);
 
       for (var i = 0; i < normalizedData.length; i++) {
+        //    console.log('first draw loop')
         var height = normalizedData[i];
-        console.log(height);
         ctx.fillStyle = "grey";
         ctx.fillRect(i * 3.5, 50, 2.3, height * -50);
         ctx.fillRect(i * 3.5, 50, 2.3, height * 50);
       }
 
-      this.first = canvas.toDataURL('image/jpeg', 1.0);
+      this.drawProgress(normalizedData); // requestAnimationFrame(this.draw(this.exam))
+      // this.first = canvas.toDataURL('image/png', 1.0) //may delete if useless
+    }
+  }, {
+    key: "drawProgress",
+    value: function drawProgress(normalizedData) {
+      var seconds = Math.floor(this.totalTime / 60 % 60);
+      var canvas = document.querySelector("canvas"); // canvas.width = 680
+      // canvas.height = 100
+
+      var ctx;
+
+      if (ctx === undefined) {
+        ctx = canvas.getContext("2d");
+      } // let ctx = canvas.getContext("2d");
+      // let sec = Math.floor(Date.now()/1000);
+      // if (sec !== this.currentSec) {
+      //     this.currentSec = sec;
+      //   } else {
+
+
+      this.totalTime++; //   }
+
+      console.log(seconds); //    console.log(this.exam)
+
+      ctx.fillStyle = "red"; // ctx.fillRect(0, 0, 400, 400)
+
+      if (seconds < this.time) {
+        for (var i = 0; i <= seconds; i++) {
+          // console.log('draw progress')
+          var height = this.exam[i]; // let height = 10
+
+          ctx.fillStyle = "#1DB954";
+          ctx.fillRect(i * 3.5, 50, 2, height * -50);
+          ctx.fillRect(i * 3.5, 50, 2, height * 50);
+        }
+      }
+
+      requestAnimationFrame(this.drawProgress);
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      console.log('render');
+      // console.log('render')
       var song;
 
       if (this.props.state.session.song) {
@@ -892,7 +935,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       }
 
       if (song) {
-        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)(); // this.songpic
 
         var visualizeAudio = function visualizeAudio(url) {
           // console.log(url)
@@ -901,7 +944,11 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           }).then(function (arrayBuffer) {
             return audioContext.decodeAudioData(arrayBuffer);
           }).then(function (audioBuffer) {
-            return _this2.draw(normalizeData(filterData(audioBuffer)));
+            _this2.exam = normalizeData(filterData(audioBuffer));
+
+            _this2.draw(normalizeData(filterData(audioBuffer)));
+          }).then(function () {
+            return console.log(_this2.exam);
           });
         };
 
@@ -932,12 +979,12 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           });
         };
 
-        visualizeAudio(song);
         this.audioElement = document.createElement("AUDIO");
         this.audioElement.setAttribute("src", song);
         var track = audioContext.createMediaElementSource(this.audioElement);
         this.gainNode = audioContext.createGain();
         this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination);
+        visualizeAudio(song);
         console.log('bottom');
       }
 

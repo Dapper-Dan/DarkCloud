@@ -12,19 +12,24 @@ import SongForm from '../song/song_form'
 import SongFormContainer from '../song/song_form_container'
 import ReactAudioPlayer from 'react-audio-player';
 
+
 class MusicPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             audioData: new Uint8Array(0),
-            playing: false
+            playing: false,
+            
         }
-
+        this.totalTime = 0
+        // this.currentSec = 0
+        this.time = 60
         this.props.getBunchSongs()
             
         this.play = this.play.bind(this)
         this.changeVolume = this.changeVolume.bind(this)
         this.draw = this.draw.bind(this)
+        this.drawProgress = this.drawProgress.bind(this)
         
     }
 
@@ -70,28 +75,79 @@ class MusicPlayer extends React.Component {
 
 
     draw(normalizedData) {
-        console.log('draw')
+        // console.log('draw')
         const canvas = document.querySelector("canvas");
         canvas.width = 680
         canvas.height = 100
         const ctx = canvas.getContext("2d");
-        ctx.fillStyle = "white"
+        ctx.clearRect(0, 0, 680, 100)
+     
+        ctx.fillStyle = "transparent"
         ctx.fillRect(0, 0, 680, 100)
+        
        
          
         for (let i = 0; i < normalizedData.length; i++) {
+        //    console.log('first draw loop')
            let height = normalizedData[i]
-           console.log(height)
+      
            ctx.fillStyle = "grey"
            ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
            ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
         }
-        this.first = canvas.toDataURL('image/jpeg', 1.0)
+
+        
+
+        this.drawProgress(normalizedData)
+
+        // requestAnimationFrame(this.draw(this.exam))
+        // this.first = canvas.toDataURL('image/png', 1.0) //may delete if useless
+    }
+
+    drawProgress(normalizedData) {
+        let seconds = Math.floor((this.totalTime / 60) % 60)
+        const canvas = document.querySelector("canvas");
+        // canvas.width = 680
+        // canvas.height = 100
+        let ctx
+        if(ctx === undefined){
+            ctx = canvas.getContext("2d");
+        }
+       
+        // let ctx = canvas.getContext("2d");
+        // let sec = Math.floor(Date.now()/1000);
+
+        // if (sec !== this.currentSec) {
+        //     this.currentSec = sec;
+         
+        //   } else {
+            
+            this.totalTime ++;
+        //   }
+       console.log(seconds)
+    //    console.log(this.exam)
+     
+        ctx.fillStyle = "red"
+        // ctx.fillRect(0, 0, 400, 400)
+        if (seconds < this.time) {
+            for (let i = 0; i <= seconds; i++) {
+                // console.log('draw progress')
+                let height = this.exam[i]
+                // let height = 10
+           
+                ctx.fillStyle = "#1DB954"
+                ctx.fillRect(i * 3.5, 50, 2, height * -50)
+                ctx.fillRect(i * 3.5, 50, 2, height * 50)
+             }
+        }
+
+       
+        requestAnimationFrame(this.drawProgress)
     }
         
 
     render() { 
-        console.log('render')
+        // console.log('render')
             let song
             if (this.props.state.session.song){
             song = this.props.state.session.song.songUrl
@@ -102,13 +158,21 @@ class MusicPlayer extends React.Component {
             if (song) {
                 let audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
+              
+                // this.songpic
                 const visualizeAudio = url => {
                     // console.log(url)
                     fetch(url)
                       .then(response => response.arrayBuffer())
                       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                      .then(audioBuffer => this.draw(normalizeData(filterData(audioBuffer))))
+                      .then(audioBuffer => {
+                        this.exam = normalizeData(filterData(audioBuffer))
+                      this.draw(normalizeData(filterData(audioBuffer)))
+                      })
+                      .then(() => console.log(this.exam))
                 }
+
+                
 
                 const filterData = audioBuffer => {
                     const rawData = audioBuffer.getChannelData(0);
@@ -131,13 +195,18 @@ class MusicPlayer extends React.Component {
                     return filteredData.map(n => n * multiplier);
                 }
 
-                visualizeAudio(song)
+                
+
+                
                 this.audioElement = document.createElement("AUDIO"); 
                 this.audioElement.setAttribute("src", song);
                 let track = audioContext.createMediaElementSource(this.audioElement);
                 this.gainNode = audioContext.createGain();
                 this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
+                visualizeAudio(song)
+                
                 console.log('bottom')
+                
             }
           
 

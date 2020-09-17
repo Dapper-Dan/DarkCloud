@@ -12,6 +12,7 @@ import SongForm from '../song/song_form'
 import SongFormContainer from '../song/song_form_container'
 import MusicPlayerContainer from '../music_player/music_player_container'
 import MusicPlayer from '../music_player/music_player';
+import SearchBarContainer from '../search_bar/search_bar_container'
 
 
 
@@ -74,78 +75,72 @@ class HomePage extends React.Component {
   render() {
     return (
 
-        <>
+    <>
     <div className="mainLanding">
-        
+   
         
         <div className="frontHero" >
-            
-       
-        
-    
-        <div className="caro-container" >
-            
-       <Caro />
-      
-       </div>
-       
 
-
-       
-     
-        {/* <NavBar /> */} 
-        {/* <img src={window.logoURL} width="105px" /> */}
-        {/* <div className="homePage"> */}
             <div className="transLogo">
-        <img src={window.transLogo} width="105px" className="transWhite"  />
+                <img src={window.transLogo} width="105px" className="transWhite"  />
+            </div> 
+
+            <div className="caro-container" >  
+                <Caro />
+            </div>
+       
+
+            <div className="buttonsDiv" >
+                <button className="login-modal-button" onClick={ this.loginModelShow }> Sign in </button>
+                <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
+            </div>
         
         </div>
-{/* 
-        <div className="signModal">
-           { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-           { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-
-        </div> */}
-
-         <div className="buttonsDiv" >
-           <button className="login-modal-button" onClick={ this.loginModelShow }> Sign in </button>
-           
-
-           
-            <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
-        </div>
-        {/* <div>
-           { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-           { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-           </div> */}
-        </div>
-
-
-
 
     
         <div className="signModal">
            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-
         </div>
 
-      </div> 
-        {/* </div> */}
-        <div className="filler">
-            {/* <SongFormContainer/> */}
-            <SongIndexContainer />
+        <div className="mainSearch">
+           
+              <SearchBarContainer />
+              <p> or </p>
+              <button> UPLOAD YOUR OWN TRACK </button>
+           
         </div>
 
-        <div>
-          <MusicPlayerContainer/>
-        </div>
-        </>
-    )
-    
+        <SongIndexContainer />
+        <MusicPlayerContainer/>
+
+
+    </div>    
+    </>
+    ) 
   }
-
 }
 
 
 export default HomePage;
+
+
+{/* <NavBar /> 
+<img src={window.logoURL} width="105px" />
+<div className="homePage">
+    <div className="transLogo">
+        <img src={window.transLogo} width="105px" className="transWhite"  />
+    </div> */}
+
+
+//     <div className="signModal">
+//     { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+//     { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+
+//  </div> 
+
+
+// <div>
+//            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+//            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+//            </div>

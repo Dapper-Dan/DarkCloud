@@ -104,7 +104,7 @@ class MusicPlayer extends React.Component {
         // this.first = canvas.toDataURL('image/png', 1.0) //may delete if useless
     }
 
-    drawProgress(normalizedData) {
+    drawProgress() {
         let seconds = Math.floor((this.totalTime / 60) % 60)
         const canvas = document.querySelector("canvas");
         // canvas.width = 680
@@ -132,7 +132,7 @@ class MusicPlayer extends React.Component {
         if (seconds < this.time) {
             for (let i = 0; i <= seconds; i++) {
                 // console.log('draw progress')
-                let height = this.exam[i]
+                let height = this.sampleArray[i]
                 // let height = 10
            
                 ctx.fillStyle = "#1DB954"
@@ -166,10 +166,13 @@ class MusicPlayer extends React.Component {
                       .then(response => response.arrayBuffer())
                       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                       .then(audioBuffer => {
-                        this.exam = normalizeData(filterData(audioBuffer))
-                      this.draw(normalizeData(filterData(audioBuffer)))
+                        this.audioBuffer = audioBuffer
+                        this.sampleArray = normalizeData(filterData(audioBuffer))
+                        this.draw(normalizeData(filterData(audioBuffer)))
+                      
                       })
-                      .then(() => console.log(this.exam))
+                      .then(() => console.log(this.audioBuffer))
+                      
                 }
 
                 

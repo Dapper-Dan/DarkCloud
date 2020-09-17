@@ -121,7 +121,7 @@ export default class SearchBar extends React.Component {
 
     onMouseOver(e) {
         const { activeOption, filteredOptions } = this.state; 
-        console.log(e.currentTarget.innerText)
+        // console.log(e.currentTarget.innerText)
         
         for(let i = 0; i < filteredOptions.length; i++) {
             if (Object.values(filteredOptions[i]).includes(e.currentTarget.innerText)) {
@@ -182,7 +182,7 @@ export default class SearchBar extends React.Component {
             return (
                 <>
                 <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate} onKeyDown={this.onKeyDown} onMouseOver={this.onMouseOver}/>
-                <input type="submit" className="search-button" />
+                <button className="search-button"> <img src={window.searchButton} width="15px" /> </button> 
                 {optionList}
                 
                 </>

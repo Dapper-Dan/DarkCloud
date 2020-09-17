@@ -5,30 +5,29 @@ ul.options {
     transition: width 0.3s;
     margin: auto;
     position: relative;
+    box-sizing: content-box;
   }
   
   ul.options li {
     display: block;
     background: black;
-    margin: 10px auto;
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 13px;
     width: 100%;
-    border-radius: 2px;
     color: #fff;
+    height: 19px;
+    box-sizing: content-box;
     
   }
   ul.options li:hover {
-    font-weight: bold;
     color: #fff;
     cursor: pointer;
     transition: 0.3s all;
-    background-color: #333;
+    
   }
   
   ul.options li.option-active {
     background: #333;
-    font-size: 1.5rem;
     color: #fff;
   }
 
@@ -43,12 +42,26 @@ ul.options {
     font-size: 14px;
     box-sizing: border-box;
     border:none; 
+    background-color: #f3eded;
+    outline: none;
 }
 
 .options-drop {
     background-color: black;
-    width: 36.5%;
+    width: 34.5%;
     margin: auto;
     position: relative;
-    top: -40px;
+    top: -29px;
+    left: -12px;
 }
+
+
+.search-button {
+  border: none;
+  position: relative;
+  top: -38px;
+  left: 372px;
+  z-index: 901;
+  outline: none !important;
+}
+

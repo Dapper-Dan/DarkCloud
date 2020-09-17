@@ -560,6 +560,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _song_song_form_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../song/song_form_container */ "./frontend/components/song/song_form_container.jsx");
 /* harmony import */ var _music_player_music_player_container__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../music_player/music_player_container */ "./frontend/components/music_player/music_player_container.jsx");
 /* harmony import */ var _music_player_music_player__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../music_player/music_player */ "./frontend/components/music_player/music_player.jsx");
+/* harmony import */ var _search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../search_bar/search_bar_container */ "./frontend/components/search_bar/search_bar_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -583,6 +584,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -688,14 +690,14 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "frontHero"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "caro-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_caro__WEBPACK_IMPORTED_MODULE_7__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "transLogo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: window.transLogo,
         width: "105px",
         className: "transWhite"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "caro-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_caro__WEBPACK_IMPORTED_MODULE_7__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttonsDiv"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "login-modal-button",
@@ -709,9 +711,9 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         changeShow: this.changeShow
       }) : '', this.state.registerForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         changeShow: this.changeShow
-      }) : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "filler"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_12__["default"], null)));
+      }) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mainSearch"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " or "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, " UPLOAD YOUR OWN TRACK ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_12__["default"], null)));
     }
   }]);
 
@@ -719,6 +721,21 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (HomePage);
+{}
+/* <NavBar /> 
+<img src={window.logoURL} width="105px" />
+<div className="homePage">
+   <div className="transLogo">
+       <img src={window.transLogo} width="105px" className="transWhite"  />
+   </div> */
+//     <div className="signModal">
+//     { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+//     { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+//  </div> 
+// <div>
+//            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+//            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+//            </div>
 
 /***/ }),
 
@@ -885,7 +902,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "drawProgress",
-    value: function drawProgress(normalizedData) {
+    value: function drawProgress() {
       var seconds = Math.floor(this.totalTime / 60 % 60);
       var canvas = document.querySelector("canvas"); // canvas.width = 680
       // canvas.height = 100
@@ -910,7 +927,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       if (seconds < this.time) {
         for (var i = 0; i <= seconds; i++) {
           // console.log('draw progress')
-          var height = this.exam[i]; // let height = 10
+          var height = this.sampleArray[i]; // let height = 10
 
           ctx.fillStyle = "#1DB954";
           ctx.fillRect(i * 3.5, 50, 2, height * -50);
@@ -944,11 +961,12 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           }).then(function (arrayBuffer) {
             return audioContext.decodeAudioData(arrayBuffer);
           }).then(function (audioBuffer) {
-            _this2.exam = normalizeData(filterData(audioBuffer));
+            _this2.audioBuffer = audioBuffer;
+            _this2.sampleArray = normalizeData(filterData(audioBuffer));
 
             _this2.draw(normalizeData(filterData(audioBuffer)));
           }).then(function () {
-            return console.log(_this2.exam);
+            return console.log(_this2.audioBuffer);
           });
         };
 
@@ -1630,8 +1648,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
     value: function onMouseOver(e) {
       var _this$state2 = this.state,
           activeOption = _this$state2.activeOption,
-          filteredOptions = _this$state2.filteredOptions;
-      console.log(e.currentTarget.innerText);
+          filteredOptions = _this$state2.filteredOptions; // console.log(e.currentTarget.innerText)
 
       for (var i = 0; i < filteredOptions.length; i++) {
         if (Object.values(filteredOptions[i]).includes(e.currentTarget.innerText)) {
@@ -1688,10 +1705,12 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
           onChange: this.searchUpdate,
           onKeyDown: this.onKeyDown,
           onMouseOver: this.onMouseOver
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "submit",
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "search-button"
-        }), optionList);
+        }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.searchButton,
+          width: "15px"
+        }), " "), optionList);
       }
     }
   }]);
@@ -2902,12 +2921,13 @@ var configureStore = function configureStore() {
 /*!**************************************!*\
   !*** ./frontend/util/route_util.jsx ***!
   \**************************************/
-/*! exports provided: ProtectedRoute */
+/*! exports provided: ProtectedRoute, AuthRoute */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProtectedRoute", function() { return ProtectedRoute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthRoute", function() { return AuthRoute; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -2921,20 +2941,27 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
  // import { Component } from 'react';
-// const Auth = ({ component: Component, path, loggedIn, exact }) => (
-//     <Route
-//         path={path}
-//         exact={exact}
-//         render={props => 
-//             !loggedIn ? <Component {...props} /> : <Redirect to='/' />
-//         }
-//     />
-// );
 
-var Protected = function Protected(_ref) {
+var Auth = function Auth(_ref) {
   var Component = _ref.component,
+      path = _ref.path,
       loggedIn = _ref.loggedIn,
-      rest = _objectWithoutProperties(_ref, ["component", "loggedIn"]);
+      exact = _ref.exact;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: path,
+    exact: exact,
+    render: function render(props) {
+      return !loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+        to: "/"
+      });
+    }
+  });
+};
+
+var Protected = function Protected(_ref2) {
+  var Component = _ref2.component,
+      loggedIn = _ref2.loggedIn,
+      rest = _objectWithoutProperties(_ref2, ["component", "loggedIn"]);
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], _extends({}, rest, {
     render: function render(props) {
@@ -2951,7 +2978,8 @@ var mSTP = function mSTP(state) {
   };
 };
 
-var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mSTP)(Protected)); // export const AuthRoute = withRouter(connect(mSTP)(Auth));
+var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mSTP)(Protected));
+var AuthRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mSTP)(Auth));
 
 /***/ }),
 

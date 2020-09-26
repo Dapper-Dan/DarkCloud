@@ -92,7 +92,7 @@ export default class SearchBar extends React.Component {
         const domNode = ReactDOM.findDOMNode(this);
         
         if (!domNode || !domNode.contains(event.target)) {
-            console.log('hello')
+            
             this.setState({ showOptions: false })
         }
     }
@@ -134,7 +134,7 @@ export default class SearchBar extends React.Component {
 
 
     render() {
-        console.log(this.state)
+        
         
         if (this.state.loading) {
             return (<p>loading...</p>)

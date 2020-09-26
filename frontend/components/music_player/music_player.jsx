@@ -34,9 +34,14 @@ class MusicPlayer extends React.Component {
     }
 
 
+
+    // componentDidMount() {
+    //     if (document.querySelector("#progress-bar")) this.drawBar()
+    // }
+
     shouldComponentUpdate(nextProps) {
-        console.log('should')
        
+     
         if (this.state.playing === true) {
             this.audioElement.pause()
             this.state.playing = false
@@ -74,6 +79,22 @@ class MusicPlayer extends React.Component {
     }
 
 
+    // drawBar() {
+    //     let canvas2 = document.querySelector("#progress-bar");
+    //     // canvas2.width = 600
+    //     // canvas2.height = 50
+    //     let ctx2 = canvas2.getContext("2d");
+    //     ctx2.lineWidth = 1;
+    //     ctx2.moveTo(40, 10.5);
+    //     ctx2.lineTo(260, 10.5);
+    //     ctx2.strokeStyle = "#1DB954"
+    //     ctx2.stroke();
+
+    //     // if (this.audioB)
+    //     ctx2.fillText(this.audioBuffer.duration, 270, 10.5)
+    // }
+
+
     draw(normalizedData) {
         // console.log('draw')
         const canvas = document.querySelector("canvas");
@@ -96,9 +117,9 @@ class MusicPlayer extends React.Component {
            ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
         }
 
-        
 
         this.drawProgress(normalizedData)
+
 
         // requestAnimationFrame(this.draw(this.exam))
         // this.first = canvas.toDataURL('image/png', 1.0) //may delete if useless
@@ -124,7 +145,7 @@ class MusicPlayer extends React.Component {
             
             this.totalTime ++;
         //   }
-       console.log(seconds)
+      
     //    console.log(this.exam)
      
         ctx.fillStyle = "red"
@@ -144,97 +165,171 @@ class MusicPlayer extends React.Component {
        
         requestAnimationFrame(this.drawProgress)
     }
+
+    // findDur(so) {
+    //     console.log('h')
+    //     let audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    //     fetch(so)
+    //                 .then(response => response.arrayBuffer())
+    //                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    //                 .then(audioBuffer => {
+    //                     console.log(audioBuffer.duration)
+    //                     this.endTime = audioBuffer.duration})
+    // }
         
 
     render() { 
         // console.log('render')
             let song
+            let artist_name
+            let song_title
+            let song_pic
             if (this.props.state.session.song){
             song = this.props.state.session.song.songUrl
+            artist_name = this.props.state.session.song.display_name
+            song_title = this.props.state.session.song.title
+            song_pic = this.props.state.session.song.pictureUrl
             } else {
                 song = ""
             }
+
        
             if (song) {
+                // const preview = document.createElement('audio');
+                // const reader = new FileReader()
+                // reader.onloadend = () => { 
+                   
+                //     preview.src = reader.result;
+                //   }
+                
+                // reader.readAsDataURL(this.props.state.session.song)
+        
+                // setVariables(song)
                 let audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
-              
-                // this.songpic
-                const visualizeAudio = url => {
-                    // console.log(url)
-                    fetch(url)
-                      .then(response => response.arrayBuffer())
-                      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                      .then(audioBuffer => {
-                        this.audioBuffer = audioBuffer
-                        this.sampleArray = normalizeData(filterData(audioBuffer))
-                        this.draw(normalizeData(filterData(audioBuffer)))
-                      
-                      })
-                      .then(() => console.log(this.audioBuffer))
-                      
-                }
+          
+                
+                // const visualizeAudio = url => {
+                //     fetch(url)
+                //       .then(response => response.arrayBuffer())
+                //       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                //       .then(audioBuffer => {
+                //         this.sampleArray = normalizeData(filterData(audioBuffer))
+                //         if (this.props.state.waveform) this.draw(normalizeData(filterData(audioBuffer)))
+                //       })
+                // }
+                // this.findDur(song)
+                // let endTimee
+
+                // fetch(song)
+                //     .then(response => response.arrayBuffer())
+                //     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                //     .then(audioBuffer => {
+                //         console.log(audioBuffer.duration)
+                //         endTimee = audioBuffer.duration})
+                    // .then(console.log(endTime))
+                
+                
+
 
                 
 
-                const filterData = audioBuffer => {
-                    const rawData = audioBuffer.getChannelData(0);
-                    const samples = 200;
-                    const blockSize = Math.floor(rawData.length / samples);
-                    const filteredData = [];
-                    for (let i = 0; i < samples; i++) {
-                      let blockStart = blockSize * i;
-                      let sum = 0;
-                      for (let j = 0; j < blockSize; j++) {
-                        sum = sum + Math.abs(rawData[blockStart + j]);
-                      }
-                      filteredData.push(sum / blockSize);
-                    }
-                    return filteredData
-                }
+                // const filterData = audioBuffer => {
+                //     const rawData = audioBuffer.getChannelData(0);
+                //     const samples = 200;
+                //     const blockSize = Math.floor(rawData.length / samples);
+                //     const filteredData = [];
+                //     for (let i = 0; i < samples; i++) {
+                //       let blockStart = blockSize * i;
+                //       let sum = 0;
+                //       for (let j = 0; j < blockSize; j++) {
+                //         sum = sum + Math.abs(rawData[blockStart + j]);
+                //       }
+                //       filteredData.push(sum / blockSize);
+                //     }
+                //     return filteredData
+                // }
 
-                const normalizeData = filteredData => {
-                    const multiplier = Math.pow(Math.max(...filteredData), -1);
-                    return filteredData.map(n => n * multiplier);
-                }
+                // const normalizeData = filteredData => {
+                //     const multiplier = Math.pow(Math.max(...filteredData), -1);
+                //     return filteredData.map(n => n * multiplier);
+                // }
 
                 
-
                 
                 this.audioElement = document.createElement("AUDIO"); 
                 this.audioElement.setAttribute("src", song);
+              
                 let track = audioContext.createMediaElementSource(this.audioElement);
+                console.log(track.duration)
+                console.log(this.audioElement.duration)
+               
+                // let endTime = track.mediaElement.duration
                 this.gainNode = audioContext.createGain();
                 this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
-                visualizeAudio(song)
-                
-                console.log('bottom')
-                
-            }
+                // visualizeAudio(song)
+               
+                // this.findDur(this.audioElement)
+               
+                // this.drawBar()
+              
           
+            
 
-        
+            
 
        
       return (
-          <>
-          
-  
-          <div className="immaSong">
-            
+        <>
+        <div className="media-player-container">
+        
+        <div className="song-progress-bar-container"> 
+            <div className="current-time">
+            </div>
+
+            <div className="end-time">
+                {this.endTime}
+            </div>
+        </div>
+           
+        
+        
+          <div className="player-slider">
             <input type="range" id="volume" min="0" max="2" defaultValue="1" step="0.01" onChange={this.changeVolume}></input>
           </div>
 
-          <button data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
-            Play/Pause
-          </button>
+          <div className="button-container">
+                <img src={window.back} width="30px"/>
+            <button className="play-button" data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
+                <img src={window.play} width="30px"/>
+            </button>
+                <img src={window.next} width="30px"/>
+                <img src={window.shuffle} width="30px"/>
+                <img src={window.repeat} width="35px"/>
+                <img src={window.audio} width="30px"/>
+          </div>
+
+          <div className="artist-info" >
+              <img className="song-pic" src={song_pic} width="30px" height="30px"/>
+              <div className="artist-small-info">
+                <p className="artist-name">{artist_name}</p>
+                <p className="song-title">{song_title}</p>
+              </div>
+          </div>
 
           <canvas id="canvas"></canvas>
-          {/* {console.log(this.first)} */}
-          <img src={this.first} width="680" height="100" />
+         
+        </div>
+        
         </>
       )
+
+      
     
+        } else {
+            return(<p>no media</p>)
+        }
+        
     }
 }
 

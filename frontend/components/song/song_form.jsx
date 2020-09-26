@@ -1,25 +1,19 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-
-import LoginFormContainer from '../session/login_form_container.jsx';
-import SignupFormContainer from '../session/signup_form_container.jsx';
-import ReactDOM from 'react-dom';
-import Carousel from 'react-bootstrap/Carousel';
-
 
 class SongForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-          title: "",
-          display_name: "",
-          songURL: "",
-          genre: "",
-          tags: [],
-          description: "",
-          songImage: null,
-          music: null
-          
+        title: "",
+        display_name: "",
+        songURL: "",
+        genre: "",
+        tags: [],
+        description: "",
+        songImage: null,
+        music: null,
+        duration: null,
+        waveForm: null 
       }
       this.props.getUser()
 
@@ -29,10 +23,11 @@ class SongForm extends React.Component {
       this.showUploadInput = this.showUploadInput.bind(this)
       this.handleMusicUpload = this.handleMusicUpload.bind(this)
       this.handlePictureUpload = this.handlePictureUpload.bind(this)
+      this.draw = this.draw.bind(this)
     }
 
     update(value) {
-        return e => this.setState({ [value]: e.target.value });
+      return e => this.setState({ [value]: e.target.value });
     }
 
     handleSubmit(e) {
@@ -41,18 +36,77 @@ class SongForm extends React.Component {
       formData.append('song[songImage]', this.state.songImage);
       formData.append('song[title]', this.state.title);
       formData.append('song[genre]', this.state.genre);
-                // formData.append('song[description]', this.state.description);
+      formData.append('song[duration]', this.state.duration);
       formData.append('song[display_name]', this.props.user.display_name);
       formData.append('song[music]', this.state.music);
+      console.log(this.state)
       this.props.action(formData)
-
-        // this.setState({display_name: this.props.user.display_name})
-        // const {title, display_name, music} = this.state;
-        // this.props.action({title, music, display_name});
     }
 
     handleMusicUpload(e) {
+      const track = document.createElement('audio');
+      const reader = new FileReader()
+      reader.onloadend = () => { 
+        track.src = reader.result;
+      }
+      reader.readAsDataURL(e.target.files[0])
+      track.addEventListener('loadedmetadata', () => {
+        this.setState({ duration: track.duration });
+      })
+                       
       this.setState({ music: e.target.files[0] }); 
+     
+      let audioContext = new (window.AudioContext || window.webkitAudioContext)()
+      e.target.files[0].arrayBuffer()
+        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        .then(audioBuffer => {
+          // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
+          this.setState({ waveForm: this.draw(this.normalizeData(this.filterData(audioBuffer))) })
+        })
+    }
+
+    filterData(audioBuffer) {
+      const rawData = audioBuffer.getChannelData(0);
+      const samples = 200;
+      const blockSize = Math.floor(rawData.length / samples);
+      const filteredData = [];
+      for (let i = 0; i < samples; i++) {
+        let blockStart = blockSize * i;
+        let sum = 0;
+        for (let j = 0; j < blockSize; j++) {
+          sum = sum + Math.abs(rawData[blockStart + j]);
+        }
+        filteredData.push(sum / blockSize);
+      }
+      return filteredData
+    }
+
+
+    normalizeData(filteredData) {
+      const multiplier = Math.pow(Math.max(...filteredData), -1);
+      return filteredData.map(n => n * multiplier);
+    }
+
+    draw(normalizedData) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 680
+      canvas.height = 100
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, 680, 100)
+   
+      ctx.fillStyle = "transparent"
+      ctx.fillRect(0, 0, 680, 100)
+      
+     
+       
+      for (let i = 0; i < normalizedData.length; i++) {
+         let height = normalizedData[i]
+         ctx.fillStyle = "grey"
+         ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
+         ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
+      }
+
+      return canvas.toDataURL('image/png', 1.0)
     }
 
     handlePictureUpload(e) {
@@ -62,13 +116,19 @@ class SongForm extends React.Component {
     showUploadInput() {
       let input = document.getElementById("music-file-input")
       input.click()
-  }
+    }
+
+    // handleDrop() {
+
+    // }
 
 
 
 
 
-    render(){
+
+
+    render() {
         const {title} = this.state
         const values = {title};
         const genres = ["Classical", "Country", "Dance & EDM", "Disco", "Jazz", "Hip-Hop", "Indie", "Metal", "Latin", "R&B", "Rock", "World"]

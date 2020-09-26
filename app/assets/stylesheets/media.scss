@@ -1,0 +1,93 @@
+.media-player-container {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    height: 50px;
+    background-color: #f3eded;
+    width: 100%;
+    border-top: 1px solid #ccc6c6;
+    
+
+}
+
+.player-slider {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.button-container {
+    position: absolute;
+    top: 9px;
+    left: 0px;
+}
+
+.play-button {
+    border: none;
+}
+
+.artist-info {
+    width: 30px;
+    height: 50px;
+    position: absolute;
+    top: 0px;
+    right: 450px;
+    display: flex;
+    flex-direction: row;
+}
+
+.artist-small-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+}
+
+.song-title {
+    position: absolute;
+    top: 0px;
+}
+
+.song-pic {
+    margin: auto;
+}
+
+#progress-bar {
+    margin: auto;
+    display: block;
+    width: 700px;
+}
+
+.song-progress-bar-container {
+    display: flex;
+    flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+    margin: auto;
+    width: 23%;
+    height: 30px;
+}
+
+// .mry {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+//     height: 1px;
+//     padding: 11.5px 0;
+//     z-index: 1;
+//     cursor: pointer;
+// }
+
+// .mrb {
+//     height: 1px;
+//     align-self: flex-start;
+//     background-color: grey;
+//     width: 200px;
+// }
+
+.song-bar {
+    width: 30%;
+    // position: absolute;
+    height: 1px;
+    margin: auto;
+}

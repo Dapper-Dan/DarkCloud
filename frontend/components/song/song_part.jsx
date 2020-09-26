@@ -24,6 +24,7 @@ class SongPart extends React.Component {
 
     render(){
       const song = this.props.song
+      
 
       if (!this.props.profile) {
         

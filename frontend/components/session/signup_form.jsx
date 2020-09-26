@@ -39,8 +39,11 @@ class SignupForm extends React.Component {
       formData.append('user[display_name]', this.state.display_name);
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender);
-      formData.append('user[cover_photo]', this.state.cover_photo);
-      formData.append('user[profile_photo]', this.state.profile_photo);
+      // formData.append('user[cover_photo]', this.state.cover_photo);
+      // formData.append('user[profile_photo]', this.state.profile_photo);
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]); }
+      // console.log(this.state)
       this.props.action(formData)
 
       // const {email, password, display_name, age, gender } = this.state;

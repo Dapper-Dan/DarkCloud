@@ -713,7 +713,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         changeShow: this.changeShow
       }) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mainSearch"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " or "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, " UPLOAD YOUR OWN TRACK ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_12__["default"], null)));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " or "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, " UPLOAD YOUR OWN TRACK ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_12__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_form_container__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
     }
   }]);
 
@@ -765,18 +765,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_audio_player__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-audio-player */ "./node_modules/react-audio-player/dist/bundle.js");
 /* harmony import */ var react_audio_player__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(react_audio_player__WEBPACK_IMPORTED_MODULE_12__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -838,13 +826,14 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.draw = _this.draw.bind(_assertThisInitialized(_this));
     _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // componentDidMount() {
+  //     if (document.querySelector("#progress-bar")) this.drawBar()
+  // }
+
 
   _createClass(MusicPlayer, [{
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps) {
-      console.log('should');
-
       if (this.state.playing === true) {
         this.audioElement.pause();
         this.state.playing = false;
@@ -876,7 +865,20 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     value: function changeVolume() {
       var volumeControl = document.querySelector('#volume');
       this.gainNode.gain.value = volumeControl.value;
-    }
+    } // drawBar() {
+    //     let canvas2 = document.querySelector("#progress-bar");
+    //     // canvas2.width = 600
+    //     // canvas2.height = 50
+    //     let ctx2 = canvas2.getContext("2d");
+    //     ctx2.lineWidth = 1;
+    //     ctx2.moveTo(40, 10.5);
+    //     ctx2.lineTo(260, 10.5);
+    //     ctx2.strokeStyle = "#1DB954"
+    //     ctx2.stroke();
+    //     // if (this.audioB)
+    //     ctx2.fillText(this.audioBuffer.duration, 270, 10.5)
+    // }
+
   }, {
     key: "draw",
     value: function draw(normalizedData) {
@@ -919,8 +921,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
 
 
       this.totalTime++; //   }
-
-      console.log(seconds); //    console.log(this.exam)
+      //    console.log(this.exam)
 
       ctx.fillStyle = "red"; // ctx.fillRect(0, 0, 400, 400)
 
@@ -936,98 +937,155 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       }
 
       requestAnimationFrame(this.drawProgress);
-    }
+    } // findDur(so) {
+    //     console.log('h')
+    //     let audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    //     fetch(so)
+    //                 .then(response => response.arrayBuffer())
+    //                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    //                 .then(audioBuffer => {
+    //                     console.log(audioBuffer.duration)
+    //                     this.endTime = audioBuffer.duration})
+    // }
+
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       // console.log('render')
       var song;
+      var artist_name;
+      var song_title;
+      var song_pic;
 
       if (this.props.state.session.song) {
         song = this.props.state.session.song.songUrl;
+        artist_name = this.props.state.session.song.display_name;
+        song_title = this.props.state.session.song.title;
+        song_pic = this.props.state.session.song.pictureUrl;
       } else {
         song = "";
       }
 
       if (song) {
-        var audioContext = new (window.AudioContext || window.webkitAudioContext)(); // this.songpic
-
-        var visualizeAudio = function visualizeAudio(url) {
-          // console.log(url)
-          fetch(url).then(function (response) {
-            return response.arrayBuffer();
-          }).then(function (arrayBuffer) {
-            return audioContext.decodeAudioData(arrayBuffer);
-          }).then(function (audioBuffer) {
-            _this2.audioBuffer = audioBuffer;
-            _this2.sampleArray = normalizeData(filterData(audioBuffer));
-
-            _this2.draw(normalizeData(filterData(audioBuffer)));
-          }).then(function () {
-            return console.log(_this2.audioBuffer);
-          });
-        };
-
-        var filterData = function filterData(audioBuffer) {
-          var rawData = audioBuffer.getChannelData(0);
-          var samples = 200;
-          var blockSize = Math.floor(rawData.length / samples);
-          var filteredData = [];
-
-          for (var i = 0; i < samples; i++) {
-            var blockStart = blockSize * i;
-            var sum = 0;
-
-            for (var j = 0; j < blockSize; j++) {
-              sum = sum + Math.abs(rawData[blockStart + j]);
-            }
-
-            filteredData.push(sum / blockSize);
-          }
-
-          return filteredData;
-        };
-
-        var normalizeData = function normalizeData(filteredData) {
-          var multiplier = Math.pow(Math.max.apply(Math, _toConsumableArray(filteredData)), -1);
-          return filteredData.map(function (n) {
-            return n * multiplier;
-          });
-        };
+        // const preview = document.createElement('audio');
+        // const reader = new FileReader()
+        // reader.onloadend = () => { 
+        //     preview.src = reader.result;
+        //   }
+        // reader.readAsDataURL(this.props.state.session.song)
+        // setVariables(song)
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)(); // const visualizeAudio = url => {
+        //     fetch(url)
+        //       .then(response => response.arrayBuffer())
+        //       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        //       .then(audioBuffer => {
+        //         this.sampleArray = normalizeData(filterData(audioBuffer))
+        //         if (this.props.state.waveform) this.draw(normalizeData(filterData(audioBuffer)))
+        //       })
+        // }
+        // this.findDur(song)
+        // let endTimee
+        // fetch(song)
+        //     .then(response => response.arrayBuffer())
+        //     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        //     .then(audioBuffer => {
+        //         console.log(audioBuffer.duration)
+        //         endTimee = audioBuffer.duration})
+        // .then(console.log(endTime))
+        // const filterData = audioBuffer => {
+        //     const rawData = audioBuffer.getChannelData(0);
+        //     const samples = 200;
+        //     const blockSize = Math.floor(rawData.length / samples);
+        //     const filteredData = [];
+        //     for (let i = 0; i < samples; i++) {
+        //       let blockStart = blockSize * i;
+        //       let sum = 0;
+        //       for (let j = 0; j < blockSize; j++) {
+        //         sum = sum + Math.abs(rawData[blockStart + j]);
+        //       }
+        //       filteredData.push(sum / blockSize);
+        //     }
+        //     return filteredData
+        // }
+        // const normalizeData = filteredData => {
+        //     const multiplier = Math.pow(Math.max(...filteredData), -1);
+        //     return filteredData.map(n => n * multiplier);
+        // }
 
         this.audioElement = document.createElement("AUDIO");
         this.audioElement.setAttribute("src", song);
         var track = audioContext.createMediaElementSource(this.audioElement);
-        this.gainNode = audioContext.createGain();
-        this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination);
-        visualizeAudio(song);
-        console.log('bottom');
-      }
+        console.log(track.duration);
+        console.log(this.audioElement.duration); // let endTime = track.mediaElement.duration
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "immaSong"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "range",
-        id: "volume",
-        min: "0",
-        max: "2",
-        defaultValue: "1",
-        step: "0.01",
-        onChange: this.changeVolume
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        "data-playing": "false",
-        role: "switch",
-        "aria-checked": "false",
-        onClick: this.play
-      }, "Play/Pause"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
-        id: "canvas"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.first,
-        width: "680",
-        height: "100"
-      }));
+        this.gainNode = audioContext.createGain();
+        this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination); // visualizeAudio(song)
+        // this.findDur(this.audioElement)
+        // this.drawBar()
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "media-player-container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "song-progress-bar-container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "current-time"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "end-time"
+        }, this.endTime)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "player-slider"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "range",
+          id: "volume",
+          min: "0",
+          max: "2",
+          defaultValue: "1",
+          step: "0.01",
+          onChange: this.changeVolume
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "button-container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.back,
+          width: "30px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "play-button",
+          "data-playing": "false",
+          role: "switch",
+          "aria-checked": "false",
+          onClick: this.play
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.play,
+          width: "30px"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.next,
+          width: "30px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.shuffle,
+          width: "30px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.repeat,
+          width: "35px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.audio,
+          width: "30px"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "artist-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          className: "song-pic",
+          src: song_pic,
+          width: "30px",
+          height: "30px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "artist-small-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "artist-name"
+        }, artist_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "song-title"
+        }, song_title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+          id: "canvas"
+        })));
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "no media");
+      }
     }
   }]);
 
@@ -1606,7 +1664,6 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
       var domNode = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.findDOMNode(this);
 
       if (!domNode || !domNode.contains(event.target)) {
-        console.log('hello');
         this.setState({
           showOptions: false
         });
@@ -1662,8 +1719,6 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this2 = this;
-
-      console.log(this.state);
 
       if (this.state.loading) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
@@ -1887,9 +1942,12 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       formData.append('user[password]', this.state.password);
       formData.append('user[display_name]', this.state.display_name);
       formData.append('user[age]', this.state.age);
-      formData.append('user[gender]', this.state.gender);
-      formData.append('user[cover_photo]', this.state.cover_photo);
-      formData.append('user[profile_photo]', this.state.profile_photo);
+      formData.append('user[gender]', this.state.gender); // formData.append('user[cover_photo]', this.state.cover_photo);
+      // formData.append('user[profile_photo]', this.state.profile_photo);
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]); }
+      // console.log(this.state)
+
       this.props.action(formData); // const {email, password, display_name, age, gender } = this.state;
       // this.props.action({email, password, display_name, age, gender });
     }
@@ -2166,13 +2224,19 @@ var mapDTP = function mapDTP(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _session_login_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../session/login_form_container.jsx */ "./frontend/components/session/login_form_container.jsx");
-/* harmony import */ var _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../session/signup_form_container.jsx */ "./frontend/components/session/signup_form_container.jsx");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap/Carousel */ "./node_modules/react-bootstrap/esm/Carousel.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2198,11 +2262,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
-
-
-
-
 var SongForm = /*#__PURE__*/function (_React$Component) {
   _inherits(SongForm, _React$Component);
 
@@ -2222,7 +2281,9 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       tags: [],
       description: "",
       songImage: null,
-      music: null
+      music: null,
+      duration: null,
+      waveForm: null
     };
 
     _this.props.getUser();
@@ -2232,6 +2293,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     _this.showUploadInput = _this.showUploadInput.bind(_assertThisInitialized(_this));
     _this.handleMusicUpload = _this.handleMusicUpload.bind(_assertThisInitialized(_this));
     _this.handlePictureUpload = _this.handlePictureUpload.bind(_assertThisInitialized(_this));
+    _this.draw = _this.draw.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2251,20 +2313,92 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       var formData = new FormData();
       formData.append('song[songImage]', this.state.songImage);
       formData.append('song[title]', this.state.title);
-      formData.append('song[genre]', this.state.genre); // formData.append('song[description]', this.state.description);
-
+      formData.append('song[genre]', this.state.genre);
+      formData.append('song[duration]', this.state.duration);
       formData.append('song[display_name]', this.props.user.display_name);
       formData.append('song[music]', this.state.music);
-      this.props.action(formData); // this.setState({display_name: this.props.user.display_name})
-      // const {title, display_name, music} = this.state;
-      // this.props.action({title, music, display_name});
+      console.log(this.state);
+      this.props.action(formData);
     }
   }, {
     key: "handleMusicUpload",
     value: function handleMusicUpload(e) {
+      var _this3 = this;
+
+      var track = document.createElement('audio');
+      var reader = new FileReader();
+
+      reader.onloadend = function () {
+        track.src = reader.result;
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
+      track.addEventListener('loadedmetadata', function () {
+        _this3.setState({
+          duration: track.duration
+        });
+      });
       this.setState({
         music: e.target.files[0]
       });
+      var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      e.target.files[0].arrayBuffer().then(function (arrayBuffer) {
+        return audioContext.decodeAudioData(arrayBuffer);
+      }).then(function (audioBuffer) {
+        // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
+        _this3.setState({
+          waveForm: _this3.draw(_this3.normalizeData(_this3.filterData(audioBuffer)))
+        });
+      });
+    }
+  }, {
+    key: "filterData",
+    value: function filterData(audioBuffer) {
+      var rawData = audioBuffer.getChannelData(0);
+      var samples = 200;
+      var blockSize = Math.floor(rawData.length / samples);
+      var filteredData = [];
+
+      for (var i = 0; i < samples; i++) {
+        var blockStart = blockSize * i;
+        var sum = 0;
+
+        for (var j = 0; j < blockSize; j++) {
+          sum = sum + Math.abs(rawData[blockStart + j]);
+        }
+
+        filteredData.push(sum / blockSize);
+      }
+
+      return filteredData;
+    }
+  }, {
+    key: "normalizeData",
+    value: function normalizeData(filteredData) {
+      var multiplier = Math.pow(Math.max.apply(Math, _toConsumableArray(filteredData)), -1);
+      return filteredData.map(function (n) {
+        return n * multiplier;
+      });
+    }
+  }, {
+    key: "draw",
+    value: function draw(normalizedData) {
+      var canvas = document.createElement('canvas');
+      canvas.width = 680;
+      canvas.height = 100;
+      var ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, 680, 100);
+      ctx.fillStyle = "transparent";
+      ctx.fillRect(0, 0, 680, 100);
+
+      for (var i = 0; i < normalizedData.length; i++) {
+        var height = normalizedData[i];
+        ctx.fillStyle = "grey";
+        ctx.fillRect(i * 3.5, 50, 2.3, height * -50);
+        ctx.fillRect(i * 3.5, 50, 2.3, height * 50);
+      }
+
+      return canvas.toDataURL('image/png', 1.0);
     }
   }, {
     key: "handlePictureUpload",
@@ -2278,7 +2412,9 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     value: function showUploadInput() {
       var input = document.getElementById("music-file-input");
       input.click();
-    }
+    } // handleDrop() {
+    // }
+
   }, {
     key: "render",
     value: function render() {
@@ -2999,9 +3135,9 @@ var signup = function signup(user) {
   return $.ajax({
     url: 'api/users',
     method: 'POST',
-    data: {
-      user: user
-    }
+    data: user,
+    processData: false,
+    contentType: false
   });
 };
 var login = function login(user) {

@@ -39,7 +39,7 @@ class SongForm extends React.Component {
       formData.append('song[duration]', this.state.duration);
       formData.append('song[display_name]', this.props.user.display_name);
       formData.append('song[music]', this.state.music);
-      console.log(this.state)
+      formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData)
     }
 
@@ -105,7 +105,7 @@ class SongForm extends React.Component {
          ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
          ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
       }
-
+     
       return canvas.toDataURL('image/png', 1.0)
     }
 

@@ -58,7 +58,7 @@ class Api::SongsController < ApplicationController
     def song_params
         puts params.inspect
         params.inspect
-        params.require(:song).permit(:title, :display_name, :music, :genre, :songImage)
+        params.require(:song).permit(:title, :display_name, :music, :genre, :songImage, :duration, :waveForm)
     end
 
 end

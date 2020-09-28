@@ -2317,7 +2317,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       formData.append('song[duration]', this.state.duration);
       formData.append('song[display_name]', this.props.user.display_name);
       formData.append('song[music]', this.state.music);
-      console.log(this.state);
+      formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData);
     }
   }, {

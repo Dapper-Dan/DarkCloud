@@ -60,11 +60,11 @@
 .song-progress-bar-container {
     display: flex;
     flex-direction: row;
-//   justify-content: space-between;
-//   align-items: center;
     margin: auto;
-    width: 23%;
+    width: 50%;
     height: 30px;
+    position: relative;
+    top: 18%;
 }
 
 // .mry {
@@ -78,16 +78,17 @@
 //     cursor: pointer;
 // }
 
-// .mrb {
-//     height: 1px;
-//     align-self: flex-start;
-//     background-color: grey;
-//     width: 200px;
-// }
-
 .song-bar {
-    width: 30%;
-    // position: absolute;
     height: 1px;
+    align-self: flex-start;
+    background-color: grey;
+    width: 500px;
     margin: auto;
 }
+
+// .song-bar {
+//     width: 30%;
+//     // position: absolute;
+//     height: 1px;
+//     margin: auto;
+// }

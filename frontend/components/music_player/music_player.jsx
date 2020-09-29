@@ -261,8 +261,7 @@ class MusicPlayer extends React.Component {
                 this.audioElement.setAttribute("src", song);
               
                 let track = audioContext.createMediaElementSource(this.audioElement);
-                console.log(track.duration)
-                console.log(this.audioElement.duration)
+                
                
                 // let endTime = track.mediaElement.duration
                 this.gainNode = audioContext.createGain();
@@ -285,10 +284,13 @@ class MusicPlayer extends React.Component {
         
         <div className="song-progress-bar-container"> 
             <div className="current-time">
+
             </div>
 
+            <div className="song-bar" ></div>
+
             <div className="end-time">
-                {this.endTime}
+            
             </div>
         </div>
            

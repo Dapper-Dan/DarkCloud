@@ -170,6 +170,7 @@
 .songList ul {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     list-style-type: none;
     padding-inline-start: 0px;
     justify-content: space-between

@@ -1014,9 +1014,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
 
         this.audioElement = document.createElement("AUDIO");
         this.audioElement.setAttribute("src", song);
-        var track = audioContext.createMediaElementSource(this.audioElement);
-        console.log(track.duration);
-        console.log(this.audioElement.duration); // let endTime = track.mediaElement.duration
+        var track = audioContext.createMediaElementSource(this.audioElement); // let endTime = track.mediaElement.duration
 
         this.gainNode = audioContext.createGain();
         this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination); // visualizeAudio(song)
@@ -1030,8 +1028,10 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "current-time"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "song-bar"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "end-time"
-        }, this.endTime)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "player-slider"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "range",

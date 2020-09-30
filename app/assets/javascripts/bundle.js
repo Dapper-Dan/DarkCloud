@@ -813,7 +813,8 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       audioData: new Uint8Array(0),
-      playing: false
+      playing: false,
+      songTime: "0:00"
     };
     _this.totalTime = 0; // this.currentSec = 0
 
@@ -824,7 +825,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
     _this.draw = _this.draw.bind(_assertThisInitialized(_this));
-    _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this));
+    _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this)); // this.onUpdate = this.onUpdate.bind(this)
+
+    _this.getCurrentTime = _this.getCurrentTime.bind(_assertThisInitialized(_this));
     return _this;
   } // componentDidMount() {
   //     if (document.querySelector("#progress-bar")) this.drawBar()
@@ -848,17 +851,17 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "play",
     value: function play() {
-      if (this.trackConnect.context.state === 'suspended') {
-        this.trackConnect.context.resume();
-      }
-
-      if (this.state.playing === false) {
-        this.audioElement.play();
-        this.state.playing = true;
-      } else if (this.state.playing === true) {
-        this.audioElement.pause();
-        this.state.playing = false;
-      }
+      // if (this.trackConnect.context.state === 'suspended') { 
+      //     this.trackConnect.context.resume();
+      // }
+      // if (this.state.playing === false) {
+      //     this.audioElement.play();
+      //     this.state.playing = true;
+      // } else if (this.state.playing === true) {
+      //     this.audioElement.pause();
+      //     this.state.playing = false;
+      // }
+      document.getElementById('myAudio').play();
     }
   }, {
     key: "changeVolume",
@@ -949,8 +952,24 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     // }
 
   }, {
+    key: "getCurrentTime",
+    value: function getCurrentTime() {
+      var song = document.getElementById('myAudio');
+      var unformattedTime = song.currentTime;
+      var minutes = Math.floor(unformattedTime / 60);
+      var seconds;
+      Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60);
+      var formattedTime = minutes + ":" + seconds;
+      this.setState({
+        songTime: formattedTime
+      });
+      console.log('working'); // this.cTime = this.audioElement.currentTime
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       // console.log('render')
       var song;
       var artist_name;
@@ -967,20 +986,26 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       }
 
       if (song) {
-        // const preview = document.createElement('audio');
+        console.log(this);
+        var songTime = this.props.state.session.song.duration;
+        var minutes = Math.floor(songTime / 60);
+        var seconds;
+        Math.floor(songTime % 60) > 9 ? seconds = Math.floor(songTime % 60) : seconds = "0" + Math.floor(songTime % 60);
+        var endTime = minutes + ":" + seconds; // const preview = document.createElement('audio');
         // const reader = new FileReader()
         // reader.onloadend = () => { 
         //     preview.src = reader.result;
         //   }
         // reader.readAsDataURL(this.props.state.session.song)
         // setVariables(song)
+
         var audioContext = new (window.AudioContext || window.webkitAudioContext)(); // const visualizeAudio = url => {
         //     fetch(url)
         //       .then(response => response.arrayBuffer())
         //       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
         //       .then(audioBuffer => {
+        //           console.log(audioBuffer)
         //         this.sampleArray = normalizeData(filterData(audioBuffer))
-        //         if (this.props.state.waveform) this.draw(normalizeData(filterData(audioBuffer)))
         //       })
         // }
         // this.findDur(song)
@@ -991,7 +1016,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         //     .then(audioBuffer => {
         //         console.log(audioBuffer.duration)
         //         endTimee = audioBuffer.duration})
-        // .then(console.log(endTime))
+        //     .then(console.log(endTime))
         // const filterData = audioBuffer => {
         //     const rawData = audioBuffer.getChannelData(0);
         //     const samples = 200;
@@ -1011,14 +1036,13 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         //     const multiplier = Math.pow(Math.max(...filteredData), -1);
         //     return filteredData.map(n => n * multiplier);
         // }
-
-        this.audioElement = document.createElement("AUDIO");
-        this.audioElement.setAttribute("src", song);
-        var track = audioContext.createMediaElementSource(this.audioElement); // let endTime = track.mediaElement.duration
-
-        this.gainNode = audioContext.createGain();
-        this.trackConnect = track.connect(this.gainNode).connect(audioContext.destination); // visualizeAudio(song)
-        // this.findDur(this.audioElement)
+        // this.audioElement = document.createElement("AUDIO"); 
+        // this.audioElement.setAttribute("src", song);
+        // this.audioElement.ontimeupdate = () => { this.getCurrentTime() }
+        // let track = audioContext.createMediaElementSource(this.audioElement);
+        // this.gainNode = audioContext.createGain();
+        // this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
+        // visualizeAudio(song)
         // this.drawBar()
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1027,11 +1051,11 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           className: "song-progress-bar-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "current-time"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, this.state.songTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "song-bar"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "end-time"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, endTime)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "player-slider"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "range",
@@ -1082,6 +1106,13 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           className: "song-title"
         }, song_title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
           id: "canvas"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
+          id: "myAudio",
+          hidden: true,
+          src: song,
+          onTimeUpdate: function onTimeUpdate() {
+            _this2.getCurrentTime();
+          }
         })));
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "no media");

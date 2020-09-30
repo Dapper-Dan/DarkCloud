@@ -84,11 +84,29 @@
     background-color: grey;
     width: 500px;
     margin: auto;
+    cursor: pointer;
 }
 
-// .song-bar {
-//     width: 30%;
-//     // position: absolute;
-//     height: 1px;
-//     margin: auto;
-// }
+.current-time {
+    position: relative;
+    left: 406px;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.end-time {
+    position: relative;
+    right: 406px;
+    font-size: 12px;
+    top: 5px;
+}
+
+
+
+.bar-dot {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: green;
+    margin-top: -3px;
+}

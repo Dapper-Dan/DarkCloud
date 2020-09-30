@@ -51,7 +51,7 @@ class SongForm extends React.Component {
       }
       reader.readAsDataURL(e.target.files[0])
       track.addEventListener('loadedmetadata', () => {
-        this.setState({ duration: track.duration });
+        this.setState({ duration: track.duration});
       })
                        
       this.setState({ music: e.target.files[0] }); 

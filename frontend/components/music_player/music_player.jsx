@@ -19,6 +19,7 @@ class MusicPlayer extends React.Component {
         this.state = {
             audioData: new Uint8Array(0),
             playing: false,
+            songTime: "0:00"
             
         }
         this.totalTime = 0
@@ -30,6 +31,8 @@ class MusicPlayer extends React.Component {
         this.changeVolume = this.changeVolume.bind(this)
         this.draw = this.draw.bind(this)
         this.drawProgress = this.drawProgress.bind(this)
+        // this.onUpdate = this.onUpdate.bind(this)
+        this.getCurrentTime = this.getCurrentTime.bind(this)
         
     }
 
@@ -38,6 +41,8 @@ class MusicPlayer extends React.Component {
     // componentDidMount() {
     //     if (document.querySelector("#progress-bar")) this.drawBar()
     // }
+
+  
 
     shouldComponentUpdate(nextProps) {
        
@@ -55,20 +60,21 @@ class MusicPlayer extends React.Component {
 
    
     play() {
-        if (this.trackConnect.context.state === 'suspended') { 
-            this.trackConnect.context.resume();
-        }
+        // if (this.trackConnect.context.state === 'suspended') { 
+        //     this.trackConnect.context.resume();
+        // }
     
      
-        if (this.state.playing === false) {
-            this.audioElement.play();
-            this.state.playing = true;
+        // if (this.state.playing === false) {
+        //     this.audioElement.play();
+        //     this.state.playing = true;
            
-        } else if (this.state.playing === true) {
+        // } else if (this.state.playing === true) {
         
-            this.audioElement.pause();
-            this.state.playing = false;
-        }
+        //     this.audioElement.pause();
+        //     this.state.playing = false;
+        // }
+        document.getElementById('myAudio').play()
       
     }
 
@@ -177,6 +183,17 @@ class MusicPlayer extends React.Component {
     //                     this.endTime = audioBuffer.duration})
     // }
         
+    getCurrentTime() {
+        let song = document.getElementById('myAudio')
+        let unformattedTime = song.currentTime
+        let minutes = Math.floor(unformattedTime / 60 )
+        let seconds 
+        Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60)
+        let formattedTime = minutes + ":" + seconds
+        this.setState({ songTime: formattedTime })
+        console.log('working')
+        // this.cTime = this.audioElement.currentTime
+    }
 
     render() { 
         // console.log('render')
@@ -195,6 +212,15 @@ class MusicPlayer extends React.Component {
 
        
             if (song) {
+                console.log(this)
+                let songTime = this.props.state.session.song.duration
+                let minutes = Math.floor(songTime / 60 )
+                let seconds 
+                Math.floor(songTime % 60) > 9 ? seconds = Math.floor(songTime % 60) : seconds = "0" + Math.floor(songTime % 60)
+                let endTime = minutes + ":" + seconds
+
+                
+                
                 // const preview = document.createElement('audio');
                 // const reader = new FileReader()
                 // reader.onloadend = () => { 
@@ -214,8 +240,9 @@ class MusicPlayer extends React.Component {
                 //       .then(response => response.arrayBuffer())
                 //       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 //       .then(audioBuffer => {
+                //           console.log(audioBuffer)
                 //         this.sampleArray = normalizeData(filterData(audioBuffer))
-                //         if (this.props.state.waveform) this.draw(normalizeData(filterData(audioBuffer)))
+                       
                 //       })
                 // }
                 // this.findDur(song)
@@ -227,7 +254,7 @@ class MusicPlayer extends React.Component {
                 //     .then(audioBuffer => {
                 //         console.log(audioBuffer.duration)
                 //         endTimee = audioBuffer.duration})
-                    // .then(console.log(endTime))
+                //     .then(console.log(endTime))
                 
                 
 
@@ -256,19 +283,27 @@ class MusicPlayer extends React.Component {
                 // }
 
                 
+               
+                // this.audioElement = document.createElement("AUDIO"); 
                 
-                this.audioElement = document.createElement("AUDIO"); 
-                this.audioElement.setAttribute("src", song);
+                
+                // this.audioElement.setAttribute("src", song);
+                // this.audioElement.ontimeupdate = () => { this.getCurrentTime() }
+                
               
-                let track = audioContext.createMediaElementSource(this.audioElement);
+                // let track = audioContext.createMediaElementSource(this.audioElement);
+                
                 
                
-                // let endTime = track.mediaElement.duration
-                this.gainNode = audioContext.createGain();
-                this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
+               
+                // this.gainNode = audioContext.createGain();
+                // this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
+             
+               
+               
                 // visualizeAudio(song)
                
-                // this.findDur(this.audioElement)
+         
                
                 // this.drawBar()
               
@@ -284,13 +319,15 @@ class MusicPlayer extends React.Component {
         
         <div className="song-progress-bar-container"> 
             <div className="current-time">
-
+                {this.state.songTime}
             </div>
 
-            <div className="song-bar" ></div>
-
+            <div className="song-bar" >
+                {/* <div className="bar-dot"></div> */}
+            </div>
+                
             <div className="end-time">
-            
+                {endTime}
             </div>
         </div>
            
@@ -320,6 +357,7 @@ class MusicPlayer extends React.Component {
           </div>
 
           <canvas id="canvas"></canvas>
+          <audio id="myAudio" hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
          
         </div>
         

@@ -31,8 +31,8 @@ class MusicPlayer extends React.Component {
         this.changeVolume = this.changeVolume.bind(this)
         this.draw = this.draw.bind(this)
         this.drawProgress = this.drawProgress.bind(this)
-        // this.onUpdate = this.onUpdate.bind(this)
         this.getCurrentTime = this.getCurrentTime.bind(this)
+        this.updateProgress = this.updateProgress.bind(this)
         
     }
 
@@ -191,8 +191,19 @@ class MusicPlayer extends React.Component {
         Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60)
         let formattedTime = minutes + ":" + seconds
         this.setState({ songTime: formattedTime })
-        console.log('working')
-        // this.cTime = this.audioElement.currentTime
+        console.log('gettime')
+        this.updateProgress()
+    }
+
+    updateProgress() {
+        let song = document.getElementById('myAudio')
+        // let currentTime = song.currentTime;
+        let currentTime = this.state.currentTime;
+        let endTime = song.duration;
+
+        this.progressAMT = (currentTime / endTime) * 10
+        console.log('progress')
+        console.log(this.progressAMT)
     }
 
     render() { 
@@ -309,7 +320,6 @@ class MusicPlayer extends React.Component {
               
           
             
-
             
 
        
@@ -323,8 +333,13 @@ class MusicPlayer extends React.Component {
             </div>
 
             <div className="song-bar" >
-                {/* <div className="bar-dot"></div> */}
+                <div className="song-progress-bar" style={{ width:`${this.progressAMT}%` }}>
+                </div>
+                <div className="bar-dot" onMouseDown={this.handleMouseDown}>
+                </div>
             </div>
+
+            
                 
             <div className="end-time">
                 {endTime}
@@ -349,7 +364,7 @@ class MusicPlayer extends React.Component {
           </div>
 
           <div className="artist-info" >
-              <img className="song-pic" src={song_pic} width="30px" height="30px"/>
+              <img className="song-pic" src={song_pic} width="40px" height="40px"/>
               <div className="artist-small-info">
                 <p className="artist-name">{artist_name}</p>
                 <p className="song-title">{song_title}</p>

@@ -825,9 +825,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
     _this.draw = _this.draw.bind(_assertThisInitialized(_this));
-    _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this)); // this.onUpdate = this.onUpdate.bind(this)
-
+    _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this));
     _this.getCurrentTime = _this.getCurrentTime.bind(_assertThisInitialized(_this));
+    _this.updateProgress = _this.updateProgress.bind(_assertThisInitialized(_this));
     return _this;
   } // componentDidMount() {
   //     if (document.querySelector("#progress-bar")) this.drawBar()
@@ -963,7 +963,19 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       this.setState({
         songTime: formattedTime
       });
-      console.log('working'); // this.cTime = this.audioElement.currentTime
+      console.log('gettime');
+      this.updateProgress();
+    }
+  }, {
+    key: "updateProgress",
+    value: function updateProgress() {
+      var song = document.getElementById('myAudio'); // let currentTime = song.currentTime;
+
+      var currentTime = this.state.currentTime;
+      var endTime = song.duration;
+      this.progressAMT = currentTime / endTime * 10;
+      console.log('progress');
+      console.log(this.progressAMT);
     }
   }, {
     key: "render",
@@ -1053,7 +1065,15 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           className: "current-time"
         }, this.state.songTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "song-bar"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "song-progress-bar",
+          style: {
+            width: "".concat(this.progressAMT, "%")
+          }
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "bar-dot",
+          onMouseDown: this.handleMouseDown
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "end-time"
         }, endTime)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "player-slider"
@@ -1096,8 +1116,8 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           className: "song-pic",
           src: song_pic,
-          width: "30px",
-          height: "30px"
+          width: "40px",
+          height: "40px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "artist-small-info"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {

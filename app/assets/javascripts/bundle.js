@@ -814,7 +814,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       audioData: new Uint8Array(0),
       playing: false,
-      songTime: "0:00"
+      songTime: "0:00",
+      currentTime: 0,
+      mouseDown: false
     };
     _this.totalTime = 0; // this.currentSec = 0
 
@@ -828,46 +830,107 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this));
     _this.getCurrentTime = _this.getCurrentTime.bind(_assertThisInitialized(_this));
     _this.updateProgress = _this.updateProgress.bind(_assertThisInitialized(_this));
+    _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
+    _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
+    _this.drag = _this.drag.bind(_assertThisInitialized(_this));
     return _this;
   } // componentDidMount() {
   //     if (document.querySelector("#progress-bar")) this.drawBar()
   // }
+  // shouldComponentUpdate(nextProps) {
+  //     if (this.state.playing === true) {
+  //         this.audioElement.pause()
+  //         this.state.playing = false
+  //     } 
+  //     if (nextProps.state.session.song === undefined) {
+  //         return false
+  //     } else {
+  //         return true
+  //     }
+  // }
 
 
   _createClass(MusicPlayer, [{
-    key: "shouldComponentUpdate",
-    value: function shouldComponentUpdate(nextProps) {
-      if (this.state.playing === true) {
-        this.audioElement.pause();
-        this.state.playing = false;
-      }
-
-      if (nextProps.state.session.song === undefined) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  }, {
     key: "play",
     value: function play() {
       // if (this.trackConnect.context.state === 'suspended') { 
       //     this.trackConnect.context.resume();
       // }
-      // if (this.state.playing === false) {
-      //     this.audioElement.play();
-      //     this.state.playing = true;
-      // } else if (this.state.playing === true) {
-      //     this.audioElement.pause();
-      //     this.state.playing = false;
-      // }
-      document.getElementById('myAudio').play();
+      console.log('play');
+      console.log(this.state);
+
+      if (this.state.playing === false) {
+        document.getElementById('myAudio').play();
+        this.state.playing = true;
+      } else if (this.state.playing === true) {
+        document.getElementById('myAudio').pause();
+        this.state.playing = false;
+      }
     }
   }, {
     key: "changeVolume",
     value: function changeVolume() {
       var volumeControl = document.querySelector('#volume');
       this.gainNode.gain.value = volumeControl.value;
+    }
+  }, {
+    key: "handleMouseDown",
+    value: function handleMouseDown(e) {
+      e.preventDefault();
+      e.persist();
+      this.setState({
+        mouseDown: true
+      });
+      document.addEventListener('mouseup', this.handleMouseUp);
+      document.addEventListener('mousemove', this.drag);
+      this.setTime = e.pageX;
+      this.drag(e);
+    }
+  }, {
+    key: "handleMouseUp",
+    value: function handleMouseUp(e) {
+      this.setState({
+        mouseDown: false
+      });
+      document.removeEventListener('mousemove', this.drag);
+      document.removeEventListener('mouseup', this.handleMouseUp);
+      var song = document.getElementById('myAudio');
+      var progressContainer = document.querySelector('.song-progress-bar-container');
+      var progressLine = document.querySelector('.song-bar');
+      var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft;
+      var divAdjust = e.pageX - totalProgressOffset;
+      var newTime = Math.floor(divAdjust / progressLine.offsetWidth * song.duration);
+      song.currentTime = newTime;
+      console.log('mouseup');
+    }
+  }, {
+    key: "drag",
+    value: function drag(e) {
+      // console.log('drag')
+      var progressContainer = document.querySelector('.song-progress-bar-container');
+      var progressLine = document.querySelector('.song-bar');
+      var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft;
+      var divAdjust = e.pageX - totalProgressOffset;
+      var newWidth = Math.floor(divAdjust / progressLine.offsetWidth * 100); // console.log(progressLine.offsetLeft)
+      // console.log(progressLine.offsetWidth)
+      // console.log(this.state.currentTime)
+      // if (e.pageX >= progressLine.offsetLeft && e.pageX <= (progressLine.offsetLeft + progressLine.offsetWidth)) {
+
+      if (this.state.mouseDown) {
+        this.setState({
+          currentTime: newWidth
+        });
+        document.querySelector('.song-progress-bar').style.width = "".concat(newWidth, "%");
+      } // console.log('yes')
+      // }
+      // this.setState({currentTime: this.state.currentTime += 1})
+      // console.log(boop += newWidth)
+      // document.querySelector('.song-progress-bar').style.width = `${boop += newWidth}px`
+      // this.setState({currentTime: newWidth})
+      // document.querySelector('.song-progress-bar').style.width = `${newWidth}px`
+      // this.setState({currentTime: this.state.currentTime += 1})
+      // console.log(this.state.currentTime)
+
     } // drawBar() {
     //     let canvas2 = document.querySelector("#progress-bar");
     //     // canvas2.width = 600
@@ -962,20 +1025,32 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       var formattedTime = minutes + ":" + seconds;
       this.setState({
         songTime: formattedTime
-      });
+      }); // this.setState({ currentTime: song.currentTime })   //expppppperioiiiment
+
       console.log('gettime');
       this.updateProgress();
     }
   }, {
     key: "updateProgress",
     value: function updateProgress() {
-      var song = document.getElementById('myAudio'); // let currentTime = song.currentTime;
+      var song = document.getElementById('myAudio');
+      var currentTime = song.currentTime; // let currentTime = this.state.currentTime;
 
-      var currentTime = this.state.currentTime;
       var endTime = song.duration;
-      this.progressAMT = currentTime / endTime * 10;
-      console.log('progress');
-      console.log(this.progressAMT);
+
+      if (!this.state.mouseDown) {
+        this.setState({
+          currentTime: currentTime / endTime * 100
+        });
+      } // EXPPPPPPERIOIIMENT //////////////////////////////
+      // let song = document.getElementById('myAudio')
+      // let currentTime = this.state.currentTime;
+      // let endTime = song.duration;
+      // this.progressAMT = (currentTime / endTime) * 100
+      // console.log('progress')
+      // console.log(this.progressAMT)
+      // console.log(currentTime)
+
     }
   }, {
     key: "render",
@@ -998,7 +1073,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       }
 
       if (song) {
-        console.log(this);
+        // console.log(this)
         var songTime = this.props.state.session.song.duration;
         var minutes = Math.floor(songTime / 60);
         var seconds;
@@ -1062,34 +1137,10 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "song-progress-bar-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "current-time"
-        }, this.state.songTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "song-bar"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "song-progress-bar",
-          style: {
-            width: "".concat(this.progressAMT, "%")
-          }
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "bar-dot",
-          onMouseDown: this.handleMouseDown
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "end-time"
-        }, endTime)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "player-slider"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "range",
-          id: "volume",
-          min: "0",
-          max: "2",
-          defaultValue: "1",
-          step: "0.01",
-          onChange: this.changeVolume
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "button-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.back,
-          width: "30px"
+          width: "21px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "play-button",
           "data-playing": "false",
@@ -1098,20 +1149,35 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           onClick: this.play
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.play,
-          width: "30px"
+          width: "21px"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.next,
-          width: "30px"
+          width: "21px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.shuffle,
-          width: "30px"
+          width: "23px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.repeat,
-          width: "35px"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window.audio,
-          width: "30px"
+          width: "23px"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "current-time"
+        }, this.state.songTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "song-bar"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "song-progress-bar",
+          style: {
+            width: "".concat(this.state.currentTime, "%")
+          }
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "bar-dot",
+          onMouseDown: this.handleMouseDown
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "end-time"
+        }, endTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.audio,
+          className: "audioButton",
+          width: "21px"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "artist-info"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           className: "song-pic",
@@ -1124,9 +1190,11 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           className: "artist-name"
         }, artist_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           className: "song-title"
-        }, song_title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
-          id: "canvas"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
+        }, song_title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: window.heart,
+          id: "heart",
+          width: "15px"
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
           id: "myAudio",
           hidden: true,
           src: song,

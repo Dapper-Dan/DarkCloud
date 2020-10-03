@@ -19,7 +19,9 @@ class MusicPlayer extends React.Component {
         this.state = {
             audioData: new Uint8Array(0),
             playing: false,
-            songTime: "0:00"
+            songTime: "0:00",
+            currentTime: 0,
+            mouseDown: false
             
         }
         this.totalTime = 0
@@ -33,6 +35,12 @@ class MusicPlayer extends React.Component {
         this.drawProgress = this.drawProgress.bind(this)
         this.getCurrentTime = this.getCurrentTime.bind(this)
         this.updateProgress = this.updateProgress.bind(this)
+        this.handleMouseDown = this.handleMouseDown.bind(this)
+        this.handleMouseUp = this.handleMouseUp.bind(this)
+        this.drag = this.drag.bind(this)
+        
+
+        
         
     }
 
@@ -44,37 +52,37 @@ class MusicPlayer extends React.Component {
 
   
 
-    shouldComponentUpdate(nextProps) {
+    // shouldComponentUpdate(nextProps) {
        
      
-        if (this.state.playing === true) {
-            this.audioElement.pause()
-            this.state.playing = false
-        } 
-        if (nextProps.state.session.song === undefined) {
-            return false
-        } else {
-            return true
-        }
-    }
+    //     if (this.state.playing === true) {
+    //         this.audioElement.pause()
+    //         this.state.playing = false
+    //     } 
+    //     if (nextProps.state.session.song === undefined) {
+    //         return false
+    //     } else {
+    //         return true
+    //     }
+    // }
 
    
     play() {
         // if (this.trackConnect.context.state === 'suspended') { 
         //     this.trackConnect.context.resume();
         // }
-    
+    console.log('play')
+    console.log(this.state)
      
-        // if (this.state.playing === false) {
-        //     this.audioElement.play();
-        //     this.state.playing = true;
-           
-        // } else if (this.state.playing === true) {
+        if (this.state.playing === false) {
+            document.getElementById('myAudio').play()
+            this.state.playing = true;
+        } else if (this.state.playing === true) {
         
-        //     this.audioElement.pause();
-        //     this.state.playing = false;
-        // }
-        document.getElementById('myAudio').play()
+            document.getElementById('myAudio').pause()
+            this.state.playing = false;
+        }
+        
       
     }
 
@@ -82,6 +90,63 @@ class MusicPlayer extends React.Component {
         let volumeControl = document.querySelector('#volume')
         this.gainNode.gain.value = volumeControl.value;
        
+    }
+
+    handleMouseDown(e) {
+        e.preventDefault()
+        e.persist()
+        this.setState({mouseDown: true})
+        document.addEventListener('mouseup', this.handleMouseUp);
+        document.addEventListener('mousemove', this.drag);
+        this.setTime = e.pageX;
+        this.drag(e)
+
+    }
+
+    handleMouseUp(e) {
+        this.setState({mouseDown: false})
+        document.removeEventListener('mousemove', this.drag)
+        document.removeEventListener('mouseup', this.handleMouseUp)
+        let song = document.getElementById('myAudio')
+        let progressContainer = document.querySelector('.song-progress-bar-container')
+        let progressLine = document.querySelector('.song-bar')
+        let totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft
+        let divAdjust = e.pageX - totalProgressOffset
+        let newTime = Math.floor((divAdjust / progressLine.offsetWidth) * song.duration);
+        song.currentTime = newTime
+        console.log('mouseup')
+    }
+
+    drag(e) {
+        // console.log('drag')
+        let progressContainer = document.querySelector('.song-progress-bar-container')
+        let progressLine = document.querySelector('.song-bar')
+        let totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft
+        let divAdjust = e.pageX - totalProgressOffset
+        let newWidth = Math.floor((divAdjust / progressLine.offsetWidth) * 100);
+        // console.log(progressLine.offsetLeft)
+        // console.log(progressLine.offsetWidth)
+    
+        // console.log(this.state.currentTime)
+        // if (e.pageX >= progressLine.offsetLeft && e.pageX <= (progressLine.offsetLeft + progressLine.offsetWidth)) {
+        if (this.state.mouseDown) {
+            this.setState({ currentTime: newWidth })
+            document.querySelector('.song-progress-bar').style.width = `${newWidth}%`
+        }
+        // console.log('yes')
+        // }
+        // this.setState({currentTime: this.state.currentTime += 1})
+        
+    
+        // console.log(boop += newWidth)
+        // document.querySelector('.song-progress-bar').style.width = `${boop += newWidth}px`
+        // this.setState({currentTime: newWidth})
+        // document.querySelector('.song-progress-bar').style.width = `${newWidth}px`
+
+
+        
+        // this.setState({currentTime: this.state.currentTime += 1})
+        // console.log(this.state.currentTime)
     }
 
 
@@ -191,19 +256,32 @@ class MusicPlayer extends React.Component {
         Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60)
         let formattedTime = minutes + ":" + seconds
         this.setState({ songTime: formattedTime })
+        // this.setState({ currentTime: song.currentTime })   //expppppperioiiiment
         console.log('gettime')
         this.updateProgress()
     }
 
     updateProgress() {
         let song = document.getElementById('myAudio')
-        // let currentTime = song.currentTime;
-        let currentTime = this.state.currentTime;
+        let currentTime = song.currentTime;
+        // let currentTime = this.state.currentTime;
         let endTime = song.duration;
 
-        this.progressAMT = (currentTime / endTime) * 10
-        console.log('progress')
-        console.log(this.progressAMT)
+        if (!this.state.mouseDown) {
+            this.setState({currentTime: (currentTime / endTime) * 100})
+        }
+
+
+        // EXPPPPPPERIOIIMENT //////////////////////////////
+        // let song = document.getElementById('myAudio')
+        
+        // let currentTime = this.state.currentTime;
+        // let endTime = song.duration;
+
+        // this.progressAMT = (currentTime / endTime) * 100
+        // console.log('progress')
+        // console.log(this.progressAMT)
+        // console.log(currentTime)
     }
 
     render() { 
@@ -223,7 +301,7 @@ class MusicPlayer extends React.Component {
 
        
             if (song) {
-                console.log(this)
+                // console.log(this)
                 let songTime = this.props.state.session.song.duration
                 let minutes = Math.floor(songTime / 60 )
                 let seconds 
@@ -327,52 +405,59 @@ class MusicPlayer extends React.Component {
         <>
         <div className="media-player-container">
         
-        <div className="song-progress-bar-container"> 
-            <div className="current-time">
-                {this.state.songTime}
-            </div>
-
-            <div className="song-bar" >
-                <div className="song-progress-bar" style={{ width:`${this.progressAMT}%` }}>
+            <div className="song-progress-bar-container"> 
+                <div className="button-container">
+                    <img src={window.back} width="21px"/>
+                    <button className="play-button" data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
+                        <img src={window.play} width="21px"/>
+                    </button>
+                    <img src={window.next} width="21px"/>
+                    <img src={window.shuffle} width="23px"/>
+                    <img src={window.repeat} width="23px"/>
                 </div>
-                <div className="bar-dot" onMouseDown={this.handleMouseDown}>
-                </div>
-            </div>
 
-            
+
+
+                <div className="current-time">
+                    {this.state.songTime}
+                </div>
+
+
+                <div className="song-bar" >
+                    <div className="song-progress-bar" style={{ width:`${this.state.currentTime}%` }}>
+                    </div>
+                    <div className="bar-dot" onMouseDown={this.handleMouseDown}>
+                    </div>
+                </div>
+
                 
-            <div className="end-time">
-                {endTime}
+                    
+                <div className="end-time">
+                    {endTime}
+                </div>
+
+                <img src={window.audio} className="audioButton" width="21px"/>
+
+                <div className="artist-info" >
+                    <img className="song-pic" src={song_pic} width="40px" height="40px"/>
+                    <div className="artist-small-info">
+                        <p className="artist-name">{artist_name}</p>
+                        <p className="song-title">{song_title}</p>
+                    </div>
+                    <img src={window.heart} id="heart" width="15px" />
+                </div>
+                
             </div>
-        </div>
-           
+            
         
-        
-          <div className="player-slider">
-            <input type="range" id="volume" min="0" max="2" defaultValue="1" step="0.01" onChange={this.changeVolume}></input>
-          </div>
+{/*         
+            <div className="player-slider">
+                <input type="range" id="volume" min="0" max="2" defaultValue="1" step="0.01" onChange={this.changeVolume}></input>
+            </div> */}
 
-          <div className="button-container">
-                <img src={window.back} width="30px"/>
-            <button className="play-button" data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
-                <img src={window.play} width="30px"/>
-            </button>
-                <img src={window.next} width="30px"/>
-                <img src={window.shuffle} width="30px"/>
-                <img src={window.repeat} width="35px"/>
-                <img src={window.audio} width="30px"/>
-          </div>
-
-          <div className="artist-info" >
-              <img className="song-pic" src={song_pic} width="40px" height="40px"/>
-              <div className="artist-small-info">
-                <p className="artist-name">{artist_name}</p>
-                <p className="song-title">{song_title}</p>
-              </div>
-          </div>
-
-          <canvas id="canvas"></canvas>
-          <audio id="myAudio" hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
+         
+          {/* <canvas id="canvas"></canvas> */}
+            <audio id="myAudio" hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
          
         </div>
         

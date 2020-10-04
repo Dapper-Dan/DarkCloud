@@ -290,11 +290,11 @@ class MusicPlayer extends React.Component {
             let artist_name
             let song_title
             let song_pic
-            if (this.props.state.session.song){
-            song = this.props.state.session.song.songUrl
-            artist_name = this.props.state.session.song.display_name
-            song_title = this.props.state.session.song.title
-            song_pic = this.props.state.session.song.pictureUrl
+            if (this.props.state.session.currentSong){
+            song = this.props.state.session.currentSong.songUrl
+            artist_name = this.props.state.session.currentSong.display_name
+            song_title = this.props.state.session.currentSong.title
+            song_pic = this.props.state.session.currentSong.pictureUrl
             } else {
                 song = ""
             }
@@ -302,7 +302,7 @@ class MusicPlayer extends React.Component {
        
             if (song) {
                 // console.log(this)
-                let songTime = this.props.state.session.song.duration
+                let songTime = this.props.state.session.currentSong.duration
                 let minutes = Math.floor(songTime / 60 )
                 let seconds 
                 Math.floor(songTime % 60) > 9 ? seconds = Math.floor(songTime % 60) : seconds = "0" + Math.floor(songTime % 60)
@@ -329,8 +329,8 @@ class MusicPlayer extends React.Component {
                 //       .then(response => response.arrayBuffer())
                 //       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 //       .then(audioBuffer => {
-                //           console.log(audioBuffer)
-                //         this.sampleArray = normalizeData(filterData(audioBuffer))
+                //           this.sampleArray = normalizeData(filterData(audioBuffer))
+                //         this.draw(normalizeData(filterData(audioBuffer)))
                        
                 //       })
                 // }
@@ -456,7 +456,7 @@ class MusicPlayer extends React.Component {
             </div> */}
 
          
-          {/* <canvas id="canvas"></canvas> */}
+          {/* <canvas id="canvas"></canvas>  */}
             <audio id="myAudio" hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
          
         </div>

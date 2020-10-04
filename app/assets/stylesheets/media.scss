@@ -18,11 +18,6 @@
 }
 
 .button-container {
-    // position: absolute;
-    // top: 9px;
-    // left: 0px;
-    // margin-left: -135px;
-    // margin: auto;
     display: flex;
     margin-top: auto;
     margin-bottom: auto;
@@ -50,17 +45,11 @@
 
 
 .artist-info {
-    // width: 80px;
     height: 48px;
     margin-left: 59px;
-    // position: absolute;
-    // margin-left: -80px;
-    // top: 0px;
-    // right: 450px;
     display: flex;
     flex-direction: row;
     padding-right: 13px;
-    // align-self: flex-end; 
 }
 
 .artist-small-info {
@@ -93,19 +82,17 @@
     margin: auto;
     height: 50px;
     width: 45%;
-
-    // position: relative;
 }
 
 
 @media (max-width:2000px) {
     .song-progress-bar-container {
-        // padding: 0 30px;
-        display: flex;
+    display: flex;
     margin: auto;
     height: 50px;
     width: 85%
-    }}
+    }
+}
 
 
 .song-bar {
@@ -128,15 +115,6 @@
 
 
 .current-time {
-//     // margin-top: 5px;
-//     font-size: 12px;
-//     // margin-right: 3px;
-//     // margin-left: 45px;
-//     font-size: 12px;
-//     margin: auto;
-//     margin-right: 3px;
-//     margin-left: 70px;
-
     font-size: 12px;
     margin-top: auto;
     margin-bottom: auto;
@@ -146,13 +124,10 @@
 
 .end-time {
     font-size: 12px;
-    // margin-top: 5px;
-    // margin-left: 3px;
     font-size: 12px;
     margin: auto;
     margin-left: 3px;
     margin-right: 0px;
-    // margin-left: 70px;
 }
 
 

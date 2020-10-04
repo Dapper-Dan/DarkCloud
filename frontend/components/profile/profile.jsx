@@ -4,6 +4,7 @@ import SongPartContainer from '../song/song_part_container';
 import NavBarContainer from '../nav_bar/nav_bar_container';
 import SongNavBarContainer from '../nav_bar/song_nav_bar_container'
 import SearchBarContainer from '../search_bar/search_bar_container'
+import MusicPlayerContainer from '../music_player/music_player_container'
 
 class Profile extends React.Component {
     constructor(props) {
@@ -64,14 +65,12 @@ class Profile extends React.Component {
        <div className="outtermost"> 
 
 
-         <div className="nav-con" >
-           <NavBarContainer />
-          
-           
-           <SearchBarContainer/>
-         </div>
+        <div className="nav-con" >
+          <NavBarContainer />
+          <SearchBarContainer/>
+        </div>
 
-           <div className="cover" >
+          <div className="cover" >
              <img src={window.cover} className="cover-photo" />
              {/* if profile is same as currentuser, then give edit option  */}
 
@@ -97,6 +96,8 @@ class Profile extends React.Component {
                    ))}
                  </ul>
            </div> 
+
+        <MusicPlayerContainer/>
         
 
        </div>

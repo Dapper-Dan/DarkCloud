@@ -81,51 +81,57 @@
 
 
 .songProfileTile {
-    position: relative;
     margin-bottom: 45px;
+    justify-content: flex-start;
+    display: flex;
 }
+
 
 
 .songProfileTile .play {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    
-   
     border-color: #1DB954;
     background-color: #1DB954;
     text-indent: -9999px;
-    position: absolute;
-    top: 29px;
-    left: 214px;
-    transform: translate(-50%, -50%);
     background-image: url('arrow.png');
     background-size: 70% 80%;
     background-position: 40%;
     background-repeat: no-repeat;
+    margin-top: 3px;
 }
 
 .songProfileTile .songTitle {
-    font-weight: normal;
     font-size: 16px;
     font-weight: 350;
     color: #333;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    position: absolute;
-    top: 27px;
-    left: 240px;
-    line-height: normal;
 }
 
 .songProfileTile .songUser {
     font-weight: 100;
     color: #999;
-    font-size: 12px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    position: absolute;
-    top: 10px;
-    left: 240px;
+    font-size: 13px;
+    margin-bottom: 4px;
 }
 
+.waveFormImg {
+   
+}
+
+.profile-song-info {
+    display: flex;
+}
+
+.profile-song-names-plate {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    height: 44px;
+}
+
+.songProfileTileContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 14px;
+}

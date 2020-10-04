@@ -14,7 +14,7 @@ const sessionReducer = (state = _nullSession, action) => {
     case LOGOUT_CURRENT_USER:
       return _nullSession;
     case RECEIVE_SONG:
-      return Object.assign({}, state, { song: action.song });
+      return Object.assign({}, state, { currentSong: action.song });
     default:
       return state;
   }

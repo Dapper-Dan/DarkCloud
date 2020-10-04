@@ -4,7 +4,8 @@ import SongPart from "./song_part";
 
 
 const mSTP = state => ({
-  songs: state.entities.songs.songs
+  songs: state.entities.songs.songs,
+  state: state
 });
 
 const mDTP = (dispatch) => ({

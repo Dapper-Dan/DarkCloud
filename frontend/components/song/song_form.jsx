@@ -91,26 +91,26 @@ class SongForm extends React.Component {
     draw(normalizedData) { 
       const canvas = document.createElement('canvas');
       canvas.width = 680
-      canvas.height = 100
+      canvas.height = 80
       const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, 680, 100)
+      ctx.clearRect(0, 0, 680, 80)
    
       ctx.fillStyle = "transparent"
-      ctx.fillRect(0, 0, 680, 100)
+      ctx.fillRect(0, 0, 680, 80)
       
      
        
       for (let i = 0; i < normalizedData.length; i++) {
          let height = normalizedData[i]
          ctx.fillStyle = "grey"
-         ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
-         ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
+         ctx.fillRect(i * 3.5, 40, 2.3, height * -40)
+         ctx.fillRect(i * 3.5, 40, 2.3, height * 40)
       }
 
       ctx.strokeStyle = "#ededed"
       ctx.beginPath();
-      ctx.moveTo(0, 50);
-      ctx.lineTo(680, 50);
+      ctx.moveTo(0, 40);
+      ctx.lineTo(680, 40);
       ctx.stroke();
      
       return canvas.toDataURL('image/png', 1.0)

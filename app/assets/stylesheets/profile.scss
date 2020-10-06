@@ -116,7 +116,12 @@
 }
 
 .waveFormImg {
-   
+   margin-top: 7px;
+}
+
+.progressWaveFormImg {
+    margin-top: 7px;
+    filter: invert(51%) sepia(83%) saturate(1504%) hue-rotate(100deg) brightness(98%) contrast(77%);
 }
 
 .profile-song-info {
@@ -135,3 +140,8 @@
     flex-direction: column;
     margin-left: 14px;
 }
+
+
+// .progressWaveFormContainer {
+//     overflow: hidden;
+// }

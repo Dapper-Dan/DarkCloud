@@ -111,25 +111,34 @@ class MusicPlayer extends React.Component {
         let progressContainer = document.querySelector('.song-progress-bar-container')
         let progressLine = document.querySelector('.song-bar')
         let totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft
-        let divAdjust = e.pageX - totalProgressOffset
+        let divAdjust = e.pageX - progressLine.offsetLeft  
+        // let divAdjust = e.pageX - totalProgressOffset
         let newTime = Math.floor((divAdjust / progressLine.offsetWidth) * song.duration);
         song.currentTime = newTime
         console.log('mouseup')
     }
 
     drag(e) {
-        // console.log('drag')
+        console.log('drag')
+        // console.log(this.state.currentTime)
         let progressContainer = document.querySelector('.song-progress-bar-container')
         let progressLine = document.querySelector('.song-bar')
         let totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft
-        let divAdjust = e.pageX - totalProgressOffset
+        // let divAdjust = e.pageX - totalProgressOffset     ORIGINAL CODE
+        let divAdjust = e.pageX - progressLine.offsetLeft   
+        console.log(divAdjust) 
+        // console.log(progressContainer.offsetLeft)
+        // console.log(progressLine.offsetLeft)
+        // console.log(e.pageX)
         let newWidth = Math.floor((divAdjust / progressLine.offsetWidth) * 100);
+        console.log(newWidth)
         // console.log(progressLine.offsetLeft)
         // console.log(progressLine.offsetWidth)
     
         // console.log(this.state.currentTime)
         // if (e.pageX >= progressLine.offsetLeft && e.pageX <= (progressLine.offsetLeft + progressLine.offsetWidth)) {
         if (this.state.mouseDown) {
+            console.log('mouseDown')
             this.setState({ currentTime: newWidth })
             document.querySelector('.song-progress-bar').style.width = `${newWidth}%`
         }
@@ -168,28 +177,28 @@ class MusicPlayer extends React.Component {
 
     draw(normalizedData) {
         // console.log('draw')
-        const canvas = document.querySelector("canvas");
-        canvas.width = 680
-        canvas.height = 100
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, 680, 100)
+        // const canvas = document.querySelector("canvas");
+        // canvas.width = 680
+        // canvas.height = 100
+        // const ctx = canvas.getContext("2d");
+        // ctx.clearRect(0, 0, 680, 100)
      
-        ctx.fillStyle = "transparent"
-        ctx.fillRect(0, 0, 680, 100)
+        // ctx.fillStyle = "transparent"
+        // ctx.fillRect(0, 0, 680, 100)
         
        
          
-        for (let i = 0; i < normalizedData.length; i++) {
-        //    console.log('first draw loop')
-           let height = normalizedData[i]
+        // for (let i = 0; i < normalizedData.length; i++) {
+        // //    console.log('first draw loop')
+        //    let height = normalizedData[i]
       
-           ctx.fillStyle = "grey"
-           ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
-           ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
-        }
+        //    ctx.fillStyle = "grey"
+        //    ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
+        //    ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
+        // }
 
 
-        this.drawProgress(normalizedData)
+        this.drawProgress()
 
 
         // requestAnimationFrame(this.draw(this.exam))

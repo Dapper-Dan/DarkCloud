@@ -898,7 +898,8 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       var progressContainer = document.querySelector('.song-progress-bar-container');
       var progressLine = document.querySelector('.song-bar');
       var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft;
-      var divAdjust = e.pageX - totalProgressOffset;
+      var divAdjust = e.pageX - progressLine.offsetLeft; // let divAdjust = e.pageX - totalProgressOffset
+
       var newTime = Math.floor(divAdjust / progressLine.offsetWidth * song.duration);
       song.currentTime = newTime;
       console.log('mouseup');
@@ -906,17 +907,25 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "drag",
     value: function drag(e) {
-      // console.log('drag')
+      console.log('drag'); // console.log(this.state.currentTime)
+
       var progressContainer = document.querySelector('.song-progress-bar-container');
       var progressLine = document.querySelector('.song-bar');
-      var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft;
-      var divAdjust = e.pageX - totalProgressOffset;
-      var newWidth = Math.floor(divAdjust / progressLine.offsetWidth * 100); // console.log(progressLine.offsetLeft)
+      var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft; // let divAdjust = e.pageX - totalProgressOffset     ORIGINAL CODE
+
+      var divAdjust = e.pageX - progressLine.offsetLeft;
+      console.log(divAdjust); // console.log(progressContainer.offsetLeft)
+      // console.log(progressLine.offsetLeft)
+      // console.log(e.pageX)
+
+      var newWidth = Math.floor(divAdjust / progressLine.offsetWidth * 100);
+      console.log(newWidth); // console.log(progressLine.offsetLeft)
       // console.log(progressLine.offsetWidth)
       // console.log(this.state.currentTime)
       // if (e.pageX >= progressLine.offsetLeft && e.pageX <= (progressLine.offsetLeft + progressLine.offsetWidth)) {
 
       if (this.state.mouseDown) {
+        console.log('mouseDown');
         this.setState({
           currentTime: newWidth
         });
@@ -949,23 +958,21 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     key: "draw",
     value: function draw(normalizedData) {
       // console.log('draw')
-      var canvas = document.querySelector("canvas");
-      canvas.width = 680;
-      canvas.height = 100;
-      var ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, 680, 100);
-      ctx.fillStyle = "transparent";
-      ctx.fillRect(0, 0, 680, 100);
-
-      for (var i = 0; i < normalizedData.length; i++) {
-        //    console.log('first draw loop')
-        var height = normalizedData[i];
-        ctx.fillStyle = "grey";
-        ctx.fillRect(i * 3.5, 50, 2.3, height * -50);
-        ctx.fillRect(i * 3.5, 50, 2.3, height * 50);
-      }
-
-      this.drawProgress(normalizedData); // requestAnimationFrame(this.draw(this.exam))
+      // const canvas = document.querySelector("canvas");
+      // canvas.width = 680
+      // canvas.height = 100
+      // const ctx = canvas.getContext("2d");
+      // ctx.clearRect(0, 0, 680, 100)
+      // ctx.fillStyle = "transparent"
+      // ctx.fillRect(0, 0, 680, 100)
+      // for (let i = 0; i < normalizedData.length; i++) {
+      // //    console.log('first draw loop')
+      //    let height = normalizedData[i]
+      //    ctx.fillStyle = "grey"
+      //    ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
+      //    ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
+      // }
+      this.drawProgress(); // requestAnimationFrame(this.draw(this.exam))
       // this.first = canvas.toDataURL('image/png', 1.0) //may delete if useless
     }
   }, {
@@ -2507,23 +2514,23 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     value: function draw(normalizedData) {
       var canvas = document.createElement('canvas');
       canvas.width = 680;
-      canvas.height = 100;
+      canvas.height = 80;
       var ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, 680, 100);
+      ctx.clearRect(0, 0, 680, 80);
       ctx.fillStyle = "transparent";
-      ctx.fillRect(0, 0, 680, 100);
+      ctx.fillRect(0, 0, 680, 80);
 
       for (var i = 0; i < normalizedData.length; i++) {
         var height = normalizedData[i];
         ctx.fillStyle = "grey";
-        ctx.fillRect(i * 3.5, 50, 2.3, height * -50);
-        ctx.fillRect(i * 3.5, 50, 2.3, height * 50);
+        ctx.fillRect(i * 3.5, 40, 2.3, height * -40);
+        ctx.fillRect(i * 3.5, 40, 2.3, height * 40);
       }
 
       ctx.strokeStyle = "#ededed";
       ctx.beginPath();
-      ctx.moveTo(0, 50);
-      ctx.lineTo(680, 50);
+      ctx.moveTo(0, 40);
+      ctx.lineTo(680, 40);
       ctx.stroke();
       return canvas.toDataURL('image/png', 1.0);
     }
@@ -2843,10 +2850,13 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      currentSong: ""
+      currentTime: 0
     };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.draw = _this.draw.bind(_assertThisInitialized(_this));
+    _this.totalTime = 0;
+    _this.time = 60;
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this)); // this.draw = this.draw.bind(this)
+    // this.drawProgress = this.drawProgress.bind(this)
+
     return _this;
   }
 
@@ -2854,48 +2864,34 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     key: "handleClick",
     value: function handleClick() {
       var song = this.props.song;
-      this.props.getSong(song.id);
-
-      if (this.props.profile) {
-        var lastSong;
-
-        if (this.props.state.session.currentSong && this.props.state.session.currentSong.id !== song.id) {
-          lastSong = this.props.state.session.currentSong;
-          var canvas = document.querySelector("#canvas".concat(lastSong.id));
-          canvas.width = 680;
-          canvas.height = 100;
-          var ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, 680, 100);
-        } // this.props.getSong(song.id) 
-
-
-        this.draw(song);
-      } //else {
+      this.props.getSong(song.id); // if (this.props.profile) {
+      //   let lastSong 
+      //   if (this.props.state.session.currentSong && this.props.state.session.currentSong.id !== song.id) {
+      //     lastSong = this.props.state.session.currentSong
+      //     const canvas = document.querySelector(`#canvas${lastSong.id}`);
+      //     canvas.width = 680
+      //     canvas.height = 100
+      //     const ctx = canvas.getContext("2d");
+      //     ctx.clearRect(0, 0, 680, 100)
+      //   }
+      // } //else {
       //   this.props.getSong(song.id)
       // }
-
-    } // componentDidMount() {
-    //   this.draw()
-    // }
-
+    }
   }, {
-    key: "draw",
-    value: function draw(song) {
-      // let song = this.props.song
-      var canvas = document.querySelector("#canvas".concat(song.id));
-      canvas.width = 680;
-      canvas.height = 100;
-      var ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, 680, 100); // ctx.fillStyle = "transparent"
-      // ctx.fillStyle = "green"
-      // ctx.fillRect(0, 0, 680, 100)
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this2 = this;
 
-      var waveForm = new Image();
-      waveForm.src = song.waveForm;
+      if (this.props.state.session.currentSong) {
+        var audioEle = document.getElementById('myAudio');
 
-      waveForm.onload = function () {
-        ctx.drawImage(waveForm, 0, 0);
-      };
+        audioEle.ontimeupdate = function () {
+          _this2.setState({
+            currentTime: audioEle.currentTime / audioEle.duration * 100
+          });
+        };
+      }
     }
   }, {
     key: "render",
@@ -2954,9 +2950,16 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
         }, song.title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           className: "waveFormImg",
           src: song.waveForm
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
-          id: 'canvas' + song.id
-        }))));
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "progressWaveFormContainer",
+          style: {
+            width: "".concat(this.state.currentTime, "%"),
+            overflow: "hidden"
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          className: "progressWaveFormImg",
+          src: song.waveForm
+        })))));
       }
     }
   }]);

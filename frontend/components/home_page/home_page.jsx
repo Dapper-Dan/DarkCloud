@@ -22,7 +22,8 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
         loginForm: false,
-        registerForm: false
+        registerForm: false,
+        showModal: false
     };
 
     this.handleSignup = this.handleSignup.bind(this);
@@ -41,11 +42,17 @@ class HomePage extends React.Component {
 
 
   loginModelShow() {
-      this.setState( {loginForm : true})
+    this.setState( {
+        loginForm : true,
+        showModal: true                   
+    })
   }
 
   registerModelShow() {
-    this.setState( {registerForm : true})
+    this.setState( {
+        registerForm : true,
+        showModal: true                   
+    })
 }
 
 
@@ -64,7 +71,8 @@ class HomePage extends React.Component {
   changeShow() {
     this.setState({
         loginForm: false,
-        registerForm: false
+        registerForm: false,
+        showModal: false
     });
   }
 
@@ -73,10 +81,28 @@ class HomePage extends React.Component {
   
 
   render() {
+    let showModal = (
+    <div className="modal-background">
+        <div className="signModal">
+            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
+            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
+        </div>
+    </div>
+    )
+
+    let noModal = ""
+
+    let sessionModal
+
+    this.state.showModal ? (sessionModal = showModal) : (sessionModal = noModal);
+
     return (
 
     <>
     <div className="mainLanding">
+
+       
+        {sessionModal}
    
         
         <div className="frontHero" >
@@ -97,11 +123,6 @@ class HomePage extends React.Component {
         
         </div>
 
-    
-        <div className="signModal">
-           { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-           { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-        </div>
 
         <div className="mainSearch">
            

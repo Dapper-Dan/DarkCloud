@@ -117,6 +117,7 @@
 
 .waveFormImg {
    margin-top: 7px;
+   position: absolute;
 }
 
 .progressWaveFormImg {
@@ -142,6 +143,42 @@
 }
 
 
-// .progressWaveFormContainer {
-//     overflow: hidden;
-// }
+.progressWaveFormContainer {
+    overflow: hidden;
+}
+
+.songProgressTimer {
+    background: black;
+    color: #1DB954;
+    width: 21px;
+    font-size: 11px;
+    position: relative;
+    top: 63px;
+    z-index: 99;
+}
+
+.songEndTimer {
+    background: black;
+    color: #999;
+    width: 21px;
+    font-size: 11px;
+    position: relative;
+    top: 47px;
+    left: 659px;
+    z-index: 99;
+    
+}
+
+#recent {
+    margin-top: 10px;
+    margin-left: 38px;
+    font-size: 23px;
+
+}
+
+
+
+
+
+
+

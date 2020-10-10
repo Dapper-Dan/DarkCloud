@@ -77,6 +77,8 @@
     cursor: pointer;
 }
 
+
+
 .library-button {
     display: block;
     padding: 12px 0;
@@ -127,18 +129,13 @@
 }
 
 .signup-modal-button {
-    // left: 900px;
-    // height: 60px;
-    // position: absolute;
-   
-
     display: inline-block;
     position: relative;
     height: 30px;
     font-weight: 100;
     margin: 0 0 0 12px;
     padding: 2px 16px;
-    
+
     border: 1px solid #1DB954;
     border-radius: 3px;
     background-color: #1DB954;
@@ -149,12 +146,8 @@
     white-space: nowrap;
     font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
     font-weight: 100;
-    text-align: center;
-    vertical-align: baseline;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    box-sizing: border-box;
+    
+ 
     
 }
 
@@ -201,9 +194,9 @@
 }
 
 .all-songs-button {
-    cursor: pointer;
+    // cursor: pointer;
     display: block;
-    color: black;
+    color: #1DB954 !important;
     margin-right: 22px;
     background-color: white;
 }

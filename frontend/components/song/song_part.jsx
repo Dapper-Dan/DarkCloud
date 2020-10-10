@@ -8,48 +8,72 @@ class SongPart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentTime: 0
+            currentTime: 0,
+            songTime: "0:00"
         }
-        this.totalTime = 0
-        this.time = 60
+        
         this.handleClick = this.handleClick.bind(this)
-        // this.draw = this.draw.bind(this)
-        // this.drawProgress = this.drawProgress.bind(this)
+        this.play = this.play.bind(this)
+        
+      }
+
+
+      play() {
+        let audioEle = document.getElementById('myAudio')
+        if (audioEle.paused) {
+          audioEle.play()
+        } else if (!audioEle.paused) {
+          audioEle.pause()
+        }
       }
 
 
     handleClick() {
       const song = this.props.song
       this.props.getSong(song.id)
-
-      // if (this.props.profile) {
-      //   let lastSong 
-      //   if (this.props.state.session.currentSong && this.props.state.session.currentSong.id !== song.id) {
-      //     lastSong = this.props.state.session.currentSong
-      //     const canvas = document.querySelector(`#canvas${lastSong.id}`);
-      //     canvas.width = 680
-      //     canvas.height = 100
-      //     const ctx = canvas.getContext("2d");
-      //     ctx.clearRect(0, 0, 680, 100)
-      //   }
-
-    
-      // } //else {
-      //   this.props.getSong(song.id)
-      // }
+      setTimeout(this.play, 300)    
     }
-
+  
     componentDidUpdate() {
-      if (this.props.state.session.currentSong) {
+      if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) { 
         let audioEle = document.getElementById('myAudio')
+        
         audioEle.ontimeupdate = () => {
           this.setState({ currentTime: (audioEle.currentTime / audioEle.duration) * 100 })
+          let unformattedTime = audioEle.currentTime
+          let minutes = Math.floor(unformattedTime / 60 )
+          let seconds 
+          Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60)
+          let formattedTime = minutes + ":" + seconds
+          this.setState({ songTime: formattedTime })
         }
-      }
+      } 
     }
 
-    render(){
+    render() {
+      let songProgressTime
+      if (this.props.state.session.currentSong && this.props.song.songUrl !== this.props.state.session.currentSong.songUrl) { 
+        songProgressTime = "0:00"
+      } else {
+        songProgressTime = this.state.songTime
+      }
+      
       const song = this.props.song
+      let songTime = song.duration
+      let endTimeMinutes = Math.floor(songTime / 60 )
+      let endTimeSeconds 
+      Math.floor(songTime % 60) > 9 ? endTimeSeconds = Math.floor(songTime % 60) : endTimeSeconds = "0" + Math.floor(songTime % 60)
+      let endTime = endTimeMinutes + ":" + endTimeSeconds
+
+     
+      let progressWaveForm
+      if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
+        progressWaveForm = (
+        <div className="progressWaveFormContainer" style={{ width:`${this.state.currentTime}%` }}>
+          <img className="progressWaveFormImg" src={song.waveForm} />
+        </div>
+        )
+      }
   
       if (!this.props.profile) {
         
@@ -106,10 +130,20 @@ class SongPart extends React.Component {
 
               </div>
 
-              <img className="waveFormImg" src={song.waveForm} />
+              <div className="songProgressTimer">
+                {songProgressTime}
+              </div>
+                
+              <div className="songEndTimer">
+                {endTime}
+              </div>
 
-              <div className="progressWaveFormContainer" style={{ width:`${this.state.currentTime}%`, overflow: "hidden" }}>
-                <img className="progressWaveFormImg" src={song.waveForm} />
+              <div className="waveFormContainer" >
+
+                <img className="waveFormImg" src={song.waveForm}/>
+                {progressWaveForm}
+
+
               </div>
 
             </div>

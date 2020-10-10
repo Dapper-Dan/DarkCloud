@@ -614,7 +614,8 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       loginForm: false,
-      registerForm: false
+      registerForm: false,
+      showModal: false
     };
     _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -647,14 +648,16 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     key: "loginModelShow",
     value: function loginModelShow() {
       this.setState({
-        loginForm: true
+        loginForm: true,
+        showModal: true
       });
     }
   }, {
     key: "registerModelShow",
     value: function registerModelShow() {
       this.setState({
-        registerForm: true
+        registerForm: true,
+        showModal: true
       });
     }
   }, {
@@ -679,15 +682,28 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
     value: function changeShow() {
       this.setState({
         loginForm: false,
-        registerForm: false
+        registerForm: false,
+        showModal: false
       });
     }
   }, {
     key: "render",
     value: function render() {
+      var showModal = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-background"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "signModal"
+      }, this.state.loginForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_login_form_container_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        changeShow: this.changeShow
+      }) : '', this.state.registerForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        changeShow: this.changeShow
+      }) : ''));
+      var noModal = "";
+      var sessionModal;
+      this.state.showModal ? sessionModal = showModal : sessionModal = noModal;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mainLanding"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, sessionModal, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "frontHero"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "transLogo"
@@ -706,12 +722,6 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         className: "signup-modal-button",
         onClick: this.registerModelShow
       }, " Create account"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "signModal"
-      }, this.state.loginForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_login_form_container_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        changeShow: this.changeShow
-      }) : '', this.state.registerForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        changeShow: this.changeShow
-      }) : ''), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mainSearch"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " or "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, " UPLOAD YOUR OWN TRACK ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_12__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_form_container__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
     }
@@ -812,59 +822,32 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      audioData: new Uint8Array(0),
-      playing: false,
       songTime: "0:00",
       currentTime: 0,
       mouseDown: false
     };
-    _this.totalTime = 0; // this.currentSec = 0
-
-    _this.time = 60;
 
     _this.props.getBunchSongs();
 
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.changeVolume = _this.changeVolume.bind(_assertThisInitialized(_this));
-    _this.draw = _this.draw.bind(_assertThisInitialized(_this));
-    _this.drawProgress = _this.drawProgress.bind(_assertThisInitialized(_this));
     _this.getCurrentTime = _this.getCurrentTime.bind(_assertThisInitialized(_this));
     _this.updateProgress = _this.updateProgress.bind(_assertThisInitialized(_this));
     _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
     _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
     _this.drag = _this.drag.bind(_assertThisInitialized(_this));
     return _this;
-  } // componentDidMount() {
-  //     if (document.querySelector("#progress-bar")) this.drawBar()
-  // }
-  // shouldComponentUpdate(nextProps) {
-  //     if (this.state.playing === true) {
-  //         this.audioElement.pause()
-  //         this.state.playing = false
-  //     } 
-  //     if (nextProps.state.session.song === undefined) {
-  //         return false
-  //     } else {
-  //         return true
-  //     }
-  // }
-
+  }
 
   _createClass(MusicPlayer, [{
     key: "play",
     value: function play() {
-      // if (this.trackConnect.context.state === 'suspended') { 
-      //     this.trackConnect.context.resume();
-      // }
-      console.log('play');
-      console.log(this.state);
+      var audioEle = document.getElementById('myAudio');
 
-      if (this.state.playing === false) {
-        document.getElementById('myAudio').play();
-        this.state.playing = true;
-      } else if (this.state.playing === true) {
-        document.getElementById('myAudio').pause();
-        this.state.playing = false;
+      if (audioEle.paused) {
+        audioEle.play();
+      } else if (!audioEle.paused) {
+        audioEle.pause();
       }
     }
   }, {
@@ -895,132 +878,25 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       document.removeEventListener('mousemove', this.drag);
       document.removeEventListener('mouseup', this.handleMouseUp);
       var song = document.getElementById('myAudio');
-      var progressContainer = document.querySelector('.song-progress-bar-container');
       var progressLine = document.querySelector('.song-bar');
-      var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft;
-      var divAdjust = e.pageX - progressLine.offsetLeft; // let divAdjust = e.pageX - totalProgressOffset
-
+      var divAdjust = e.pageX - progressLine.offsetLeft;
       var newTime = Math.floor(divAdjust / progressLine.offsetWidth * song.duration);
       song.currentTime = newTime;
-      console.log('mouseup');
     }
   }, {
     key: "drag",
     value: function drag(e) {
-      console.log('drag'); // console.log(this.state.currentTime)
-
-      var progressContainer = document.querySelector('.song-progress-bar-container');
       var progressLine = document.querySelector('.song-bar');
-      var totalProgressOffset = progressContainer.offsetLeft + progressLine.offsetLeft; // let divAdjust = e.pageX - totalProgressOffset     ORIGINAL CODE
-
       var divAdjust = e.pageX - progressLine.offsetLeft;
-      console.log(divAdjust); // console.log(progressContainer.offsetLeft)
-      // console.log(progressLine.offsetLeft)
-      // console.log(e.pageX)
-
       var newWidth = Math.floor(divAdjust / progressLine.offsetWidth * 100);
-      console.log(newWidth); // console.log(progressLine.offsetLeft)
-      // console.log(progressLine.offsetWidth)
-      // console.log(this.state.currentTime)
-      // if (e.pageX >= progressLine.offsetLeft && e.pageX <= (progressLine.offsetLeft + progressLine.offsetWidth)) {
 
       if (this.state.mouseDown) {
-        console.log('mouseDown');
         this.setState({
           currentTime: newWidth
         });
         document.querySelector('.song-progress-bar').style.width = "".concat(newWidth, "%");
-      } // console.log('yes')
-      // }
-      // this.setState({currentTime: this.state.currentTime += 1})
-      // console.log(boop += newWidth)
-      // document.querySelector('.song-progress-bar').style.width = `${boop += newWidth}px`
-      // this.setState({currentTime: newWidth})
-      // document.querySelector('.song-progress-bar').style.width = `${newWidth}px`
-      // this.setState({currentTime: this.state.currentTime += 1})
-      // console.log(this.state.currentTime)
-
-    } // drawBar() {
-    //     let canvas2 = document.querySelector("#progress-bar");
-    //     // canvas2.width = 600
-    //     // canvas2.height = 50
-    //     let ctx2 = canvas2.getContext("2d");
-    //     ctx2.lineWidth = 1;
-    //     ctx2.moveTo(40, 10.5);
-    //     ctx2.lineTo(260, 10.5);
-    //     ctx2.strokeStyle = "#1DB954"
-    //     ctx2.stroke();
-    //     // if (this.audioB)
-    //     ctx2.fillText(this.audioBuffer.duration, 270, 10.5)
-    // }
-
-  }, {
-    key: "draw",
-    value: function draw(normalizedData) {
-      // console.log('draw')
-      // const canvas = document.querySelector("canvas");
-      // canvas.width = 680
-      // canvas.height = 100
-      // const ctx = canvas.getContext("2d");
-      // ctx.clearRect(0, 0, 680, 100)
-      // ctx.fillStyle = "transparent"
-      // ctx.fillRect(0, 0, 680, 100)
-      // for (let i = 0; i < normalizedData.length; i++) {
-      // //    console.log('first draw loop')
-      //    let height = normalizedData[i]
-      //    ctx.fillStyle = "grey"
-      //    ctx.fillRect(i * 3.5, 50, 2.3, height * -50)
-      //    ctx.fillRect(i * 3.5, 50, 2.3, height * 50)
-      // }
-      this.drawProgress(); // requestAnimationFrame(this.draw(this.exam))
-      // this.first = canvas.toDataURL('image/png', 1.0) //may delete if useless
-    }
-  }, {
-    key: "drawProgress",
-    value: function drawProgress() {
-      var seconds = Math.floor(this.totalTime / 60 % 60);
-      var canvas = document.querySelector("canvas"); // canvas.width = 680
-      // canvas.height = 100
-
-      var ctx;
-
-      if (ctx === undefined) {
-        ctx = canvas.getContext("2d");
-      } // let ctx = canvas.getContext("2d");
-      // let sec = Math.floor(Date.now()/1000);
-      // if (sec !== this.currentSec) {
-      //     this.currentSec = sec;
-      //   } else {
-
-
-      this.totalTime++; //   }
-      //    console.log(this.exam)
-
-      ctx.fillStyle = "red"; // ctx.fillRect(0, 0, 400, 400)
-
-      if (seconds < this.time) {
-        for (var i = 0; i <= seconds; i++) {
-          // console.log('draw progress')
-          var height = this.sampleArray[i]; // let height = 10
-
-          ctx.fillStyle = "#1DB954";
-          ctx.fillRect(i * 3.5, 50, 2, height * -50);
-          ctx.fillRect(i * 3.5, 50, 2, height * 50);
-        }
       }
-
-      requestAnimationFrame(this.drawProgress);
-    } // findDur(so) {
-    //     console.log('h')
-    //     let audioContext = new (window.AudioContext || window.webkitAudioContext)()
-    //     fetch(so)
-    //                 .then(response => response.arrayBuffer())
-    //                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-    //                 .then(audioBuffer => {
-    //                     console.log(audioBuffer.duration)
-    //                     this.endTime = audioBuffer.duration})
-    // }
-
+    }
   }, {
     key: "getCurrentTime",
     value: function getCurrentTime() {
@@ -1032,39 +908,27 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       var formattedTime = minutes + ":" + seconds;
       this.setState({
         songTime: formattedTime
-      }); // this.setState({ currentTime: song.currentTime })   //expppppperioiiiment
-
-      console.log('gettime');
+      });
       this.updateProgress();
     }
   }, {
     key: "updateProgress",
     value: function updateProgress() {
       var song = document.getElementById('myAudio');
-      var currentTime = song.currentTime; // let currentTime = this.state.currentTime;
-
+      var currentTime = song.currentTime;
       var endTime = song.duration;
 
       if (!this.state.mouseDown) {
         this.setState({
           currentTime: currentTime / endTime * 100
         });
-      } // EXPPPPPPERIOIIMENT //////////////////////////////
-      // let song = document.getElementById('myAudio')
-      // let currentTime = this.state.currentTime;
-      // let endTime = song.duration;
-      // this.progressAMT = (currentTime / endTime) * 100
-      // console.log('progress')
-      // console.log(this.progressAMT)
-      // console.log(currentTime)
-
+      }
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      // console.log('render')
       var song;
       var artist_name;
       var song_title;
@@ -1079,66 +943,14 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         song = "";
       }
 
-      if (song) {
-        // console.log(this)
+      if (!song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+      } else {
         var songTime = this.props.state.session.currentSong.duration;
         var minutes = Math.floor(songTime / 60);
         var seconds;
         Math.floor(songTime % 60) > 9 ? seconds = Math.floor(songTime % 60) : seconds = "0" + Math.floor(songTime % 60);
-        var endTime = minutes + ":" + seconds; // const preview = document.createElement('audio');
-        // const reader = new FileReader()
-        // reader.onloadend = () => { 
-        //     preview.src = reader.result;
-        //   }
-        // reader.readAsDataURL(this.props.state.session.song)
-        // setVariables(song)
-
-        var audioContext = new (window.AudioContext || window.webkitAudioContext)(); // const visualizeAudio = url => {
-        //     fetch(url)
-        //       .then(response => response.arrayBuffer())
-        //       .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        //       .then(audioBuffer => {
-        //           this.sampleArray = normalizeData(filterData(audioBuffer))
-        //         this.draw(normalizeData(filterData(audioBuffer)))
-        //       })
-        // }
-        // this.findDur(song)
-        // let endTimee
-        // fetch(song)
-        //     .then(response => response.arrayBuffer())
-        //     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        //     .then(audioBuffer => {
-        //         console.log(audioBuffer.duration)
-        //         endTimee = audioBuffer.duration})
-        //     .then(console.log(endTime))
-        // const filterData = audioBuffer => {
-        //     const rawData = audioBuffer.getChannelData(0);
-        //     const samples = 200;
-        //     const blockSize = Math.floor(rawData.length / samples);
-        //     const filteredData = [];
-        //     for (let i = 0; i < samples; i++) {
-        //       let blockStart = blockSize * i;
-        //       let sum = 0;
-        //       for (let j = 0; j < blockSize; j++) {
-        //         sum = sum + Math.abs(rawData[blockStart + j]);
-        //       }
-        //       filteredData.push(sum / blockSize);
-        //     }
-        //     return filteredData
-        // }
-        // const normalizeData = filteredData => {
-        //     const multiplier = Math.pow(Math.max(...filteredData), -1);
-        //     return filteredData.map(n => n * multiplier);
-        // }
-        // this.audioElement = document.createElement("AUDIO"); 
-        // this.audioElement.setAttribute("src", song);
-        // this.audioElement.ontimeupdate = () => { this.getCurrentTime() }
-        // let track = audioContext.createMediaElementSource(this.audioElement);
-        // this.gainNode = audioContext.createGain();
-        // this.trackConnect =  track.connect(this.gainNode).connect(audioContext.destination);
-        // visualizeAudio(song)
-        // this.drawBar()
-
+        var endTime = minutes + ":" + seconds;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "media-player-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1209,8 +1021,6 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
             _this2.getCurrentTime();
           }
         })));
-      } else {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "no media");
       }
     }
   }]);
@@ -1329,9 +1139,14 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
             src: window.greenLogo,
             width: "184px",
             className: "nav-logo"
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+            to: "/",
+            style: {
+              textDecoration: 'none'
+            }
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
             className: "home-button"
-          }, " Home "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          }, " Home ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
             className: "library-button"
           }, " Library ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
             className: "right_nav"
@@ -1348,13 +1163,7 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
         case 'song':
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "song_nav_bar"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-            className: "all-songs-button"
-          }, " All "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-            className: "popular-songs-button"
-          }, " Popular "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-            className: "albums-button"
-          }, " Albums "));
+          });
       }
     }
   }]);
@@ -1563,7 +1372,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "nameplate"
       }, " ", user.display_name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "location-plate"
-      }, " ", location, " ")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " ", location, " ")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        id: "recent"
+      }, "Recent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-songs"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -1972,7 +1783,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     formType: 'login',
-    users: state.entities.users
+    currentUser: state.session.user
   };
 };
 
@@ -2070,18 +1881,14 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       formData.append('user[password]', this.state.password);
       formData.append('user[display_name]', this.state.display_name);
       formData.append('user[age]', this.state.age);
-      formData.append('user[gender]', this.state.gender); // formData.append('user[cover_photo]', this.state.cover_photo);
-      // formData.append('user[profile_photo]', this.state.profile_photo);
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0]+ ', ' + pair[1]); }
-      // console.log(this.state)
-
-      this.props.action(formData); // const {email, password, display_name, age, gender } = this.state;
-      // this.props.action({email, password, display_name, age, gender });
+      formData.append('user[gender]', this.state.gender);
+      this.props.action(formData);
     }
   }, {
     key: "handleLogin",
     value: function handleLogin(e) {
+      var _this2 = this;
+
       e.preventDefault();
       var _this$state = this.state,
           email = _this$state.email,
@@ -2090,16 +1897,18 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
         email: email,
         password: password
       });
-
-      this._next();
+      setTimeout(function () {
+        if (_this2.props.currentUser) _this2.props.changeShow();
+      }, 300);
+      if (this.state.step !== 3) this._next();
     }
   }, {
     key: "update",
     value: function update(value) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
-        return _this2.setState(_defineProperty({}, value, e.target.value));
+        return _this3.setState(_defineProperty({}, value, e.target.value));
       };
     }
   }, {
@@ -2132,6 +1941,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log(this.props.currentUser);
       var step = this.state.step;
       var _this$state2 = this.state,
           email = _this$state2.email,
@@ -2152,7 +1962,9 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
           case 1:
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "signup-form-group"
-            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "emailInput"
+            }, "Please enter your email address to sign up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-email-input",
               placeholder: "Your email address",
               type: "text",
@@ -2162,43 +1974,48 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               className: "signup-form-button",
               type: "button",
               onClick: this._next
-            }, " Continue "));
+            }, " Continue "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "thanks"
+            }, "Thanks for using my site! The information you provide will not be used for anything! There will be no ads, no email notifications, and no nonsense. "));
 
           case 2:
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "signup-form-group"
-            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-              className: "createYourAccountHeader"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+              id: "createYourAccountHeader"
             }, "Create your AudioCloud account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-              className: "signup-password-req"
-            }, "Choose a password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+              id: "signup-password"
+            }, "Choose a password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+              id: "signup-password-form"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-password-input",
               autoComplete: "password",
               type: "password",
               value: values.password,
-              onChange: this.update('password')
-            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-              className: "accept-cookies"
+              onChange: this.update('password'),
+              placeholder: "Your password"
+            })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "accept-cookies"
             }, " By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
               type: "button",
               onClick: this._next
-            }, " Accept & continue ")));
+            }, " Accept & continue "));
 
           case 3:
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "signup-form-group"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-              className: "createYourAccountHeader"
+              id: "createYourAccountHeader"
             }, "Create your AudioCloud account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-              className: "signup-age-req"
+              id: "signup-age"
             }, "Tell us your age"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-age-input",
               type: "number",
               value: values.age,
               onChange: this.update('age')
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-              className: "signup-gender-req"
+              id: "signup-gender"
             }, "Gender"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
               className: "signup-gender-select",
               onChange: this.update('gender'),
@@ -2224,17 +2041,18 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "signup-form-group"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-              className: "tellUsAboutYourselfHeader"
+              id: "tellUsAboutYourselfHeader"
             }, "Tell us a bit about yourself"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-              className: "signup-displayName-req"
+              id: "signup-displayName"
             }, "Choose your display name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-displayName-input",
               type: "text",
               value: values.display_name,
               onChange: this.update('display_name')
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-              className: "display-name"
+              id: "signup-display"
             }, " Your display name can be anything you like. Your name or artist name are good choices."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+              id: "signup-navLink",
               to: "/discover"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
@@ -2246,7 +2064,9 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
           case 1:
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "signup-form-group"
-            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "login-email"
+            }, "Please enter your email to login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-email-input",
               placeholder: "Your email address",
               type: "text",
@@ -2261,32 +2081,42 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
           case 2:
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "signup-form-group"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "login-password"
+            }, "Please enter your password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+              id: "login-password-form"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
               className: "signup-password-input",
               autoComplete: "password",
               type: "password",
               value: values.password,
-              onChange: this.update('password')
-            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              onChange: this.update('password'),
+              placeholder: "Your password"
+            })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
               onClick: this.handleLogin
             }, " Sign in "));
 
           case 3:
-            if (Object.keys(this.props.users).length > 0) {
+            if (this.props.currentUser) {
               return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
                 to: "/discover"
               });
             } else {
               return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
                 className: "signup-form-group"
+              }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+                id: "login-password"
+              }, "Please enter your password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+                id: "login-password-form"
               }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
                 className: "signup-password-input",
                 autoComplete: "password",
                 type: "password",
                 value: values.password,
-                onChange: this.update('password')
-              }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+                onChange: this.update('password'),
+                placeholder: "Your password"
+              })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
                 className: "signup-form-button",
                 onClick: this.handleLogin
               }, " Sign in "));
@@ -2850,45 +2680,53 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      currentTime: 0
+      currentTime: 0,
+      songTime: "0:00"
     };
-    _this.totalTime = 0;
-    _this.time = 60;
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this)); // this.draw = this.draw.bind(this)
-    // this.drawProgress = this.drawProgress.bind(this)
-
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.play = _this.play.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(SongPart, [{
+    key: "play",
+    value: function play() {
+      var audioEle = document.getElementById('myAudio');
+
+      if (audioEle.paused) {
+        audioEle.play();
+      } else if (!audioEle.paused) {
+        audioEle.pause();
+      }
+    }
+  }, {
     key: "handleClick",
     value: function handleClick() {
       var song = this.props.song;
-      this.props.getSong(song.id); // if (this.props.profile) {
-      //   let lastSong 
-      //   if (this.props.state.session.currentSong && this.props.state.session.currentSong.id !== song.id) {
-      //     lastSong = this.props.state.session.currentSong
-      //     const canvas = document.querySelector(`#canvas${lastSong.id}`);
-      //     canvas.width = 680
-      //     canvas.height = 100
-      //     const ctx = canvas.getContext("2d");
-      //     ctx.clearRect(0, 0, 680, 100)
-      //   }
-      // } //else {
-      //   this.props.getSong(song.id)
-      // }
+      this.props.getSong(song.id);
+      setTimeout(this.play, 300);
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       var _this2 = this;
 
-      if (this.props.state.session.currentSong) {
+      if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
         var audioEle = document.getElementById('myAudio');
 
         audioEle.ontimeupdate = function () {
           _this2.setState({
             currentTime: audioEle.currentTime / audioEle.duration * 100
+          });
+
+          var unformattedTime = audioEle.currentTime;
+          var minutes = Math.floor(unformattedTime / 60);
+          var seconds;
+          Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60);
+          var formattedTime = minutes + ":" + seconds;
+
+          _this2.setState({
+            songTime: formattedTime
           });
         };
       }
@@ -2896,7 +2734,33 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var songProgressTime;
+
+      if (this.props.state.session.currentSong && this.props.song.songUrl !== this.props.state.session.currentSong.songUrl) {
+        songProgressTime = "0:00";
+      } else {
+        songProgressTime = this.state.songTime;
+      }
+
       var song = this.props.song;
+      var songTime = song.duration;
+      var endTimeMinutes = Math.floor(songTime / 60);
+      var endTimeSeconds;
+      Math.floor(songTime % 60) > 9 ? endTimeSeconds = Math.floor(songTime % 60) : endTimeSeconds = "0" + Math.floor(songTime % 60);
+      var endTime = endTimeMinutes + ":" + endTimeSeconds;
+      var progressWaveForm;
+
+      if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
+        progressWaveForm = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "progressWaveFormContainer",
+          style: {
+            width: "".concat(this.state.currentTime, "%")
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          className: "progressWaveFormImg",
+          src: song.waveForm
+        }));
+      }
 
       if (!this.props.profile) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2947,19 +2811,16 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           className: "songUser"
         }, song.display_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "songTitle"
-        }, song.title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        }, song.title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "songProgressTimer"
+        }, songProgressTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "songEndTimer"
+        }, endTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "waveFormContainer"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           className: "waveFormImg",
           src: song.waveForm
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "progressWaveFormContainer",
-          style: {
-            width: "".concat(this.state.currentTime, "%"),
-            overflow: "hidden"
-          }
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          className: "progressWaveFormImg",
-          src: song.waveForm
-        })))));
+        }), progressWaveForm))));
       }
     }
   }]);

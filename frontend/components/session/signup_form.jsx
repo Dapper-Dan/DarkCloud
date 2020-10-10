@@ -39,23 +39,18 @@ class SignupForm extends React.Component {
       formData.append('user[display_name]', this.state.display_name);
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender);
-      // formData.append('user[cover_photo]', this.state.cover_photo);
-      // formData.append('user[profile_photo]', this.state.profile_photo);
-      // for (var pair of formData.entries()) {
-      //   console.log(pair[0]+ ', ' + pair[1]); }
-      // console.log(this.state)
       this.props.action(formData)
-
-      // const {email, password, display_name, age, gender } = this.state;
-      // this.props.action({email, password, display_name, age, gender });
   }
 
   handleLogin(e) {
     e.preventDefault();
     const {email, password} = this.state;
     this.props.action({email, password});
-    this._next()
+    setTimeout(() => {
+      if (this.props.currentUser) this.props.changeShow()
+    }, 300)
     
+    if (this.state.step !== 3) this._next()
   }
 
 
@@ -92,6 +87,7 @@ handleClickOutside(event) {
   
 
   render() {
+    console.log(this.props.currentUser)
     const {step} = this.state;
     const {email, password, display_name, age, gender } = this.state;
     const values = {email, password, display_name, age, gender };
@@ -101,7 +97,9 @@ handleClickOutside(event) {
       case 1: 
         
       return (
+   
         <div className="signup-form-group">
+          <p id="emailInput">Please enter your email address to sign up</p>
             <input
               className="signup-email-input" 
               placeholder="Your email address"
@@ -110,35 +108,40 @@ handleClickOutside(event) {
               value={values.email}   
             />
 
-        <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
+          <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
+          <p id="thanks">Thanks for using my site! The information you provide will not be used for anything! There will be no ads, no email notifications, and no nonsense. </p>
         </div>
+       
     )
       case 2: 
       return (
         
         <div className="signup-form-group">
-          <form>
-        <h1 className="createYourAccountHeader">Create your AudioCloud account</h1>
-        <p className="signup-password-req">Choose a password</p>
-        <input
-          className="signup-password-input"
-          autoComplete="password"
-          type="password"
-          value={values.password}
-          onChange={this.update('password')}
-        />
+        
+        <h1 id="createYourAccountHeader">Create your AudioCloud account</h1>
+        <p id="signup-password">Choose a password</p>
+        <form id="signup-password-form">
+          <input
+            className="signup-password-input"
+            autoComplete="password"
+            type="password"
+            value={values.password}
+            onChange={this.update('password')}
+            placeholder="Your password"
+          />
+        </form>
 
-        <p className="accept-cookies"> By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy.</p>
+        <p id="accept-cookies"> By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy.</p>
 
         <button className="signup-form-button" type="button" onClick={ this._next }> Accept & continue </button>
-        </form>
+        
         </div>
         )
       case 3: 
       return (
         <div className="signup-form-group">
-        <h1 className="createYourAccountHeader">Create your AudioCloud account</h1>
-        <p className="signup-age-req">Tell us your age</p>
+        <h1 id="createYourAccountHeader">Create your AudioCloud account</h1>
+        <p id="signup-age">Tell us your age</p>
         <input
           className="signup-age-input"
           type="number"
@@ -146,7 +149,7 @@ handleClickOutside(event) {
           onChange={this.update('age')}
         />
 
-        <p className="signup-gender-req">Gender</p>
+        <p id="signup-gender">Gender</p>
         <select className="signup-gender-select" onChange={ this.update('gender') } defaultValue='' >
             <option disabled value="">Indicate your gender</option>
             <option value="Male">Male</option>
@@ -161,8 +164,8 @@ handleClickOutside(event) {
       case 4: 
       return (
         <div className="signup-form-group">
-        <h1 className="tellUsAboutYourselfHeader">Tell us a bit about yourself</h1>
-        <p className="signup-displayName-req">Choose your display name</p>
+        <h1 id="tellUsAboutYourselfHeader">Tell us a bit about yourself</h1>
+        <p id="signup-displayName">Choose your display name</p>
         <input
           className="signup-displayName-input"
           type="text"
@@ -170,8 +173,8 @@ handleClickOutside(event) {
           onChange={this.update('display_name')}
         />
 
-        <p className="display-name"> Your display name can be anything you like. Your name or artist name are good choices.</p>
-        <NavLink to="/discover">
+        <p id="signup-display"> Your display name can be anything you like. Your name or artist name are good choices.</p>
+        <NavLink id="signup-navLink" to="/discover">
          <button className="signup-form-button" onClick={ this.handleSignup }> Get started </button>
         </NavLink>
         </div>
@@ -183,6 +186,7 @@ handleClickOutside(event) {
           
         return (
           <div className="signup-form-group">
+            <p id="login-email">Please enter your email to login</p>
               <input
                 className="signup-email-input" 
                 placeholder="Your email address"
@@ -198,14 +202,17 @@ handleClickOutside(event) {
     
         return (
           <div className="signup-form-group">
+            <p id="login-password">Please enter your password</p>
+            <form id="login-password-form">
             <input
               className="signup-password-input"
               autoComplete="password"
               type="password"
               value={values.password}
               onChange={this.update('password')} 
+              placeholder="Your password"
             />
-            
+            </form>
                         
               <button className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>
               
@@ -214,19 +221,23 @@ handleClickOutside(event) {
         )
         case 3:
           
-          if (Object.keys(this.props.users).length > 0) {
+          if (this.props.currentUser) {
             return (
                <Redirect to="/discover" />
             )} else {
           return (
             <div className="signup-form-group">
+            <p id="login-password">Please enter your password</p>
+            <form id="login-password-form">
             <input
               className="signup-password-input"
               autoComplete="password"
               type="password"
               value={values.password}
               onChange={this.update('password')} 
+              placeholder="Your password"
             />
+            </form>
             
                         
               <button className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>

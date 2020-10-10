@@ -1,20 +1,127 @@
 .signup-form-group {
-    font-size: 20px;
-    width: 300px;
-    height: 550px !important;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin: auto;
-    // background: transparent;
-    background-color: white;
-    // position: relative;
-    // top: 6px;
-    // left: 20px;
+    align-items: center;  
+    margin-top: auto;
+    margin-bottom: auto;
+    font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+}
 
+.signup-form-group p {
+    color: black;
+    
+}
+
+#thanks, #signup-display, #accept-cookies  {
+    font-size: 10px;
+    color: rgb(179, 178, 178);
+    margin: auto;
+    width: 90%;
 }
 
 
-  
+.signup-form-group input {
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-width: thin;
+    width: 90%;
+    line-height: normal;
+    height: 38px;
+}
+
+.signup-form-group button {
+    background-color: #1DB954;
+    border-radius: 5px;
+    color: #fff;
+    border: 1px solid #1DB954;
+    width: 90%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    
+    
+}
+
+.signModal {
+    position: absolute;
+    top: 18%;
+    left: 43%;
+    width: 14%;
+    height: 500px;
+    background-color: white;
+    color: white;
+    z-index: 999;
+    display: flex;
+}
+
+@media (max-width:2000px) {
+    .signModal {
+        width: 26%;
+        left: 37%;
+       
+    }
+}
+
+#signup-password,#signup-age, #signup-gender, #signup-displayName {
+    font-size: 13px;
+    width: 90%;
+    margin: auto;
+
+}
+
+#createYourAccountHeader, #tellUsAboutYourselfHeader, #emailInput, #login-email, #login-password {
+    font-size: 30px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 27px;
+    font-weight: 500;
+    text-align: center;
+    color: black;
+}
+
+
+.signup-gender-select {
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-width: thin;
+    width: 90%;
+    line-height: normal;
+    height: 38px;
+}
+
+#signup-navLink {
+    width: 90%;
+    margin-top: 5px;
+}
+
+#signup-navLink .signup-form-button {
+    width: 100%;
+}
+
+
+#accept-cookies  {
+    font-size: 10px;
+    color: rgb(179, 178, 178);
+    margin: auto;
+    margin-bottom: 5px;
+    width: 90%;
+}
+
+#signup-password-form {
+    width: 90%;
+}
+
+#signup-password-form .signup-password-input {
+    width: 100%;
+}
+
+#login-password-form {
+    width: 90%;
+}
+
+#login-password-form .signup-password-input {
+    width: 100%;
+}
+

@@ -55,7 +55,7 @@ class Profile extends React.Component {
         location = ""
       }
   
-      
+     
       
       return(
         <>
@@ -86,10 +86,11 @@ class Profile extends React.Component {
 
           <SongNavBarContainer /> 
 
+            <p id="recent">Recent</p>
             <div className="profile-songs">
               <ul>
                   {songs.map((song) => ( 
-                     <li key={song.id} className="song-box">
+                     <li key={song.id} className="song-box" >
                       <SongPartContainer song={song} profile={true} />
                     
                      </li>

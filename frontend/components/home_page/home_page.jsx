@@ -26,19 +26,19 @@ class HomePage extends React.Component {
         showModal: false
     };
 
-    this.handleSignup = this.handleSignup.bind(this);
-    this.update = this.update.bind(this);
-    this._next = this._next.bind(this);
+    // this.handleSignup = this.handleSignup.bind(this);
+    // this.update = this.update.bind(this);
+    // this._next = this._next.bind(this);
     this.loginModelShow = this.loginModelShow.bind(this);
     this.registerModelShow = this.registerModelShow.bind(this);
     this.changeShow = this.changeShow.bind(this)
   }
     
-  handleSignup(e) {
-      e.preventDefault();
-      const {email, password, display_name, age, gender } = this.state;
-      this.props.action({email, password, display_name, age, gender });
-  }
+//   handleSignup(e) {
+//       e.preventDefault();
+//       const {email, password, display_name, age, gender } = this.state;
+//       this.props.action({email, password, display_name, age, gender });
+//   }
 
 
   loginModelShow() {
@@ -57,16 +57,16 @@ class HomePage extends React.Component {
 
 
 
-  update(value) {
-        return e => this.setState({ [value]: e.target.value });
-    }
+//   update(value) {
+//         return e => this.setState({ [value]: e.target.value });
+//     }
   
-  _next() {
-    const { step } = this.state
-        this.setState({
-            step : step + 1
-        })
-  }
+//   _next() {
+//     const { step } = this.state
+//         this.setState({
+//             step : step + 1
+//         })
+//   }
 
   changeShow() {
     this.setState({
@@ -145,24 +145,3 @@ class HomePage extends React.Component {
 
 
 export default HomePage;
-
-
-{/* <NavBar /> 
-<img src={window.logoURL} width="105px" />
-<div className="homePage">
-    <div className="transLogo">
-        <img src={window.transLogo} width="105px" className="transWhite"  />
-    </div> */}
-
-
-//     <div className="signModal">
-//     { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-//     { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-
-//  </div> 
-
-
-// <div>
-//            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-//            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-//            </div>

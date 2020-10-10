@@ -40,6 +40,11 @@ class SignupForm extends React.Component {
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender);
       this.props.action(formData)
+
+      
+      setTimeout(() => {
+        if (this.props.currentUser) this.props.changeShow()
+      }, 300)
   }
 
   handleLogin(e) {
@@ -179,6 +184,7 @@ handleClickOutside(event) {
         </NavLink>
         </div>
         )
+        
       }
     } else if (this.props.formType === "login") {
       switch(step) {

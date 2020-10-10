@@ -1,5 +1,7 @@
 import { connect } from "react-redux";
 import NavBar from './nav_bar'
+import {login} from '../../actions/session_actions.js'
+import {signup} from '../../actions/session_actions.js'
 
 
 const mSTP = state => ({
@@ -8,8 +10,7 @@ const mSTP = state => ({
 });
 
 const mDTP = (dispatch) => ({
-  action: (song) => dispatch(createSong(song)),
-  getUser: (user) => dispatch(login(user))
+  action: (song) => dispatch(createSong(song))
 });
 
 export default connect(mSTP, mDTP)(NavBar);

@@ -6,7 +6,8 @@ import SignupForm from './signup_form.jsx'
 
 const mapSTP = state => ({
     
-    formType: 'signup'
+    formType: 'signup',
+    currentUser: state.session.user
 
 })
 

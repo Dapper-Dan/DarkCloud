@@ -563,8 +563,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../search_bar/search_bar_container */ "./frontend/components/search_bar/search_bar_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -616,35 +614,22 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       loginForm: false,
       registerForm: false,
       showModal: false
-    };
-    _this.handleSignup = _this.handleSignup.bind(_assertThisInitialized(_this));
-    _this.update = _this.update.bind(_assertThisInitialized(_this));
-    _this._next = _this._next.bind(_assertThisInitialized(_this));
+    }; // this.handleSignup = this.handleSignup.bind(this);
+    // this.update = this.update.bind(this);
+    // this._next = this._next.bind(this);
+
     _this.loginModelShow = _this.loginModelShow.bind(_assertThisInitialized(_this));
     _this.registerModelShow = _this.registerModelShow.bind(_assertThisInitialized(_this));
     _this.changeShow = _this.changeShow.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } //   handleSignup(e) {
+  //       e.preventDefault();
+  //       const {email, password, display_name, age, gender } = this.state;
+  //       this.props.action({email, password, display_name, age, gender });
+  //   }
+
 
   _createClass(HomePage, [{
-    key: "handleSignup",
-    value: function handleSignup(e) {
-      e.preventDefault();
-      var _this$state = this.state,
-          email = _this$state.email,
-          password = _this$state.password,
-          display_name = _this$state.display_name,
-          age = _this$state.age,
-          gender = _this$state.gender;
-      this.props.action({
-        email: email,
-        password: password,
-        display_name: display_name,
-        age: age,
-        gender: gender
-      });
-    }
-  }, {
     key: "loginModelShow",
     value: function loginModelShow() {
       this.setState({
@@ -659,24 +644,16 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         registerForm: true,
         showModal: true
       });
-    }
-  }, {
-    key: "update",
-    value: function update(value) {
-      var _this2 = this;
+    } //   update(value) {
+    //         return e => this.setState({ [value]: e.target.value });
+    //     }
+    //   _next() {
+    //     const { step } = this.state
+    //         this.setState({
+    //             step : step + 1
+    //         })
+    //   }
 
-      return function (e) {
-        return _this2.setState(_defineProperty({}, value, e.target.value));
-      };
-    }
-  }, {
-    key: "_next",
-    value: function _next() {
-      var step = this.state.step;
-      this.setState({
-        step: step + 1
-      });
-    }
   }, {
     key: "changeShow",
     value: function changeShow() {
@@ -731,21 +708,6 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (HomePage);
-{}
-/* <NavBar /> 
-<img src={window.logoURL} width="105px" />
-<div className="homePage">
-   <div className="transLogo">
-       <img src={window.transLogo} width="105px" className="transWhite"  />
-   </div> */
-//     <div className="signModal">
-//     { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-//     { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-//  </div> 
-// <div>
-//            { this.state.loginForm ?  <LoginFormContainer changeShow={this.changeShow} /> : '' }
-//            { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
-//            </div>
 
 /***/ }),
 
@@ -1085,8 +1047,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NavBar; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../session/signup_form_container.jsx */ "./frontend/components/session/signup_form_container.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _session_login_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../session/login_form_container.jsx */ "./frontend/components/session/login_form_container.jsx");
+/* harmony import */ var _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../session/signup_form_container.jsx */ "./frontend/components/session/signup_form_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1109,6 +1072,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+ // import SignupFormContainer from '../session/signup_form_container.jsx';
+
 
 
 
@@ -1118,20 +1083,69 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(NavBar);
 
-  function NavBar() {
+  function NavBar(props) {
+    var _this;
+
     _classCallCheck(this, NavBar);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      loginForm: false,
+      registerForm: false,
+      showModal: false
+    };
+    _this.loginModelShow = _this.loginModelShow.bind(_assertThisInitialized(_this));
+    _this.registerModelShow = _this.registerModelShow.bind(_assertThisInitialized(_this));
+    _this.changeShow = _this.changeShow.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(NavBar, [{
+    key: "changeShow",
+    value: function changeShow() {
+      this.setState({
+        loginForm: false,
+        registerForm: false,
+        showModal: false
+      });
+    }
+  }, {
+    key: "loginModelShow",
+    value: function loginModelShow() {
+      this.setState({
+        loginForm: true,
+        showModal: true
+      });
+    }
+  }, {
+    key: "registerModelShow",
+    value: function registerModelShow() {
+      this.setState({
+        registerForm: true,
+        showModal: true
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var showModal = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-background"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "signModal"
+      }, this.state.loginForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_login_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        changeShow: this.changeShow
+      }) : '', this.state.registerForm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        changeShow: this.changeShow
+      }) : ''));
+      var noModal = "";
+      var sessionModal;
+      this.state.showModal ? sessionModal = showModal : sessionModal = noModal;
+
       switch (this.props.navType) {
         case 'default':
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav_bar"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, sessionModal, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav_buttons_container"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
             className: "left_nav"
@@ -1139,7 +1153,7 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
             src: window.greenLogo,
             width: "184px",
             className: "nav-logo"
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
             to: "/",
             style: {
               textDecoration: 'none'
@@ -1151,12 +1165,12 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
           }, " Library ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
             className: "right_nav"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            className: "login-modal-button"
-          }, " Sign in "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
-            to: "/register"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            className: "signup-modal-button"
-          }, " Create account")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "login-modal-button",
+            onClick: this.loginModelShow
+          }, " Sign in "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "signup-modal-button",
+            onClick: this.registerModelShow
+          }, " Create account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "upload-button"
           }, " Upload "))));
 
@@ -1186,6 +1200,9 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _nav_bar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nav_bar */ "./frontend/components/nav_bar/nav_bar.jsx");
+/* harmony import */ var _actions_session_actions_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions.js */ "./frontend/actions/session_actions.js");
+
+
 
 
 
@@ -1200,9 +1217,6 @@ var mDTP = function mDTP(dispatch) {
   return {
     action: function action(song) {
       return dispatch(createSong(song));
-    },
-    getUser: function getUser(user) {
-      return dispatch(login(user));
     }
   };
 };
@@ -1350,6 +1364,11 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         location = "";
       }
 
+      if (user === this.props.currentUser) {
+        /////here
+        console.log('yes, its mine');
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1422,7 +1441,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     state: state,
-    songs: state.entities.songs.songs
+    songs: state.entities.songs.songs,
+    currentUser: state.session.user
   };
 };
 
@@ -1875,6 +1895,8 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
   _createClass(SignupForm, [{
     key: "handleSignup",
     value: function handleSignup(e) {
+      var _this2 = this;
+
       e.preventDefault();
       var formData = new FormData();
       formData.append('user[email]', this.state.email);
@@ -1883,11 +1905,14 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender);
       this.props.action(formData);
+      setTimeout(function () {
+        if (_this2.props.currentUser) _this2.props.changeShow();
+      }, 300);
     }
   }, {
     key: "handleLogin",
     value: function handleLogin(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       e.preventDefault();
       var _this$state = this.state,
@@ -1898,17 +1923,17 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
         password: password
       });
       setTimeout(function () {
-        if (_this2.props.currentUser) _this2.props.changeShow();
+        if (_this3.props.currentUser) _this3.props.changeShow();
       }, 300);
       if (this.state.step !== 3) this._next();
     }
   }, {
     key: "update",
     value: function update(value) {
-      var _this3 = this;
+      var _this4 = this;
 
       return function (e) {
-        return _this3.setState(_defineProperty({}, value, e.target.value));
+        return _this4.setState(_defineProperty({}, value, e.target.value));
       };
     }
   }, {
@@ -2155,7 +2180,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapSTP = function mapSTP(state) {
   return {
-    formType: 'signup'
+    formType: 'signup',
+    currentUser: state.session.user
   };
 };
 

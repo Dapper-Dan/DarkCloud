@@ -374,8 +374,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  var store = Object(_store_store_js__WEBPACK_IMPORTED_MODULE_2__["default"])();
   var root = document.getElementById("root");
+  var preloadedState;
+
+  if (window.currentUser) {
+    preloadedState = {
+      session: {
+        currentUser: window.currentUser
+      }
+    };
+  }
+
+  var store = Object(_store_store_js__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState);
   window.store = store;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
@@ -1208,7 +1218,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mSTP = function mSTP(state) {
   return {
-    user: state.session.user,
+    user: state.session.currentUser,
     navType: 'default'
   };
 };
@@ -1241,7 +1251,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mSTP = function mSTP(state) {
   return {
-    user: state.session.user,
+    user: state.session.currentUser,
     navType: 'song'
   };
 };
@@ -1364,7 +1374,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         location = "";
       }
 
-      if (user === this.props.currentUser) {
+      if (user.id === this.props.currentUser.id) {
         /////here
         console.log('yes, its mine');
       }
@@ -1442,7 +1452,7 @@ var mapSTP = function mapSTP(state) {
   return {
     state: state,
     songs: state.entities.songs.songs,
-    currentUser: state.session.user
+    currentUser: state.session.currentUser
   };
 };
 
@@ -1803,7 +1813,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     formType: 'login',
-    currentUser: state.session.user
+    currentUser: state.session.currentUser
   };
 };
 
@@ -2181,7 +2191,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     formType: 'signup',
-    currentUser: state.session.user
+    currentUser: state.session.currentUser
   };
 };
 
@@ -2490,7 +2500,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mSTP = function mSTP(state) {
   return {
-    user: state.session.user
+    user: state.session.currentUser
   };
 };
 
@@ -2964,7 +2974,7 @@ var sessionReducer = function sessionReducer() {
   switch (action.type) {
     case _actions_session_actions_js__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       return Object.assign({}, state, {
-        user: action.user
+        currentUser: action.user
       });
 
     case _actions_session_actions_js__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:

@@ -55,7 +55,7 @@ class Profile extends React.Component {
         location = ""
       }
 
-      if (user === this.props.currentUser) {  /////here
+      if (user.id === this.props.currentUser.id) {  /////here
         console.log('yes, its mine')
       }
   

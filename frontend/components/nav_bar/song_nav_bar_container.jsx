@@ -3,7 +3,7 @@ import NavBar from './nav_bar'
 
 
 const mSTP = state => ({
-  user: state.session.user,
+  user: state.session.currentUser,
   navType: 'song'
 });
 

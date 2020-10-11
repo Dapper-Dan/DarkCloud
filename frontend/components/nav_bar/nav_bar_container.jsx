@@ -5,7 +5,7 @@ import {signup} from '../../actions/session_actions.js'
 
 
 const mSTP = state => ({
-  user: state.session.user,
+  user: state.session.currentUser,
   navType: 'default'
 });
 

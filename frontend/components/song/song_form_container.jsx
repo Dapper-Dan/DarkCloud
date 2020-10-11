@@ -5,7 +5,7 @@ import {login} from '../../actions/session_actions.js'
 
 
 const mSTP = state => ({
-  user: state.session.user
+  user: state.session.currentUser
 });
 
 const mDTP = (dispatch) => ({

@@ -13,26 +13,31 @@ class Profile extends React.Component {
     
       this.props.fetchUserInfo(this.props.match.params.display_name);
 
+      this.change = this.change.bind(this)
+      this.update = this.update.bind(this)
+
     }
     // cover_photo: null,
      //profile_photo: null
    
 
 
-    // componentDidUpdate() {
-    //   console.log('1')
-    //   this.props.getSongs(this.props.match.params.display_name);
-    // }
-    // componentDidMount(){
-    //   console.log('1')
-    //   this.setState({hi: 'hello'})
-    // }
+    change() {
+      const formData = new FormData();
+      formData.append('user[display_name]', this.val);
+      this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
+      .then(() => history.pushState({}, "", `/${this.val}`))
+    }
 
+    update(value) {
+      return e => {
+      this.val = e.target.value
+      }
+    }
 
-
+    
     render(){
-     
-      // console.log(this.props.state)
+ 
       let songs
       if (this.props.state.entities.songs.songs) {
       songs = Object.values(this.props.state.entities.songs.songs);
@@ -55,9 +60,22 @@ class Profile extends React.Component {
         location = ""
       }
 
-      if (user.id === this.props.currentUser.id) {  /////here
-        console.log('yes, its mine')
-      }
+      let pictureUpload
+      // if (user.id === this.props.currentUser.id) {  /////here
+      
+        pictureUpload = (
+          <>
+          <input
+          className="signup-email-input" 
+          placeholder="Your email address"
+          type="text"
+          onChange={this.update('email')}
+          value={this.val}
+        />
+          <button onClick={this.change}>Upload image</button>
+          </>
+          )
+      // }
   
      
       
@@ -67,7 +85,6 @@ class Profile extends React.Component {
        <div className="nav_bar_background" ></div>
 
        <div className="outtermost"> 
-
 
         <div className="nav-con" >
           <NavBarContainer />
@@ -87,7 +104,7 @@ class Profile extends React.Component {
                     </div>
             </div> 
  
-
+            {pictureUpload}
           <SongNavBarContainer /> 
 
             <p id="recent">Recent</p>

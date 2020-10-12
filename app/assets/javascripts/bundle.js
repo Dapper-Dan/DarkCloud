@@ -293,7 +293,7 @@ var getBunchSongs = function getBunchSongs() {
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_USER, RECEIVE_USERS, RECEIVE_PROFILE_USER, receiveUser, receiveProfileUser, receiveUsers, fetchUser, fetchUsers, fetchUserInfo */
+/*! exports provided: RECEIVE_USER, RECEIVE_USERS, RECEIVE_PROFILE_USER, receiveUser, receiveProfileUser, receiveUsers, fetchUser, fetchUsers, fetchUserInfo, editCurrentUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -307,7 +307,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUserInfo", function() { return fetchUserInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editCurrentUser", function() { return editCurrentUser; });
 /* harmony import */ var _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_apil_util.jsx */ "./frontend/util/user_apil_util.jsx");
+/* harmony import */ var _song_actions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./song_actions.js */ "./frontend/actions/song_actions.js");
+
 
 var RECEIVE_USER = "RECEIVE_USER";
 var RECEIVE_USERS = "RECEIVE_USERS";
@@ -348,6 +351,14 @@ var fetchUserInfo = function fetchUserInfo(display_name) {
   return function (dispatch) {
     return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["fetchUserInfo"](display_name).then(function (user) {
       return dispatch(receiveProfileUser(user));
+    });
+  };
+};
+var editCurrentUser = function editCurrentUser(data) {
+  return function (dispatch) {
+    return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["editCurrentUser"](data).then(function (user) {
+      dispatch(receiveProfileUser(user));
+      dispatch(Object(_song_actions_js__WEBPACK_IMPORTED_MODULE_1__["receiveSongs"])(user.songs));
     });
   };
 };
@@ -1333,23 +1344,40 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
     _this.props.fetchUserInfo(_this.props.match.params.display_name);
 
+    _this.change = _this.change.bind(_assertThisInitialized(_this));
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
     return _this;
   } // cover_photo: null,
   //profile_photo: null
-  // componentDidUpdate() {
-  //   console.log('1')
-  //   this.props.getSongs(this.props.match.params.display_name);
-  // }
-  // componentDidMount(){
-  //   console.log('1')
-  //   this.setState({hi: 'hello'})
-  // }
 
 
   _createClass(Profile, [{
+    key: "change",
+    value: function change() {
+      var _this2 = this;
+
+      var formData = new FormData();
+      formData.append('user[display_name]', this.val);
+      this.props.editUser({
+        form: formData,
+        user: this.props.currentUser,
+        songs: this.props.songs
+      }).then(function () {
+        return history.pushState({}, "", "/".concat(_this2.val));
+      });
+    }
+  }, {
+    key: "update",
+    value: function update(value) {
+      var _this3 = this;
+
+      return function (e) {
+        _this3.val = e.target.value;
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
-      // console.log(this.props.state)
       var songs;
 
       if (this.props.state.entities.songs.songs) {
@@ -1374,10 +1402,17 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         location = "";
       }
 
-      if (user.id === this.props.currentUser.id) {
-        /////here
-        console.log('yes, its mine');
-      }
+      var pictureUpload; // if (user.id === this.props.currentUser.id) {  /////here
+
+      pictureUpload = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "signup-email-input",
+        placeholder: "Your email address",
+        type: "text",
+        onChange: this.update('email'),
+        value: this.val
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.change
+      }, "Upload image")); // }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
@@ -1401,7 +1436,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "nameplate"
       }, " ", user.display_name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "location-plate"
-      }, " ", location, " ")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, " ", location, " ")))), pictureUpload, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         id: "recent"
       }, "Recent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-songs"
@@ -1448,6 +1483,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mapSTP = function mapSTP(state) {
   return {
     state: state,
@@ -1463,6 +1499,9 @@ var mapDTP = function mapDTP(dispatch) {
     },
     fetchUserInfo: function fetchUserInfo(display_name) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_5__["fetchUserInfo"])(display_name));
+    },
+    editUser: function editUser(user) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_5__["editCurrentUser"])(user));
     }
   };
 };
@@ -3094,6 +3133,8 @@ var usersReducer = function usersReducer() {
       });
 
     case _actions_user_actions_js__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PROFILE_USER"]:
+      console.log(state); // delete state[action.user]
+
       return Object.assign({}, state, {
         profile_user: action.user
       });
@@ -3290,7 +3331,7 @@ var bunch_o_songs = function bunch_o_songs() {
 /*!******************************************!*\
   !*** ./frontend/util/user_apil_util.jsx ***!
   \******************************************/
-/*! exports provided: fetchUser, fetchUsers, fetchUserInfo */
+/*! exports provided: fetchUser, fetchUsers, fetchUserInfo, editCurrentUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3298,6 +3339,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUser", function() { return fetchUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUserInfo", function() { return fetchUserInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editCurrentUser", function() { return editCurrentUser; });
 var fetchUser = function fetchUser(userId) {
   return $.ajax({
     url: "api/users/".concat(userId),
@@ -3319,6 +3361,15 @@ var fetchUserInfo = function fetchUserInfo(display_name) {
         display_name: display_name
       }
     }
+  });
+};
+var editCurrentUser = function editCurrentUser(data) {
+  return $.ajax({
+    url: "api/users/".concat(data.user.id),
+    method: 'PATCH',
+    data: data.form,
+    contentType: false,
+    processData: false
   });
 };
 

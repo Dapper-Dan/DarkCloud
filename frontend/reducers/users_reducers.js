@@ -5,6 +5,7 @@ import { RECEIVE_PROFILE_USER } from "../actions/user_actions.js";
 
 const usersReducer = (state = {}, action) => {
   Object.freeze(state);
+  
 
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
@@ -14,6 +15,8 @@ const usersReducer = (state = {}, action) => {
     case RECEIVE_USERS:
       return Object.assign({}, state, { all_users: action.users });
     case RECEIVE_PROFILE_USER:
+      console.log(state)
+      // delete state[action.user]
       return Object.assign({}, state, { profile_user: action.user });
     default:
       return state;
@@ -21,4 +24,3 @@ const usersReducer = (state = {}, action) => {
 };
 
 export default usersReducer;
-

@@ -14,6 +14,7 @@ class SongPart extends React.Component {
         
         this.handleClick = this.handleClick.bind(this)
         this.play = this.play.bind(this)
+        this.likeSong = this.likeSong.bind(this)
         
       }
 
@@ -25,6 +26,14 @@ class SongPart extends React.Component {
         } else if (!audioEle.paused) {
           audioEle.pause()
         }
+      }
+
+      likeSong() {
+        let song_id = this.props.song.id;
+        let user_id = this.props.state.session.currentUser.id
+        let like = { song_id, user_id }
+        console.log('likesong')
+        this.props.like({like})
       }
 
 
@@ -65,7 +74,7 @@ class SongPart extends React.Component {
       Math.floor(songTime % 60) > 9 ? endTimeSeconds = Math.floor(songTime % 60) : endTimeSeconds = "0" + Math.floor(songTime % 60)
       let endTime = endTimeMinutes + ":" + endTimeSeconds
 
-     
+     console.log(song.likes)
       let progressWaveForm
       if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
         progressWaveForm = (
@@ -147,6 +156,7 @@ class SongPart extends React.Component {
               </div>
 
             </div>
+            <button onClick={this.likeSong}>click</button>
 
           </div>
 

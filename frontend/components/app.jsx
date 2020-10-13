@@ -7,6 +7,8 @@ import { createBrowserHistory } from 'history';
 import HomePage from './home_page/home_page.jsx';
 import LoginFormContainer from './session/login_form_container.jsx';
 import ProfileContainer from './profile/profile_container';
+import MusicPlayerContainer from './music_player/music_player_container'
+import DiscoverContainer from './discover/discover_container'
 
  
 
@@ -26,11 +28,12 @@ const App = () => (
               />
               {/* <Route exact path="/navbar" component={NavBarContainer} /> */}
              <Route exact path="/" component={HomePage} />
-             <Route exact path="/discover" component={HomePage} />
+             <Route exact path="/discover" component={DiscoverContainer} />
              <Route exact path="/:display_name" component={ProfileContainer} />
 
 
       </Switch>
+      <MusicPlayerContainer />
       
        </div>
     </Router>

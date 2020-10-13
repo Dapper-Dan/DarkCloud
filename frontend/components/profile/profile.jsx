@@ -27,6 +27,7 @@ class Profile extends React.Component {
       formData.append('user[display_name]', this.val);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
       .then(() => history.pushState({}, "", `/${this.val}`))
+      this.setState({})
     }
 
     update(value) {
@@ -35,7 +36,7 @@ class Profile extends React.Component {
       }
     }
 
-    
+
     render(){
  
       let songs
@@ -119,7 +120,7 @@ class Profile extends React.Component {
                  </ul>
            </div> 
 
-        <MusicPlayerContainer/>
+       
         
 
        </div>

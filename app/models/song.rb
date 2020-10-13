@@ -12,5 +12,10 @@ class Song < ApplicationRecord
     primary_key: :display_name,
     foreign_key: :display_name,
     class_name: :User
+
+    has_many :likes,
+    primary_key: :id,
+    foreign_key: :song_id,
+    class_name: :Like
     
 end

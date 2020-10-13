@@ -1,4 +1,5 @@
 import * as APIUtil from "../util/song_api_util";
+import * as LikesAPIUtil from "../util/like_api_util"
 export const REMOVE_GAME_ERRORS = "REMOVE_GAME_ERRORS";
 export const RECEIVE_SONG = "RECEIVE_SONG";
 export const RECEIVE_SONGS = "RECEIVE_SONGS";
@@ -82,25 +83,24 @@ export const getBunchSongs = () => dispatch => (
 );
 
 
+export const like = (data) => dispatch => (
+    LikesAPIUtil.like(data)
+        .then((song) => 
+           dispatch(receiveSong(song))  )
+        
+        // .catch((err) => {
+        //     return dispatch(receiveErrors(err.response.data));
+        // })
+);
 
-// export const updateGame = (game) => (dispatch)=>(
-//     APIUtil.updateGame(game)
-//         .then((res) =>{
-//             const game = res.data;
-//             dispatch(receiveGame(game));
-//         })
-//         .catch(err =>{
-//             return dispatch(removeErrors(err.response.data));
-//         })
-// );
+export const unlike = (data) => dispatch => (
+    LikesAPIUtil.unlike()
+        .then((song) => 
+           dispatch(receiveSong(song))  )
+        
+        // .catch((err) => {
+        //     return dispatch(receiveErrors(err.response.data));
+        // })
+);
 
-// export const deleteGame = gameId => dispatch =>(
-//     APIUtil.deleteGame(gameId)
-//         .then(res =>{
-//             const response = res.data;
-//             dispatch(response);
-//         })
-//         .catch(err => {
-//             return dispatch(receiveErrors(err.response.data));
-//         })
-// );
+

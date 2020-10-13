@@ -133,7 +133,6 @@ class HomePage extends React.Component {
         </div>
 
         <SongIndexContainer />
-        <MusicPlayerContainer/>
         <SongFormContainer />
 
 

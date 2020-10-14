@@ -27,7 +27,7 @@ class Profile extends React.Component {
       formData.append('user[display_name]', this.val);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
       .then(() => history.pushState({}, "", `/${this.val}`))
-      this.setState({})
+      
     }
 
     update(value) {
@@ -38,7 +38,8 @@ class Profile extends React.Component {
 
 
     render(){
- 
+
+      
       let songs
       if (this.props.state.entities.songs.songs) {
       songs = Object.values(this.props.state.entities.songs.songs);
@@ -53,6 +54,14 @@ class Profile extends React.Component {
       } else {
         user = ""
       }
+
+      let currentUserProfile
+      if (this.props.currentUser.id === user.id) currentUserProfile = true;
+
+      let liked_songs
+      if (currentUserProfile) liked_songs = user.likes
+
+      // console.log(liked_songs)
 
       let location
       if (user.location) {
@@ -111,8 +120,8 @@ class Profile extends React.Component {
             <p id="recent">Recent</p>
             <div className="profile-songs">
               <ul>
-                  {songs.map((song) => ( 
-                     <li key={song.id} className="song-box" >
+                  {songs.map((song, i) => ( 
+                     <li key={i} className="song-box" >
                       <SongPartContainer song={song} profile={true} />
                     
                      </li>

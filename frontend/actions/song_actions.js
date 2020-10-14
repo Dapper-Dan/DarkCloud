@@ -83,20 +83,20 @@ export const getBunchSongs = () => dispatch => (
 );
 
 
-export const like = (data) => dispatch => (
-    LikesAPIUtil.like(data)
-        .then((song) => 
-           dispatch(receiveSong(song))  )
+export const like = ({like, song}) => dispatch => (
+    LikesAPIUtil.like(like)
+        // .then(() => 
+        //    dispatch(receiveSongs(song))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));
         // })
 );
 
-export const unlike = (data) => dispatch => (
-    LikesAPIUtil.unlike()
-        .then((song) => 
-           dispatch(receiveSong(song))  )
+export const unlike = ({like, song}) => dispatch => (
+    LikesAPIUtil.unlike(like)
+        // .then(() => 
+        //    dispatch(receiveSong(song))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));
@@ -104,3 +104,7 @@ export const unlike = (data) => dispatch => (
 );
 
 
+// export const createDeleteLike = ({song, like}) => dispatch => (
+//     LikesAPIUtil.createDeleteLike(like)
+//         .then(() => dispatch(receiveSong(song)))
+// )

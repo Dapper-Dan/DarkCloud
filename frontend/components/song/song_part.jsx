@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import ReactAudioPlayer from 'react-audio-player';
+import { like } from '../../util/like_api_util';
 
 
 class SongPart extends React.Component {
@@ -9,12 +10,14 @@ class SongPart extends React.Component {
         super(props);
         this.state = {
             currentTime: 0,
-            songTime: "0:00"
+            songTime: "0:00",
+          
         }
         
         this.handleClick = this.handleClick.bind(this)
         this.play = this.play.bind(this)
         this.likeSong = this.likeSong.bind(this)
+        
         
       }
 
@@ -29,12 +32,21 @@ class SongPart extends React.Component {
       }
 
       likeSong() {
+      
+        let song = this.props.song
         let song_id = this.props.song.id;
         let user_id = this.props.state.session.currentUser.id
-        let like = { song_id, user_id }
-        console.log('likesong')
-        this.props.like({like})
+        let likeId
+        if (this.props.song.likes.length > 0) likeId = this.props.song.likes[0].id
+        let like = { song_id, user_id, likeId }
+        this.props.song.likes.length > 0 ? this.props.unlike({like, song}) : this.props.like({like, song})
+        // .then((hello) => console.log(hello))
+        // this.printLikes()
+        this.props.getSongs(this.props.song.display_name)
+       
       }
+
+
 
 
     handleClick() {
@@ -60,6 +72,7 @@ class SongPart extends React.Component {
     }
 
     render() {
+     
       let songProgressTime
       if (this.props.state.session.currentSong && this.props.song.songUrl !== this.props.state.session.currentSong.songUrl) { 
         songProgressTime = "0:00"
@@ -74,7 +87,20 @@ class SongPart extends React.Component {
       Math.floor(songTime % 60) > 9 ? endTimeSeconds = Math.floor(songTime % 60) : endTimeSeconds = "0" + Math.floor(songTime % 60)
       let endTime = endTimeMinutes + ":" + endTimeSeconds
 
-     console.log(song.likes)
+      let totalLikes
+      if (song.likes) {
+        totalLikes = song.likes.length
+      } else {
+        totalLikes = ""
+      }
+     
+
+      let likeButtonStyle
+      if (song.likes && song.likes.length !== 0 && song.likes[0].user_id === this.props.currentUser.id){
+        likeButtonStyle = "greenButton"
+      }
+      
+
       let progressWaveForm
       if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
         progressWaveForm = (
@@ -103,7 +129,7 @@ class SongPart extends React.Component {
           <h3 className="songTitle">{song.title}</h3> 
           
 
-          <Link to={song.display_name}>
+          <Link to={`/${song.display_name}`}>
             <h3 className="songUser">{song.display_name}</h3>
           </Link>
 
@@ -131,11 +157,18 @@ class SongPart extends React.Component {
                 <a role="button" className="play" onClick={this.handleClick}>Play</a>
                 
                 <div className="profile-song-names-plate" >
-                  <Link to={song.display_name}>
+                  <Link to={`/${song.display_name}`}>
                     <h3 className="songUser">{song.display_name}</h3>
                   </Link>
                   <h3 className="songTitle">{song.title}</h3> 
                 </div>
+
+              </div>
+
+              <div className="waveFormContainer" style={{height: "84px"}} >
+
+                <img className="waveFormImg" src={song.waveForm}/>
+                {progressWaveForm}
 
               </div>
 
@@ -147,16 +180,19 @@ class SongPart extends React.Component {
                 {endTime}
               </div>
 
-              <div className="waveFormContainer" >
+              {/* <div className="waveFormContainer" style={{height: "100px"}} >
 
                 <img className="waveFormImg" src={song.waveForm}/>
                 {progressWaveForm}
 
 
-              </div>
+              </div> */}
+            
+              
+              <a role="button" className="likeButton" id={likeButtonStyle} onClick={this.likeSong}><img src={window.heart} width="15px"></img>{totalLikes}</a>
 
             </div>
-            <button onClick={this.likeSong}>click</button>
+            
 
           </div>
 

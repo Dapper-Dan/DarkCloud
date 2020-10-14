@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :create, :show, :update]
     resource :session, only: [:create, :destroy]
     resources  :songs, only: [:create, :index, :show, :destroy, :update]
-    resources :likes, only: [:create]
+    resources :likes, only: [:create, :destroy]
 
     
   end

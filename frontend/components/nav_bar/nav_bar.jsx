@@ -70,8 +70,8 @@ export default class NavBar extends React.Component {
 
                         <nav className="left_nav">
                             <img src={window.greenLogo} width="184px" className="nav-logo"/>
-                            <NavLink to="/" style={{ textDecoration: 'none' }}>   
-                                <a className="home-button"> Home </a>
+                            <NavLink to="/" className="home-button" style={{ textDecoration: 'none' }}>   
+                                Home
                             </NavLink>
                             <a className="library-button"> Library </a>
                         </nav>

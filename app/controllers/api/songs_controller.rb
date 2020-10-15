@@ -24,8 +24,9 @@ class Api::SongsController < ApplicationController
       
         @song = Song.new(song_params)
         if (@song.save)
-            @songs = Song.all
-            render :index
+            # @songs = Song.all
+
+            render :show
         else
             render json: @song.errors.full_messages, status: 422
         end

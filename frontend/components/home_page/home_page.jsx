@@ -115,7 +115,7 @@ class HomePage extends React.Component {
                 <Caro />
             </div>
        
-
+          
             <div className="buttonsDiv" >
                 <button className="login-modal-button" onClick={ this.loginModelShow }> Sign in </button>
                 <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
@@ -133,7 +133,7 @@ class HomePage extends React.Component {
         </div>
 
         <SongIndexContainer />
-        <SongFormContainer />
+      
 
 
     </div>    

@@ -29,7 +29,7 @@ const songsReducer = (state = {}, action) => {
     case RECEIVE_BUNCH_SONGS:
         return Object.assign({}, state, { all_songs: action.songs });
     case RECEIVE_SONG:
-        return Object.assign({}, state, { [action.song.id]: action.song });
+        return Object.assign({}, state, { currentSong: action.song });
     // case REMOVE_SONG:
     //     delete nextState[action.songId]
     //     return nextState;

@@ -9,6 +9,7 @@ import LoginFormContainer from './session/login_form_container.jsx';
 import ProfileContainer from './profile/profile_container';
 import MusicPlayerContainer from './music_player/music_player_container'
 import DiscoverContainer from './discover/discover_container'
+import SongFormContainer from './song/song_form_container'
 
  
 
@@ -29,8 +30,8 @@ const App = () => (
               {/* <Route exact path="/navbar" component={NavBarContainer} /> */}
              <Route exact path="/" component={HomePage} />
              <Route exact path="/discover" component={DiscoverContainer} />
+             <Route exact path="/upload" component={SongFormContainer} />
              <Route exact path="/:display_name" component={ProfileContainer} />
-
 
       </Switch>
       <MusicPlayerContainer />

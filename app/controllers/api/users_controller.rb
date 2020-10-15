@@ -60,7 +60,7 @@ class Api::UsersController < ApplicationController
     def user_params
         puts params.inspect
         params.inspect
-        params.require(:user).permit(:email, :password, :display_name, :age, :gender, :cover_photo, :profile_photo)
+        params.require(:user).permit(:email, :password, :display_name, :age, :gender, :cover_photo, :profile_photo, :location)
     end
 
 end

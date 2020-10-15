@@ -15,8 +15,8 @@ class SignupForm extends React.Component {
       display_name: "",
       age: "",
       gender: "",
-      cover_photo: null,
-      profile_photo: null,
+      cover_photo: "",
+      profile_photo: "",
       location: ""
       
 
@@ -39,6 +39,9 @@ class SignupForm extends React.Component {
       formData.append('user[display_name]', this.state.display_name);
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender);
+      // formData.append('user[location]', this.state.location);
+      // formData.append('user[profile_photo]', this.state.profile_photo);
+      // formData.append('user[cover_photo]', this.state.cover_photo);
       this.props.action(formData)
 
       

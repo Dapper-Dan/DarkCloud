@@ -5,16 +5,26 @@ import NavBarContainer from '../nav_bar/nav_bar_container';
 import SongNavBarContainer from '../nav_bar/song_nav_bar_container'
 import SearchBarContainer from '../search_bar/search_bar_container'
 import MusicPlayerContainer from '../music_player/music_player_container'
+import UserNavBarContainer from '../nav_bar/user_nav_bar_container'
 
 class Profile extends React.Component {
     constructor(props) {
       super(props);
-      this.state = this.props.getSongs(this.props.match.params.display_name);
+      this.state = {
+        songs :this.props.getSongs(this.props.match.params.display_name),
+        showConfirm: false,
+        showPicOption: false,
+        picOption: ''
+    }
     
       this.props.fetchUserInfo(this.props.match.params.display_name);
 
       this.change = this.change.bind(this)
       this.update = this.update.bind(this)
+      this.uploadProfileImage = this.uploadProfileImage.bind(this)
+      this.showProfileUploadInput = this.showProfileUploadInput.bind(this)
+      this.cancelUpload = this.cancelUpload.bind(this)
+      this.uploadCoverImage = this.uploadCoverImage.bind(this)
 
     }
     // cover_photo: null,
@@ -32,20 +42,72 @@ class Profile extends React.Component {
 
     update(value) {
       return e => {
-      this.val = e.target.value
+      this[value] = e.target.files[0]
+      let file = e.target.files[0]
+      
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onloadend = () => {
+        this.setState({ [value]: fileReader.result })
       }
+    
+      this.setState({showConfirm: true})
+      this.setState({showPicOption: true})
+      
+      }
+    }
+
+      
+
+    showProfileUploadInput() {
+      let input = document.getElementById("profile-pic-input")
+      input.click()
+    }
+
+    showCoverUploadInput() {
+      let input = document.getElementById("cover-pic-input")
+      input.click()
+    }
+
+    uploadProfileImage(e) {
+      e.preventDefault()
+      const formData = new FormData();
+      formData.append('user[profile_photo]', this.profile_pic);
+      this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
+      this.setState({showConfirm: false})
+    }
+
+    uploadCoverImage(e) {
+      e.preventDefault()
+      const formData = new FormData();
+      formData.append('user[cover_photo]', this.cover_pic);
+      this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
+      this.setState({showConfirm: false})
+    }
+
+    cancelUpload() {
+      this.setState({showConfirm: false, showPicOption: false})
     }
 
 
     render(){
 
-      
+      console.log(this.state)
       let songs
       if (this.props.state.entities.songs.songs) {
-      songs = Object.values(this.props.state.entities.songs.songs);
+      songs = Object.values(this.props.state.entities.songs.songs).sort((a, b) => {
+          if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
+          if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+      })
+     
       } else {
-        songs = Object.values(this.props.state.entities.songs)
+        songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
+          if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
+          if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+        })
       }
+
+     
 
       let user
       
@@ -54,6 +116,7 @@ class Profile extends React.Component {
       } else {
         user = ""
       }
+      
 
       let currentUserProfile
       if (this.props.currentUser.id === user.id) currentUserProfile = true;
@@ -70,22 +133,84 @@ class Profile extends React.Component {
         location = ""
       }
 
-      let pictureUpload
-      // if (user.id === this.props.currentUser.id) {  /////here
+      // let pictureUpload
+      // if (currentUserProfile) {  CHANGE DISPLAY INFO
       
-        pictureUpload = (
+      //   pictureUpload = (
+      //     <>
+      //     <input
+      //     className="signup-email-input" 
+      //     placeholder="Your email address"
+      //     type="text"
+      //     onChange={this.update('email')}
+      //     value={this.val}
+      //   />
+      //     <button onClick={this.change}>Upload image</button>
+      //     </>
+      //     )
+      // }
+      let profPic
+      if (this.profile_pic && this.state.showPicOption) {
+        profPic = this.state.profile_pic
+      } else {
+        profPic = user.profilePicUrl
+      }
+
+      let coverPic
+      if (this.cover_pic && this.state.showPicOption) {
+        coverPic = this.state.cover_pic
+      } else {
+        coverPic = user.coverPicUrl
+      }
+
+
+      let profilePictureUpload
+      if (currentUserProfile) {  
+      
+        profilePictureUpload = (
           <>
           <input
-          className="signup-email-input" 
-          placeholder="Your email address"
-          type="text"
-          onChange={this.update('email')}
-          value={this.val}
+          id="profile-pic-input"
+          type="file"
+          onChange={this.update('profile_pic')}
+          style={{display:'none'}}
         />
-          <button onClick={this.change}>Upload image</button>
+
+        {!this.state.showConfirm ? 
+          (<button onClick={this.showProfileUploadInput}>Upload image</button>) : (
+          <>
+          <button onClick={this.uploadProfileImage}>Confirm Change</button>
+          <button onClick={this.cancelUpload}>Cancel Change</button>
+          </>)
+        }
           </>
+          
           )
-      // }
+      }
+
+      let coverPictureUpload
+      if (currentUserProfile) {  
+      
+        coverPictureUpload = (
+          <>
+          <input
+          id="cover-pic-input"
+          type="file"
+          onChange={this.update('cover_pic')}
+          style={{display:'none'}}
+        />
+
+        {!this.state.showConfirm ? 
+          (<button onClick={this.showCoverUploadInput}>Upload image</button>) : (
+          <>
+          <button onClick={this.uploadCoverImage}>Confirm Change</button>
+          <button onClick={this.cancelUpload}>Cancel Change</button>
+          </>)
+        }
+          </>
+          
+          )
+      }
   
      
       
@@ -97,24 +222,33 @@ class Profile extends React.Component {
        <div className="outtermost"> 
 
         <div className="nav-con" >
-          <NavBarContainer />
+          { this.props.currentUser ? <UserNavBarContainer /> : <NavBarContainer /> }
           <SearchBarContainer/>
         </div>
 
           <div className="cover" >
+            {user.coverPicUrl ? (
+             <img src={coverPic} className="cover-photo" width="1200px" />
+            ):(
              <img src={window.cover} className="cover-photo" />
-             {/* if profile is same as currentuser, then give edit option  */}
+            )}
+            
 
                    <div className="profile-box" >
-                     <img src={window.profile} className="profile-photo" />
+                     {user.profilePicUrl ? (
+                       <img src={profPic} className="profile-photo" />
+                     ):(
+                      <img src={window.profile} className="profile-photo" />
+                     )}
+                     
                           <div className="info-basic">
                              <a className="nameplate" > {user.display_name} </a>
                              <a className="location-plate" > {location} </a>
                           </div>
                     </div>
             </div> 
- 
-            {pictureUpload}
+ {coverPictureUpload}
+            {profilePictureUpload}
           <SongNavBarContainer /> 
 
             <p id="recent">Recent</p>

@@ -30,13 +30,17 @@ class SongList extends React.Component {
     }
 
 
-
+    
 
     render(){
       if (this.state.loading) {
         return (<p>loading...</p>)
       } else {
-        let songs = Object.values(this.props.songs);
+        let songs = Object.values(this.props.songs).sort((a, b) => {
+          if (a.title > b.title) return 1
+          if (a.title < b.title) return -1
+        })
+        console.log(songs)
       
         return(
         <div className="songList"> 

@@ -39,9 +39,9 @@ class SongPart extends React.Component {
         let likeId
         if (this.props.song.likes.length > 0) likeId = this.props.song.likes[0].id
         let like = { song_id, user_id, likeId }
-        this.props.song.likes.length > 0 ? this.props.unlike({like, song}) : this.props.like({like, song})
-        // .then((hello) => console.log(hello))
-        // this.printLikes()
+
+        this.props.song.likes[user_id] ? this.props.unlike({like, song}) : this.props.like({like, song})
+       
         this.props.getSongs(this.props.song.display_name)
        
       }
@@ -71,7 +71,25 @@ class SongPart extends React.Component {
       } 
     }
 
+    calculateTime(song) {
+      let createdDate = new Date(song.music.record.created_at)
+      let now = new Date().getTime()
+      if (createdDate < now) {
+        var difference = now - createdDate;
+      } 
+      const days = Math.floor(difference / 1000 / 60 / (60 * 24))
+      const hours = Math.floor(difference / (1000 * 60 * 60) - days * 24)
+      const minutes = Math.floor(difference / (1000 * 60) - days * 24 * 60 - hours * (60))
+
+      if (hours < 1) return `${minutes} minutes ago`
+      if (days < 1) return `${hours} hours ago`
+      if (days > 1) return `${days} days ago`
+      
+      
+    }
+
     render() {
+      
      
       let songProgressTime
       if (this.props.state.session.currentSong && this.props.song.songUrl !== this.props.state.session.currentSong.songUrl) { 
@@ -89,14 +107,14 @@ class SongPart extends React.Component {
 
       let totalLikes
       if (song.likes) {
-        totalLikes = song.likes.length
+        totalLikes = Object.keys(song.likes).length
       } else {
         totalLikes = ""
       }
      
 
       let likeButtonStyle
-      if (song.likes && song.likes.length !== 0 && song.likes[0].user_id === this.props.currentUser.id){
+      if (song.likes && song.likes[this.props.currentUser.id]) {
         likeButtonStyle = "greenButton"
       }
       
@@ -109,6 +127,19 @@ class SongPart extends React.Component {
         </div>
         )
       }
+
+      let creationTime
+      let songGenre
+      if (song) {
+        creationTime = this.calculateTime(song)
+        songGenre = song.genre
+      } else {
+        creationTime = ""
+        songGenre = ""
+      }
+
+      
+     
   
       if (!this.props.profile) {
         
@@ -178,6 +209,14 @@ class SongPart extends React.Component {
                 
               <div className="songEndTimer">
                 {endTime}
+              </div>
+
+              <div className="dateCreation">
+                {creationTime}
+              </div>
+
+              <div className="genreContainer">
+                {songGenre}
               </div>
 
               {/* <div className="waveFormContainer" style={{height: "100px"}} >

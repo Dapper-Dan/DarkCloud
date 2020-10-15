@@ -1,4 +1,7 @@
 import React from 'react';
+import { Nav, NavLink } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import UserNavBarContainer from '../nav_bar/user_nav_bar_container'
 
 class SongForm extends React.Component {
     constructor(props) {
@@ -13,7 +16,8 @@ class SongForm extends React.Component {
         songImage: null,
         music: null,
         duration: null,
-        waveForm: null 
+        waveForm: null,
+        step: 1
       }
       this.props.getUser()
 
@@ -24,6 +28,7 @@ class SongForm extends React.Component {
       this.handleMusicUpload = this.handleMusicUpload.bind(this)
       this.handlePictureUpload = this.handlePictureUpload.bind(this)
       this.draw = this.draw.bind(this)
+      this._next = this._next.bind(this);
     }
 
     update(value) {
@@ -37,10 +42,24 @@ class SongForm extends React.Component {
       formData.append('song[title]', this.state.title);
       formData.append('song[genre]', this.state.genre);
       formData.append('song[duration]', this.state.duration);
-      formData.append('song[display_name]', this.props.user.display_name);
+      formData.append('song[display_name]', this.props.currentUser.display_name);
       formData.append('song[music]', this.state.music);
       formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData)
+      setTimeout(() => {
+        if (this.props.state.entities.songs.currentSong) {
+          console.log('hello')
+          this._next()
+        }
+      }, 500)
+      
+    }
+
+    _next() {
+      const { step } = this.state
+          this.setState({
+              step : step + 1
+          })
     }
 
     handleMusicUpload(e) {
@@ -64,6 +83,8 @@ class SongForm extends React.Component {
           // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
           this.setState({ waveForm: this.draw(this.normalizeData(this.filterData(audioBuffer))) })
         })
+      
+      this._next()
     }
 
     filterData(audioBuffer) {
@@ -139,67 +160,119 @@ class SongForm extends React.Component {
         const {title} = this.state
         const values = {title};
         const genres = ["Classical", "Country", "Dance & EDM", "Disco", "Jazz", "Hip-Hop", "Indie", "Metal", "Latin", "R&B", "Rock", "World"]
-      return (
-        <>
-          <div className="fileUploadForm">
-            <h1> Drag and drop your tracks & albums here </h1>
+        const {step} = this.state;
 
-            <button className="fileUploadButton" onClick={this.showUploadInput}> or choose files to upload </button>
+      switch(step) {
+
+        case 1:
+        
+        return (
+        <>
+          <div className="nav_bar_background" ></div>
+
+          <div className="outtermost"> 
+
+            <div className="nav-con" >
+              <UserNavBarContainer /> 
+            </div>
+
+            <div className="songUpload-form" >
+
+              {/* <div className="fileUploadForm"> */}
             
-            <input
-              id="music-file-input"
-              type="file"
-              style={{display:'none'}}
-              onChange={this.handleMusicUpload}
-            />
-            
+                <h1> Drag and drop your tracks & albums here </h1>
+
+                <button className="fileUploadButton" onClick={this.showUploadInput}> or choose files to upload </button>
+                
+                <input
+                  id="music-file-input"
+                  type="file"
+                  style={{display:'none'}}
+                  onChange={this.handleMusicUpload}
+                />
+              </div>
+            {/* </div>  */}
+          </div>
+        </>
+        )
+
+        case 2:
+        return ( 
+        <>
+        <div className="nav_bar_background" ></div>
+
+        <div className="outtermost"> 
+
+          <div className="nav-con" >
+            <UserNavBarContainer /> 
+          </div>
+
+          <div className="songUpload-form" >
 
             <h2> Choose a picture </h2>
-            {/* <button className="fileUploadButton" onClick={this.showUploadInput}>  </button> */}
+           
             <input
               id="pic-file-input"
               type="file"
             
               onChange={this.handlePictureUpload}
             />
+       
+            <h1>Title</h1>
+            <input 
+              className="nameInput"
+              placeholder="Enter track title"
+              type="text"
+              onChange={this.update('title')}
+              value={values.title} 
+            />   
+
+
+            <h2>Genre</h2>
+            <select className="songFormGenre" onChange={ this.update('genre') } defaultValue='' >
+              <option disabled value="">None</option>
+              {genres.map((genre, index) => (
+                <option key={index} value={genre}> {genre} </option>
+              ))}
+            </select>
+
+            <h3>Title</h3>
+            <textarea 
+              className="descriptionInput"
+              rows="6"
+              cols="60"
+              placeholder="Describe your track"
+              onChange={this.update('description')}
+              value={values.description} 
+            />
+
+            <button className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
           </div>
+        </div>
+        </>
+        )
 
+        case 3:
+        return (
+          <>
+          <div className="nav_bar_background" ></div>
 
-          <div className="songForm">
-              <h1>Title</h1>
-              <input 
-                className="nameInput"
-                placeholder="Enter track title"
-                type="text"
-                onChange={this.update('title')}
-                value={values.title} 
-              />
-
-              <h2>Genre</h2>
-              <select className="songFormGenre" onChange={ this.update('genre') } defaultValue='' >
-                <option disabled value="">None</option>
-                {genres.map((genre, index) => (
-                    <option key={index} value={genre}> {genre} </option>
-                ))}
-              </select>
-
-              <h3>Title</h3>
-              <textarea 
-                className="descriptionInput"
-                rows="6"
-                cols="60"
-                placeholder="Describe your track"
-                onChange={this.update('description')}
-                value={values.description} 
-              />
-
-              <button className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
-
+          <div className="outtermost"> 
+  
+            <div className="nav-con" >
+              <UserNavBarContainer /> 
+            </div>
+  
+            <div className="songUpload-form" >
+              <p id="songUploadSuccess">Song successfully uploaded</p>
+              <Link to={`/${this.props.currentUser.display_name}`} >
+                Go to your tracks
+              </Link>
+            </div>
           </div>
-
-          </>
-
-      )
+        </>
+        )
+      }
     }
 }
 

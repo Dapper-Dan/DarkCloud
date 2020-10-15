@@ -11,7 +11,7 @@ class SongPart extends React.Component {
         this.state = {
             currentTime: 0,
             songTime: "0:00",
-          
+            loading: true
         }
         
         this.handleClick = this.handleClick.bind(this)
@@ -47,7 +47,9 @@ class SongPart extends React.Component {
       }
 
 
-
+    componentDidMount() {
+      this.setState({loading: false})
+    }
 
     handleClick() {
       const song = this.props.song
@@ -72,6 +74,7 @@ class SongPart extends React.Component {
     }
 
     calculateTime(song) {
+      if (!song.music) return
       let createdDate = new Date(song.music.record.created_at)
       let now = new Date().getTime()
       if (createdDate < now) {
@@ -89,6 +92,9 @@ class SongPart extends React.Component {
     }
 
     render() {
+      if (!this.props.song || this.state.loading) {
+        return (<p>loading...</p>)
+      }
       
      
       let songProgressTime
@@ -130,13 +136,27 @@ class SongPart extends React.Component {
 
       let creationTime
       let songGenre
-      if (song) {
-        creationTime = this.calculateTime(song)
+      if (this.props.song) {
+        // setTimeout(() => {
+          creationTime = this.calculateTime(this.props.song)
+          console.log(creationTime)
         songGenre = song.genre
+        // }, 300)
+        
+        
       } else {
         creationTime = ""
         songGenre = ""
       }
+
+      // if (!this.props.song || this.state.loading) {
+      //   return (<p>loading...</p>)
+      // } else {
+        
+      //   creationTime = this.calculateTime(song)
+      //   console.log(creationTime)
+      //   songGenre = song.genre
+      // }
 
       
      
@@ -172,7 +192,7 @@ class SongPart extends React.Component {
     
           
         )
-      } else {
+      } else if(this.props.song) {
         return (
           <>
           <div className="songProfileTile">

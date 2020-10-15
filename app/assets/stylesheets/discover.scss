@@ -7,3 +7,52 @@
 .discover2blocks {
     display: flex;
 }
+
+
+.carousel-item-next, .carousel-item-prev, .carousel-item.active {
+    display: flex !important;
+}
+
+#discoverCaro {
+    width: 880px;
+    border-bottom: 2px solid #f2f2f2;
+    padding-bottom: 100px;
+}
+
+#discoverCaro .songTile {
+    margin-left: 40px;
+}
+
+.carousel-control-next-icon {
+    margin-bottom: 43px;
+    background: black no-repeat;
+   
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    width: 17px !important;
+    height: 17px !important;
+    filter: invert(51%) sepia(83%) saturate(1504%) hue-rotate(100deg) brightness(98%) contrast(77%);
+    margin: auto !important;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    top: 78px !important;
+    align-items: none !important;
+    background: white !important;
+    opacity: 100 !important;
+    border: solid thin #1DB954 !important;
+    height: 35px !important;
+    width: 35px !important;
+    border-radius: 5px !important;
+    
+    
+}
+
+.carousel-control-next {
+    right: -10px !important;
+}
+
+.carousel-control-prev {
+    left: 29px !important;
+}

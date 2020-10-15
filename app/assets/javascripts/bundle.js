@@ -593,6 +593,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../nav_bar/nav_bar_container */ "./frontend/components/nav_bar/nav_bar_container.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../search_bar/search_bar_container */ "./frontend/components/search_bar/search_bar_container.jsx");
+/* harmony import */ var _song_song_part_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../song/song_part_container */ "./frontend/components/song/song_part_container.jsx");
+/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap/Carousel */ "./node_modules/react-bootstrap/esm/Carousel.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -620,6 +622,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var Discover = /*#__PURE__*/function (_React$Component) {
   _inherits(Discover, _React$Component);
 
@@ -632,12 +636,50 @@ var Discover = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {};
+
+    _this.props.getBunchSongs();
+
+    _this.getMostLiked = _this.getMostLiked.bind(_assertThisInitialized(_this));
+    _this.getTrendingGenre = _this.getTrendingGenre.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Discover, [{
+    key: "getMostLiked",
+    value: function getMostLiked(songs) {
+      var mostLikedSongs = Object.values(songs).sort(function (a, b) {
+        if (Object.keys(a.likes).length > Object.keys(b.likes).length) return -1;
+        if (Object.keys(a.likes).length < Object.keys(b.likes).length) return 1;
+        if (Object.keys(a.likes).length === Object.keys(b.likes).length) return 0;
+      });
+      return mostLikedSongs;
+    }
+  }, {
+    key: "getTrendingGenre",
+    value: function getTrendingGenre(songs, genre) {
+      var genreTracks = Object.values(songs).filter(function (song) {
+        return song.genre === genre;
+      });
+      var trendingGenreTracks = this.getMostLiked(genreTracks);
+      return trendingGenreTracks;
+    }
+  }, {
     key: "render",
     value: function render() {
+      var trendingSongs;
+      var trendingEDM;
+      var trendingJazz;
+      var trendingHipHop;
+
+      if (!this.props.songs) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
+      } else {
+        trendingSongs = this.getMostLiked(this.props.songs);
+        trendingEDM = this.getTrendingGenre(this.props.songs, "Dance & EDM");
+        trendingJazz = this.getTrendingGenre(this.props.songs, "Jazz");
+        trendingHipHop = this.getTrendingGenre(this.props.songs, "Hip-Hop");
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -648,7 +690,51 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         className: "discover2blocks"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "scroll-playlists"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "trending"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "hip hop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "rap")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "AudioCloud: Trending"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Up-and-coming tracks on AudioCloud"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        controls: true,
+        interval: "9999999999",
+        id: "discoverCaro",
+        wrap: false
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingSongs.slice(0, 5).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingSongs.slice(4, 9).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingSongs.slice(8, 12).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Electric Dreams"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The latest and hottest EDM"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        controls: true,
+        interval: "9999999999",
+        id: "discoverCaro",
+        wrap: false
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingEDM.slice(0, 5).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Next Set"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Scooby Dooby Doo Bop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fresh smooth jazz"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        controls: true,
+        interval: "9999999999",
+        id: "discoverCaro",
+        wrap: false
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingJazz.slice(0, 5).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Hip Hoppotamus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "The hottest and hippest hip-hop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        controls: true,
+        interval: "9999999999",
+        id: "discoverCaro",
+        wrap: false
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingHipHop.slice(0, 5).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sideBar"
       }, "side bar stuff"))));
     }
@@ -672,20 +758,23 @@ var Discover = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _discover_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./discover.jsx */ "./frontend/components/discover/discover.jsx");
+/* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/song_actions */ "./frontend/actions/song_actions.js");
+
 
 
 
 var mSTP = function mSTP(state) {
   return {
-    user: state.session.currentUser,
-    navType: 'default'
+    currentUser: state.session.currentUser,
+    songs: state.entities.songs.all_songs,
+    state: state
   };
 };
 
 var mDTP = function mDTP(dispatch) {
   return {
-    action: function action(song) {
-      return dispatch(createSong(song));
+    getBunchSongs: function getBunchSongs() {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_2__["getBunchSongs"])());
     }
   };
 };
@@ -1553,9 +1642,11 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       songs: _this.props.getSongs(_this.props.match.params.display_name),
+      //useless?
       showConfirm: false,
       showPicOption: false,
-      picOption: ''
+      picOption: '',
+      loading: true
     };
 
     _this.props.fetchUserInfo(_this.props.match.params.display_name);
@@ -1584,6 +1675,13 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         songs: this.props.songs
       }).then(function () {
         return history.pushState({}, "", "/".concat(_this2.val));
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        loading: false
       });
     }
   }, {
@@ -1663,6 +1761,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      if (this.state.loading) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading....");
       console.log(this.state);
       var songs;
 
@@ -1670,12 +1769,16 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         songs = Object.values(this.props.state.entities.songs.songs).sort(function (a, b) {
           if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1;
           if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1;
+          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0;
         });
-      } else {
+      } else if (this.props.state.entities.songs) {
         songs = Object.values(this.props.state.entities.songs).sort(function (a, b) {
           if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1;
           if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1;
+          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0;
         });
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading...");
       }
 
       var user;
@@ -3189,7 +3292,8 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       currentTime: 0,
-      songTime: "0:00"
+      songTime: "0:00",
+      loading: true
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.play = _this.play.bind(_assertThisInitialized(_this));
@@ -3231,6 +3335,13 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       this.props.getSongs(this.props.song.display_name);
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        loading: false
+      });
+    }
+  }, {
     key: "handleClick",
     value: function handleClick() {
       var song = this.props.song;
@@ -3265,6 +3376,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "calculateTime",
     value: function calculateTime(song) {
+      if (!song.music) return;
       var createdDate = new Date(song.music.record.created_at);
       var now = new Date().getTime();
 
@@ -3282,6 +3394,10 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      if (!this.props.song || this.state.loading) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
+      }
+
       var songProgressTime;
 
       if (this.props.state.session.currentSong && this.props.song.songUrl !== this.props.state.session.currentSong.songUrl) {
@@ -3327,13 +3443,22 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       var creationTime;
       var songGenre;
 
-      if (song) {
-        creationTime = this.calculateTime(song);
-        songGenre = song.genre;
+      if (this.props.song) {
+        // setTimeout(() => {
+        creationTime = this.calculateTime(this.props.song);
+        console.log(creationTime);
+        songGenre = song.genre; // }, 300)
       } else {
         creationTime = "";
         songGenre = "";
-      }
+      } // if (!this.props.song || this.state.loading) {
+      //   return (<p>loading...</p>)
+      // } else {
+      //   creationTime = this.calculateTime(song)
+      //   console.log(creationTime)
+      //   songGenre = song.genre
+      // }
+
 
       if (!this.props.profile) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3357,7 +3482,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "songUser"
         }, song.display_name))));
-      } else {
+      } else if (this.props.song) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "songProfileTile"
         }, song.pictureUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {

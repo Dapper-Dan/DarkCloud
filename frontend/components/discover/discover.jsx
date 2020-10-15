@@ -2,20 +2,63 @@ import React from 'react';
 import NavBarContainer from '../nav_bar/nav_bar_container';
 import { NavLink } from 'react-router-dom';
 import SearchBarContainer from '../search_bar/search_bar_container'
+import SongPartContainer from '../song/song_part_container'
+import Carousel from 'react-bootstrap/Carousel';
 
 
 export default class Discover extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            
+          
           
         };
 
+        this.props.getBunchSongs()
+        this.getMostLiked = this.getMostLiked.bind(this)
+        this.getTrendingGenre = this.getTrendingGenre.bind(this)
+        
         
     }
 
+    getMostLiked(songs) {
+        let mostLikedSongs = Object.values(songs).sort((a, b) => {
+            if (Object.keys(a.likes).length > Object.keys(b.likes).length) return -1
+            if (Object.keys(a.likes).length < Object.keys(b.likes).length) return 1
+            if (Object.keys(a.likes).length === Object.keys(b.likes).length) return 0
+        })  
+
+        return mostLikedSongs;
+
+    }
+
+    getTrendingGenre(songs, genre) {
+       let genreTracks = Object.values(songs).filter((song) => song.genre === genre)
+       let trendingGenreTracks = this.getMostLiked(genreTracks)
+
+       return trendingGenreTracks
+    }
+
+
+
 
     render() {
+        let trendingSongs
+        let trendingEDM
+        let trendingJazz
+        let trendingHipHop
+        if (!this.props.songs) {
+            return (<p>loading...</p>)
+        } else {
+           trendingSongs = this.getMostLiked(this.props.songs)  
+           trendingEDM = this.getTrendingGenre(this.props.songs, "Dance & EDM")
+           trendingJazz = this.getTrendingGenre(this.props.songs, "Jazz")
+           trendingHipHop = this.getTrendingGenre(this.props.songs, "Hip-Hop")
+        }
+        
+        
+        
         return(
             <>
         
@@ -34,13 +77,68 @@ export default class Discover extends React.Component {
                     <div className="scroll-playlists">
                 
             
-            
-                        <p>trending</p>
 
-                        <p>hip hop</p>
+                        <h3>AudioCloud: Trending</h3>
+                        <p>Up-and-coming tracks on AudioCloud</p>
+                        <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
+                   
+                            <Carousel.Item>
+                                {trendingSongs.slice(0, 5).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
 
-                        <p>rap</p>
-            
+                            <Carousel.Item>
+                                {trendingSongs.slice(4, 9).map((song) => ( 
+                                    <SongPartContainer song={song} />
+         
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {trendingSongs.slice(8, 12).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
+                        </Carousel>
+
+                        <h3>Electric Dreams</h3>
+                        <p>The latest and hottest EDM</p>
+
+                        <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
+                            <Carousel.Item>
+                                {trendingEDM.slice(0, 5).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
+                        </Carousel>
+
+                        <h3>Next Set</h3>
+
+                        <h3>Scooby Dooby Doo Bop</h3>
+                        <p>Fresh smooth jazz</p>
+                        <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
+                            <Carousel.Item>
+                                {trendingJazz.slice(0, 5).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
+                        </Carousel>
+
+                        <h3>Hip Hoppotamus</h3>
+                        <p>The hottest and hippest hip-hop</p>
+                        <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
+                            <Carousel.Item>
+                                {trendingHipHop.slice(0, 5).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
+                        </Carousel>
+
             
             
                     </div>

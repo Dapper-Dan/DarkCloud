@@ -11,10 +11,11 @@ class Profile extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        songs :this.props.getSongs(this.props.match.params.display_name),
+        songs :this.props.getSongs(this.props.match.params.display_name), //useless?
         showConfirm: false,
         showPicOption: false,
-        picOption: ''
+        picOption: '',
+        loading: true
     }
     
       this.props.fetchUserInfo(this.props.match.params.display_name);
@@ -38,6 +39,10 @@ class Profile extends React.Component {
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
       .then(() => history.pushState({}, "", `/${this.val}`))
       
+    }
+
+    componentDidMount() {
+      this.setState({loading: false})
     }
 
     update(value) {
@@ -91,20 +96,24 @@ class Profile extends React.Component {
 
 
     render(){
-
+      if(this.state.loading) return (<div>loading....</div>)
       console.log(this.state)
       let songs
       if (this.props.state.entities.songs.songs) {
       songs = Object.values(this.props.state.entities.songs.songs).sort((a, b) => {
           if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
           if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
       })
      
-      } else {
+      } else if (this.props.state.entities.songs) {
         songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
           if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
           if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
         })
+      } else {
+        return (<div>loading...</div>)
       }
 
      

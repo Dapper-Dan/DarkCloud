@@ -205,13 +205,25 @@ class SongPart extends React.Component {
             )}
             <div className="songProfileTileContainer">
               <div className="profile-song-info">
-                <a role="button" className="play" onClick={this.handleClick}>Play</a>
+                <div className="playNameContainer">
+                  <a role="button" className="play" onClick={this.handleClick}>Play</a>
                 
-                <div className="profile-song-names-plate" >
-                  <Link to={`/${song.display_name}`}>
-                    <h3 className="songUser">{song.display_name}</h3>
-                  </Link>
-                  <h3 className="songTitle">{song.title}</h3> 
+                  <div className="profile-song-names-plate" >
+                    <Link to={`/${song.display_name}`}>
+                      <h3 className="songUser">{song.display_name}</h3>
+                    </Link>
+                    <h3 className="songTitle">{song.title}</h3> 
+                  </div>
+                </div>
+
+                <div className="tagGenreContainer">
+                  <div className="dateCreation">
+                    {creationTime}
+                  </div>
+
+                  <div className="genreContainer">
+                    {`# ${songGenre}`}
+                  </div>
                 </div>
 
               </div>
@@ -230,30 +242,27 @@ class SongPart extends React.Component {
               <div className="songEndTimer">
                 {endTime}
               </div>
+              
 
+          
+              <a role="button" className="likeButton" id={likeButtonStyle} onClick={this.likeSong}><img src={window.heart} width="15px"></img>{totalLikes}</a>
+
+            </div>
+
+            
+            
+           
+
+          </div>
+          {/* <div className="tagGenreContainer">
               <div className="dateCreation">
                 {creationTime}
               </div>
 
               <div className="genreContainer">
-                {songGenre}
+                {`# ${songGenre}`}
               </div>
-
-              {/* <div className="waveFormContainer" style={{height: "100px"}} >
-
-                <img className="waveFormImg" src={song.waveForm}/>
-                {progressWaveForm}
-
-
-              </div> */}
-            
-              
-              <a role="button" className="likeButton" id={likeButtonStyle} onClick={this.likeSong}><img src={window.heart} width="15px"></img>{totalLikes}</a>
-
-            </div>
-            
-
-          </div>
+            </div> */}
 
           
         </>

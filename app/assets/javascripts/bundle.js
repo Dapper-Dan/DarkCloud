@@ -639,6 +639,8 @@ var Discover = /*#__PURE__*/function (_React$Component) {
 
     _this.props.getBunchSongs();
 
+    _this.props.fetchUsers();
+
     _this.getMostLiked = _this.getMostLiked.bind(_assertThisInitialized(_this));
     _this.getTrendingGenre = _this.getTrendingGenre.bind(_assertThisInitialized(_this));
     return _this;
@@ -664,12 +666,23 @@ var Discover = /*#__PURE__*/function (_React$Component) {
       return trendingGenreTracks;
     }
   }, {
+    key: "getRecentUsers",
+    value: function getRecentUsers(users) {
+      var recentUsers = Object.values(users).sort(function (a, b) {
+        if (new Date(a.created_at).valueOf() > new Date(b.created_at).valueOf()) return -1;
+        if (new Date(a.created_at).valueOf() < new Date(b.created_at).valueOf()) return 1;
+        if (new Date(a.created_at).valueOf() === new Date(b.created_at).valueOf()) return 0;
+      });
+      return recentUsers;
+    }
+  }, {
     key: "render",
     value: function render() {
       var trendingSongs;
       var trendingEDM;
       var trendingJazz;
       var trendingHipHop;
+      var recentUsers;
 
       if (!this.props.songs) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
@@ -678,6 +691,12 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         trendingEDM = this.getTrendingGenre(this.props.songs, "Dance & EDM");
         trendingJazz = this.getTrendingGenre(this.props.songs, "Jazz");
         trendingHipHop = this.getTrendingGenre(this.props.songs, "Hip-Hop");
+      }
+
+      if (!this.props.users) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading....");
+      } else {
+        recentUsers = this.getRecentUsers(this.props.users);
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -716,12 +735,48 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
           song: song
         });
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Next Set"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Scooby Dooby Doo Bop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fresh smooth jazz"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingEDM.slice(4, 9).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingEDM.slice(8, 12).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Next Set"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "New talented artists to follow"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        controls: true,
+        interval: "9999999999",
+        id: "discoverCaro",
+        wrap: false
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(0, 5).map(function (user) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          id: "profilePic",
+          src: user.profilePicUrl
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(4, 9).map(function (user) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          id: "profilePic",
+          src: user.profilePicUrl
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(8, 12).map(function (user) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          id: "profilePic",
+          src: user.profilePicUrl
+        });
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Scooby Dooby Doo Bop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fresh smooth jazz"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
         controls: true,
         interval: "9999999999",
         id: "discoverCaro",
         wrap: false
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingJazz.slice(0, 5).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingJazz.slice(4, 9).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingJazz.slice(8, 12).map(function (song) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
           song: song
         });
@@ -731,6 +786,14 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         id: "discoverCaro",
         wrap: false
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingHipHop.slice(0, 5).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingHipHop.slice(4, 9).map(function (song) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          song: song
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, trendingHipHop.slice(8, 12).map(function (song) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
           song: song
         });
@@ -759,6 +822,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _discover_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./discover.jsx */ "./frontend/components/discover/discover.jsx");
 /* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/song_actions */ "./frontend/actions/song_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
@@ -767,7 +832,8 @@ var mSTP = function mSTP(state) {
   return {
     currentUser: state.session.currentUser,
     songs: state.entities.songs.all_songs,
-    state: state
+    state: state,
+    users: state.entities.users.all_users
   };
 };
 
@@ -775,6 +841,9 @@ var mDTP = function mDTP(dispatch) {
   return {
     getBunchSongs: function getBunchSongs() {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_2__["getBunchSongs"])());
+    },
+    fetchUsers: function fetchUsers() {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchUsers"])());
     }
   };
 };
@@ -1761,6 +1830,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log(window.profile);
       if (this.state.loading) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading....");
       console.log(this.state);
       var songs;
@@ -2417,7 +2487,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       formData.append('user[display_name]', this.state.display_name);
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender); // formData.append('user[location]', this.state.location);
-      // formData.append('user[profile_photo]', this.state.profile_photo);
+      // formData.append('user[profile_photo]',  window.profile);
       // formData.append('user[cover_photo]', this.state.cover_photo);
 
       this.props.action(formData);
@@ -2482,6 +2552,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log(window.profile);
       console.log(this.props.currentUser);
       var step = this.state.step;
       var _this$state2 = this.state,
@@ -3497,6 +3568,8 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           className: "songProfileTileContainer"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "profile-song-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "playNameContainer"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           role: "button",
           className: "play",
@@ -3510,6 +3583,12 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
         }, song.display_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "songTitle"
         }, song.title))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "tagGenreContainer"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "dateCreation"
+        }, creationTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "genreContainer"
+        }, "# ".concat(songGenre)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "waveFormContainer",
           style: {
             height: "84px"
@@ -3521,11 +3600,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           className: "songProgressTimer"
         }, songProgressTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "songEndTimer"
-        }, endTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "dateCreation"
-        }, creationTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "genreContainer"
-        }, songGenre), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        }, endTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           role: "button",
           className: "likeButton",
           id: likeButtonStyle,

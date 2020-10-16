@@ -84,6 +84,7 @@
     margin-bottom: 45px;
     justify-content: flex-start;
     display: flex;
+    
 }
 
 
@@ -127,6 +128,7 @@
 
 .profile-song-info {
     display: flex;
+    width: 680px;
 }
 
 .profile-song-names-plate {
@@ -140,6 +142,7 @@
     display: flex;
     flex-direction: column;
     margin-left: 14px;
+ 
 }
 
 
@@ -204,7 +207,33 @@
     filter: invert(59%) sepia(13%) saturate(2372%) hue-rotate(88deg) brightness(94%) contrast(94%);
 }
 
+.dateCreation,  .genreContainer {
+    color: #999;
+}
+
+.tagGenreContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 14px;
+}
+
+.genreContainer {
+    background: #999;
+    color: white;
+    border-radius: 8px;
+    max-width: fit-content;
+    padding: 3px 5px 4px 5px;
+    font-size: 13px;
+    white-space: nowrap;
+}
 
 
 
+.profile-song-info {
+    justify-content: space-between;
+}
 
+.playNameContainer {
+    display: flex;
+}

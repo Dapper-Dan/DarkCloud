@@ -96,6 +96,7 @@ class Profile extends React.Component {
 
 
     render(){
+      console.log(window.profile)
       if(this.state.loading) return (<div>loading....</div>)
       console.log(this.state)
       let songs

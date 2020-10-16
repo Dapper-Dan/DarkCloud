@@ -32,7 +32,7 @@ class SignupForm extends React.Component {
     
   handleSignup(e) {
       e.preventDefault();
-
+      
       const formData = new FormData();
       formData.append('user[email]', this.state.email);
       formData.append('user[password]', this.state.password);
@@ -40,7 +40,7 @@ class SignupForm extends React.Component {
       formData.append('user[age]', this.state.age);
       formData.append('user[gender]', this.state.gender);
       // formData.append('user[location]', this.state.location);
-      // formData.append('user[profile_photo]', this.state.profile_photo);
+      // formData.append('user[profile_photo]',  window.profile);
       // formData.append('user[cover_photo]', this.state.cover_photo);
       this.props.action(formData)
 
@@ -49,6 +49,8 @@ class SignupForm extends React.Component {
         if (this.props.currentUser) this.props.changeShow()
       }, 300)
   }
+
+
 
   handleLogin(e) {
     e.preventDefault();
@@ -95,6 +97,7 @@ handleClickOutside(event) {
   
 
   render() {
+    console.log(window.profile)
     console.log(this.props.currentUser)
     const {step} = this.state;
     const {email, password, display_name, age, gender } = this.state;

@@ -6,9 +6,8 @@ class Api::UsersController < ApplicationController
     end
 
     def create
-        puts 'usersconrtoller'
         @user = User.new(user_params)
-    
+        @user.profile_photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'gradient_left.png')), filename: 'gradient_left.png')
         if @user.save
             login(@user)
             render :show

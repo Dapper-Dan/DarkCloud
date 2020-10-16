@@ -16,6 +16,7 @@ export default class Discover extends React.Component {
         };
 
         this.props.getBunchSongs()
+        this.props.fetchUsers()
         this.getMostLiked = this.getMostLiked.bind(this)
         this.getTrendingGenre = this.getTrendingGenre.bind(this)
         
@@ -40,6 +41,16 @@ export default class Discover extends React.Component {
        return trendingGenreTracks
     }
 
+    getRecentUsers(users) {
+        let recentUsers = Object.values(users).sort((a, b) => {
+            if (new Date(a.created_at).valueOf() > new Date(b.created_at).valueOf()) return -1
+            if (new Date(a.created_at).valueOf() < new Date(b.created_at).valueOf()) return 1
+            if (new Date(a.created_at).valueOf() === new Date(b.created_at).valueOf()) return 0
+        })
+
+        return recentUsers;
+    }
+
 
 
 
@@ -48,6 +59,7 @@ export default class Discover extends React.Component {
         let trendingEDM
         let trendingJazz
         let trendingHipHop
+        let recentUsers
         if (!this.props.songs) {
             return (<p>loading...</p>)
         } else {
@@ -55,6 +67,12 @@ export default class Discover extends React.Component {
            trendingEDM = this.getTrendingGenre(this.props.songs, "Dance & EDM")
            trendingJazz = this.getTrendingGenre(this.props.songs, "Jazz")
            trendingHipHop = this.getTrendingGenre(this.props.songs, "Hip-Hop")
+        }
+
+        if (!this.props.users) {
+            return (<div>loading....</div>)
+        } else {
+            recentUsers = this.getRecentUsers(this.props.users)
         }
         
         
@@ -113,15 +131,63 @@ export default class Discover extends React.Component {
                                 ))}
                             </Carousel.Item>
 
+                            <Carousel.Item>
+                                {trendingEDM.slice(4, 9).map((song) => ( 
+                                    <SongPartContainer song={song} />
+         
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {trendingEDM.slice(8, 12).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
                         </Carousel>
 
                         <h3>Next Set</h3>
+                        <p>New talented artists to follow</p>
+                        <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
+                            <Carousel.Item>
+                                {recentUsers.slice(0, 5).map((user) => ( 
+                                    <img id="profilePic"  src={user.profilePicUrl} />
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {recentUsers.slice(4, 9).map((user) => ( 
+                                     <img id="profilePic" src={user.profilePicUrl} />
+         
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {recentUsers.slice(8, 12).map((user) => ( 
+                                    <img id="profilePic" src={user.profilePicUrl} />
+                                ))}
+                            </Carousel.Item>
+
+                        </Carousel>
 
                         <h3>Scooby Dooby Doo Bop</h3>
                         <p>Fresh smooth jazz</p>
                         <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
                             <Carousel.Item>
                                 {trendingJazz.slice(0, 5).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {trendingJazz.slice(4, 9).map((song) => ( 
+                                    <SongPartContainer song={song} />
+         
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {trendingJazz.slice(8, 12).map((song) => ( 
                                     <SongPartContainer song={song} />
                                 ))}
                             </Carousel.Item>
@@ -133,6 +199,19 @@ export default class Discover extends React.Component {
                         <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
                             <Carousel.Item>
                                 {trendingHipHop.slice(0, 5).map((song) => ( 
+                                    <SongPartContainer song={song} />
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {trendingHipHop.slice(4, 9).map((song) => ( 
+                                    <SongPartContainer song={song} />
+         
+                                ))}
+                            </Carousel.Item>
+
+                            <Carousel.Item>
+                                {trendingHipHop.slice(8, 12).map((song) => ( 
                                     <SongPartContainer song={song} />
                                 ))}
                             </Carousel.Item>

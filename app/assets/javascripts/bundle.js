@@ -2817,17 +2817,30 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
   _createClass(SearchResults, [{
     key: "render",
     value: function render() {
+      var searchInput;
+      if (this.props.location.searchInput) searchInput = this.props.location.searchInput;
       var songs = Object.values(this.props.songs);
-      var users = Object.values(this.props.users); // const filteredOptions = songs.filter(
-      //     songItem => {
-      //         let songName = songItem.title.toLowerCase()
-      //         return songName.indexOf(searchInput.toLowerCase()) > -1
-      //     }).concat(users.filter(
-      //         userItem => {
-      //             let userName = userItem.display_name.toLowerCase()
-      //             return userName.indexOf(searchInput.toLowerCase()) > -1
-      //         }
-      //     ))
+      var users = Object.values(this.props.users);
+      var filteredSongs = songs.filter(function (songItem) {
+        var songName = songItem.title.toLowerCase();
+        return songName.indexOf(searchInput.toLowerCase()) > -1;
+      }); // .concat(users.filter(
+      //     userItem => {
+      //         let userName = userItem.display_name.toLowerCase()
+      //         return userName.indexOf(searchInput.toLowerCase()) > -1
+      //     }
+      // ))
+
+      var optionsArray;
+
+      if (filteredSongs) {
+        optionsArray = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, filteredSongs.map(function (song) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            song: song,
+            profile: true
+          }));
+        }));
+      }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
@@ -2843,7 +2856,7 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
         className: "searchLeftSideBar"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "searchResultsMain"
-      }))));
+      }, optionsArray))));
     }
   }]);
 

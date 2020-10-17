@@ -234,7 +234,7 @@ class SongPart extends React.Component {
 
               <div className="waveFormContainer" style={{height: "84px"}} >
 
-                <img className="waveFormImg" src={song.waveForm}/>
+                <img className="waveFormImg" src={song.waveForm} />
                 {progressWaveForm}
 
               </div>

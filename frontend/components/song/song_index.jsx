@@ -50,7 +50,7 @@ class SongList extends React.Component {
                   <SongPartContainer song={song} />
                   
                 </li>
-              ))}
+              )).slice(0,12)}
             </ul>
           </div>
       

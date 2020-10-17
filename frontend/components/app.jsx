@@ -10,6 +10,8 @@ import ProfileContainer from './profile/profile_container';
 import MusicPlayerContainer from './music_player/music_player_container'
 import DiscoverContainer from './discover/discover_container'
 import SongFormContainer from './song/song_form_container'
+import LibraryContainer from './library/library_container'
+import SearchResultsContainer from './search_results/search_results_container'
 
  
 
@@ -31,6 +33,8 @@ const App = () => (
              <Route exact path="/" component={HomePage} />
              <Route exact path="/discover" component={DiscoverContainer} />
              <Route exact path="/upload" component={SongFormContainer} />
+             <Route exact path="/library" component={LibraryContainer} />
+             <Route exact path="/search_results" component={SearchResultsContainer} />
              <Route exact path="/:display_name" component={ProfileContainer} />
 
       </Switch>

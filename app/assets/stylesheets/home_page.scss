@@ -183,14 +183,13 @@
     flex-wrap: wrap;
     list-style-type: none;
     padding-inline-start: 0px;
-    justify-content: space-between
+    justify-content: space-around;
+    margin: 0px 30px 0px 30px;
  
     
 }
 
-.songList li {
-    margin: 10px;
-}
+
 
 .songTile .songUser {
     margin-top: 5px;

@@ -7,17 +7,17 @@ import SearchBarContainer from '../search_bar/search_bar_container'
 import MusicPlayerContainer from '../music_player/music_player_container'
 import UserNavBarContainer from '../nav_bar/user_nav_bar_container'
 
+
 class Profile extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        songs :this.props.getSongs(this.props.match.params.display_name), //useless?
         showConfirm: false,
         showPicOption: false,
         picOption: '',
         loading: true
     }
-    
+      this.props.getSongs(this.props.match.params.display_name)
       this.props.fetchUserInfo(this.props.match.params.display_name);
 
       this.change = this.change.bind(this)
@@ -27,11 +27,11 @@ class Profile extends React.Component {
       this.cancelUpload = this.cancelUpload.bind(this)
       this.uploadCoverImage = this.uploadCoverImage.bind(this)
 
-    }
-    // cover_photo: null,
-     //profile_photo: null
-   
+      
+      
 
+    }
+   
 
     change() {
       const formData = new FormData();
@@ -43,7 +43,17 @@ class Profile extends React.Component {
 
     componentDidMount() {
       this.setState({loading: false})
+ 
     }
+
+    componentDidUpdate() {
+      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
+        this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.getSongs(this.props.match.params.display_name)
+      }
+    }
+
+   
 
     update(value) {
       return e => {
@@ -62,7 +72,8 @@ class Profile extends React.Component {
       }
     }
 
-      
+    
+    
 
     showProfileUploadInput() {
       let input = document.getElementById("profile-pic-input")
@@ -96,9 +107,10 @@ class Profile extends React.Component {
 
 
     render(){
-      console.log(window.profile)
+     
+     
       if(this.state.loading) return (<div>loading....</div>)
-      console.log(this.state)
+    
       let songs
       if (this.props.state.entities.songs.songs) {
       songs = Object.values(this.props.state.entities.songs.songs).sort((a, b) => {
@@ -129,7 +141,9 @@ class Profile extends React.Component {
       
 
       let currentUserProfile
-      if (this.props.currentUser.id === user.id) currentUserProfile = true;
+      if (this.props.currentUser) {
+        if (this.props.currentUser.id === user.id) currentUserProfile = true;
+      }
 
       let liked_songs
       if (currentUserProfile) liked_songs = user.likes
@@ -228,13 +242,15 @@ class Profile extends React.Component {
         <>
     
        <div className="nav_bar_background" ></div>
-
-       <div className="outtermost"> 
-
-        <div className="nav-con" >
+       
+       <div className="nav-con" >
           { this.props.currentUser ? <UserNavBarContainer /> : <NavBarContainer /> }
           <SearchBarContainer/>
         </div>
+
+       <div className="outtermost"> 
+
+        
 
           <div className="cover" >
             {user.coverPicUrl ? (
@@ -278,7 +294,7 @@ class Profile extends React.Component {
 
        </div>
 
-        
+      
         </>
       )
     }

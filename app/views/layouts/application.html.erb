@@ -19,7 +19,7 @@
       <script>
         window.currentUser = {
           'id': <%= current_user.id %>,
-          'display_name': '<%= current_user.display_name %>'
+          'display_name': '<%= current_user.display_name %>',
         }
       </script>
     <% end %>
@@ -42,6 +42,10 @@
       window.repeat = "<%= image_url('media_player_assets/repeat.png') %>";
       window.shuffle = "<%= image_url('media_player_assets/shuffle.png') %>";
       window.heart = "<%= image_url('media_player_assets/heart.png') %>";
+      window.downArrow = "<%= image_url('downArrow.png') %>";
+      window.trackIcon = "<%= image_url('trackIcon.png') %>";
+      window.profileIcon = "<%= image_url('profileIcon.png') %>";
+      window.signoutIcon = "<%= image_url('signoutIcon.png') %>";
       
 
     </script>

@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBarContainer from '../nav_bar/nav_bar_container';
+import UserNavBarContainer from '../nav_bar/user_nav_bar_container';
 import { NavLink } from 'react-router-dom';
 import SearchBarContainer from '../search_bar/search_bar_container'
 import SongPartContainer from '../song/song_part_container'
@@ -81,13 +81,14 @@ export default class Discover extends React.Component {
             <>
         
             <div className="nav_bar_background" ></div>
-           
+            
+            <div className="nav-con"  >
+                <UserNavBarContainer />
+                <SearchBarContainer/>
+            </div>
             
             <div className="outtermost" >
-                <div className="nav-con"  >
-                    <NavBarContainer />
-                    <SearchBarContainer/>
-                </div>
+                
 
                 <div className="discover2blocks">
                 

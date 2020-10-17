@@ -3,8 +3,16 @@
     position: -webkit-sticky; 
     position: sticky;
     top: 0; 
-    z-index: 2;
+    z-index: 9999;
     height: 45px;
+    width: 45%;
+    margin: auto;
+}
+
+@media (max-width:2000px) {
+    .nav-con {
+    width: 85%;
+    }
 }
 
 // .nav-con#discover {
@@ -39,7 +47,7 @@
     width: 100%;
     display: block;
     position: fixed;
-    z-index: 1;
+    z-index: 999;
 
 }
 
@@ -106,26 +114,27 @@
 
 .upload-button {
     display: block;
-    // padding: 12px 0;
-    margin-left: 20px;
     width: 50px;
-    height: 30px;
     border: none;
-    box-sizing: border-box;
     text-align: center;
     background-color: #333;
     color: #ccc !important;
     cursor: pointer;
+    position: relative;
+    right: 98px;
 }
+
 
 
 .right_nav {
     position: absolute;
     right: 0px;
-    padding: 9px;
+    // padding: 9px;
     height: 46px;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    width: 18%;
     // float: left;
     // padding: 9px 10px 10px;
 }
@@ -229,3 +238,119 @@
     background-color: white;
 }
 
+
+#navProfileImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin: auto;
+}
+
+
+.profile-dropdown {
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    width: 57%;
+    position: relative;
+    left: 50px;
+
+}
+
+
+#dropdownUsername {
+    margin: auto;
+    color: white;
+    margin-left: 15px;
+    
+}
+
+
+#downArrow {
+    width: 9px;
+    height: 10px;
+    margin: auto;
+    margin-left: 5px;
+}
+
+
+#dropDownOptionsList {
+    list-style-type: none;
+    background-color: white;
+    padding-inline-start: 0px;
+    margin-bottom: 0px;
+    
+}
+
+.dropDownOptions {
+    width: 100%;
+  
+    flex: 0 0 100%;
+    position: relative;
+    top: 43px;
+    right: 91px;
+    border: grey solid thin;
+    border-radius: 0px 0px 7px 7px;
+    background-color: white;
+    border-top-color: white;
+}
+
+
+
+.dropDownUlContainer {
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.dropDownOptions #heartIcon {
+    width: 17px;
+    height: 14px;
+    top: -1px;
+    margin-right: 7px;
+    position: relative;
+}
+
+#trackIcon {
+    width: 15px;
+    height: 15px;
+    top: -1px;
+    margin-right: 7px;
+    position: relative;
+}
+
+#profileIcon {
+    width: 19px;
+    height: 17px;
+    top: -1px;
+    margin-right: 7px;
+    position: relative;
+}
+
+#signoutIcon {
+    width: 20px;
+    height: 17px;
+    top: -2px;
+    margin-right: 2px;
+    position: relative;
+}
+
+#dropDownOptionsList a {
+    color: black;
+    text-decoration: none;
+
+}
+
+
+#dropDownOptionsList li {
+//     margin-left: 6px;
+//     margin-bottom: 11px;
+//     margin-top: 5px;
+    padding-left: 6px;
+    padding-bottom: 11px;
+    padding-top: 5px;
+}
+
+
+#dropDownOptionsList li:hover {
+    background-color: gray;
+}

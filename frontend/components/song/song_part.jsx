@@ -35,7 +35,8 @@ class SongPart extends React.Component {
       
         let song = this.props.song
         let song_id = this.props.song.id;
-        let user_id = this.props.state.session.currentUser.id
+        let user_id 
+        if (this.props.currentUser) user_id = this.props.currentUser.id
         let likeId
         if (this.props.song.likes.length > 0) likeId = this.props.song.likes[0].id
         let like = { song_id, user_id, likeId }
@@ -86,7 +87,8 @@ class SongPart extends React.Component {
 
       if (hours < 1) return `${minutes} minutes ago`
       if (days < 1) return `${hours} hours ago`
-      if (days > 1) return `${days} days ago`
+      if (days >= 1) return `${days} days ago`
+  
       
       
     }
@@ -120,8 +122,10 @@ class SongPart extends React.Component {
      
 
       let likeButtonStyle
-      if (song.likes && song.likes[this.props.currentUser.id]) {
-        likeButtonStyle = "greenButton"
+      if(this.props.currentUser) {
+        if (song.likes && song.likes[this.props.currentUser.id]) {
+          likeButtonStyle = "greenButton"
+        }
       }
       
 
@@ -139,7 +143,7 @@ class SongPart extends React.Component {
       if (this.props.song) {
         // setTimeout(() => {
           creationTime = this.calculateTime(this.props.song)
-          console.log(creationTime)
+         
         songGenre = song.genre
         // }, 300)
         

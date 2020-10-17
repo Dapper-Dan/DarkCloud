@@ -4,12 +4,15 @@ Rails.application.routes.draw do
 
   get '/upload/', to: 'static_pages#root'
   get '/discover/', to: 'static_pages#root'
+  get '/library/', to: 'static_pages#root'
+  get '/search_results', to: 'static_pages#root'
   get '/:display_name/', to: 'static_pages#root'
   
 
   namespace :api, defaults: { format: :json } do
     get 'songs/bunch', to: 'songs#bunch_o_songs'
     get 'users/:display_name/fetchUserInfo', to: 'users#fetchUserInfo'
+    
 
     resources :users, only: [:index, :create, :show, :update]
     resource :session, only: [:create, :destroy]

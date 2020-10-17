@@ -1,6 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+// import { Redirect } from 'react-router'
 
 
 
@@ -13,6 +14,7 @@ export default class SearchBar extends React.Component {
             filteredOptions: [],
             activeOption: 0,
             showOptions: false,
+            redirect: false
            
 
 
@@ -33,19 +35,19 @@ export default class SearchBar extends React.Component {
         } else {
             return true
         }
+       
     }
 
 
     componentDidMount() {
+ console.log('ehl')
         document.addEventListener('click', this.handleClickOutside, true);
-        
+     
         this.setState( {loading: false})
       
     }
 
-    // componentWillUnmount() {
-
-    // }
+  
 
 
      searchUpdate(e) {
@@ -73,28 +75,30 @@ export default class SearchBar extends React.Component {
     }
 
     onClick(e) {
+        console.log('click')
         this.setState({
           showOptions: false,
-          searchInput: e.currentTarget.innerText
+          searchInput: e.currentTarget.innerText,
+          redirect: true
         });
+
     };
 
     
-//   componentDidMount() {
-//     document.addEventListener('click', this.handleClickOutside, true);
-// }
 
     componentWillUnmount() {
+        console.log('bye')
+        this.setState({redirect: false})
         document.removeEventListener('click', this.handleClickOutside, true);
     }
 
     handleClickOutside(event) {
-        const domNode = ReactDOM.findDOMNode(this);
-        
-        if (!domNode || !domNode.contains(event.target)) {
-            
+        let getUl = document.querySelectorAll('ul.options')
+        if(getUl[0]) {
+        if (!getUl || !getUl[0].contains(event.target)) {
             this.setState({ showOptions: false })
-        }
+            document.removeEventListener('click', this.handleClickOutside, true);
+        }}
     }
 
     onKeyDown(e) {
@@ -134,6 +138,13 @@ export default class SearchBar extends React.Component {
 
 
     render() {
+
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: "/search_results",
+                searchInput: this.state.searchInput,
+            }}/>
+        }
         
         
         if (this.state.loading) {

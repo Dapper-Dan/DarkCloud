@@ -22,9 +22,10 @@
 .cover {
     background-color: grey;
     width: 100%;
-    display: block;
+    display: flex;
     height: 260px;
     position: relative;
+    justify-content: space-between;
 }
 
 .profile-songs {
@@ -42,8 +43,8 @@
 .profile-box {
     width: 210px;
     height: 210px;
-    display: block;
-    position: absolute;
+    display: flex;
+    position: relative;
     top: 24px;
     left: 24px;
 }
@@ -55,10 +56,10 @@
 }
 
 .info-basic {
-    position: absolute;
-    left: 300px;
-    top: 50px;
-   
+    position: relative;
+    margin-left: 42px;
+    display: flex;
+    height: fit-content;
     
 }
 
@@ -67,6 +68,7 @@
     background-color: rgba(0,0,0,.8);
     padding: 5px;
     font-size: 24px;
+    align-self: baseline;
     
 }
 
@@ -237,4 +239,64 @@
 
 .playNameContainer {
     display: flex;
+}
+
+
+.cover-pic-upload-button {
+    position: relative;
+    align-self: center;
+    bottom: 89px;
+    right: 27px;
+    border-radius: 3px;
+    border: none;
+}
+
+.profille-pic-upload-button {
+    position: relative;
+    bottom: 52px;
+    left: 70px;
+    border-radius: 3px;
+    border: none;
+}
+
+.profile-pic-cancelConfirm {
+    display: flex;
+    position: relative;
+    bottom: 52px;
+    left: 50px;
+    justify-content: space-around;
+    width: 157px;
+}
+
+.profile-pic-cancelConfirm button {
+    border-radius: 3px;
+    border: none;
+}
+
+.profile-pic-cancelConfirm #profile-confirm {
+    background-color: #1DB954;
+    color: white;
+}
+
+
+.cover-pic-cancelConfirm {
+    position: relative;
+    align-self: center;
+    bottom: 89px;
+    right: 27px;
+    justify-content: space-around;
+    display: flex;
+    width: 147px;
+}
+
+
+.cover-pic-cancelConfirm button {
+    border-radius: 3px;
+    border: none;
+}
+
+
+.cover-pic-cancelConfirm #cover-confirm {
+    background-color: #1DB954;
+    color: white;
 }

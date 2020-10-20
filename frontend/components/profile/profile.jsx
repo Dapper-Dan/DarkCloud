@@ -12,7 +12,8 @@ class Profile extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        showConfirm: false,
+        showConfirmCover: false,
+        showConfirmProfile: false,
         showPicOption: false,
         picOption: '',
         loading: true
@@ -65,8 +66,12 @@ class Profile extends React.Component {
       fileReader.onloadend = () => {
         this.setState({ [value]: fileReader.result })
       }
-    
-      this.setState({showConfirm: true})
+      
+      if (value === "cover_pic") {
+        this.setState({showConfirmCover: true})
+      } else {
+        this.setState({showConfirmProfile: true})
+      }
       this.setState({showPicOption: true})
       
       }
@@ -90,7 +95,10 @@ class Profile extends React.Component {
       const formData = new FormData();
       formData.append('user[profile_photo]', this.profile_pic);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-      this.setState({showConfirm: false})
+      this.setState({
+        showConfirmProfile: false,
+        showConfirmCover: false
+      })
     }
 
     uploadCoverImage(e) {
@@ -98,11 +106,18 @@ class Profile extends React.Component {
       const formData = new FormData();
       formData.append('user[cover_photo]', this.cover_pic);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-      this.setState({showConfirm: false})
+      this.setState({
+        showConfirmCover: false,
+        showConfirmProfile: false
+      })
     }
 
     cancelUpload() {
-      this.setState({showConfirm: false, showPicOption: false})
+      this.setState({
+        showConfirmCover: false, 
+        showPicOption: false,
+        showConfirmProfile: false
+      })
     }
 
 
@@ -199,14 +214,19 @@ class Profile extends React.Component {
           onChange={this.update('profile_pic')}
           style={{display:'none'}}
         />
+{/* 
+        <div className="profille-pic-upload-button"> */}
 
-        {!this.state.showConfirm ? 
-          (<button onClick={this.showProfileUploadInput}>Upload image</button>) : (
+        {!this.state.showConfirmProfile ? 
+          (<button className="profille-pic-upload-button" onClick={this.showProfileUploadInput}>Upload image</button>) : (
           <>
-          <button onClick={this.uploadProfileImage}>Confirm Change</button>
-          <button onClick={this.cancelUpload}>Cancel Change</button>
+          <div className="profile-pic-cancelConfirm">
+            <button onClick={this.cancelUpload}>Cancel</button>
+            <button id="profile-confirm" onClick={this.uploadProfileImage}>Confirm</button>
+          </div>
           </>)
         }
+        {/* </div> */}
           </>
           
           )
@@ -224,16 +244,22 @@ class Profile extends React.Component {
           style={{display:'none'}}
         />
 
-        {!this.state.showConfirm ? 
-          (<button onClick={this.showCoverUploadInput}>Upload image</button>) : (
+        {/* <div className="cover-pic-upload-button"> */}
+
+        {!this.state.showConfirmCover ? 
+          (<button className="cover-pic-upload-button" onClick={this.showCoverUploadInput}>Upload image</button>) : (
           <>
-          <button onClick={this.uploadCoverImage}>Confirm Change</button>
-          <button onClick={this.cancelUpload}>Cancel Change</button>
+          <div className="cover-pic-cancelConfirm">
+            <button onClick={this.cancelUpload}>Cancel</button>
+            <button id="cover-confirm" onClick={this.uploadCoverImage}>Confirm</button>
+          </div>
           </>)
         }
+
+        {/* </div> */}
           </>
           
-          )
+        )
       }
   
      
@@ -260,21 +286,23 @@ class Profile extends React.Component {
             )}
             
 
-                   <div className="profile-box" >
-                     {user.profilePicUrl ? (
-                       <img src={profPic} className="profile-photo" />
-                     ):(
-                      <img src={window.profile} className="profile-photo" />
-                     )}
+            <div className="profile-box" >
+                {user.profilePicUrl ? (
+                <img src={profPic} className="profile-photo" />
+                ):(
+                <img src={window.profile} className="profile-photo" />
+                )}
                      
-                          <div className="info-basic">
-                             <a className="nameplate" > {user.display_name} </a>
-                             <a className="location-plate" > {location} </a>
-                          </div>
-                    </div>
-            </div> 
- {coverPictureUpload}
-            {profilePictureUpload}
+                <div className="info-basic">
+                  <a className="nameplate" > {user.display_name} </a>
+                  <a className="location-plate" > {location} </a>
+                </div>
+
+                
+            </div>
+            {coverPictureUpload}
+          </div> 
+          {profilePictureUpload}
           <SongNavBarContainer /> 
 
             <p id="recent">Recent</p>

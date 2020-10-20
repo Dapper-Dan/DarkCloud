@@ -34,7 +34,8 @@ const App = () => (
              <Route exact path="/discover" component={DiscoverContainer} />
              <Route exact path="/upload" component={SongFormContainer} />
              <Route exact path="/library" component={LibraryContainer} />
-             <Route exact path="/search_results" component={SearchResultsContainer} />
+             {/* <Route exact path="/search_results" component={SearchResultsContainer} /> */}
+             <Route exact path="/search_results/:searchInput" component={SearchResultsContainer} />
              <Route exact path="/:display_name" component={ProfileContainer} />
 
       </Switch>

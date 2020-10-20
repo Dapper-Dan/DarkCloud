@@ -492,7 +492,7 @@ var App = function App() {
     component: _library_library_container__WEBPACK_IMPORTED_MODULE_12__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
     exact: true,
-    path: "/search_results",
+    path: "/search_results/:searchInput",
     component: _search_results_search_results_container__WEBPACK_IMPORTED_MODULE_13__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
     exact: true,
@@ -1113,21 +1113,11 @@ var Library = /*#__PURE__*/function (_React$Component) {
   _createClass(Library, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (!this.props.users.profile_user) this.props.fetchUserInfo(this.props.currentUser.display_name);
-
-      if (this.props.location.libraryProps) {
-        var libraryProps = this.props.location.libraryProps;
-        if (libraryProps['showLikes']) this.setState({
-          showLikes: true,
-          showOverview: false,
-          showTracks: false
-        });
-        if (libraryProps['showTracks']) this.setState({
-          showTracks: true,
-          showOverview: false,
-          showLikes: false
-        });
-      }
+      if (!this.props.users.profile_user) this.props.fetchUserInfo(this.props.currentUser.display_name); // if (this.props.location.libraryProps) {
+      //    let libraryProps = this.props.location.libraryProps
+      //     if (libraryProps['showLikes']) this.setState({showLikes: true, showOverview: false, showTracks: false})
+      //     if (libraryProps['showTracks']) this.setState({showTracks: true, showOverview: false, showLikes: false})
+      // }   //USE THIS FOR THE BUTTONS
     }
   }, {
     key: "render",
@@ -1856,9 +1846,13 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
             style: {
               textDecoration: 'none'
             }
-          }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-            className: "library-button"
-          }, " Library ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+          }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+            to: "/library",
+            className: "library-button",
+            style: {
+              textDecoration: 'none'
+            }
+          }, "Library")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
             className: "right_nav"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
             to: "/upload",
@@ -2072,7 +2066,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      showConfirm: false,
+      showConfirmCover: false,
+      showConfirmProfile: false,
       showPicOption: false,
       picOption: '',
       loading: true
@@ -2136,9 +2131,15 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           _this3.setState(_defineProperty({}, value, fileReader.result));
         };
 
-        _this3.setState({
-          showConfirm: true
-        });
+        if (value === "cover_pic") {
+          _this3.setState({
+            showConfirmCover: true
+          });
+        } else {
+          _this3.setState({
+            showConfirmProfile: true
+          });
+        }
 
         _this3.setState({
           showPicOption: true
@@ -2169,7 +2170,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         songs: this.props.songs
       });
       this.setState({
-        showConfirm: false
+        showConfirmProfile: false,
+        showConfirmCover: false
       });
     }
   }, {
@@ -2184,15 +2186,17 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         songs: this.props.songs
       });
       this.setState({
-        showConfirm: false
+        showConfirmCover: false,
+        showConfirmProfile: false
       });
     }
   }, {
     key: "cancelUpload",
     value: function cancelUpload() {
       this.setState({
-        showConfirm: false,
-        showPicOption: false
+        showConfirmCover: false,
+        showPicOption: false,
+        showConfirmProfile: false
       });
     }
   }, {
@@ -2283,13 +2287,17 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           style: {
             display: 'none'
           }
-        }), !this.state.showConfirm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }), !this.state.showConfirmProfile ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "profille-pic-upload-button",
           onClick: this.showProfileUploadInput
-        }, "Upload image") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: this.uploadProfileImage
-        }, "Confirm Change"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }, "Upload image") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-pic-cancelConfirm"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           onClick: this.cancelUpload
-        }, "Cancel Change")));
+        }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          id: "profile-confirm",
+          onClick: this.uploadProfileImage
+        }, "Confirm"))));
       }
 
       var coverPictureUpload;
@@ -2302,13 +2310,17 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           style: {
             display: 'none'
           }
-        }), !this.state.showConfirm ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }), !this.state.showConfirmCover ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "cover-pic-upload-button",
           onClick: this.showCoverUploadInput
-        }, "Upload image") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: this.uploadCoverImage
-        }, "Confirm Change"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }, "Upload image") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "cover-pic-cancelConfirm"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           onClick: this.cancelUpload
-        }, "Cancel Change")));
+        }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          id: "cover-confirm",
+          onClick: this.uploadCoverImage
+        }, "Confirm"))));
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2340,7 +2352,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "nameplate"
       }, " ", user.display_name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "location-plate"
-      }, " ", location, " ")))), coverPictureUpload, profilePictureUpload, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, " ", location, " "))), coverPictureUpload), profilePictureUpload, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         id: "recent"
       }, "Recent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-songs"
@@ -2640,7 +2652,8 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
       if (this.state.redirect) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
           to: {
-            pathname: "/search_results",
+            pathname: "/search_results/".concat(this.state.searchInput),
+            // pathname: "/search_results",
             searchInput: this.state.searchInput
           }
         });
@@ -2805,37 +2818,67 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, SearchResults);
 
     _this = _super.call(this, props);
-    _this.state = {};
-
-    _this.props.fetchUsers();
-
-    _this.props.getBunchSongs();
+    _this.state = {
+      searchInput: ""
+    }; // this.props.fetchUsers()
+    // this.props.getBunchSongs()
 
     return _this;
   }
 
   _createClass(SearchResults, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        searchInput: this.props.location.searchInput
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      if (!this.props) {// this.props.fetchUsers()
+        // this.props.getBunchSongs()
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var searchInput;
-      if (this.props.location.searchInput) searchInput = this.props.location.searchInput;
-      var songs = Object.values(this.props.songs);
-      var users = Object.values(this.props.users);
-      var filteredSongs = songs.filter(function (songItem) {
-        var songName = songItem.title.toLowerCase();
-        return songName.indexOf(searchInput.toLowerCase()) > -1;
-      }); // .concat(users.filter(
+      console.log(this.props.match.params);
+      var filteredSongs;
+
+      if (this.props.match.params.searchInput) {
+        var searchInput = this.props.match.params.searchInput; // let filteredSongs
+        // if (this.props.songs) {
+
+        var songs = Object.values(this.props.songs); // if (!songs) return
+        // console.log(songs)
+
+        filteredSongs = songs.filter(function (songItem) {
+          console.log(songItem.title);
+          var songName = songItem.title.toLowerCase();
+          return songName.indexOf(searchInput.toLowerCase()) > -1;
+        });
+      } // let users = Object.values(this.props.users);
+      // filteredSongs = songs.filter(
+      //     songItem => {
+      //         let songName = songItem.title.toLowerCase()
+      //         return songName.indexOf(searchInput.toLowerCase()) > -1
+      //     })
+      //     // .concat(users.filter(
       //     userItem => {
       //         let userName = userItem.display_name.toLowerCase()
       //         return userName.indexOf(searchInput.toLowerCase()) > -1
       //     }
       // ))
 
+
       var optionsArray;
 
       if (filteredSongs) {
-        optionsArray = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, filteredSongs.map(function (song) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        optionsArray = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, filteredSongs.map(function (song, i) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: i
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
             song: song,
             profile: true
           }));

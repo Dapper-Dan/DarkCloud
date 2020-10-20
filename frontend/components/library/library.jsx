@@ -30,11 +30,11 @@ export default class Library extends React.Component {
     componentDidMount() {
         if (!this.props.users.profile_user) this.props.fetchUserInfo(this.props.currentUser.display_name)
 
-        if (this.props.location.libraryProps) {
-           let libraryProps = this.props.location.libraryProps
-            if (libraryProps['showLikes']) this.setState({showLikes: true, showOverview: false, showTracks: false})
-            if (libraryProps['showTracks']) this.setState({showTracks: true, showOverview: false, showLikes: false})
-        }
+        // if (this.props.location.libraryProps) {
+        //    let libraryProps = this.props.location.libraryProps
+        //     if (libraryProps['showLikes']) this.setState({showLikes: true, showOverview: false, showTracks: false})
+        //     if (libraryProps['showTracks']) this.setState({showTracks: true, showOverview: false, showLikes: false})
+        // }   //USE THIS FOR THE BUTTONS
 
     }
 

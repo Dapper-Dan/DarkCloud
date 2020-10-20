@@ -141,7 +141,8 @@ export default class SearchBar extends React.Component {
 
         if (this.state.redirect) {
             return <Redirect to={{
-                pathname: "/search_results",
+                pathname: `/search_results/${this.state.searchInput}`,
+                // pathname: "/search_results",
                 searchInput: this.state.searchInput,
             }}/>
         }

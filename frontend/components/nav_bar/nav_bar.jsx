@@ -198,7 +198,10 @@ export default class NavBar extends React.Component {
                             <NavLink to="/discover" className="home-button" style={{ textDecoration: 'none' }}>   
                                 Home
                             </NavLink>
-                            <a className="library-button"> Library </a>
+
+                            <NavLink to="/library" className="library-button" style={{ textDecoration: 'none' }}>
+                               Library
+                            </NavLink>
                         </nav>
 
                         <nav className="right_nav">

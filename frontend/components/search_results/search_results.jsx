@@ -10,33 +10,58 @@ export default class SearchResults extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            searchInput: ""
          
         
           
           
         };
 
-        this.props.fetchUsers()
-        this.props.getBunchSongs()
+        // this.props.fetchUsers()
+        // this.props.getBunchSongs()
 
-        
-        
-        
+    }
+
+    componentDidMount() {
+        this.setState({searchInput: this.props.location.searchInput})
+    }
+
+    componentDidUpdate() {
+        if(!this.props) {
+            // this.props.fetchUsers()
+            // this.props.getBunchSongs()
+            
+        }
     }
 
     render() {
-        let searchInput
-        if (this.props.location.searchInput) searchInput = this.props.location.searchInput
-        let songs = Object.values(this.props.songs);
-        let users = Object.values(this.props.users);
+        console.log(this.props.match.params)
+        let filteredSongs
+        if (this.props.match.params.searchInput) {
+           let searchInput = this.props.match.params.searchInput
+        
+       
+        // let filteredSongs
+        // if (this.props.songs) {
+            let songs = Object.values(this.props.songs);
+            // if (!songs) return
+            // console.log(songs)
+            filteredSongs = songs.filter(
+                songItem => {
+                    console.log(songItem.title)
+                    let songName = songItem.title.toLowerCase()
+                    return songName.indexOf(searchInput.toLowerCase()) > -1
+                })
+        }
+        // let users = Object.values(this.props.users);
 
        
-        const filteredSongs = songs.filter(
-            songItem => {
-                let songName = songItem.title.toLowerCase()
-                return songName.indexOf(searchInput.toLowerCase()) > -1
-            })
-            // .concat(users.filter(
+        // filteredSongs = songs.filter(
+        //     songItem => {
+        //         let songName = songItem.title.toLowerCase()
+        //         return songName.indexOf(searchInput.toLowerCase()) > -1
+        //     })
+        //     // .concat(users.filter(
             //     userItem => {
             //         let userName = userItem.display_name.toLowerCase()
             //         return userName.indexOf(searchInput.toLowerCase()) > -1
@@ -48,8 +73,8 @@ export default class SearchResults extends React.Component {
         if (filteredSongs) {
             optionsArray = (
                 <ul>
-                    {filteredSongs.map((song) => (
-                        <li>
+                    {filteredSongs.map((song, i) => (
+                        <li key={i}>
                             <SongPartContainer song={song} profile={true}/>
                         </li>
 

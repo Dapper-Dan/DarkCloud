@@ -53,7 +53,7 @@ export default class Library extends React.Component {
             
                 
                 <div className="libraryContainer">
-                <h3>Tracks</h3>
+                <h3 id="libraryHeaders">Tracks</h3>
                 <ul>
                     
                   {songs.map((song, i) => ( 
@@ -80,19 +80,30 @@ export default class Library extends React.Component {
             })
         }
 
+        if (myLikes && myLikes.length < 18) {
+            while (myLikes.length < 18) {
+                myLikes.push("")
+            }
+        }
+
+        console.log(myLikes)
+
+        let placeHolder = <div className="libraryPlaceHolder"></div>
+
         let likes
         if (myLikes) {
             likes = (
                 
                     <div className="libraryContainer">
-                        <h3>Likes</h3>
+                        <h3 id="libraryHeaders">Likes</h3>
                         <ul>
                         {myLikes.map((song, i) => ( 
                             <li key={i} className="song-box" >
-                            <SongPartContainer song={song} />
+                                
+                            {song !== "" ? <SongPartContainer song={song}/> : placeHolder}
                             
                             </li>
-                        ))}
+                        )).slice(0, 18)}
                         </ul>
                     </div>
                 
@@ -102,7 +113,7 @@ export default class Library extends React.Component {
         let overview
         if (myLikes && songs) {
             overview = (
-                <div>
+                <div className="overviewLibrary">
                 {tracks}
                 {likes}
                 </div>
@@ -138,7 +149,7 @@ let renderTracks
                 <SearchBarContainer/>
             </div>
             
-            <div className="outtermost" >
+            <div className="outtermost" id="libraryOutter">
                
                 
                 <div className="libraryNav">
@@ -154,7 +165,7 @@ let renderTracks
                 
 
 
-
+                {/* <div className="libraryFooter"></div> */}
             </div>
 
 

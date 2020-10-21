@@ -1345,7 +1345,10 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       songTime: "0:00",
       currentTime: 0,
-      mouseDown: false
+      mouseDown: false,
+      playing: false,
+      volume: .5,
+      showVolume: false
     };
 
     _this.props.getBunchSongs();
@@ -1357,6 +1360,8 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.handleMouseDown = _this.handleMouseDown.bind(_assertThisInitialized(_this));
     _this.handleMouseUp = _this.handleMouseUp.bind(_assertThisInitialized(_this));
     _this.drag = _this.drag.bind(_assertThisInitialized(_this));
+    _this.handleMouseLeave = _this.handleMouseLeave.bind(_assertThisInitialized(_this));
+    _this.handleMouseOver = _this.handleMouseOver.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1367,15 +1372,15 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
 
       if (audioEle.paused) {
         audioEle.play();
+        this.setState({
+          playing: true
+        });
       } else if (!audioEle.paused) {
         audioEle.pause();
+        this.setState({
+          playing: false
+        });
       }
-    }
-  }, {
-    key: "changeVolume",
-    value: function changeVolume() {
-      var volumeControl = document.querySelector('#volume');
-      this.gainNode.gain.value = volumeControl.value;
     }
   }, {
     key: "handleMouseDown",
@@ -1431,6 +1436,16 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         songTime: formattedTime
       });
       this.updateProgress();
+
+      if (song.paused) {
+        this.setState({
+          playing: false
+        });
+      } else {
+        this.setState({
+          playing: true
+        });
+      }
     }
   }, {
     key: "updateProgress",
@@ -1444,6 +1459,29 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           currentTime: currentTime / endTime * 100
         });
       }
+    }
+  }, {
+    key: "changeVolume",
+    value: function changeVolume(e) {
+      this.setState({
+        volume: e.target.value
+      });
+      var song = document.getElementById('myAudio');
+      song.volume = this.state.volume;
+    }
+  }, {
+    key: "handleMouseOver",
+    value: function handleMouseOver() {
+      this.setState({
+        showVolume: true
+      });
+    }
+  }, {
+    key: "handleMouseLeave",
+    value: function handleMouseLeave() {
+      this.setState({
+        showVolume: false
+      });
     }
   }, {
     key: "render",
@@ -1462,6 +1500,47 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         song_pic = this.props.state.session.currentSong.pictureUrl;
       } else {
         song = "";
+      }
+
+      var playPause;
+
+      if (this.state.playing) {
+        playPause = window.pause;
+      } else {
+        playPause = window.play;
+      }
+
+      var volumeRange = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "volRangeContainer",
+        onMouseOver: this.handleMouseOver,
+        onMouseLeave: this.handleMouseLeave,
+        style: !this.state.showVolume ? {
+          visibility: "hidden"
+        } : {
+          visibility: "visible"
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "range",
+        onChange: function onChange(e) {
+          _this2.changeVolume(e);
+        },
+        id: "vol",
+        name: "vol",
+        min: "0",
+        max: "1",
+        step: ".05",
+        value: this.state.volume
+      }));
+
+      if (document.getElementById("vol")) {
+        var slider = document.getElementById("vol");
+        slider.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (slider.value - slider.min) / (slider.max - slider.min) * 100 + '%, #fff ' + (slider.value - slider.min) / (slider.max - slider.min) * 100 + '%, white 100%)';
+      }
+
+      if (document.getElementById("vol")) {
+        document.getElementById("vol").oninput = function () {
+          this.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (this.value - this.min) / (this.max - this.min) * 100 + '%, #fff ' + (this.value - this.min) / (this.max - this.min) * 100 + '%, white 100%)';
+        };
       }
 
       if (!song) {
@@ -1488,7 +1567,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           "aria-checked": "false",
           onClick: this.play
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: window.play,
+          src: playPause,
           width: "21px"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.next,
@@ -1516,8 +1595,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         }, endTime), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.audio,
           className: "audioButton",
-          width: "21px"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          width: "21px",
+          onMouseOver: this.handleMouseOver
+        }), volumeRange, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "artist-info"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           className: "song-pic",
@@ -3958,7 +4038,8 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       currentTime: 0,
       songTime: "0:00",
-      loading: true
+      loading: true,
+      playing: false
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.play = _this.play.bind(_assertThisInitialized(_this));
@@ -3973,8 +4054,14 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
 
       if (audioEle.paused) {
         audioEle.play();
+        this.setState({
+          playing: true
+        });
       } else if (!audioEle.paused) {
         audioEle.pause();
+        this.setState({
+          playing: false
+        });
       }
     }
   }, {
@@ -4036,6 +4123,16 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           _this2.setState({
             songTime: formattedTime
           });
+
+          if (audioEle.paused) {
+            _this2.setState({
+              playing: false
+            });
+          } else {
+            _this2.setState({
+              playing: true
+            });
+          }
         };
       }
     }
@@ -4058,11 +4155,30 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       if (days >= 1) return "".concat(days, " days ago");
     }
   }, {
+    key: "getPausedPlay",
+    value: function getPausedPlay() {
+      if (this.props.currentSong) {
+        if (this.props.currentSong.id !== this.props.song.id) {
+          return "play";
+        }
+      }
+
+      if (this.state.playing) return "pause";
+      if (!this.state.playing) return "play";
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.props.song || this.state.loading) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
-      }
+      } // let playPause
+      // let audioEle = document.getElementById('myAudio')
+      // if (audioEle.paused) {
+      //   playPause = "pause"
+      // } else {
+      //   playPause = "play"
+      // }
+
 
       var songProgressTime;
 
@@ -4140,7 +4256,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           width: "180px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           role: "button",
-          className: "play",
+          className: this.getPausedPlay(),
           onClick: this.handleClick
         }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
           className: "songTitle"
@@ -4239,7 +4355,8 @@ var mSTP = function mSTP(state) {
   return {
     songs: state.entities.songs.songs,
     state: state,
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    currentSong: state.session.currentSong
   };
 };
 

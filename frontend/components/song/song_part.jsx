@@ -11,12 +11,14 @@ class SongPart extends React.Component {
         this.state = {
             currentTime: 0,
             songTime: "0:00",
-            loading: true
+            loading: true,
+            playing: false
         }
         
         this.handleClick = this.handleClick.bind(this)
         this.play = this.play.bind(this)
         this.likeSong = this.likeSong.bind(this)
+      
         
         
       }
@@ -26,8 +28,10 @@ class SongPart extends React.Component {
         let audioEle = document.getElementById('myAudio')
         if (audioEle.paused) {
           audioEle.play()
+          this.setState({playing: true})
         } else if (!audioEle.paused) {
           audioEle.pause()
+          this.setState({playing: false})
         }
       }
 
@@ -70,9 +74,16 @@ class SongPart extends React.Component {
           Math.floor(unformattedTime % 60) > 9 ? seconds = Math.floor(unformattedTime % 60) : seconds = "0" + Math.floor(unformattedTime % 60)
           let formattedTime = minutes + ":" + seconds
           this.setState({ songTime: formattedTime })
+          if (audioEle.paused) {
+            this.setState({playing: false})
+          } else {
+            this.setState({playing: true})
+          }
         }
-      } 
+      }
     }
+
+   
 
     calculateTime(song) {
       if (!song.music) return
@@ -93,10 +104,32 @@ class SongPart extends React.Component {
       
     }
 
+    getPausedPlay() {
+      if (this.props.currentSong) {
+        if (this.props.currentSong.id !== this.props.song.id) {
+          return "play"
+        }
+      }
+      
+      if (this.state.playing) return "pause"
+      if (!this.state.playing) return "play"
+
+    }
+
     render() {
       if (!this.props.song || this.state.loading) {
         return (<p>loading...</p>)
       }
+
+      // let playPause
+      // let audioEle = document.getElementById('myAudio')
+      // if (audioEle.paused) {
+      //   playPause = "pause"
+      // } else {
+      //   playPause = "play"
+      // }
+
+      
       
      
       let songProgressTime
@@ -178,7 +211,7 @@ class SongPart extends React.Component {
             
           )}
 
-          <a role="button" className="play" onClick={this.handleClick}>Play</a>
+          <a role="button" className={this.getPausedPlay()} onClick={this.handleClick}>Play</a>
           
             
           <h3 className="songTitle">{song.title}</h3> 

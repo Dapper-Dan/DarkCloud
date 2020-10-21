@@ -19,7 +19,10 @@ class MusicPlayer extends React.Component {
         this.state = {
             songTime: "0:00",
             currentTime: 0,
-            mouseDown: false
+            mouseDown: false,
+            playing: false,
+            volume: .5,
+            showVolume: false
             
         }
       
@@ -32,6 +35,8 @@ class MusicPlayer extends React.Component {
         this.handleMouseDown = this.handleMouseDown.bind(this)
         this.handleMouseUp = this.handleMouseUp.bind(this)
         this.drag = this.drag.bind(this)
+        this.handleMouseLeave = this.handleMouseLeave.bind(this)
+        this.handleMouseOver = this.handleMouseOver.bind(this)
 
     }
 
@@ -44,16 +49,13 @@ class MusicPlayer extends React.Component {
         let audioEle = document.getElementById('myAudio')
         if (audioEle.paused) {
           audioEle.play()
+          this.setState({playing: true})
         } else if (!audioEle.paused) {
           audioEle.pause()
+          this.setState({playing: false})
         }
     }
 
-    changeVolume() {
-        let volumeControl = document.querySelector('#volume')
-        this.gainNode.gain.value = volumeControl.value;
-       
-    }
 
     handleMouseDown(e) {
         e.preventDefault()
@@ -106,6 +108,13 @@ class MusicPlayer extends React.Component {
         let formattedTime = minutes + ":" + seconds
         this.setState({ songTime: formattedTime })
         this.updateProgress()
+
+        if (song.paused) {
+            this.setState({playing: false})
+        } else {
+            this.setState({playing: true})
+        }
+        
     }
 
     updateProgress() {
@@ -118,6 +127,22 @@ class MusicPlayer extends React.Component {
         }
 
     }
+
+    changeVolume(e) {
+       this.setState({volume: e.target.value });
+       let song = document.getElementById('myAudio')
+       song.volume = this.state.volume
+       
+    }
+
+    handleMouseOver() {
+        this.setState({showVolume: true})
+    }
+
+    handleMouseLeave() {
+        this.setState({showVolume: false})
+    }
+    
 
     render() { 
         let song
@@ -132,6 +157,41 @@ class MusicPlayer extends React.Component {
         } else {
             song = ""
         }
+
+        let playPause
+        if (this.state.playing) {
+            playPause = window.pause
+        } else {
+            playPause = window.play
+        }
+
+        
+
+        let volumeRange = (
+            <div id="volRangeContainer" onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={!this.state.showVolume ? {visibility: "hidden"} : {visibility: "visible"}}>
+             <input type="range" onChange={(e) => {this.changeVolume(e)}} id="vol" name="vol" min="0" max="1" step=".05" value={this.state.volume}  ></input>
+            </div>
+        )
+
+        
+
+
+        
+        if (document.getElementById("vol")) {
+            let slider =  document.getElementById("vol")
+            slider.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (slider.value-slider.min)/(slider.max-slider.min)*100 + '%, #fff ' + (slider.value-slider.min)/(slider.max-slider.min)*100 + '%, white 100%)'
+        }
+
+
+        if (document.getElementById("vol")) {
+        document.getElementById("vol").oninput = function() {
+            this.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (this.value-this.min)/(this.max-this.min)*100 + '%, #fff ' + (this.value-this.min)/(this.max-this.min)*100 + '%, white 100%)'
+          };
+        }
+
+       
+        
+
 
        
         if (!song) {
@@ -153,7 +213,7 @@ class MusicPlayer extends React.Component {
                         <div className="button-container">
                             <img src={window.back} width="21px"/>
                             <button className="play-button" data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
-                                <img src={window.play} width="21px"/>
+                                <img src={playPause} width="21px"/>
                             </button>
                             <img src={window.next} width="21px"/>
                             <img src={window.shuffle} width="23px"/>
@@ -180,7 +240,8 @@ class MusicPlayer extends React.Component {
                             {endTime}
                         </div>
 
-                        <img src={window.audio} className="audioButton" width="21px"/>
+                        <img src={window.audio} className="audioButton" width="21px" onMouseOver={this.handleMouseOver} />
+                        {volumeRange}
 
                         <div className="artist-info" >
                             <img className="song-pic" src={song_pic} width="40px" height="40px"/>
@@ -196,6 +257,7 @@ class MusicPlayer extends React.Component {
                     <audio id="myAudio" hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
          
                 </div>
+                
                 </>
             )
         }

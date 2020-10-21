@@ -189,7 +189,9 @@
     
 }
 
-
+.songTile {
+    position: relative;
+}
 
 .songTile .songUser {
     margin-top: 5px;
@@ -230,8 +232,26 @@
     background-size: 70% 80%;
     background-position: 40%;
     background-repeat: no-repeat;
+}
+
+.songTile .pause {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     
-  
+    // display: none;
+    border-color: #1DB954;
+    background-color: #1DB954;
+    text-indent: -9999px;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-size: 50% 55%;
+    background-position-x: 46%;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-image: url('media_player_assets/songTilePause.png');
 }
 
 .songTile:hover .play {
@@ -239,11 +259,11 @@
 }
 
 
-.songTile:hover {
-    display: inline;
-    position: relative;
+// .songTile:hover {
+//     display: inline;
+//     position: relative;
     
-}
+// }
 
 
 audio {

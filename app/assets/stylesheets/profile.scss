@@ -301,3 +301,101 @@
     background-color: #1DB954;
     color: white;
 }
+
+// .userEditForm {
+//     height: 500px;
+//     width: 23%;
+//     background-color: beige;
+//     position: absolute;
+//     z-index: 999;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     left: 39%;
+//     top: 16%;
+
+// }
+.userEditForm {
+    background: white;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 535px;
+    // width: 32%;
+    width: fit-content;
+    font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+    flex-direction: column;
+    justify-content: inherit;
+}
+
+.userEditInfoBox {
+    margin: auto;
+    // margin-top: 20px;
+    margin-left: 27px;
+    margin-top: 20px;
+    margin-right: 23px;
+    width: 416px;
+}
+
+
+.userEditInfoBox input {
+    height: 20px;
+    width: 194px;
+}
+
+.userEditInfoBox h3 {
+    font-size: 13px;
+}
+
+
+.userEditWrapper {
+    display: flex;
+}
+
+.userEditHeader {
+    border-bottom: 2px solid #f2f2f2;
+    /* margin: auto; */
+    margin-left: 23px;
+    margin-right: 25px;
+    margin-top: 22px;
+    font-size: 24px;
+}
+
+.userEditInfoBox .displayNameInput {
+    height: 36px;
+    width: inherit;
+    margin-bottom: 40px;
+}
+
+.locationWrapper {
+    display: flex;
+    margin-bottom: 58px;
+}
+
+.locationCityWrapper {
+
+}
+
+.locationCountryWrapper {
+    margin-left: 29px;
+}
+
+.nameWrapper {
+    display: flex;
+    margin-bottom: 14px;
+}
+
+.firstNameWrapper {
+
+}
+
+.lastNameWrapper {
+    margin-left: 29px;
+}
+
+.userEditForm .songFormCancelButton {
+    margin-left: -5px;
+    margin-right: 5px;
+}

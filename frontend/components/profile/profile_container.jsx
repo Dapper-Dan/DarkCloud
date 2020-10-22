@@ -5,6 +5,7 @@ import React from 'react';
 import {getSongs} from '../../actions/song_actions'
 import Profile from './profile'
 import {fetchUserInfo} from '../../actions/user_actions'
+import {fetchUser} from '../../actions/user_actions'
 import {editCurrentUser} from '../../actions/user_actions'
 
 
@@ -12,11 +13,12 @@ import {editCurrentUser} from '../../actions/user_actions'
 const mapSTP = state => ({
     state: state,
     songs: state.entities.songs.songs,
-    currentUser: state.session.currentUser
+    currentUser: state.entities.users.user
 })
 
 const mapDTP = dispatch => ({
     getSongs: (display_name) => dispatch(getSongs(display_name)),
+    fetchUser: (user) => dispatch(fetchUser(user)),
     fetchUserInfo: (display_name) => dispatch(fetchUserInfo(display_name)),
     editUser: (user) => dispatch(editCurrentUser(user)),
     

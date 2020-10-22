@@ -2209,12 +2209,19 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       showConfirmProfile: false,
       showPicOption: false,
       picOption: '',
-      loading: true
+      loading: true,
+      showEditModal: false,
+      display_name: "",
+      city: "",
+      country: "",
+      first_name: "",
+      last_name: ""
     };
 
-    _this.props.getSongs(_this.props.match.params.display_name);
+    _this.props.getSongs(_this.props.match.params.display_name); // this.props.fetchUserInfo(this.props.match.params.display_name);
 
-    _this.props.fetchUserInfo(_this.props.match.params.display_name);
+
+    _this.props.fetchUser(_this.props.state.session.currentUser.id);
 
     _this.change = _this.change.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -2222,6 +2229,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     _this.showProfileUploadInput = _this.showProfileUploadInput.bind(_assertThisInitialized(_this));
     _this.cancelUpload = _this.cancelUpload.bind(_assertThisInitialized(_this));
     _this.uploadCoverImage = _this.uploadCoverImage.bind(_assertThisInitialized(_this));
+    _this.handleUserClick = _this.handleUserClick.bind(_assertThisInitialized(_this));
+    _this.change = _this.change.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2250,8 +2259,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-        this.props.fetchUserInfo(this.props.match.params.display_name);
+      if (this.props.state.entities.users.user && this.props.state.entities.users.user.display_name !== this.props.match.params.display_name) {
+        // this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.fetchUser(this.props.state.session.currentUser.id);
         this.props.getSongs(this.props.match.params.display_name);
       }
     }
@@ -2284,6 +2294,22 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           showPicOption: true
         });
       };
+    }
+  }, {
+    key: "change",
+    value: function change(value) {
+      var _this4 = this;
+
+      return function (e) {
+        return _this4.setState(_defineProperty({}, value, e.target.value));
+      };
+    }
+  }, {
+    key: "handleUserClick",
+    value: function handleUserClick() {
+      this.setState({
+        showEditModal: true
+      });
     }
   }, {
     key: "showProfileUploadInput",
@@ -2360,10 +2386,26 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading...");
       }
 
+      var renderSongs;
+
+      if (songs.length > 0) {
+        renderSongs = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song, i) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: i,
+            className: "song-box"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            song: song,
+            profile: true
+          }));
+        }));
+      } else {
+        renderSongs = "Get to creating!";
+      }
+
       var user;
 
-      if (this.props.state.entities.users.profile_user) {
-        user = this.props.state.entities.users.profile_user;
+      if (this.props.state.entities.users.user) {
+        user = this.props.state.entities.users.user;
       } else {
         user = "";
       }
@@ -2372,18 +2414,16 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       if (this.props.currentUser) {
         if (this.props.currentUser.id === user.id) currentUserProfile = true;
-      }
-
-      var liked_songs;
-      if (currentUserProfile) liked_songs = user.likes; // console.log(liked_songs)
-
-      var location;
-
-      if (user.location) {
-        location = user.location;
-      } else {
-        location = "";
-      } // let pictureUpload
+      } // let liked_songs
+      // if (currentUserProfile) liked_songs = user.likes
+      // // console.log(liked_songs)
+      // let location
+      // if (user.location) {
+      //   location = user.location
+      // } else {
+      //   location = ""
+      // }
+      // let pictureUpload
       // if (currentUserProfile) {  CHANGE DISPLAY INFO
       //   pictureUpload = (
       //     <>
@@ -2462,11 +2502,85 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         }, "Confirm"))));
       }
 
+      var userEditButton;
+
+      if (currentUserProfile) {
+        userEditButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: this.handleUserClick
+        }, "Edit");
+      }
+
+      var userEditModal;
+
+      if (this.props.currentUser) {
+        userEditModal = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, console.log(this.props.currentUser), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "userEditForm"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "userEditHeader"
+        }, "Edit your profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "userEditWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "picUploadBox"
+        }, this.props.currentUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: this.props.currentUser.profilePicUrl,
+          width: "250px",
+          height: "250px"
+        }) : ""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "userEditInfoBox"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Display name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "displayNameInput",
+          placeholder: this.props.currentUser.display_name,
+          type: "text",
+          onChange: this.change('display_name'),
+          value: this.state.display_name
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "locationWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "locationCityWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "City"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "cityInput",
+          placeholder: this.props.currentUser.city,
+          type: "text",
+          onChange: this.change('city'),
+          value: this.state.city
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "locationCountryWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Country"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "countryInput",
+          placeholder: this.props.currentUser.country,
+          type: "text",
+          onChange: this.change('country'),
+          value: this.state.country
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "nameWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "firstNameWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "First name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "firstNameInput",
+          placeholder: this.props.currentUser.first_name,
+          type: "text",
+          onChange: this.change('first_name'),
+          value: this.state.first_name
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "lastNameWrapper"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Last name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "lastNameInput",
+          placeholder: this.props.currentUser.last_name,
+          type: "text",
+          onChange: this.change('last_name'),
+          value: this.state.last_name
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "songFormCancelButton"
+        }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "songFormButton"
+        }, "Save changes")))));
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav-con"
-      }, this.props.currentUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_7__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.currentUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_7__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_5__["default"], null)), this.state.showEditModal ? userEditModal : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "outtermost"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cover"
@@ -2489,21 +2603,11 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "info-basic"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nameplate"
-      }, " ", user.display_name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "location-plate"
-      }, " ", location, " "))), coverPictureUpload), profilePictureUpload, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, " ", user.display_name, " "))), coverPictureUpload), profilePictureUpload, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), currentUserProfile ? userEditButton : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         id: "recent"
       }, "Recent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-songs"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i,
-          className: "song-box"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          song: song,
-          profile: true
-        }));
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, renderSongs), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "endOfContentFooter"
       })));
     }
@@ -2540,11 +2644,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mapSTP = function mapSTP(state) {
   return {
     state: state,
     songs: state.entities.songs.songs,
-    currentUser: state.session.currentUser
+    currentUser: state.entities.users.user
   };
 };
 
@@ -2552,6 +2657,9 @@ var mapDTP = function mapDTP(dispatch) {
   return {
     getSongs: function getSongs(display_name) {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_2__["getSongs"])(display_name));
+    },
+    fetchUser: function fetchUser(user) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["fetchUser"])(user));
     },
     fetchUserInfo: function fetchUserInfo(display_name) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["fetchUserInfo"])(display_name));

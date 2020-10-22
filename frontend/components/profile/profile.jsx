@@ -16,10 +16,17 @@ class Profile extends React.Component {
         showConfirmProfile: false,
         showPicOption: false,
         picOption: '',
-        loading: true
+        loading: true,
+        showEditModal: false,
+        display_name: "",
+        city: "",
+        country: "",
+        first_name: "",
+        last_name: ""
     }
       this.props.getSongs(this.props.match.params.display_name)
-      this.props.fetchUserInfo(this.props.match.params.display_name);
+      // this.props.fetchUserInfo(this.props.match.params.display_name);
+      this.props.fetchUser(this.props.state.session.currentUser.id)
 
       this.change = this.change.bind(this)
       this.update = this.update.bind(this)
@@ -27,6 +34,8 @@ class Profile extends React.Component {
       this.showProfileUploadInput = this.showProfileUploadInput.bind(this)
       this.cancelUpload = this.cancelUpload.bind(this)
       this.uploadCoverImage = this.uploadCoverImage.bind(this)
+      this.handleUserClick = this.handleUserClick.bind(this)
+      this.change = this.change.bind(this)
 
       
       
@@ -48,8 +57,9 @@ class Profile extends React.Component {
     }
 
     componentDidUpdate() {
-      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-        this.props.fetchUserInfo(this.props.match.params.display_name);
+      if (this.props.state.entities.users.user && this.props.state.entities.users.user.display_name !== this.props.match.params.display_name) {
+        // this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.fetchUser(this.props.state.session.currentUser.id)
         this.props.getSongs(this.props.match.params.display_name)
       }
     }
@@ -75,6 +85,16 @@ class Profile extends React.Component {
       this.setState({showPicOption: true})
       
       }
+    }
+
+
+
+    change(value) {
+      return e => this.setState({ [value]: e.target.value });
+    }
+
+    handleUserClick() {
+      this.setState({showEditModal: true})
     }
 
     
@@ -144,12 +164,28 @@ class Profile extends React.Component {
         return (<div>loading...</div>)
       }
 
+      let renderSongs
+      if (songs.length > 0) {
+        renderSongs = (
+          <ul>
+            {songs.map((song, i) => ( 
+              <li key={i} className="song-box" >
+                <SongPartContainer song={song} profile={true} />
+                    
+              </li>
+            ))}
+          </ul>
+        )
+      } else {
+        renderSongs = "Get to creating!"
+      }
+
      
 
       let user
       
-      if (this.props.state.entities.users.profile_user) {
-        user = this.props.state.entities.users.profile_user
+      if (this.props.state.entities.users.user) {
+        user = this.props.state.entities.users.user
       } else {
         user = ""
       }
@@ -160,17 +196,17 @@ class Profile extends React.Component {
         if (this.props.currentUser.id === user.id) currentUserProfile = true;
       }
 
-      let liked_songs
-      if (currentUserProfile) liked_songs = user.likes
+      // let liked_songs
+      // if (currentUserProfile) liked_songs = user.likes
 
-      // console.log(liked_songs)
+      // // console.log(liked_songs)
 
-      let location
-      if (user.location) {
-        location = user.location
-      } else {
-        location = ""
-      }
+      // let location
+      // if (user.location) {
+      //   location = user.location
+      // } else {
+      //   location = ""
+      // }
 
       // let pictureUpload
       // if (currentUserProfile) {  CHANGE DISPLAY INFO
@@ -261,6 +297,98 @@ class Profile extends React.Component {
           
         )
       }
+
+
+      let userEditButton
+      if (currentUserProfile) {
+        userEditButton = (
+          
+            <button onClick={this.handleUserClick}>Edit</button>
+          
+        )
+      }
+
+      let userEditModal 
+      if (this.props.currentUser) {
+      userEditModal = (
+        <>
+
+        {console.log(this.props.currentUser)}
+          
+        <div className="userEditForm">
+          <div className="userEditHeader">Edit your profile</div>
+          <div className="userEditWrapper">
+            <div className="picUploadBox">
+
+              {this.props.currentUser ? <img src={this.props.currentUser.profilePicUrl} width="250px" height="250px" ></img> : ""}
+              
+            </div>
+
+            <div className="userEditInfoBox">
+
+              <h3>Display name</h3>
+              <input 
+                    className="displayNameInput"
+                    placeholder={this.props.currentUser.display_name}
+                    type="text"
+                    onChange={this.change('display_name')}
+                    value={this.state.display_name} 
+              /> 
+
+              <div className="locationWrapper">
+                <div className="locationCityWrapper">
+                  <h3>City</h3>
+                  <input 
+                        className="cityInput"
+                        placeholder={this.props.currentUser.city}
+                        type="text"
+                        onChange={this.change('city')}
+                        value={this.state.city} 
+                  />
+                </div> 
+
+                <div className="locationCountryWrapper">
+                  <h3>Country</h3>
+                  <input 
+                        className="countryInput"
+                        placeholder={this.props.currentUser.country}
+                        type="text"
+                        onChange={this.change('country')}
+                        value={this.state.country} 
+                  />
+                </div> 
+              </div>
+
+              <div className="nameWrapper">
+                <div className="firstNameWrapper" >
+                  <h3>First name</h3>
+                  <input 
+                        className="firstNameInput"
+                        placeholder={this.props.currentUser.first_name}
+                        type="text"
+                        onChange={this.change('first_name')}
+                        value={this.state.first_name} 
+                  />
+                </div> 
+
+                <div className="lastNameWrapper">
+                  <h3>Last name</h3>
+                  <input 
+                        className="lastNameInput"
+                        placeholder={this.props.currentUser.last_name}
+                        type="text"
+                        onChange={this.change('last_name')}
+                        value={this.state.last_name} 
+                  />
+                </div> 
+              </div>
+            <button className="songFormCancelButton">Cancel</button>
+            <button className="songFormButton">Save changes</button>
+            </div>
+          </div>
+        </div>
+        </>
+      )}
   
      
       
@@ -273,6 +401,8 @@ class Profile extends React.Component {
           { this.props.currentUser ? <UserNavBarContainer /> : <NavBarContainer /> }
           <SearchBarContainer/>
         </div>
+
+        {this.state.showEditModal ? userEditModal : ""}
 
        <div className="outtermost"> 
 
@@ -295,7 +425,7 @@ class Profile extends React.Component {
                      
                 <div className="info-basic">
                   <a className="nameplate" > {user.display_name} </a>
-                  <a className="location-plate" > {location} </a>
+                  {/* <a className="location-plate" > {location} </a> */}
                 </div>
 
                 
@@ -304,17 +434,12 @@ class Profile extends React.Component {
           </div> 
           {profilePictureUpload}
           <SongNavBarContainer /> 
+          {currentUserProfile ? userEditButton : ""}
+
 
             <p id="recent">Recent</p>
             <div className="profile-songs">
-              <ul>
-                  {songs.map((song, i) => ( 
-                     <li key={i} className="song-box" >
-                      <SongPartContainer song={song} profile={true} />
-                    
-                     </li>
-                   ))}
-                 </ul>
+              {renderSongs}
            </div> 
 
        

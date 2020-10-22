@@ -354,3 +354,122 @@
 #dropDownOptionsList li:hover {
     background-color: gray;
 }
+
+
+.songFormBackGround {
+    background-color: blue;
+    min-height: inherit;
+    display: flex;
+    
+}
+
+.songUpload-form {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 535px;
+    width: 60%;
+    font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
+}
+
+.songUpload-form#songInfo {
+    flex-direction: row;
+    justify-content: inherit;
+}
+
+.fileUploadButton {
+    display: block;
+    margin: auto;
+    align-self: center;
+    background-color: #1DB954;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 50px 10px 50px;
+    margin-top: 20px;
+}
+
+.songUpload-form h1 {
+    font-size: 22px;
+    align-self: center;
+    margin-top: auto;
+
+}
+
+
+.picUploadButton {
+    background-color: lightgrey;
+    width: fit-content;
+    
+    border-radius: 3px;
+    border: black solid thin;
+    padding: 3px;
+    font-size: 13px;
+    align-self: center;
+    position: relative;
+    bottom: 52px;
+}
+
+
+.picUploadBox {
+    display: flex;
+    margin-left: 23px;
+    margin-top: 20px;
+    flex-direction: column;
+}
+
+.songUploadInfo .descriptionInput {
+    width: 221px;
+    border-radius: 5px;
+    border: lightgrey solid thin;
+    width: 86%;
+}
+
+
+
+.songFormButton {
+    align-self: center;
+}
+
+.songUploadInfo h3 {
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+.songUploadInfo {
+    margin: auto;
+    // margin-top: 20px;
+    margin-left: 27px;
+    margin-top: 0px;
+}
+
+.nameInput {
+    border-radius: 5px;
+    border: lightgrey solid thin;
+    width: 80%;
+}
+
+
+.songFormGenre {
+    border-radius: 5px;
+    border: lightgrey solid thin;
+    font-size: 13px;
+}
+
+.nameInput::placeholder {
+    color: lightgray;
+    font-size: 13px;
+}
+
+.songFormGenre option {
+    font-size: 13px;
+}
+
+.songUploadInfo .descriptionInput::placeholder {
+    color: lightgray;
+    font-size: 13px;
+}

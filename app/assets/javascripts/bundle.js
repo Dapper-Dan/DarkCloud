@@ -761,20 +761,38 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         id: "discoverCaro",
         wrap: false
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(0, 5).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "discoverNewUsersBox"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
           src: user.profilePicUrl
-        });
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/".concat(user.display_name)
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "discoverUserPart"
+        }, user.display_name))));
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(4, 9).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "discoverNewUsersBox"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
           src: user.profilePicUrl
-        });
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/".concat(user.display_name)
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "discoverUserPart"
+        }, user.display_name))));
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(8, 12).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "discoverNewUsersBox"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
           src: user.profilePicUrl
-        });
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          to: "/".concat(user.display_name)
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "discoverUserPart"
+        }, user.display_name))));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Scooby Dooby Doo Bop"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Fresh smooth jazz"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"], {
         controls: true,
         interval: "9999999999",
@@ -1086,6 +1104,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Library = /*#__PURE__*/function (_React$Component) {
   _inherits(Library, _React$Component);
 
@@ -1097,11 +1116,6 @@ var Library = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Library);
 
     _this = _super.call(this, props);
-    _this.state = {
-      showOverview: false,
-      showTracks: false,
-      showLikes: false
-    };
 
     _this.props.getSongs(_this.props.currentUser.display_name);
 
@@ -1113,19 +1127,13 @@ var Library = /*#__PURE__*/function (_React$Component) {
   _createClass(Library, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (!this.props.users.profile_user) this.props.fetchUserInfo(this.props.currentUser.display_name); // if (this.props.location.libraryProps) {
-      //    let libraryProps = this.props.location.libraryProps
-      //     if (libraryProps['showLikes']) this.setState({showLikes: true, showOverview: false, showTracks: false})
-      //     if (libraryProps['showTracks']) this.setState({showTracks: true, showOverview: false, showLikes: false})
-      // }   //USE THIS FOR THE BUTTONS
+      if (!this.props.users.profile_user) this.props.fetchUserInfo(this.props.currentUser.display_name);
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      console.log(this.props);
-      console.log(this.state);
       var songs;
 
       if (this.props.state.entities.songs.songs) {
@@ -1162,7 +1170,6 @@ var Library = /*#__PURE__*/function (_React$Component) {
         }
       }
 
-      console.log(myLikes);
       var placeHolder = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "libraryPlaceHolder"
       });
@@ -1194,23 +1201,29 @@ var Library = /*#__PURE__*/function (_React$Component) {
       var libraryProps;
       var renderLikes;
       var renderTracks;
+      var overviewButtonStyle;
+      var likesButtonStyle;
+      var tracksButtonStyle;
 
       if (this.props.location.libraryProps) {
         libraryProps = this.props.location.libraryProps;
 
         if (libraryProps['showLikes']) {
           renderLikes = likes;
+          likesButtonStyle = "green";
         } else {
           renderLikes = "";
         }
 
         if (libraryProps['showTracks']) {
           renderTracks = tracks;
+          tracksButtonStyle = "green";
         } else {
           renderTracks = "";
         }
       }
 
+      if (!renderLikes && !renderTracks) overviewButtonStyle = "green";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1220,13 +1233,42 @@ var Library = /*#__PURE__*/function (_React$Component) {
         id: "libraryOutter"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "libraryNav"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "overview-button"
-      }, " Overview "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "library-tracks-button"
-      }, " Tracks "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "library-likes-button"
-      }, " Likes ")), renderLikes, renderTracks, !renderLikes && !renderTracks ? overview : ""));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["NavLink"], {
+        to: {
+          pathname: '/library',
+          libraryProps: {
+            showLikes: true,
+            showOverview: false,
+            showTracks: false
+          }
+        },
+        className: "library-likes-button",
+        id: likesButtonStyle
+      }, "  Likes "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        to: {
+          pathname: '/library',
+          libraryProps: {
+            showTracks: true,
+            showOverview: false,
+            showLikes: false
+          }
+        },
+        className: "library-tracks-button",
+        id: tracksButtonStyle
+      }, " Tracks "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+        to: {
+          pathname: '/library',
+          libraryProps: {
+            showTracks: false,
+            showOverview: true,
+            showLikes: false
+          }
+        },
+        className: "overview-button",
+        id: overviewButtonStyle
+      }, "  Overview ")), renderLikes, renderTracks, !renderLikes && !renderTracks ? overview : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "endOfContentFooter"
+      })));
     }
   }]);
 
@@ -2461,7 +2503,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           song: song,
           profile: true
         }));
-      })))));
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "endOfContentFooter"
+      })));
     }
   }]);
 
@@ -3552,7 +3596,8 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       music: null,
       duration: null,
       waveForm: null,
-      step: 1
+      step: 1,
+      pictureSamp: null
     };
 
     _this.props.getUser();
@@ -3564,6 +3609,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     _this.handlePictureUpload = _this.handlePictureUpload.bind(_assertThisInitialized(_this));
     _this.draw = _this.draw.bind(_assertThisInitialized(_this));
     _this._next = _this._next.bind(_assertThisInitialized(_this));
+    _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3605,6 +3651,13 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       var step = this.state.step;
       this.setState({
         step: step + 1
+      });
+    }
+  }, {
+    key: "handleCancel",
+    value: function handleCancel() {
+      this.setState({
+        step: 1
       });
     }
   }, {
@@ -3698,9 +3751,20 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handlePictureUpload",
     value: function handlePictureUpload(e) {
+      var _this5 = this;
+
       this.setState({
         songImage: e.target.files[0]
       });
+      var file = e.target.files[0];
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onloadend = function () {
+        _this5.setState({
+          pictureSamp: fileReader.result
+        });
+      };
     }
   }, {
     key: "showUploadInput",
@@ -3725,10 +3789,12 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav_bar_background"
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "outtermost"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav-con"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "outtermost"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "songFormBackGround"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "songUpload-form"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, " Drag and drop your tracks & albums here "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "fileUploadButton",
@@ -3740,28 +3806,51 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
               display: 'none'
             },
             onChange: this.handleMusicUpload
-          }))));
+          })))));
 
         case 2:
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav_bar_background"
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "outtermost"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav-con"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "songUpload-form"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, " Choose a picture "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            className: "outtermost"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "songFormBackGround"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "songUpload-form",
+            id: "songInfo"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "picUploadBox"
+          }, this.state.pictureSamp ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: this.state.pictureSamp,
+            id: "samplePic",
+            width: "250px",
+            height: "250px"
+          }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: window.songGradient,
+            id: "samplePic",
+            width: "250px",
+            height: "250px"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "pic-file-input",
+            className: "picUploadButton"
+          }, "Upload Image"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             id: "pic-file-input",
             type: "file",
-            onChange: this.handlePictureUpload
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            onChange: this.handlePictureUpload,
+            style: {
+              display: 'none'
+            }
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "songUploadInfo"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             className: "nameInput",
             placeholder: "Enter track title",
             type: "text",
             onChange: this.update('title'),
             value: values.title
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Genre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Genre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
             className: "songFormGenre",
             onChange: this.update('genre'),
             defaultValue: ""
@@ -3780,19 +3869,24 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
             placeholder: "Describe your track",
             onChange: this.update('description'),
             value: values.description
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "songFormButtonContainer"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "songFormCancelButton",
+            onClick: this.handleCancel
+          }, " Cancel "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "songFormButton",
             onClick: this.handleSubmit
-          }, "  Submit Song "))));
+          }, "  Submit Song ")))))));
 
         case 3:
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav_bar_background"
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "outtermost"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "nav-con"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "outtermost"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "songUpload-form"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
             id: "songUploadSuccess"

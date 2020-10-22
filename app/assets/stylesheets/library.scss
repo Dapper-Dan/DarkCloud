@@ -8,20 +8,14 @@
     font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
     background-color: white;
     padding-top: 14px;
-    padding-bottom: 4px;
     margin-left: 40px;
+    margin-bottom: 40px;
 }
 
 
 
     
     
-// .libraryContainer ul {
-//     margin: 0;
-//     list-style-type: none;
-//     padding-right: 20px;
-//     overflow: auto;
-// }
 
 .libraryContainer ul {
     margin: 0;
@@ -30,7 +24,7 @@
     overflow: auto;
     padding-inline-start: 0px;
     margin-left: 40px;
-    border-bottom: 2px solid #f2f2f2;
+    // border-bottom: 2px solid #f2f2f2;
     margin-bottom: 58px;
     padding-bottom: 30px;
 }
@@ -39,6 +33,7 @@
 
 .libraryContainer #libraryHeaders {
     margin-left: 40px;
+    font-size: 21px;
 }
 
 .libraryContainer li {
@@ -62,12 +57,58 @@
     border: black solid thin;
 }
 
-.libraryFooter {
-    // border-bottom: 2px solid #f2f2f2;
+.endOfContentFooter {
     width: 93.4%;
     height: 2px;
-    background-color: grey;
-    position: absolute;
+    background-color: #f2f2f2;
+    position: relative;
     bottom: 30px;
-   
+    // bottom: -50px;
+    margin: auto;
+    // margin-bottom: 30px;
 }
+   
+.endOfContentFooter::before {
+    content: "";
+    background: url('footerCloud.png');
+    display: block;
+    width: 46px;
+    height: 25px;
+    background-size: 70% 80%;
+    background-position: 40%;
+    background-repeat: no-repeat;
+    margin: auto;
+    position: relative;
+    top: -12px;
+}
+
+.libraryNav #green {
+    color: #1DB954;
+    border-bottom: 2px solid transparent;
+    border-color: #1DB954;
+}
+
+
+.libraryNav a {
+    color: black;
+    font-size: 26px;
+    margin-right: 19px;
+}
+
+.libraryNav a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.songFormButton {
+    background-color: #1DB954;
+    color: white;
+    border-radius: 3px;
+    border: none;
+}
+
+.songFormCancelButton {
+    background-color: white;
+    border: none;
+}
+

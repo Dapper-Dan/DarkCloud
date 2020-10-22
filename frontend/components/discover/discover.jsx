@@ -1,6 +1,6 @@
 import React from 'react';
 import UserNavBarContainer from '../nav_bar/user_nav_bar_container';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import SearchBarContainer from '../search_bar/search_bar_container'
 import SongPartContainer from '../song/song_part_container'
 import Carousel from 'react-bootstrap/Carousel';
@@ -152,20 +152,41 @@ export default class Discover extends React.Component {
                         <Carousel controls={true} interval="9999999999" id="discoverCaro" wrap={false} >
                             <Carousel.Item>
                                 {recentUsers.slice(0, 5).map((user) => ( 
-                                    <img id="profilePic"  src={user.profilePicUrl} />
+                                    <>
+                                    <div className="discoverNewUsersBox">
+                                        <img id="profilePic"  src={user.profilePicUrl} /> 
+                                        <Link to={`/${user.display_name}`}>
+                                            <h1 className="discoverUserPart">{user.display_name}</h1>
+                                        </Link>
+                                    </div>
+                                    </>
                                 ))}
                             </Carousel.Item>
 
                             <Carousel.Item>
                                 {recentUsers.slice(4, 9).map((user) => ( 
-                                     <img id="profilePic" src={user.profilePicUrl} />
+                                     <>
+                                     <div className="discoverNewUsersBox">
+                                         <img id="profilePic"  src={user.profilePicUrl} /> 
+                                         <Link to={`/${user.display_name}`}>
+                                             <h1 className="discoverUserPart">{user.display_name}</h1>
+                                         </Link>
+                                     </div>
+                                     </>
          
                                 ))}
                             </Carousel.Item>
 
                             <Carousel.Item>
                                 {recentUsers.slice(8, 12).map((user) => ( 
-                                    <img id="profilePic" src={user.profilePicUrl} />
+                                   <>
+                                   <div className="discoverNewUsersBox">
+                                       <img id="profilePic"  src={user.profilePicUrl} /> 
+                                       <Link to={`/${user.display_name}`}>
+                                           <h1 className="discoverUserPart">{user.display_name}</h1>
+                                       </Link>
+                                   </div>
+                                   </>
                                 ))}
                             </Carousel.Item>
 

@@ -319,7 +319,7 @@ class Profile extends React.Component {
 
        
         
-
+           <div className="endOfContentFooter"></div>
        </div>
 
       

@@ -4,22 +4,15 @@ import { NavLink } from 'react-router-dom';
 import SearchBarContainer from '../search_bar/search_bar_container'
 import SongPartContainer from '../song/song_part_container'
 import Carousel from 'react-bootstrap/Carousel';
+import {Link} from 'react-router-dom'; 
 
 
 export default class Library extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-         
-            showOverview: false,
-            showTracks: false,
-            showLikes: false
-          
-          
-        };
 
         this.props.getSongs(this.props.currentUser.display_name)
-    
+        
         this.props.fetchUserInfo(this.props.currentUser.display_name)
 
         
@@ -29,19 +22,12 @@ export default class Library extends React.Component {
 
     componentDidMount() {
         if (!this.props.users.profile_user) this.props.fetchUserInfo(this.props.currentUser.display_name)
-
-        // if (this.props.location.libraryProps) {
-        //    let libraryProps = this.props.location.libraryProps
-        //     if (libraryProps['showLikes']) this.setState({showLikes: true, showOverview: false, showTracks: false})
-        //     if (libraryProps['showTracks']) this.setState({showTracks: true, showOverview: false, showLikes: false})
-        // }   //USE THIS FOR THE BUTTONS
-
+       
     }
 
+   
 
     render() {
-        console.log(this.props)
-        console.log(this.state)
         let songs
         if (this.props.state.entities.songs.songs) {
             songs = Object.values(this.props.state.entities.songs.songs)
@@ -86,7 +72,7 @@ export default class Library extends React.Component {
             }
         }
 
-        console.log(myLikes)
+        
 
         let placeHolder = <div className="libraryPlaceHolder"></div>
 
@@ -120,23 +106,36 @@ export default class Library extends React.Component {
             )
         }
 
-let libraryProps
-let renderLikes
-let renderTracks
+        
+
+        let libraryProps
+        let renderLikes
+        let renderTracks
+        let overviewButtonStyle
+        let likesButtonStyle
+        let tracksButtonStyle
+
         if (this.props.location.libraryProps) {
             libraryProps = this.props.location.libraryProps
             if (libraryProps['showLikes']) {
                 renderLikes = likes
+                likesButtonStyle = "green"
+     
             } else {
                 renderLikes = ""
             }
 
             if (libraryProps['showTracks']) {
                 renderTracks = tracks
+                tracksButtonStyle = "green"
+                
             } else {
                 renderTracks = ""
             }
         }
+
+
+        if (!renderLikes && !renderTracks) overviewButtonStyle = "green"
         
     
         
@@ -153,9 +152,21 @@ let renderTracks
                
                 
                 <div className="libraryNav">
-                    <a className="overview-button"> Overview </a>
-                    <a className="library-tracks-button"> Tracks </a>
-                    <a className="library-likes-button"> Likes </a>
+                            <NavLink to={{
+                                pathname: '/library',
+                                libraryProps: {showLikes: true, showOverview: false, showTracks: false}
+                            }} className="library-likes-button" id={likesButtonStyle}>  Likes </NavLink>
+
+                            <Link to={{
+                                pathname: '/library',
+                                libraryProps: {showTracks: true, showOverview: false, showLikes: false}
+                            }} className="library-tracks-button" id={tracksButtonStyle}> Tracks </Link>
+
+                            <Link to={{
+                                pathname: '/library',
+                                libraryProps: {showTracks: false, showOverview: true, showLikes: false}
+                            }} className="overview-button" id={overviewButtonStyle}>  Overview </Link>
+
                 </div>
 
                 {renderLikes}
@@ -165,7 +176,7 @@ let renderTracks
                 
 
 
-                {/* <div className="libraryFooter"></div> */}
+                <div className="endOfContentFooter"></div>
             </div>
 
 

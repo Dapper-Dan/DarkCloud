@@ -81,10 +81,29 @@
     border-radius: 50%;
     height: 180px;
     width: 180px;
-    margin-right: 41px;
+    margin-bottom: 15px;
+  
 }
 
 .carousel-indicators {
     display: none !important;
+}
+
+.discoverNewUsersBox h1 {
+    font-size: 15px;
+    color: #333;
+    text-decoration: none;
+    font-weight: normal;
+    
+}
+
+.discoverNewUsersBox a:hover {
+    text-decoration: none;
+    
+}
+
+.discoverNewUsersBox {
+    padding-right: 41px;
+    text-align-last: center;
 }
 

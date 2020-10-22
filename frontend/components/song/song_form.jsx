@@ -17,7 +17,8 @@ class SongForm extends React.Component {
         music: null,
         duration: null,
         waveForm: null,
-        step: 1
+        step: 1,
+        pictureSamp: null
       }
       this.props.getUser()
 
@@ -29,6 +30,7 @@ class SongForm extends React.Component {
       this.handlePictureUpload = this.handlePictureUpload.bind(this)
       this.draw = this.draw.bind(this)
       this._next = this._next.bind(this);
+      this.handleCancel = this.handleCancel.bind(this)
     }
 
     update(value) {
@@ -61,6 +63,14 @@ class SongForm extends React.Component {
               step : step + 1
           })
     }
+
+
+
+    handleCancel() {
+      this.setState({step: 1})
+    }
+
+
 
     handleMusicUpload(e) {
       const track = document.createElement('audio');
@@ -139,6 +149,14 @@ class SongForm extends React.Component {
 
     handlePictureUpload(e) {
       this.setState({ songImage: e.target.files[0] });
+
+      let file = e.target.files[0]
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onloadend = () => {
+        this.setState({ pictureSamp: fileReader.result })
+      }
+     
     }
 
     showUploadInput() {
@@ -170,11 +188,14 @@ class SongForm extends React.Component {
         <>
           <div className="nav_bar_background" ></div>
 
+          <div className="nav-con" >
+              <UserNavBarContainer /> 
+          </div>
+
           <div className="outtermost"> 
 
-            <div className="nav-con" >
-              <UserNavBarContainer /> 
-            </div>
+            <div className="songFormBackGround">
+           
 
             <div className="songUpload-form" >
 
@@ -191,7 +212,7 @@ class SongForm extends React.Component {
                   onChange={this.handleMusicUpload}
                 />
               </div>
-            {/* </div>  */}
+            </div> 
           </div>
         </>
         )
@@ -201,52 +222,71 @@ class SongForm extends React.Component {
         <>
         <div className="nav_bar_background" ></div>
 
-        <div className="outtermost"> 
-
-          <div className="nav-con" >
+        <div className="nav-con" >
             <UserNavBarContainer /> 
-          </div>
+        </div>
 
-          <div className="songUpload-form" >
+        <div className="outtermost"> 
+          <div className="songFormBackGround">
 
-            <h2> Choose a picture </h2>
-           
-            <input
-              id="pic-file-input"
-              type="file"
+          
+
+          <div className="songUpload-form" id="songInfo" >
+
+            <div className="picUploadBox">
+             
+
+              {this.state.pictureSamp ? <img src={this.state.pictureSamp} id="samplePic" width="250px" height="250px"/> : <img src={window.songGradient} id="samplePic" width="250px" height="250px"/>}
+              
+              <label htmlFor="pic-file-input" className="picUploadButton">Upload Image</label>
+              <input
+                id="pic-file-input"
+                type="file"
+                onChange={this.handlePictureUpload}
+                style={{display:'none'}}
+              
+              />
+            </div>
+
             
-              onChange={this.handlePictureUpload}
-            />
-       
-            <h1>Title</h1>
-            <input 
-              className="nameInput"
-              placeholder="Enter track title"
-              type="text"
-              onChange={this.update('title')}
-              value={values.title} 
-            />   
+            <div className="songUploadInfo">
+              <h3>Title</h3>
+              <input 
+                className="nameInput"
+                placeholder="Enter track title"
+                type="text"
+                onChange={this.update('title')}
+                value={values.title} 
+              />   
 
 
-            <h2>Genre</h2>
-            <select className="songFormGenre" onChange={ this.update('genre') } defaultValue='' >
-              <option disabled value="">None</option>
-              {genres.map((genre, index) => (
-                <option key={index} value={genre}> {genre} </option>
-              ))}
-            </select>
+              <h3>Genre</h3>
+              <select className="songFormGenre" onChange={ this.update('genre') } defaultValue='' >
+                <option disabled value="">None</option>
+                {genres.map((genre, index) => (
+                  <option key={index} value={genre}> {genre} </option>
+                ))}
+              </select>
 
-            <h3>Title</h3>
-            <textarea 
-              className="descriptionInput"
-              rows="6"
-              cols="60"
-              placeholder="Describe your track"
-              onChange={this.update('description')}
-              value={values.description} 
-            />
+              <h3>Title</h3>
+              <textarea 
+                className="descriptionInput"
+                rows="6"
+                cols="60"
+                placeholder="Describe your track"
+                onChange={this.update('description')}
+                value={values.description} 
+              />
 
-            <button className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
+              <div className="songFormButtonContainer">
+
+                <button className="songFormCancelButton" onClick={this.handleCancel}> Cancel </button>
+                <button className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
+              </div>
+            </div>
+
+            
+            </div>
           </div>
         </div>
         </>
@@ -257,11 +297,12 @@ class SongForm extends React.Component {
           <>
           <div className="nav_bar_background" ></div>
 
+          <div className="nav-con" >
+              <UserNavBarContainer /> 
+          </div>
+
           <div className="outtermost"> 
   
-            <div className="nav-con" >
-              <UserNavBarContainer /> 
-            </div>
   
             <div className="songUpload-form" >
               <p id="songUploadSuccess">Song successfully uploaded</p>

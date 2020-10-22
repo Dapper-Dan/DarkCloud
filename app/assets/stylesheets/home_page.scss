@@ -203,6 +203,15 @@
     font-weight: 400;
 }
 
+.songTile a:hover {
+   text-decoration: none;
+}
+
+
+.songTile .songUser:hover {
+    color: #333;
+}
+
 .songTile .songTitle {
     font-weight: normal;
     margin-top: 5px;

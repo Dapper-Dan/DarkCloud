@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/upload/', to: 'static_pages#root'
   get '/discover/', to: 'static_pages#root'
   get '/library/', to: 'static_pages#root'
-  # get '/search_results', to: 'static_pages#root'
+  ## get '/search_results', to: 'static_pages#root' keep commented out
   get '/search_results/:searchInput', to: 'static_pages#root'
   get '/:display_name/', to: 'static_pages#root'
   

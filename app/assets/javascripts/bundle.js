@@ -247,7 +247,7 @@ var getSong = function getSong(songId) {
 };
 var getSongs = function getSongs(display_name) {
   return function (dispatch) {
-    return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"](display_name).then(function (songs) {
+    return console.log(display_name), _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"](display_name).then(function (songs) {
       return (// console.log(songs))
         // const songs = res.data;
         dispatch(receiveSongs(songs))
@@ -761,7 +761,7 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         id: "discoverCaro",
         wrap: false
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(0, 5).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, console.log(user.profilePicUrl), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "discoverNewUsersBox"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
@@ -771,8 +771,8 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
           className: "discoverUserPart"
         }, user.display_name))));
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(4, 9).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(4, 9).map(function (user, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, console.log(user.profilePicUrl, user.display_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "discoverNewUsersBox"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
@@ -783,7 +783,7 @@ var Discover = /*#__PURE__*/function (_React$Component) {
           className: "discoverUserPart"
         }, user.display_name))));
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_5__["default"].Item, null, recentUsers.slice(8, 12).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, console.log(user.profilePicUrl), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "discoverNewUsersBox"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
@@ -2218,8 +2218,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       last_name: ""
     };
 
-    _this.props.getSongs(_this.props.match.params.display_name); // this.props.fetchUserInfo(this.props.match.params.display_name);
+    _this.props.getSongs(_this.props.match.params.display_name);
 
+    _this.props.fetchUserInfo(_this.props.match.params.display_name);
 
     _this.props.fetchUser(_this.props.state.session.currentUser.id);
 
@@ -2259,9 +2260,14 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (this.props.state.entities.users.user && this.props.state.entities.users.user.display_name !== this.props.match.params.display_name) {
-        // this.props.fetchUserInfo(this.props.match.params.display_name);
-        this.props.fetchUser(this.props.state.session.currentUser.id);
+      console.log('cdid');
+
+      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
+        //might switch this to profile_user
+        console.log('update');
+        this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.fetchUser(this.props.state.session.currentUser.id); // this.props.getSongs(this.props.profileUser)
+
         this.props.getSongs(this.props.match.params.display_name);
       }
     }
@@ -2336,7 +2342,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       });
       this.setState({
         showConfirmProfile: false,
-        showConfirmCover: false
+        showConfirmCover: false,
+        showPicOption: false
       });
     }
   }, {
@@ -2352,7 +2359,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       });
       this.setState({
         showConfirmCover: false,
-        showConfirmProfile: false
+        showConfirmProfile: false,
+        showPicOption: false
       });
     }
   }, {
@@ -2367,6 +2375,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      //  console.log(this.props.match.params.display_name)
+      console.log('render');
       if (this.state.loading) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading....");
       var songs;
 
@@ -2375,20 +2385,22 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1;
           if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1;
           if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0;
-        });
-      } else if (this.props.state.entities.songs) {
-        songs = Object.values(this.props.state.entities.songs).sort(function (a, b) {
-          if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1;
-          if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1;
-          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0;
-        });
-      } else {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading...");
+        }); // } else if (this.props.state.entities.songs) {
+        //   songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
+        //     if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
+        //     if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+        //     if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
+        //   })
+        // } else {
+        // } else {
+        //   return (<div>loading...</div>)
       }
 
       var renderSongs;
 
-      if (songs.length > 0) {
+      if (songs && songs.length > 0) {
+        console.log(songs);
+        console.log('itsrendersongs1');
         renderSongs = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song, i) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: i,
@@ -2399,13 +2411,15 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           }));
         }));
       } else {
-        renderSongs = "Get to creating!";
+        renderSongs = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profileNoSongs"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Listening to music is fun but so is sharing. Upload some tunes today!"));
       }
 
       var user;
 
-      if (this.props.state.entities.users.user) {
-        user = this.props.state.entities.users.user;
+      if (this.props.profileUser) {
+        user = this.props.profileUser;
       } else {
         user = "";
       }
@@ -2506,6 +2520,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       if (currentUserProfile) {
         userEditButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          id: "userEditButton",
           onClick: this.handleUserClick
         }, "Edit");
       }
@@ -2513,7 +2528,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       var userEditModal;
 
       if (this.props.currentUser) {
-        userEditModal = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, console.log(this.props.currentUser), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        userEditModal = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "userEditFormBackground"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "userEditForm"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "userEditHeader"
@@ -2573,7 +2590,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           className: "songFormCancelButton"
         }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "songFormButton"
-        }, "Save changes")))));
+        }, "Save changes"))))));
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2603,7 +2620,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "info-basic"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nameplate"
-      }, " ", user.display_name, " "))), coverPictureUpload), profilePictureUpload, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), currentUserProfile ? userEditButton : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, " ", user.display_name, " "))), coverPictureUpload), profilePictureUpload, currentUserProfile ? userEditButton : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         id: "recent"
       }, "Recent"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-songs"
@@ -2649,7 +2666,8 @@ var mapSTP = function mapSTP(state) {
   return {
     state: state,
     songs: state.entities.songs.songs,
-    currentUser: state.entities.users.user
+    currentUser: state.entities.users.user,
+    profileUser: state.entities.users.profile_user
   };
 };
 

@@ -13,7 +13,8 @@ import {editCurrentUser} from '../../actions/user_actions'
 const mapSTP = state => ({
     state: state,
     songs: state.entities.songs.songs,
-    currentUser: state.entities.users.user
+    currentUser: state.entities.users.user,
+    profileUser: state.entities.users.profile_user
 })
 
 const mapDTP = dispatch => ({

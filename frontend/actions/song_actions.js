@@ -57,6 +57,7 @@ export const getSong = (songId) => dispatch =>(
 );
 
 export const getSongs = (display_name) => dispatch => (
+    console.log(display_name),
     APIUtil.getSongs(display_name)
         .then((songs) => 
         // console.log(songs))

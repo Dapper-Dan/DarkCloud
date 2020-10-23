@@ -25,7 +25,7 @@ class Profile extends React.Component {
         last_name: ""
     }
       this.props.getSongs(this.props.match.params.display_name)
-      // this.props.fetchUserInfo(this.props.match.params.display_name);
+      this.props.fetchUserInfo(this.props.match.params.display_name);
       this.props.fetchUser(this.props.state.session.currentUser.id)
 
       this.change = this.change.bind(this)
@@ -57,10 +57,14 @@ class Profile extends React.Component {
     }
 
     componentDidUpdate() {
-      if (this.props.state.entities.users.user && this.props.state.entities.users.user.display_name !== this.props.match.params.display_name) {
-        // this.props.fetchUserInfo(this.props.match.params.display_name);
+      console.log('cdid')
+      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) { //might switch this to profile_user
+        console.log('update')
+        this.props.fetchUserInfo(this.props.match.params.display_name);
         this.props.fetchUser(this.props.state.session.currentUser.id)
+        // this.props.getSongs(this.props.profileUser)
         this.props.getSongs(this.props.match.params.display_name)
+       
       }
     }
 
@@ -117,7 +121,8 @@ class Profile extends React.Component {
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
       this.setState({
         showConfirmProfile: false,
-        showConfirmCover: false
+        showConfirmCover: false,
+        showPicOption: false
       })
     }
 
@@ -128,7 +133,8 @@ class Profile extends React.Component {
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
       this.setState({
         showConfirmCover: false,
-        showConfirmProfile: false
+        showConfirmProfile: false,
+        showPicOption: false
       })
     }
 
@@ -142,7 +148,8 @@ class Profile extends React.Component {
 
 
     render(){
-     
+    //  console.log(this.props.match.params.display_name)
+    console.log('render')
      
       if(this.state.loading) return (<div>loading....</div>)
     
@@ -154,18 +161,23 @@ class Profile extends React.Component {
           if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
       })
      
-      } else if (this.props.state.entities.songs) {
-        songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
-          if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
-          if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
-          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
-        })
-      } else {
-        return (<div>loading...</div>)
+      // } else if (this.props.state.entities.songs) {
+      //   songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
+      //     if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
+      //     if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+      //     if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
+      //   })
+      // } else {
+      // } else {
+      //   return (<div>loading...</div>)
       }
 
+      
+
       let renderSongs
-      if (songs.length > 0) {
+      if (songs && songs.length > 0) {
+        console.log(songs)
+        console.log('itsrendersongs1')
         renderSongs = (
           <ul>
             {songs.map((song, i) => ( 
@@ -177,15 +189,19 @@ class Profile extends React.Component {
           </ul>
         )
       } else {
-        renderSongs = "Get to creating!"
+        renderSongs = (
+          <div className="profileNoSongs" >
+            <p>Listening to music is fun but so is sharing. Upload some tunes today!</p>
+          </div>
+        )
       }
 
      
 
       let user
       
-      if (this.props.state.entities.users.user) {
-        user = this.props.state.entities.users.user
+      if (this.props.profileUser) {
+        user = this.props.profileUser
       } else {
         user = ""
       }
@@ -303,7 +319,7 @@ class Profile extends React.Component {
       if (currentUserProfile) {
         userEditButton = (
           
-            <button onClick={this.handleUserClick}>Edit</button>
+            <button id="userEditButton" onClick={this.handleUserClick}>Edit</button>
           
         )
       }
@@ -313,80 +329,81 @@ class Profile extends React.Component {
       userEditModal = (
         <>
 
-        {console.log(this.props.currentUser)}
-          
-        <div className="userEditForm">
-          <div className="userEditHeader">Edit your profile</div>
-          <div className="userEditWrapper">
-            <div className="picUploadBox">
+        
+        <div className="userEditFormBackground" >
+          <div className="userEditForm">
+            <div className="userEditHeader">Edit your profile</div>
+            <div className="userEditWrapper">
+              <div className="picUploadBox">
 
-              {this.props.currentUser ? <img src={this.props.currentUser.profilePicUrl} width="250px" height="250px" ></img> : ""}
-              
-            </div>
-
-            <div className="userEditInfoBox">
-
-              <h3>Display name</h3>
-              <input 
-                    className="displayNameInput"
-                    placeholder={this.props.currentUser.display_name}
-                    type="text"
-                    onChange={this.change('display_name')}
-                    value={this.state.display_name} 
-              /> 
-
-              <div className="locationWrapper">
-                <div className="locationCityWrapper">
-                  <h3>City</h3>
-                  <input 
-                        className="cityInput"
-                        placeholder={this.props.currentUser.city}
-                        type="text"
-                        onChange={this.change('city')}
-                        value={this.state.city} 
-                  />
-                </div> 
-
-                <div className="locationCountryWrapper">
-                  <h3>Country</h3>
-                  <input 
-                        className="countryInput"
-                        placeholder={this.props.currentUser.country}
-                        type="text"
-                        onChange={this.change('country')}
-                        value={this.state.country} 
-                  />
-                </div> 
+                {this.props.currentUser ? <img src={this.props.currentUser.profilePicUrl} width="250px" height="250px" ></img> : ""}
+                
               </div>
 
-              <div className="nameWrapper">
-                <div className="firstNameWrapper" >
-                  <h3>First name</h3>
-                  <input 
-                        className="firstNameInput"
-                        placeholder={this.props.currentUser.first_name}
-                        type="text"
-                        onChange={this.change('first_name')}
-                        value={this.state.first_name} 
-                  />
-                </div> 
+              <div className="userEditInfoBox">
 
-                <div className="lastNameWrapper">
-                  <h3>Last name</h3>
-                  <input 
-                        className="lastNameInput"
-                        placeholder={this.props.currentUser.last_name}
-                        type="text"
-                        onChange={this.change('last_name')}
-                        value={this.state.last_name} 
-                  />
-                </div> 
+                <h3>Display name</h3>
+                <input 
+                      className="displayNameInput"
+                      placeholder={this.props.currentUser.display_name}
+                      type="text"
+                      onChange={this.change('display_name')}
+                      value={this.state.display_name} 
+                /> 
+
+                <div className="locationWrapper">
+                  <div className="locationCityWrapper">
+                    <h3>City</h3>
+                    <input 
+                          className="cityInput"
+                          placeholder={this.props.currentUser.city}
+                          type="text"
+                          onChange={this.change('city')}
+                          value={this.state.city} 
+                    />
+                  </div> 
+
+                  <div className="locationCountryWrapper">
+                    <h3>Country</h3>
+                    <input 
+                          className="countryInput"
+                          placeholder={this.props.currentUser.country}
+                          type="text"
+                          onChange={this.change('country')}
+                          value={this.state.country} 
+                    />
+                  </div> 
+                </div>
+
+                <div className="nameWrapper">
+                  <div className="firstNameWrapper" >
+                    <h3>First name</h3>
+                    <input 
+                          className="firstNameInput"
+                          placeholder={this.props.currentUser.first_name}
+                          type="text"
+                          onChange={this.change('first_name')}
+                          value={this.state.first_name} 
+                    />
+                  </div> 
+
+                  <div className="lastNameWrapper">
+                    <h3>Last name</h3>
+                    <input 
+                          className="lastNameInput"
+                          placeholder={this.props.currentUser.last_name}
+                          type="text"
+                          onChange={this.change('last_name')}
+                          value={this.state.last_name} 
+                    />
+                  </div> 
+                </div>
+              <button className="songFormCancelButton">Cancel</button>
+              <button className="songFormButton">Save changes</button>
               </div>
-            <button className="songFormCancelButton">Cancel</button>
-            <button className="songFormButton">Save changes</button>
             </div>
           </div>
-        </div>
+        </div> 
         </>
       )}
   
@@ -433,8 +450,9 @@ class Profile extends React.Component {
             {coverPictureUpload}
           </div> 
           {profilePictureUpload}
-          <SongNavBarContainer /> 
           {currentUserProfile ? userEditButton : ""}
+          <SongNavBarContainer /> 
+          
 
 
             <p id="recent">Recent</p>

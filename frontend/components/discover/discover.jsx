@@ -153,6 +153,7 @@ export default class Discover extends React.Component {
                             <Carousel.Item>
                                 {recentUsers.slice(0, 5).map((user) => ( 
                                     <>
+                                    {console.log(user.profilePicUrl)}
                                     <div className="discoverNewUsersBox">
                                         <img id="profilePic"  src={user.profilePicUrl} /> 
                                         <Link to={`/${user.display_name}`}>
@@ -164,8 +165,9 @@ export default class Discover extends React.Component {
                             </Carousel.Item>
 
                             <Carousel.Item>
-                                {recentUsers.slice(4, 9).map((user) => ( 
+                                {recentUsers.slice(4, 9).map((user, i) => ( 
                                      <>
+                                     {console.log(user.profilePicUrl, user.display_name)}
                                      <div className="discoverNewUsersBox">
                                          <img id="profilePic"  src={user.profilePicUrl} /> 
                                          <Link to={`/${user.display_name}`}>
@@ -180,6 +182,7 @@ export default class Discover extends React.Component {
                             <Carousel.Item>
                                 {recentUsers.slice(8, 12).map((user) => ( 
                                    <>
+                                   {console.log(user.profilePicUrl)}
                                    <div className="discoverNewUsersBox">
                                        <img id="profilePic"  src={user.profilePicUrl} /> 
                                        <Link to={`/${user.display_name}`}>

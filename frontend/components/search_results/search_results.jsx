@@ -28,8 +28,8 @@ export default class SearchResults extends React.Component {
 
     componentDidUpdate() {
         if(!this.props) {
-            // this.props.fetchUsers()
-            // this.props.getBunchSongs()
+            this.props.fetchUsers()
+            this.props.getBunchSongs()
             
         }
     }
@@ -42,7 +42,7 @@ export default class SearchResults extends React.Component {
         
        
         // let filteredSongs
-        // if (this.props.songs) {
+        if (this.props.songs) {
             let songs = Object.values(this.props.songs);
             // if (!songs) return
             // console.log(songs)
@@ -52,6 +52,7 @@ export default class SearchResults extends React.Component {
                     let songName = songItem.title.toLowerCase()
                     return songName.indexOf(searchInput.toLowerCase()) > -1
                 })
+        }
         }
         // let users = Object.values(this.props.users);
 

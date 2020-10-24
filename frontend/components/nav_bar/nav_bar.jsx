@@ -31,7 +31,7 @@ export default class NavBar extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.state)  this.props.fetchUser(this.props.state.session.currentUser.id)
+        if(this.props.state && this.props.state.session.currentUser)  this.props.fetchUser(this.props.state.session.currentUser.id)
         document.addEventListener('click', this.handleClickOutside, true);
     }
 
@@ -82,6 +82,12 @@ export default class NavBar extends React.Component {
 
 
     render() {
+
+        if (this.state.showModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
        
         
         let signShowModal = (
@@ -164,9 +170,9 @@ export default class NavBar extends React.Component {
                             <button className="login-modal-button" onClick={ this.loginModelShow }> Sign in </button>
                             <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
 
-                            <NavLink to="/upload" className="upload-button" style={{ textDecoration: 'none' }} >
+                            {/* <NavLink to="/upload" className="upload-button" style={{ textDecoration: 'none' }} >
                                Upload 
-                            </NavLink>
+                            </NavLink> */}
                         </nav>
 
                     </div>

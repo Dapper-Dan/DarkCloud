@@ -81,6 +81,14 @@ class HomePage extends React.Component {
   
 
   render() {
+
+    if (this.state.showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+
     let showModal = (
     <div className="modal-background">
         <div className="signModal">

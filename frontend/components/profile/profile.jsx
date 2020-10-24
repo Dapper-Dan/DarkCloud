@@ -6,6 +6,7 @@ import SongNavBarContainer from '../nav_bar/song_nav_bar_container'
 import SearchBarContainer from '../search_bar/search_bar_container'
 import MusicPlayerContainer from '../music_player/music_player_container'
 import UserNavBarContainer from '../nav_bar/user_nav_bar_container'
+import ReactDOM from 'react-dom'
 
 
 class Profile extends React.Component {
@@ -24,9 +25,13 @@ class Profile extends React.Component {
         first_name: "",
         last_name: ""
     }
+
       this.props.getSongs(this.props.match.params.display_name)
       this.props.fetchUserInfo(this.props.match.params.display_name);
-      this.props.fetchUser(this.props.state.session.currentUser.id)
+
+      if (this.props.state.session.currentUser) {
+        this.props.fetchUser(this.props.state.session.currentUser.id)
+      }
 
       this.change = this.change.bind(this)
       this.update = this.update.bind(this)
@@ -36,6 +41,8 @@ class Profile extends React.Component {
       this.uploadCoverImage = this.uploadCoverImage.bind(this)
       this.handleUserClick = this.handleUserClick.bind(this)
       this.change = this.change.bind(this)
+      this.closeModal = this.closeModal.bind(this)
+      this.handleClickOutside = this.handleClickOutside.bind(this);
 
       
       
@@ -53,7 +60,27 @@ class Profile extends React.Component {
 
     componentDidMount() {
       this.setState({loading: false})
- 
+      // let editModal
+      // if (document.getElementById('editModal')) {
+      // editModal = document.getElementById('editModal')
+      // editModal.addEventListener('click', this.handleClickOutside, true)
+      // }
+    }
+
+  //   componentWillUnmount() {
+  //     // let editModal = document.getElementById('editModal')
+  //     // editModal.removeEventListener('click', this.handleClickOutside, true);
+  // }
+
+    handleClickOutside(event) {
+       let editModal = document.getElementById('editModal')
+        if ((!editModal) || (editModal && this.state.showEditModal && event.target.className === 'userEditFormBackground')) {
+          this.setState({ showEditModal: false })
+        }
+    }
+
+    closeModal () {
+      this.setState({showEditModal: false})
     }
 
     componentDidUpdate() {
@@ -61,7 +88,7 @@ class Profile extends React.Component {
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) { //might switch this to profile_user
         console.log('update')
         this.props.fetchUserInfo(this.props.match.params.display_name);
-        this.props.fetchUser(this.props.state.session.currentUser.id)
+        if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
         // this.props.getSongs(this.props.profileUser)
         this.props.getSongs(this.props.match.params.display_name)
        
@@ -149,6 +176,15 @@ class Profile extends React.Component {
 
     render(){
     //  console.log(this.props.match.params.display_name)
+    if (this.state.showEditModal) {
+      console.log('hide')
+      document.body.style.overflow = 'hidden';
+    } else {
+      console.log('nomo')
+      document.body.style.overflow = 'unset';
+    }
+
+
     console.log('render')
      
       if(this.state.loading) return (<div>loading....</div>)
@@ -330,7 +366,7 @@ class Profile extends React.Component {
         <>
 
         
-        <div className="userEditFormBackground" >
+        <div className="userEditFormBackground" id="editModal" onClick={this.handleClickOutside}>
           <div className="userEditForm">
             <div className="userEditHeader">Edit your profile</div>
             <div className="userEditWrapper">
@@ -398,7 +434,7 @@ class Profile extends React.Component {
                     />
                   </div> 
                 </div>
-              <button className="songFormCancelButton">Cancel</button>
+              <button className="songFormCancelButton" onClick={this.closeModal}>Cancel</button>
               <button className="songFormButton">Save changes</button>
               </div>
             </div>
@@ -411,7 +447,8 @@ class Profile extends React.Component {
       
       return(
         <>
-    
+   
+    {this.state.showEditModal ? userEditModal : ""}
        <div className="nav_bar_background" ></div>
        
        <div className="nav-con" >
@@ -419,9 +456,9 @@ class Profile extends React.Component {
           <SearchBarContainer/>
         </div>
 
-        {this.state.showEditModal ? userEditModal : ""}
+        {/* {this.state.showEditModal ? userEditModal : ""} */}
 
-       <div className="outtermost"> 
+       <div className="outtermost" > 
 
         
 

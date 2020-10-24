@@ -321,7 +321,7 @@
     display: flex;
     justify-content: center;
     margin: auto;
-    margin-top: auto;
+    margin-top: 89px;
     margin-bottom: auto;
     height: 535px;
     // width: 32%;
@@ -375,9 +375,6 @@
     margin-bottom: 58px;
 }
 
-.locationCityWrapper {
-
-}
 
 .locationCountryWrapper {
     margin-left: 29px;
@@ -388,9 +385,6 @@
     margin-bottom: 14px;
 }
 
-.firstNameWrapper {
-
-}
 
 .lastNameWrapper {
     margin-left: 29px;
@@ -415,23 +409,33 @@
 }
 
 .profileNoSongs {
-    height: 400px;
+    height: fit-content;
     width: 100%;
     justify-content: center;
     color: black;
     font-size: 30px;
     display: flex;
     align-items: center;
+    padding-bottom: 180px;
 }
 
 .profileNoSongs p {
     margin-bottom: 113px;
+    
 }
 
 .userEditFormBackground {
-    background-color: rgba(128, 128, 128, 0.762);
-    position: absolute;
-    z-index: 9999;
     width: 100%;
     height: 100%;
+    background-color: rgba(128, 128, 128, 0.762);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999999;
+}
+
+#editModal {
+    width: 100%;
+    height: 100%;
+    position: fixed;
 }

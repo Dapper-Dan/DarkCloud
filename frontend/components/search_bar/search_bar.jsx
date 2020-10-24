@@ -38,6 +38,12 @@ export default class SearchBar extends React.Component {
        
     }
 
+    componentDidUpdate() {
+        if (this.state.redirect) {
+            this.setState({redirect: false})
+        }
+    }
+
 
     componentDidMount() {
  console.log('ehl')
@@ -191,11 +197,13 @@ export default class SearchBar extends React.Component {
 
 
 
-            return (
+            return (  
                 <>
+                {/* <div className="searchBarContainer"> */}
                 <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate} onKeyDown={this.onKeyDown} onMouseOver={this.onMouseOver}/>
                 <button className="search-button"> <img src={window.searchButton} width="15px" /> </button> 
                 {optionList}
+                {/* </div> */}
                 
                 </>
             )

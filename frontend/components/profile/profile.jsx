@@ -407,6 +407,20 @@ class Profile extends React.Component {
         }
       }
 
+      let name
+      if (this.props.profileUser) {
+        if (this.props.profileUser.first_name && this.props.profileUser.last_name) {
+          name = `${this.props.profileUser.first_name} ${this.props.profileUser.last_name}`
+        } else if (this.props.first_name) {
+          name = this.props.profileUser.first_name 
+        } else if (this.props.profileUser.last_name) {
+          name = this.props.profileUser.last_name
+        } else {
+          name = ""
+        }
+       
+      }
+
       
       let userEditModal 
       if (this.props.currentUser) {
@@ -527,8 +541,9 @@ class Profile extends React.Component {
                      
                 <div className="info-basic">
                   <a className="nameplate" > {user.display_name} </a>
+                  {name ? <a className="nameplate" id="realName" > {name} </a> : ""}
+
                   {location ? <a className="location-plate" > {location} </a> : "" }
-          
                 </div>
 
                 

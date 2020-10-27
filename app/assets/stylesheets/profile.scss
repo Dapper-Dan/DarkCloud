@@ -62,7 +62,13 @@
     margin-left: 42px;
     display: flex;
     height: fit-content;
+    flex-direction: column;
+
     
+}
+
+.info-basic a {
+    margin-bottom: 6px;
 }
 
 .nameplate {
@@ -71,12 +77,19 @@
     padding: 5px;
     font-size: 24px;
     align-self: baseline;
-    
+    white-space: nowrap;   
+}
+
+.nameplate#realName {
+    font-size: 16px;
 }
 
 .location-plate {
     color: #fff !important;
     background-color: rgba(0,0,0,.8);
+    white-space: nowrap;
+    font-size: 16px;
+    padding: 5px;
 }
 
 .profile-songs ul {
@@ -107,6 +120,22 @@
     background-repeat: no-repeat;
     margin-top: 3px;
 }
+
+.songProfileTile .pause {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border-color: #1DB954;
+    background-color: #1DB954;
+    text-indent: -9999px;
+    background-size: 50% 55%;
+    background-position-x: 50%;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-image: url(media_player_assets/songTilePause.png);
+    margin-top: 3px;
+}
+
 
 .songProfileTile .songTitle {
     font-size: 16px;

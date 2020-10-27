@@ -34,6 +34,16 @@ export default class Library extends React.Component {
         } else {
             return (<p>loading...</p>)
         }
+
+        
+        if (songs && songs.length < 12) {
+            while (songs.length < 12) {
+                songs.push("")
+            }
+        }
+
+        let placeHolder = <div className="libraryPlaceHolder"></div>
+
        
         let tracks = (
             
@@ -44,10 +54,11 @@ export default class Library extends React.Component {
                     
                   {songs.map((song, i) => ( 
                      <li key={i} className="song-box" >
-                      <SongPartContainer song={song} />
+                      {song !== "" ? <SongPartContainer song={song}/> : placeHolder}
                     
                      </li>
-                   )).slice(0, 6)}
+                   )).slice(0, 12)}
+
                 </ul>
                 </div>
             
@@ -74,7 +85,7 @@ export default class Library extends React.Component {
 
         
 
-        let placeHolder = <div className="libraryPlaceHolder"></div>
+        
 
         let likes
         if (myLikes) {

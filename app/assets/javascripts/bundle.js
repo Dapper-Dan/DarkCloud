@@ -573,7 +573,7 @@ var Caro = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        interval: "3000",
+        interval: "4000",
         controls: false,
         className: "caroMain"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_6__["default"].Item, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1060,7 +1060,26 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
         onClick: this.registerModelShow
       }, " Create account"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mainSearch"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " or "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, " UPLOAD YOUR OWN TRACK ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_14__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " or "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "homePageUploadButton"
+      }, " UPLOAD YOUR OWN TRACK ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_index_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mainLanding",
+        id: "break"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: window.mobile
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Unfortunately, were not mobile friendly. Plans to bring this feature soon!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "homePageThanks"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        id: "micro",
+        src: window.microphone
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "signup-modal-button",
+        onClick: this.registerModelShow
+      }, " Create account")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "homePageFooter"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "links"
+      }, "GitHub LinkedIn"), "Created by Daniel Lancaster")));
     }
   }]);
 
@@ -1155,6 +1174,15 @@ var Library = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
       }
 
+      if (songs && songs.length < 12) {
+        while (songs.length < 12) {
+          songs.push("");
+        }
+      }
+
+      var placeHolder = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "libraryPlaceHolder"
+      });
       var tracks = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "libraryContainer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -1163,10 +1191,10 @@ var Library = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i,
           className: "song-box"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }, song !== "" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
           song: song
-        }));
-      }).slice(0, 6)));
+        }) : placeHolder);
+      }).slice(0, 12)));
       var likesArray;
       if (this.props.users.profile_user) likesArray = this.props.users.profile_user.likes;
       var myLikes;
@@ -1183,9 +1211,6 @@ var Library = /*#__PURE__*/function (_React$Component) {
         }
       }
 
-      var placeHolder = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "libraryPlaceHolder"
-      });
       var likes;
 
       if (myLikes) {
@@ -1808,7 +1833,8 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
       loginForm: false,
       registerForm: false,
       showModal: false,
-      showDropDown: false
+      showDropDown: false,
+      redirect: false
     };
     _this.loginModelShow = _this.loginModelShow.bind(_assertThisInitialized(_this));
     _this.registerModelShow = _this.registerModelShow.bind(_assertThisInitialized(_this));
@@ -1829,6 +1855,18 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       document.removeEventListener('click', this.handleClickOutside, true);
+      this.setState({
+        redirect: false
+      }); // useless?
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      if (this.state.redirect) {
+        this.setState({
+          redirect: false
+        });
+      }
     }
   }, {
     key: "changeShow",
@@ -1859,6 +1897,9 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
     key: "logout",
     value: function logout() {
       this.props.logout();
+      this.setState({
+        redirect: true
+      });
     }
   }, {
     key: "handleDropDown",
@@ -1881,6 +1922,14 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      if (this.state.redirect) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+          to: {
+            pathname: "/"
+          }
+        });
+      }
+
       if (this.state.showModal) {
         document.body.style.overflow = 'hidden';
       } else {
@@ -2599,6 +2648,20 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         }
       }
 
+      var name;
+
+      if (this.props.profileUser) {
+        if (this.props.profileUser.first_name && this.props.profileUser.last_name) {
+          name = "".concat(this.props.profileUser.first_name, " ").concat(this.props.profileUser.last_name);
+        } else if (this.props.first_name) {
+          name = this.props.profileUser.first_name;
+        } else if (this.props.profileUser.last_name) {
+          name = this.props.profileUser.last_name;
+        } else {
+          name = "";
+        }
+      }
+
       var userEditModal;
 
       if (this.props.currentUser) {
@@ -2698,7 +2761,10 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "info-basic"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nameplate"
-      }, " ", user.display_name, " "), location ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      }, " ", user.display_name, " "), name ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nameplate",
+        id: "realName"
+      }, " ", name, " ") : "", location ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "location-plate"
       }, " ", location, " ") : "")), coverPictureUpload), profilePictureUpload, currentUserProfile ? userEditButton : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_song_nav_bar_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         id: "recent"
@@ -3281,7 +3347,7 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
             to: "/".concat(user.display_name)
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
             className: "discoverUserPart"
-          }, user.display_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, user.first_name, " ", user.last_name))));
+          }, user.display_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, user.first_name, " ", user.last_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, user.city, " ", user.country))));
         }));
       } else {
         optionsEverythingArray = "";
@@ -4725,7 +4791,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           className: "playNameContainer"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
           role: "button",
-          className: "play",
+          className: this.getPausedPlay(),
           onClick: this.handleClick
         }, "Play"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "profile-song-names-plate"

@@ -136,11 +136,32 @@ class HomePage extends React.Component {
            
               <SearchBarContainer />
               <p> or </p>
-              <button> UPLOAD YOUR OWN TRACK </button>
+              <button className="homePageUploadButton"> UPLOAD YOUR OWN TRACK </button>
            
         </div>
 
         <SongIndexContainer />
+
+
+        <div className="mainLanding" id="break">
+          <img src={window.mobile}></img>
+          <p>Unfortunately, were not mobile friendly. Plans to bring this feature soon!</p>
+
+        </div>
+
+        <div className="homePageThanks">
+          <img id="micro" src={window.microphone}></img>
+          <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
+        </div>
+
+        <div className="homePageFooter">
+          <div id="links">
+            GitHub
+            LinkedIn
+          </div>
+          
+          Created by Daniel Lancaster
+        </div>
       
 
 

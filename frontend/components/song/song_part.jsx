@@ -237,7 +237,7 @@ class SongPart extends React.Component {
             <div className="songProfileTileContainer">
               <div className="profile-song-info">
                 <div className="playNameContainer">
-                  <a role="button" className="play" onClick={this.handleClick}>Play</a>
+                  <a role="button" className={this.getPausedPlay()} onClick={this.handleClick}>Play</a>
                 
                   <div className="profile-song-names-plate" >
                     <Link to={`/${song.display_name}`}>

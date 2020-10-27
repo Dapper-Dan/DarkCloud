@@ -113,6 +113,7 @@ export default class SearchResults extends React.Component {
                                         <h3 className="discoverUserPart">{user.display_name}</h3>
                                     </Link>
                                     <h1>{user.first_name} {user.last_name}</h1>
+                                    <h1>{user.city} {user.country}</h1>
                                 </div>
                             </div>
                         </li>

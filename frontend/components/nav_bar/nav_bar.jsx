@@ -1,6 +1,6 @@
 import React from 'react';
 // import SignupFormContainer from '../session/signup_form_container.jsx';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import LoginFormContainer from '../session/login_form_container.jsx';
 import SignupFormContainer from '../session/signup_form_container.jsx';
 import { Link } from "react-router-dom";
@@ -15,7 +15,8 @@ export default class NavBar extends React.Component {
             loginForm: false,
             registerForm: false,
             showModal: false,
-            showDropDown: false
+            showDropDown: false,
+            redirect: false
         };
 
 
@@ -37,6 +38,14 @@ export default class NavBar extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('click', this.handleClickOutside, true);
+        this.setState({redirect: false}) // useless?
+
+    }
+
+    componentDidUpdate() {
+        if (this.state.redirect) {
+            this.setState({redirect: false})
+        }
     }
 
     changeShow() {
@@ -63,6 +72,8 @@ export default class NavBar extends React.Component {
 
     logout() {
         this.props.logout()
+        this.setState({redirect: true})
+        
     }
 
     handleDropDown() {
@@ -82,6 +93,12 @@ export default class NavBar extends React.Component {
 
 
     render() {
+
+        if (this.state.redirect) {
+            return <Redirect to={{
+                pathname: "/",
+            }}/>
+        }
 
         if (this.state.showModal) {
             document.body.style.overflow = 'hidden';

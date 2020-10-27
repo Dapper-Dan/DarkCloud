@@ -18,6 +18,8 @@ class SongPart extends React.Component {
         this.handleClick = this.handleClick.bind(this)
         this.play = this.play.bind(this)
         this.likeSong = this.likeSong.bind(this)
+
+        
       
         
         
@@ -47,8 +49,10 @@ class SongPart extends React.Component {
 
         this.props.song.likes[user_id] ? this.props.unlike({like, song}) : this.props.like({like, song})
        
-        // this.props.getSongs(this.props.song.display_name)
+        this.props.getSongs(this.props.song.display_name)
         this.props.getSong(this.props.song.id)
+
+        if (this.props.searchResults) this.props.getBunchSongs()
        
       }
 

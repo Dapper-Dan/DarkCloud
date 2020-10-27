@@ -20,7 +20,9 @@ const mapSTP = state => ({
 
 const mapDTP = dispatch => ({
     fetchUsers: () => dispatch(fetchUsers()),
-    getBunchSongs: () => dispatch(getBunchSongs())
+    getBunchSongs: () => dispatch(getBunchSongs()),
+    getSongs: (display_name) => dispatch(getSongs(display_name))
+    
     
 })
 

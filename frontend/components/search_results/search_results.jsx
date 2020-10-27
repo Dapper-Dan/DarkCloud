@@ -21,7 +21,8 @@ export default class SearchResults extends React.Component {
         };
 
         // this.props.fetchUsers()
-        // this.props.getBunchSongs()
+        // this.props.getSongs(this.props.match.params.display_name)
+        this.props.getBunchSongs()
         this.changeShow = this.changeShow.bind(this)
 
     }
@@ -59,7 +60,7 @@ export default class SearchResults extends React.Component {
     }
 
     render() {
-        console.log(this.state.searchInput)
+        // console.log(this.state.searchInput)
         let searchInput
         let filteredSongs
         let filteredUsers
@@ -89,6 +90,8 @@ export default class SearchResults extends React.Component {
 
      
             
+
+            
         } 
 
 
@@ -99,7 +102,7 @@ export default class SearchResults extends React.Component {
                 <ul className="optionsArray">
                     {filteredSongs.map((song, i) => (
                         <li key={i}>
-                            <SongPartContainer song={song} profile={true}/>
+                            <SongPartContainer song={song} profile={true} searchResults={true}/>
                         </li>
 
                     ))}
@@ -131,7 +134,7 @@ export default class SearchResults extends React.Component {
                 <ul className="optionsArray">
                     {filteredSongs.map((song, i) => (
                         <li key={i}>
-                            <SongPartContainer song={song} profile={true}/>
+                            <SongPartContainer song={song} profile={true} searchResults={true}/>
                         </li>
 
                     ))}

@@ -54,9 +54,9 @@ class Profile extends React.Component {
 
 
     componentDidMount() {
-      // if (this.props.profileUser.city) {
-      //   this.setState({city: this.props.profileUser.city})
-      // }
+      if (this.props.profileUser && this.props.profileUser.city) {
+        this.setState({city: this.props.profileUser.city})
+      }
       
       this.setState({
         loading: false,
@@ -150,7 +150,7 @@ class Profile extends React.Component {
     submitChanges(e) {
       e.preventDefault()
       const formData = new FormData();
-      if (this.state.city) formData.append('user[city]', this.state.city);
+      formData.append('user[city]', this.state.city);
       if (this.state.country) formData.append('user[country]', this.state.country);
       if (this.state.first_name) formData.append('user[first_name]', this.state.first_name);
       if (this.state.last_name) formData.append('user[last_name]', this.state.last_name);
@@ -208,6 +208,9 @@ class Profile extends React.Component {
 
     render(){
     //  console.log('render')
+
+    
+   
 
     
 
@@ -421,6 +424,18 @@ class Profile extends React.Component {
        
       }
 
+
+    
+      let values
+      
+      if (this.props && this.props.profileUser) {
+        let {country, city, first_name, last_name} = this.props.profileUser
+        values = {country, city, first_name, last_name}
+      } else {
+        values = {}
+      }
+
+
       
       let userEditModal 
       if (this.props.currentUser) {
@@ -457,7 +472,8 @@ class Profile extends React.Component {
                           placeholder={this.props.currentUser.city}
                           type="text"
                           onChange={this.change('city')}
-                          value={this.state.city} 
+                          defaultValue={values.city}
+                          // value={this.state.city} 
                     />
                   </div> 
 
@@ -468,7 +484,8 @@ class Profile extends React.Component {
                           placeholder={this.props.currentUser.country}
                           type="text"
                           onChange={this.change('country')}
-                          value={this.state.country} 
+                          defaultValue={values.country} 
+                          // value={this.state.country} 
                     />
                   </div> 
                 </div>
@@ -481,7 +498,8 @@ class Profile extends React.Component {
                           placeholder={this.props.currentUser.first_name}
                           type="text"
                           onChange={this.change('first_name')}
-                          value={this.state.first_name} 
+                          defaultValue={values.first_name} 
+                          // value={this.state.first_name} 
                     />
                   </div> 
 
@@ -492,7 +510,8 @@ class Profile extends React.Component {
                           placeholder={this.props.currentUser.last_name}
                           type="text"
                           onChange={this.change('last_name')}
-                          value={this.state.last_name} 
+                          defaultValue={values.last_name} 
+                          // value={this.state.last_name} 
                     />
                   </div> 
                 </div>

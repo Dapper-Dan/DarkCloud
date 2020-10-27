@@ -176,7 +176,9 @@ class SongForm extends React.Component {
 
     render() {
         const {title} = this.state
+        // console.log({title})
         const values = {title};
+        
         const genres = ["Classical", "Country", "Dance & EDM", "Disco", "Jazz", "Hip-Hop", "Indie", "Metal", "Latin", "R&B", "Rock", "World"]
         const {step} = this.state;
 

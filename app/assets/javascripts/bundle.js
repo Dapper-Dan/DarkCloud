@@ -460,16 +460,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var customHistory = Object(history__WEBPACK_IMPORTED_MODULE_5__["createBrowserHistory"])();
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Router"], {
-    history: customHistory
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "main"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Switch"], {
-    history: customHistory
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_4__["ProtectedRoute"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_4__["ProtectedRoute"], {
     exact: true,
     path: "/register",
     component: _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -503,7 +500,7 @@ var App = function App() {
     exact: true,
     path: "/:display_name",
     component: _profile_profile_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)), "// ");
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -2307,9 +2304,12 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   _createClass(Profile, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      // if (this.props.profileUser.city) {
-      //   this.setState({city: this.props.profileUser.city})
-      // }
+      if (this.props.profileUser && this.props.profileUser.city) {
+        this.setState({
+          city: this.props.profileUser.city
+        });
+      }
+
       this.setState({
         loading: false // city: this.props.profileUser.city
 
@@ -2410,7 +2410,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     value: function submitChanges(e) {
       e.preventDefault();
       var formData = new FormData();
-      if (this.state.city) formData.append('user[city]', this.state.city);
+      formData.append('user[city]', this.state.city);
       if (this.state.country) formData.append('user[country]', this.state.country);
       if (this.state.first_name) formData.append('user[first_name]', this.state.first_name);
       if (this.state.last_name) formData.append('user[last_name]', this.state.last_name);
@@ -2662,6 +2662,24 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         }
       }
 
+      var values;
+
+      if (this.props && this.props.profileUser) {
+        var _this$props$profileUs = this.props.profileUser,
+            country = _this$props$profileUs.country,
+            city = _this$props$profileUs.city,
+            first_name = _this$props$profileUs.first_name,
+            last_name = _this$props$profileUs.last_name;
+        values = {
+          country: country,
+          city: city,
+          first_name: first_name,
+          last_name: last_name
+        };
+      } else {
+        values = {};
+      }
+
       var userEditModal;
 
       if (this.props.currentUser) {
@@ -2698,7 +2716,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           placeholder: this.props.currentUser.city,
           type: "text",
           onChange: this.change('city'),
-          value: this.state.city
+          defaultValue: values.city // value={this.state.city} 
+
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "locationCountryWrapper"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Country"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2706,7 +2725,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           placeholder: this.props.currentUser.country,
           type: "text",
           onChange: this.change('country'),
-          value: this.state.country
+          defaultValue: values.country // value={this.state.country} 
+
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "nameWrapper"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2716,7 +2736,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           placeholder: this.props.currentUser.first_name,
           type: "text",
           onChange: this.change('first_name'),
-          value: this.state.first_name
+          defaultValue: values.first_name // value={this.state.first_name} 
+
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "lastNameWrapper"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Last name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2724,7 +2745,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           placeholder: this.props.currentUser.last_name,
           type: "text",
           onChange: this.change('last_name'),
-          value: this.state.last_name
+          defaultValue: values.last_name // value={this.state.last_name} 
+
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "songFormCancelButton",
           onClick: this.closeModal
@@ -2852,16 +2874,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _app_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.jsx */ "./frontend/components/app.jsx");
+/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
 
 
 
 
+
+
+var customHistory = Object(history__WEBPACK_IMPORTED_MODULE_4__["createBrowserHistory"])();
 
 var Root = function Root(_ref) {
   var store = _ref.store;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_1__["Provider"], {
     store: store
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_app_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_app_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Root);
@@ -3245,7 +3271,9 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
       showUsers: false,
       showEverything: true
     }; // this.props.fetchUsers()
-    // this.props.getBunchSongs()
+    // this.props.getSongs(this.props.match.params.display_name)
+
+    _this.props.getBunchSongs();
 
     _this.changeShow = _this.changeShow.bind(_assertThisInitialized(_this));
     return _this;
@@ -3295,7 +3323,7 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state.searchInput);
+      // console.log(this.state.searchInput)
       var searchInput;
       var filteredSongs;
       var filteredUsers;
@@ -3331,7 +3359,8 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
             key: i
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
             song: song,
-            profile: true
+            profile: true,
+            searchResults: true
           }));
         }), filteredUsers.map(function (user, i) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -3363,7 +3392,8 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
             key: i
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
             song: song,
-            profile: true
+            profile: true,
+            searchResults: true
           }));
         }));
       } else {
@@ -3493,6 +3523,9 @@ var mapDTP = function mapDTP(dispatch) {
     },
     getBunchSongs: function getBunchSongs() {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_2__["getBunchSongs"])());
+    },
+    getSongs: function getSongs(display_name) {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_2__["getSongs"])(display_name));
     }
   };
 };
@@ -4179,7 +4212,8 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var title = this.state.title;
+      var title = this.state.title; // console.log({title})
+
       var values = {
         title: title
       };
@@ -4597,9 +4631,10 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       }) : this.props.like({
         like: like,
         song: song
-      }); // this.props.getSongs(this.props.song.display_name)
-
+      });
+      this.props.getSongs(this.props.song.display_name);
       this.props.getSong(this.props.song.id);
+      if (this.props.searchResults) this.props.getBunchSongs();
     }
   }, {
     key: "componentDidMount",
@@ -4858,6 +4893,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mSTP = function mSTP(state) {
   return {
     songs: state.entities.songs.songs,
@@ -4880,6 +4916,9 @@ var mDTP = function mDTP(dispatch) {
     },
     getSongs: function getSongs(display_name) {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_1__["getSongs"])(display_name));
+    },
+    getBunchSongs: function getBunchSongs() {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_1__["getBunchSongs"])());
     }
   };
 };

@@ -187,23 +187,28 @@
 .songProgressTimer {
     background: black;
     color: #1DB954;
-    width: 21px;
+    width: fit-content;
     font-size: 11px;
     position: relative;
-    top: -54px;
+    top: -52px;
     z-index: 99;
+    padding: 0px 1px 0px 1px;
+    font-size: 10px;
+
 }
 
 .songEndTimer {
     background: black;
     color: #999;
-    width: 21px;
+    width: fit-content;
     font-size: 11px;
     position: relative;
-    top: -70px;
-    left: 659px;
+    top: -67px;
+    left: 657px;
     z-index: 99;
-    
+    padding: 0px 1px 0px 1px;
+    font-size: 10px;
+
 }
 
 #recent {

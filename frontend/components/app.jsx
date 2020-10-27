@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './nav_bar/nav_bar.jsx'
 import SignupFormContainer from './session/signup_form_container.jsx';
 import { Route, Switch, Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ProtectedRoute} from '../util/route_util';
 import { createBrowserHistory } from 'history';
 import HomePage from './home_page/home_page.jsx';
@@ -17,10 +18,10 @@ import SearchResultsContainer from './search_results/search_results_container'
 
 const customHistory = createBrowserHistory();
 const App = () => (
-    <Router history={customHistory}>
+    <BrowserRouter >
        <div id='main'>
         
-      <Switch history={customHistory}>
+      <Switch >
               <ProtectedRoute exact path="/register" component={SignupFormContainer} loggedIn />
               {/* <Route exact path="/" component={SignupFormContainer} /> */}
               <ProtectedRoute
@@ -42,7 +43,7 @@ const App = () => (
       <MusicPlayerContainer />
       
        </div>
-    </Router>
+    // </BrowserRouter>
     
 
 );

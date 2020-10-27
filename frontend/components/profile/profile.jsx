@@ -44,6 +44,7 @@ class Profile extends React.Component {
       this.closeModal = this.closeModal.bind(this)
       this.handleClickOutside = this.handleClickOutside.bind(this);
       this.submitChanges = this.submitChanges.bind(this)
+     
 
       
       
@@ -53,19 +54,24 @@ class Profile extends React.Component {
 
 
     componentDidMount() {
+      // if (this.props.profileUser.city) {
+      //   this.setState({city: this.props.profileUser.city})
+      // }
+      
       this.setState({
         loading: false,
        
         // city: this.props.profileUser.city
       })
-      console.log('hey')
+      // console.log(this.props.profileUser)
       this.props.fetchUserInfo(this.props.match.params.display_name);
-      // let editModal
-      // if (document.getElementById('editModal')) {
-      // editModal = document.getElementById('editModal')
-      // editModal.addEventListener('click', this.handleClickOutside, true)
-      // }
+
+    
     }
+
+    
+
+   
 
   //   componentWillUnmount() {
   //     // let editModal = document.getElementById('editModal')
@@ -91,9 +97,13 @@ class Profile extends React.Component {
         // if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
         // // this.props.getSongs(this.props.profileUser)
         // this.props.getSongs(this.props.match.params.display_name)
-        console.log('ohcrap3')
-       
       }
+
+      // if ( this.props.profileUser && this.props.profileUser.city && this.state.city === null) {
+      //   this.setState({city: this.props.profileUser.city})
+      // }
+
+      
     }
 
    
@@ -146,7 +156,8 @@ class Profile extends React.Component {
       if (this.state.last_name) formData.append('user[last_name]', this.state.last_name);
       if (this.state.display_name) formData.append('user[display_name]', this.state.display_name);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-      .then(() => history.pushState({}, "", `/${this.state.display_name}`))
+      if (this.state.display_name) history.pushState({}, "", `/${this.state.display_name}`)
+      this.closeModal()
     }
 
     
@@ -197,6 +208,9 @@ class Profile extends React.Component {
 
     render(){
     //  console.log('render')
+
+    
+
     if (this.state.showEditModal) {
      
       document.body.style.overflow = 'hidden';
@@ -380,6 +394,20 @@ class Profile extends React.Component {
         )
       }
 
+      let location
+      if (this.props.profileUser) {
+        if (this.props.profileUser.city && this.props.profileUser.country) {
+          location = `${this.props.profileUser.city}, ${this.props.profileUser.country}`
+        } else if (this.props.profileUser.city) {
+          location = `${this.props.profileUser.city}`
+        } else if (this.props.profileUser.country) {
+          location = `${this.props.profileUser.country}`
+        } else {
+          location = ""
+        }
+      }
+
+      
       let userEditModal 
       if (this.props.currentUser) {
       userEditModal = (
@@ -499,7 +527,8 @@ class Profile extends React.Component {
                      
                 <div className="info-basic">
                   <a className="nameplate" > {user.display_name} </a>
-                  {/* <a className="location-plate" > {location} </a> */}
+                  {location ? <a className="location-plate" > {location} </a> : "" }
+          
                 </div>
 
                 

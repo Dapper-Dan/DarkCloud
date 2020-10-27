@@ -38,7 +38,7 @@ class Api::UsersController < ApplicationController
 
     def update
         @user = User.find(params[:id])
-        @songs = @user.songs.map { |song| song}
+        @songs = @user.songs.map { |song| song }
         old_Display_Name = @user.display_name
         if @user.update(user_params)
             new_Display_Name = params[:user][:display_name]

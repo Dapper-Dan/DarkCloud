@@ -1,23 +1,28 @@
 .searchHeader {
     width: 100%;
-    border-bottom: lightgrey solid thin;
+    border-bottom: #f2f2f2 solid 1px;
     padding-top: 37px;
+    font-size: 25px;
+    margin-left: 30px;
+    
 
 }
 
 .mainSearchSplit {
     display: flex;
     width: 100%;
-    background-color: blue;
+    background-color: white;
     margin-top: 40px;
 
 }
 
 .searchLeftSideBar {
-    width: 23%;
-    height: 200px;
-    background-color: red;
-    border-bottom: grey solid thin;
+    width: 17%;
+    height: 100px;
+    background-color: white;
+    border-bottom: #f2f2f2 solid 1px;
+    margin-right: 40px;
+    margin-left: 30px;
 }
 
 
@@ -31,10 +36,62 @@
 .filteredUsers {
     padding-right: 41px;
     text-align-last: center;
+    display: flex;
 
 }
 
 .optionsArray {
     list-style-type: none;
+    padding-inline-start: 0px;
     
 }
+
+
+.filteredUserInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    margin-left: 20px;
+}
+
+.discoverUserPart {
+    font-size: 17px;
+    font-weight: 500;
+}
+.filteredUserInfo a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.filteredUserInfo a {
+    color: black;
+}
+
+.filteredUserInfo h1 {
+    color: #999;
+    font-size: 15px;
+}
+
+
+#greenResultsTab {
+    color: white;
+    background-color: #1DB954;
+    cursor: pointer;
+    
+    
+}
+
+#resultsTab {
+    cursor: pointer;
+}
+
+.searchLeftSideBar h3 {
+    font-size: 15px;
+    padding: 5px;
+}
+
+#foundHeader {
+    font-size: 15px;
+    margin-bottom: 35px;
+}
+

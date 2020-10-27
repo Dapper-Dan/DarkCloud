@@ -10,7 +10,10 @@ export default class SearchResults extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchInput: ""
+            searchInput: "",
+            showTracks: false,
+            showUsers: false,
+            showEverything: true
          
         
           
@@ -19,7 +22,7 @@ export default class SearchResults extends React.Component {
 
         // this.props.fetchUsers()
         // this.props.getBunchSongs()
-        
+        this.changeShow = this.changeShow.bind(this)
 
     }
 
@@ -31,6 +34,26 @@ export default class SearchResults extends React.Component {
         if(!this.props) {
             this.props.fetchUsers()
             this.props.getBunchSongs()
+        }
+
+    }
+
+
+    changeShow(e) {
+       
+        switch(e.target.className) {
+            case "everythingButton": 
+
+                return this.setState({showEverything: true, showTracks: false, showUsers: false})
+
+            case "tracksButton":
+              
+                return this.setState({showTracks: true, showEverything: false, showUsers: false})
+
+            case "usersButton":
+         
+                return this.setState({showTracks: false, showEverything: false, showUsers: true})
+
         }
 
     }
@@ -64,45 +87,15 @@ export default class SearchResults extends React.Component {
                 )
             }
 
-            
-        //     let users 
-        //     if (this.props.users) users = Object.values(this.props.users)
-        //     let songs 
-        //     if (this.props.songs) songs = Object.values(this.props.songs)
-
-        //     filteredSongs = songs.filter(
-        //         songItem => {
-        //             let songName = songItem.title.toLowerCase()
-        //             return songName.indexOf(searchInput.toLowerCase()) > -1
-        //         })
-        //         .concat(users.filter(
-        //             userItem => {
-        //                 let userName = userItem.display_name.toLowerCase()
-        //                 return userName.indexOf(searchInput.toLowerCase()) > -1
-        //             }
-        //         ))
-        // }
-
-        
-        // let users = Object.values(this.props.users);
-
-       
-        // filteredSongs = songs.filter(
-        //     songItem => {
-        //         let songName = songItem.title.toLowerCase()
-        //         return songName.indexOf(searchInput.toLowerCase()) > -1
-        //     })
-        //     // .concat(users.filter(
-        //         userItem => {
-        //             let userName = userItem.display_name.toLowerCase()
-        //             return userName.indexOf(searchInput.toLowerCase()) > -1
-        //         }
-        //     ))
+     
             
         } 
-        let optionsArray
+
+
+
+        let optionsEverythingArray
         if (filteredSongs) {
-            optionsArray = (
+            optionsEverythingArray = (
                 <ul className="optionsArray">
                     {filteredSongs.map((song, i) => (
                         <li key={i}>
@@ -115,9 +108,12 @@ export default class SearchResults extends React.Component {
                         <li key={i}>
                             <div className="filteredUsers">
                                 <img id="profilePic"  src={user.profilePicUrl} /> 
-                                <Link to={`/${user.display_name}`}>
-                                    <h1 className="discoverUserPart">{user.display_name}</h1>
-                                </Link>
+                                <div className="filteredUserInfo">
+                                    <Link to={`/${user.display_name}`}>
+                                        <h3 className="discoverUserPart">{user.display_name}</h3>
+                                    </Link>
+                                    <h1>{user.first_name} {user.last_name}</h1>
+                                </div>
                             </div>
                         </li>
                     )}
@@ -125,8 +121,63 @@ export default class SearchResults extends React.Component {
                 </ul>
             )
         } else {
-            optionsArray = ""
+            optionsEverythingArray = ""
         }
+
+        let optionsTracksArray
+        if (filteredSongs) {
+            optionsTracksArray =  (
+                <ul className="optionsArray">
+                    {filteredSongs.map((song, i) => (
+                        <li key={i}>
+                            <SongPartContainer song={song} profile={true}/>
+                        </li>
+
+                    ))}
+                </ul>
+            )
+        } else {
+            optionsTracksArray = ""
+        }
+
+        let optionsUsersArray
+        if (filteredUsers) {
+            optionsUsersArray =  (
+                <ul className="optionsArray">
+                    {filteredUsers.map((user, i) => 
+                        <li key={i}>
+                            <div className="filteredUsers">
+                                <img id="profilePic"  src={user.profilePicUrl} /> 
+                                <div className="filteredUserInfo">
+                                    <Link to={`/${user.display_name}`}>
+                                        <h3 className="discoverUserPart">{user.display_name}</h3>
+                                    </Link>
+                                    <h1>{user.first_name} {user.last_name}</h1>
+                                    <h1>{user.city} {user.country}</h1>
+                                </div>
+                            </div>
+                        </li>
+                    )}
+                </ul>
+            )
+        } else {
+            optionsUsersArray = ""
+        }
+
+
+        let everythingStyle
+        this.state.showEverything ? everythingStyle = "greenResultsTab" : everythingStyle = "resultsTab"
+
+        let usersStyle
+        this.state.showUsers ? usersStyle = "greenResultsTab" : usersStyle = "resultsTab"
+
+        let tracksStyle
+        this.state.showTracks ? tracksStyle = "greenResultsTab" : tracksStyle = "resultsTab"
+       
+
+
+      
+        
     
 
 
@@ -146,9 +197,23 @@ export default class SearchResults extends React.Component {
                 <div className="mainSearchSplit">
                    
 
-                    <div className="searchLeftSideBar"></div>
+                    <div className="searchLeftSideBar">
+                        <h3 className="everythingButton" id={everythingStyle} onClick={this.changeShow}><img id="profileIcon" src={window.searchButton}/>Everything</h3>
+                        <h3 className="usersButton" id={usersStyle} onClick={this.changeShow}><img id="profileIcon" src={window.profileIcon}/>Users</h3>
+                        <h3 className="tracksButton" id={tracksStyle} onClick={this.changeShow}><img id="trackIcon" src={window.trackIcon}/>Tracks</h3>
+
+                    </div>
+
+
                     <div className="searchResultsMain">
-                        {optionsArray}
+                        {filteredSongs && filteredUsers && this.state.showEverything ? <h3 id="foundHeader">{`Found ${filteredUsers.length} people, ${filteredSongs.length} tracks`}</h3> : "" }
+                        {filteredUsers && this.state.showUsers ? <h3 id="foundHeader">{`Found ${filteredUsers.length} people`}</h3> : "" }
+                        {filteredSongs && this.state.showTracks ? <h3 id="foundHeader">{`Found ${filteredSongs.length} tracks`}</h3> : "" }
+                       
+                        {this.state.showEverything ? optionsEverythingArray : ""}
+                        {this.state.showTracks ? optionsTracksArray : ""}
+                        {this.state.showUsers ? optionsUsersArray : ""}
+                        
                     </div>
 
                 </div>

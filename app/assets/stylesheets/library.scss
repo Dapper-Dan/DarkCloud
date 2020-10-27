@@ -44,9 +44,9 @@
     height: 232px;
 }
 
-.outtermost#libraryOutter {
+.outtermost#libraryOutter .libraryContainer ul { 
     @media (max-width:2000px) {
-    width: 82%
+    margin-right: 14px;
     }
 }
 

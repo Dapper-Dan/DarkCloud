@@ -155,7 +155,6 @@ export default class Discover extends React.Component {
                             <Carousel.Item>
                                 {recentUsers.slice(0, 5).map((user) => ( 
                                     <>
-                                    {console.log(user.profilePicUrl)}
                                     <div className="discoverNewUsersBox">
                                         <img id="profilePic"  src={user.profilePicUrl} /> 
                                         <Link to={`/${user.display_name}`}>

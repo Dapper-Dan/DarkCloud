@@ -47,7 +47,8 @@ class SongPart extends React.Component {
 
         this.props.song.likes[user_id] ? this.props.unlike({like, song}) : this.props.like({like, song})
        
-        this.props.getSongs(this.props.song.display_name)
+        // this.props.getSongs(this.props.song.display_name)
+        this.props.getSong(this.props.song.id)
        
       }
 
@@ -63,7 +64,7 @@ class SongPart extends React.Component {
     }
   
     componentDidUpdate() {
-      if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) { 
+      if (this.props.state.session.currentSong && this.props.song && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) { 
         let audioEle = document.getElementById('myAudio')
         
         audioEle.ontimeupdate = () => {
@@ -117,6 +118,7 @@ class SongPart extends React.Component {
     }
 
     render() {
+      
       if (!this.props.song || this.state.loading) {
         return (<p>loading...</p>)
       }
@@ -186,22 +188,13 @@ class SongPart extends React.Component {
         songGenre = ""
       }
 
-      // if (!this.props.song || this.state.loading) {
-      //   return (<p>loading...</p>)
-      // } else {
-        
-      //   creationTime = this.calculateTime(song)
-      //   console.log(creationTime)
-      //   songGenre = song.genre
-      // }
-
-      
      
   
       if (!this.props.profile) {
         
         return (
         <>
+       
           <div className="songTile">
               
           {song.pictureUrl ? (
@@ -232,6 +225,7 @@ class SongPart extends React.Component {
       } else if(this.props.song) {
         return (
           <>
+          
           <div className="songProfileTile">
               
             {song.pictureUrl ? (

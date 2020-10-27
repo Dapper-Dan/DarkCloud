@@ -247,15 +247,17 @@ var getSong = function getSong(songId) {
 };
 var getSongs = function getSongs(display_name) {
   return function (dispatch) {
-    return console.log(display_name), _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"](display_name).then(function (songs) {
-      return (// console.log(songs))
-        // const songs = res.data;
-        dispatch(receiveSongs(songs))
-      );
-    }) // .catch((err) => {
-    //     return dispatch(receiveErrors(err.response.data));
-    // })
-    ;
+    return (// console.log(display_name),
+      _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"](display_name).then(function (songs) {
+        return (// console.log(songs))
+          // const songs = res.data;
+          dispatch(receiveSongs(songs))
+        );
+      }) // .catch((err) => {
+      //     return dispatch(receiveErrors(err.response.data));
+      // })
+
+    );
   };
 };
 var getBunchSongs = function getBunchSongs() {
@@ -275,9 +277,9 @@ var like = function like(_ref) {
   var like = _ref.like,
       song = _ref.song;
   return function (dispatch) {
-    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["like"](like) // .then(() => 
-    //    dispatch(receiveSongs(song))  )
-    // .catch((err) => {
+    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["like"](like).then(function () {
+      return dispatch(receiveSong(song));
+    }) // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
     ;
@@ -287,9 +289,9 @@ var unlike = function unlike(_ref2) {
   var like = _ref2.like,
       song = _ref2.song;
   return function (dispatch) {
-    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["unlike"](like) // .then(() => 
-    //    dispatch(receiveSong(song))  )
-    // .catch((err) => {
+    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["unlike"](like).then(function () {
+      return dispatch(receiveSong(song));
+    }) // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
     ;
@@ -763,7 +765,7 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         id: "discoverCaro",
         wrap: false
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_6__["default"].Item, null, recentUsers.slice(0, 5).map(function (user) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, console.log(user.profilePicUrl), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "discoverNewUsersBox"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           id: "profilePic",
@@ -2229,9 +2231,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       last_name: ""
     };
 
-    _this.props.getSongs(_this.props.match.params.display_name);
+    _this.props.getSongs(_this.props.match.params.display_name); // this.props.fetchUserInfo(this.props.match.params.display_name);
 
-    _this.props.fetchUserInfo(_this.props.match.params.display_name);
 
     if (_this.props.state.session.currentUser) {
       _this.props.fetchUser(_this.props.state.session.currentUser.id);
@@ -2247,30 +2248,19 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     _this.change = _this.change.bind(_assertThisInitialized(_this));
     _this.closeModal = _this.closeModal.bind(_assertThisInitialized(_this));
     _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
+    _this.submitChanges = _this.submitChanges.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Profile, [{
-    key: "change",
-    value: function change() {
-      var _this2 = this;
-
-      var formData = new FormData();
-      formData.append('user[display_name]', this.val);
-      this.props.editUser({
-        form: formData,
-        user: this.props.currentUser,
-        songs: this.props.songs
-      }).then(function () {
-        return history.pushState({}, "", "/".concat(_this2.val));
-      });
-    }
-  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState({
-        loading: false
-      }); // let editModal
+        loading: false // city: this.props.profileUser.city
+
+      });
+      console.log('hey');
+      this.props.fetchUserInfo(this.props.match.params.display_name); // let editModal
       // if (document.getElementById('editModal')) {
       // editModal = document.getElementById('editModal')
       // editModal.addEventListener('click', this.handleClickOutside, true)
@@ -2301,54 +2291,59 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      console.log('cdid');
-
+      //  console.log('ouch')
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-        //might switch this to profile_user
-        console.log('update');
-        this.props.fetchUserInfo(this.props.match.params.display_name);
-        if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id); // this.props.getSongs(this.props.profileUser)
+        //  console.log('ohcrap')
+        this.props.fetchUserInfo(this.props.match.params.display_name); // if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
+        // // this.props.getSongs(this.props.profileUser)
+        // this.props.getSongs(this.props.match.params.display_name)
 
-        this.props.getSongs(this.props.match.params.display_name);
+        console.log('ohcrap3');
       }
     }
   }, {
     key: "update",
     value: function update(value) {
-      var _this3 = this;
+      var _this2 = this;
 
       return function (e) {
-        _this3[value] = e.target.files[0];
+        _this2[value] = e.target.files[0];
         var file = e.target.files[0];
         var fileReader = new FileReader();
         fileReader.readAsDataURL(file);
 
         fileReader.onloadend = function () {
-          _this3.setState(_defineProperty({}, value, fileReader.result));
+          _this2.setState(_defineProperty({}, value, fileReader.result));
         };
 
         if (value === "cover_pic") {
-          _this3.setState({
+          _this2.setState({
             showConfirmCover: true
           });
         } else {
-          _this3.setState({
+          _this2.setState({
             showConfirmProfile: true
           });
         }
 
-        _this3.setState({
+        _this2.setState({
           showPicOption: true
         });
       };
-    }
+    } // change() {
+    //   const formData = new FormData();
+    //   formData.append('user[display_name]', this.val);
+    //   this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
+    //   .then(() => history.pushState({}, "", `/${this.val}`))
+    // }
+
   }, {
     key: "change",
     value: function change(value) {
-      var _this4 = this;
+      var _this3 = this;
 
       return function (e) {
-        return _this4.setState(_defineProperty({}, value, e.target.value));
+        return _this3.setState(_defineProperty({}, value, e.target.value));
       };
     }
   }, {
@@ -2356,6 +2351,26 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     value: function handleUserClick() {
       this.setState({
         showEditModal: true
+      });
+    }
+  }, {
+    key: "submitChanges",
+    value: function submitChanges(e) {
+      var _this4 = this;
+
+      e.preventDefault();
+      var formData = new FormData();
+      if (this.state.city) formData.append('user[city]', this.state.city);
+      if (this.state.country) formData.append('user[country]', this.state.country);
+      if (this.state.first_name) formData.append('user[first_name]', this.state.first_name);
+      if (this.state.last_name) formData.append('user[last_name]', this.state.last_name);
+      if (this.state.display_name) formData.append('user[display_name]', this.state.display_name);
+      this.props.editUser({
+        form: formData,
+        user: this.props.currentUser,
+        songs: this.props.songs
+      }).then(function () {
+        return history.pushState({}, "", "/".concat(_this4.state.display_name));
       });
     }
   }, {
@@ -2416,16 +2431,13 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      //  console.log(this.props.match.params.display_name)
+      //  console.log('render')
       if (this.state.showEditModal) {
-        console.log('hide');
         document.body.style.overflow = 'hidden';
       } else {
-        console.log('nomo');
         document.body.style.overflow = 'unset';
       }
 
-      console.log('render');
       if (this.state.loading) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "loading....");
       var songs;
 
@@ -2448,8 +2460,6 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       var renderSongs;
 
       if (songs && songs.length > 0) {
-        console.log(songs);
-        console.log('itsrendersongs1');
         renderSongs = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song, i) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: i,
@@ -2641,7 +2651,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           className: "songFormCancelButton",
           onClick: this.closeModal
         }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "songFormButton"
+          className: "songFormButton",
+          onClick: this.submitChanges
         }, "Save changes"))))));
       }
 
@@ -2868,7 +2879,6 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log('ehl');
       document.addEventListener('click', this.handleClickOutside, true);
       this.setState({
         loading: false
@@ -3172,47 +3182,88 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.props.match.params);
+      console.log(this.state.searchInput);
+      var searchInput;
       var filteredSongs;
+      var filteredUsers;
 
       if (this.props.match.params.searchInput) {
-        var searchInput = this.props.match.params.searchInput; // let filteredSongs
+        searchInput = this.props.match.params.searchInput;
 
         if (this.props.songs) {
-          var songs = Object.values(this.props.songs); // if (!songs) return
-          // console.log(songs)
-
+          var songs = Object.values(this.props.songs);
           filteredSongs = songs.filter(function (songItem) {
-            console.log(songItem.title);
+            // console.log(songItem.title)
             var songName = songItem.title.toLowerCase();
             return songName.indexOf(searchInput.toLowerCase()) > -1;
           });
         }
-      } // let users = Object.values(this.props.users);
-      // filteredSongs = songs.filter(
-      //     songItem => {
-      //         let songName = songItem.title.toLowerCase()
-      //         return songName.indexOf(searchInput.toLowerCase()) > -1
-      //     })
-      //     // .concat(users.filter(
-      //     userItem => {
-      //         let userName = userItem.display_name.toLowerCase()
-      //         return userName.indexOf(searchInput.toLowerCase()) > -1
-      //     }
-      // ))
 
+        if (this.props.users) {
+          var users = Object.values(this.props.users);
+          filteredUsers = users.filter(function (userItem) {
+            var username = userItem.display_name.toLowerCase();
+            return username.indexOf(searchInput.toLowerCase()) > -1;
+          });
+        } //     let users 
+        //     if (this.props.users) users = Object.values(this.props.users)
+        //     let songs 
+        //     if (this.props.songs) songs = Object.values(this.props.songs)
+        //     filteredSongs = songs.filter(
+        //         songItem => {
+        //             let songName = songItem.title.toLowerCase()
+        //             return songName.indexOf(searchInput.toLowerCase()) > -1
+        //         })
+        //         .concat(users.filter(
+        //             userItem => {
+        //                 let userName = userItem.display_name.toLowerCase()
+        //                 return userName.indexOf(searchInput.toLowerCase()) > -1
+        //             }
+        //         ))
+        // }
+        // let users = Object.values(this.props.users);
+        // filteredSongs = songs.filter(
+        //     songItem => {
+        //         let songName = songItem.title.toLowerCase()
+        //         return songName.indexOf(searchInput.toLowerCase()) > -1
+        //     })
+        //     // .concat(users.filter(
+        //         userItem => {
+        //             let userName = userItem.display_name.toLowerCase()
+        //             return userName.indexOf(searchInput.toLowerCase()) > -1
+        //         }
+        //     ))
+
+      }
 
       var optionsArray;
 
       if (filteredSongs) {
-        optionsArray = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, filteredSongs.map(function (song, i) {
+        optionsArray = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "optionsArray"
+        }, filteredSongs.map(function (song, i) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: i
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_song_part_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
             song: song,
             profile: true
           }));
+        }), filteredUsers.map(function (user, i) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: i
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "filteredUsers"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            id: "profilePic",
+            src: user.profilePicUrl
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+            to: "/".concat(user.display_name)
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+            className: "discoverUserPart"
+          }, user.display_name))));
         }));
+      } else {
+        optionsArray = "";
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3223,7 +3274,7 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
         className: "outtermost"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "searchHeader"
-      }, " some stuff"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Search results for \"".concat(searchInput, "\"")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mainSearchSplit"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "searchLeftSideBar"
@@ -4384,8 +4435,9 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       }) : this.props.like({
         like: like,
         song: song
-      });
-      this.props.getSongs(this.props.song.display_name);
+      }); // this.props.getSongs(this.props.song.display_name)
+
+      this.props.getSong(this.props.song.id);
     }
   }, {
     key: "componentDidMount",
@@ -4406,7 +4458,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate() {
       var _this2 = this;
 
-      if (this.props.state.session.currentSong && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
+      if (this.props.state.session.currentSong && this.props.song && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
         var audioEle = document.getElementById('myAudio');
 
         audioEle.ontimeupdate = function () {
@@ -4534,14 +4586,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       } else {
         creationTime = "";
         songGenre = "";
-      } // if (!this.props.song || this.state.loading) {
-      //   return (<p>loading...</p>)
-      // } else {
-      //   creationTime = this.calculateTime(song)
-      //   console.log(creationTime)
-      //   songGenre = song.genre
-      // }
-
+      }
 
       if (!this.props.profile) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4924,9 +4969,16 @@ var configureStore = function configureStore() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "like", function() { return like; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unlike", function() { return unlike; });
+// export const like = like => (
+//     $.ajax({
+//       url: 'api/likes',
+//       method: 'POST',
+//       data: {like}
+//     })
+//   )
 var like = function like(_like) {
   return $.ajax({
-    url: 'api/likes',
+    url: '/api/likes',
     method: 'POST',
     data: {
       like: _like
@@ -4935,13 +4987,19 @@ var like = function like(_like) {
 };
 var unlike = function unlike(like) {
   return $.ajax({
-    url: "api/likes/".concat(like.likeId),
+    url: "/api/likes/".concat(like.likeId),
     method: 'DELETE',
     data: {
       like: like
     }
   });
-};
+}; // export const unlike = like => (
+//     $.ajax({
+//       url: `api/likes/${like.likeId}`,
+//       method: 'DELETE',
+//       data: {like}
+//     })
+// )
 
 /***/ }),
 
@@ -5025,7 +5083,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 var signup = function signup(user) {
   return $.ajax({
-    url: 'api/users',
+    url: '/api/users',
     method: 'POST',
     data: user,
     processData: false,
@@ -5034,7 +5092,7 @@ var signup = function signup(user) {
 };
 var login = function login(user) {
   return $.ajax({
-    url: 'api/session',
+    url: '/api/session',
     method: 'POST',
     data: {
       user: user
@@ -5043,7 +5101,7 @@ var login = function login(user) {
 };
 var logout = function logout() {
   return $.ajax({
-    url: 'api/session',
+    url: '/api/session',
     method: 'DELETE'
   });
 };
@@ -5122,10 +5180,17 @@ var fetchUsers = function fetchUsers() {
     url: "/api/users/",
     method: 'GET'
   });
-};
+}; // export const fetchUserInfo = display_name => (
+//   $.ajax({
+//     url: `api/users/${display_name}/fetchUserInfo`,
+//     method: 'GET',
+//     data: {user: {display_name: display_name}}
+//   })
+// );
+
 var fetchUserInfo = function fetchUserInfo(display_name) {
   return $.ajax({
-    url: "api/users/".concat(display_name, "/fetchUserInfo"),
+    url: "/api/users/".concat(display_name, "/fetchUserInfo"),
     method: 'GET',
     data: {
       user: {
@@ -5133,10 +5198,19 @@ var fetchUserInfo = function fetchUserInfo(display_name) {
       }
     }
   });
-};
+}; // export const editCurrentUser = data => (
+//   $.ajax({
+//     url: `api/users/${data.user.id}`,
+//     method: 'PATCH',
+//     data: data.form,
+//     contentType: false,
+//     processData: false
+//   })
+// )
+
 var editCurrentUser = function editCurrentUser(data) {
   return $.ajax({
-    url: "api/users/".concat(data.user.id),
+    url: "/api/users/".concat(data.user.id),
     method: 'PATCH',
     data: data.form,
     contentType: false,

@@ -1,6 +1,8 @@
 .searchHeader {
     width: 100%;
-    border-bottom: gray solid thin;
+    border-bottom: lightgrey solid thin;
+    padding-top: 37px;
+
 }
 
 .mainSearchSplit {
@@ -18,6 +20,21 @@
     border-bottom: grey solid thin;
 }
 
-// .searchResultMain {
 
-// }
+.filteredUsers #profilePic {
+    border-radius: 50%;
+    height: 180px;
+    width: 180px;
+    margin-bottom: 15px;
+}
+
+.filteredUsers {
+    padding-right: 41px;
+    text-align-last: center;
+
+}
+
+.optionsArray {
+    list-style-type: none;
+    
+}

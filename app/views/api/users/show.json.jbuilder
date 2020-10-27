@@ -1,5 +1,5 @@
 # json.partial! 'api/users/user', user: @user
-json.extract! @user, :id, :display_name, :email, :age, :gender, :profile_photo, :cover_photo
+json.extract! @user, :id, :display_name, :email, :age, :gender, :profile_photo, :cover_photo, :city, :country, :first_name, :last_name
 json.likes @user.liked_songs
 json.profilePicUrl @user.profile_photo.attached? ? url_for(@user.profile_photo) : false
 json.coverPicUrl @user.cover_photo.attached? ? url_for(@user.cover_photo) : false

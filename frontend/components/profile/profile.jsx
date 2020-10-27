@@ -27,7 +27,7 @@ class Profile extends React.Component {
     }
 
       this.props.getSongs(this.props.match.params.display_name)
-      this.props.fetchUserInfo(this.props.match.params.display_name);
+      // this.props.fetchUserInfo(this.props.match.params.display_name);
 
       if (this.props.state.session.currentUser) {
         this.props.fetchUser(this.props.state.session.currentUser.id)
@@ -43,6 +43,7 @@ class Profile extends React.Component {
       this.change = this.change.bind(this)
       this.closeModal = this.closeModal.bind(this)
       this.handleClickOutside = this.handleClickOutside.bind(this);
+      this.submitChanges = this.submitChanges.bind(this)
 
       
       
@@ -50,16 +51,15 @@ class Profile extends React.Component {
     }
    
 
-    change() {
-      const formData = new FormData();
-      formData.append('user[display_name]', this.val);
-      this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-      .then(() => history.pushState({}, "", `/${this.val}`))
-      
-    }
 
     componentDidMount() {
-      this.setState({loading: false})
+      this.setState({
+        loading: false,
+       
+        // city: this.props.profileUser.city
+      })
+      console.log('hey')
+      this.props.fetchUserInfo(this.props.match.params.display_name);
       // let editModal
       // if (document.getElementById('editModal')) {
       // editModal = document.getElementById('editModal')
@@ -84,13 +84,14 @@ class Profile extends React.Component {
     }
 
     componentDidUpdate() {
-      console.log('cdid')
-      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) { //might switch this to profile_user
-        console.log('update')
+    //  console.log('ouch')
+      if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
+      //  console.log('ohcrap')
         this.props.fetchUserInfo(this.props.match.params.display_name);
-        if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
-        // this.props.getSongs(this.props.profileUser)
-        this.props.getSongs(this.props.match.params.display_name)
+        // if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
+        // // this.props.getSongs(this.props.profileUser)
+        // this.props.getSongs(this.props.match.params.display_name)
+        console.log('ohcrap3')
        
       }
     }
@@ -118,6 +119,14 @@ class Profile extends React.Component {
       }
     }
 
+    // change() {
+    //   const formData = new FormData();
+    //   formData.append('user[display_name]', this.val);
+    //   this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
+    //   .then(() => history.pushState({}, "", `/${this.val}`))
+      
+    // }
+
 
 
     change(value) {
@@ -126,6 +135,18 @@ class Profile extends React.Component {
 
     handleUserClick() {
       this.setState({showEditModal: true})
+    }
+
+    submitChanges(e) {
+      e.preventDefault()
+      const formData = new FormData();
+      if (this.state.city) formData.append('user[city]', this.state.city);
+      if (this.state.country) formData.append('user[country]', this.state.country);
+      if (this.state.first_name) formData.append('user[first_name]', this.state.first_name);
+      if (this.state.last_name) formData.append('user[last_name]', this.state.last_name);
+      if (this.state.display_name) formData.append('user[display_name]', this.state.display_name);
+      this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
+      .then(() => history.pushState({}, "", `/${this.state.display_name}`))
     }
 
     
@@ -175,17 +196,17 @@ class Profile extends React.Component {
 
 
     render(){
-    //  console.log(this.props.match.params.display_name)
+    //  console.log('render')
     if (this.state.showEditModal) {
-      console.log('hide')
+     
       document.body.style.overflow = 'hidden';
     } else {
-      console.log('nomo')
+   
       document.body.style.overflow = 'unset';
     }
 
 
-    console.log('render')
+  
      
       if(this.state.loading) return (<div>loading....</div>)
     
@@ -212,8 +233,7 @@ class Profile extends React.Component {
 
       let renderSongs
       if (songs && songs.length > 0) {
-        console.log(songs)
-        console.log('itsrendersongs1')
+    
         renderSongs = (
           <ul>
             {songs.map((song, i) => ( 
@@ -435,7 +455,7 @@ class Profile extends React.Component {
                   </div> 
                 </div>
               <button className="songFormCancelButton" onClick={this.closeModal}>Cancel</button>
-              <button className="songFormButton">Save changes</button>
+              <button className="songFormButton" onClick={this.submitChanges}>Save changes</button>
               </div>
             </div>
           </div>

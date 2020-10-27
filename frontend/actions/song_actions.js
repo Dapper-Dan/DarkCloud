@@ -57,7 +57,7 @@ export const getSong = (songId) => dispatch =>(
 );
 
 export const getSongs = (display_name) => dispatch => (
-    console.log(display_name),
+    // console.log(display_name),
     APIUtil.getSongs(display_name)
         .then((songs) => 
         // console.log(songs))
@@ -86,8 +86,8 @@ export const getBunchSongs = () => dispatch => (
 
 export const like = ({like, song}) => dispatch => (
     LikesAPIUtil.like(like)
-        // .then(() => 
-        //    dispatch(receiveSongs(song))  )
+        .then(() => 
+           dispatch(receiveSong(song))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));
@@ -96,8 +96,8 @@ export const like = ({like, song}) => dispatch => (
 
 export const unlike = ({like, song}) => dispatch => (
     LikesAPIUtil.unlike(like)
-        // .then(() => 
-        //    dispatch(receiveSong(song))  )
+        .then(() => 
+           dispatch(receiveSong(song))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));

@@ -46,7 +46,7 @@ export default class SearchBar extends React.Component {
 
 
     componentDidMount() {
- console.log('ehl')
+
         document.addEventListener('click', this.handleClickOutside, true);
      
         this.setState( {loading: false})

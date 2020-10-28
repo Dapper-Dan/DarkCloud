@@ -2342,16 +2342,10 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      //  console.log('ouch')
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-        //  console.log('ohcrap')
-        this.props.fetchUserInfo(this.props.match.params.display_name); // if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
-        // // this.props.getSongs(this.props.profileUser)
-        // this.props.getSongs(this.props.match.params.display_name)
-      } // if ( this.props.profileUser && this.props.profileUser.city && this.state.city === null) {
-      //   this.setState({city: this.props.profileUser.city})
-      // }
-
+        // this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.fetchUserInfo(this.props.profileUser.display_name);
+      }
     }
   }, {
     key: "update",
@@ -5381,14 +5375,7 @@ var fetchUsers = function fetchUsers() {
     url: "/api/users/",
     method: 'GET'
   });
-}; // export const fetchUserInfo = display_name => (
-//   $.ajax({
-//     url: `api/users/${display_name}/fetchUserInfo`,
-//     method: 'GET',
-//     data: {user: {display_name: display_name}}
-//   })
-// );
-
+};
 var fetchUserInfo = function fetchUserInfo(display_name) {
   return $.ajax({
     url: "/api/users/".concat(display_name, "/fetchUserInfo"),
@@ -5399,16 +5386,7 @@ var fetchUserInfo = function fetchUserInfo(display_name) {
       }
     }
   });
-}; // export const editCurrentUser = data => (
-//   $.ajax({
-//     url: `api/users/${data.user.id}`,
-//     method: 'PATCH',
-//     data: data.form,
-//     contentType: false,
-//     processData: false
-//   })
-// )
-
+};
 var editCurrentUser = function editCurrentUser(data) {
   return $.ajax({
     url: "/api/users/".concat(data.user.id),

@@ -12,13 +12,7 @@ export const fetchUsers = () => (
   })
 );
   
-// export const fetchUserInfo = display_name => (
-//   $.ajax({
-//     url: `api/users/${display_name}/fetchUserInfo`,
-//     method: 'GET',
-//     data: {user: {display_name: display_name}}
-//   })
-// );
+
 
 export const fetchUserInfo = display_name => (
   $.ajax({
@@ -28,15 +22,7 @@ export const fetchUserInfo = display_name => (
   })
 );
   
-// export const editCurrentUser = data => (
-//   $.ajax({
-//     url: `api/users/${data.user.id}`,
-//     method: 'PATCH',
-//     data: data.form,
-//     contentType: false,
-//     processData: false
-//   })
-// )
+
 
 export const editCurrentUser = data => (
   $.ajax({

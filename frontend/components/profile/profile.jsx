@@ -90,19 +90,15 @@ class Profile extends React.Component {
     }
 
     componentDidUpdate() {
-    //  console.log('ouch')
+
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-      //  console.log('ohcrap')
-        this.props.fetchUserInfo(this.props.match.params.display_name);
-        // if (this.props.currentUser) this.props.fetchUser(this.props.state.session.currentUser.id)
-        // // this.props.getSongs(this.props.profileUser)
-        // this.props.getSongs(this.props.match.params.display_name)
+     
+        // this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.fetchUserInfo(this.props.profileUser.display_name);
+       
       }
 
-      // if ( this.props.profileUser && this.props.profileUser.city && this.state.city === null) {
-      //   this.setState({city: this.props.profileUser.city})
-      // }
-
+   
       
     }
 

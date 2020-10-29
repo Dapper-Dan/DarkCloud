@@ -17,7 +17,8 @@ class SignupForm extends React.Component {
       gender: "",
       cover_photo: "",
       profile_photo: "",
-      location: ""
+      location: "",
+      // redirect
       
 
     };
@@ -43,10 +44,13 @@ class SignupForm extends React.Component {
       // formData.append('user[profile_photo]',  window.profile);
       // formData.append('user[cover_photo]', this.state.cover_photo);
       this.props.action(formData)
+      // this.setState({redirect: true})
 
       
       setTimeout(() => {
+        if (this.props.currentUser) console.log('eeeyyyo')
         if (this.props.currentUser) this.props.changeShow()
+        
       }, 300)
   }
 
@@ -188,6 +192,7 @@ class SignupForm extends React.Component {
         <NavLink id="signup-navLink" to="/discover">
          <button className="signup-form-button" onClick={ this.handleSignup }> Get started </button>
         </NavLink>
+        {this.props.currentUser ? <Redirect to="/discover" /> : ""}
         </div>
         )
         

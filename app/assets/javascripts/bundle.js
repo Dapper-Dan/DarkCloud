@@ -500,7 +500,7 @@ var App = function App() {
     exact: true,
     path: "/:display_name",
     component: _profile_profile_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)), "// ");
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_music_player_music_player_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);

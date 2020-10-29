@@ -43,7 +43,7 @@ const App = () => (
       <MusicPlayerContainer />
       
        </div>
-    // </BrowserRouter>
+     </BrowserRouter>
     
 
 );

@@ -163,7 +163,9 @@ class SongPart extends React.Component {
 
       let likeButtonStyle
       if(this.props.currentUser) {
+        console.log('firstlvl')
         if (song.likes && song.likes[this.props.currentUser.id]) {
+          console.log('second')
           likeButtonStyle = "greenButton"
         }
       }

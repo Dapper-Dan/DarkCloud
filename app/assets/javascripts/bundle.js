@@ -332,6 +332,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_apil_util.jsx */ "./frontend/util/user_apil_util.jsx");
 /* harmony import */ var _song_actions_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./song_actions.js */ "./frontend/actions/song_actions.js");
 /* harmony import */ var _session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _util_song_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/song_api_util */ "./frontend/util/song_api_util.jsx");
+
 
 
 
@@ -381,8 +383,10 @@ var editCurrentUser = function editCurrentUser(data) {
   return function (dispatch) {
     return _util_user_apil_util_jsx__WEBPACK_IMPORTED_MODULE_0__["editCurrentUser"](data).then(function (user) {
       dispatch(receiveProfileUser(user));
-      dispatch(Object(_song_actions_js__WEBPACK_IMPORTED_MODULE_1__["receiveSongs"])(user.songs));
       dispatch(Object(_session_actions__WEBPACK_IMPORTED_MODULE_2__["receiveCurrentUser"])(user));
+      _util_song_api_util__WEBPACK_IMPORTED_MODULE_3__["getSongs"](user.display_name).then(function (songs) {
+        return dispatch(Object(_song_actions_js__WEBPACK_IMPORTED_MODULE_1__["receiveSongs"])(songs));
+      });
     });
   };
 };
@@ -4744,7 +4748,10 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       var likeButtonStyle;
 
       if (this.props.currentUser) {
+        console.log('firstlvl');
+
         if (song.likes && song.likes[this.props.currentUser.id]) {
+          console.log('second');
           likeButtonStyle = "greenButton";
         }
       }

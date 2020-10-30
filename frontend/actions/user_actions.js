@@ -1,6 +1,7 @@
 import * as UserAPIUtil from "../util/user_apil_util.jsx";
 import { receiveSongs } from "./song_actions.js";
 import {receiveCurrentUser} from "./session_actions"
+import * as SongsAPIUtil from "../util/song_api_util"
 
 export const RECEIVE_USER = "RECEIVE_USER";
 export const RECEIVE_USERS = "RECEIVE_USERS";
@@ -50,7 +51,8 @@ export const editCurrentUser = (data) => dispatch => (
   UserAPIUtil.editCurrentUser(data)
     .then(user => {
       dispatch(receiveProfileUser(user))
-      dispatch(receiveSongs(user.songs))
       dispatch(receiveCurrentUser(user))
+      SongsAPIUtil.getSongs(user.display_name)
+      .then((songs) => dispatch(receiveSongs(songs)))
     })
 )

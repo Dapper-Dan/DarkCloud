@@ -39,6 +39,8 @@ class SongForm extends React.Component {
 
     handleSubmit(e) {
       e.preventDefault();
+      let submitButton = document.getElementById('songFormSubmitButton')
+      submitButton.innerHTML = "Uploading song..."
       const formData = new FormData();
       formData.append('song[songImage]', this.state.songImage);
       formData.append('song[title]', this.state.title);
@@ -48,12 +50,15 @@ class SongForm extends React.Component {
       formData.append('song[music]', this.state.music);
       formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData)
-      setTimeout(() => {
-        if (this.props.state.entities.songs.currentSong) {
-          console.log('hello')
-          this._next()
-        }
-      }, 500)
+      .then(() => this._next())
+      // let submitButton = document.getElementById('songFormSubmitButton')
+      // submitButton.innerHTML = "Uploading song..."
+      // setTimeout(() => {
+      //   if (this.props.state.entities.songs.newSong) {
+      //     console.log('hello')
+      //     this._next()
+      //   }
+      // }, 1000)
       
     }
 
@@ -283,7 +288,7 @@ class SongForm extends React.Component {
               <div className="songFormButtonContainer">
 
                 <button className="songFormCancelButton" onClick={this.handleCancel}> Cancel </button>
-                <button className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
+                <button id="songFormSubmitButton" className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
               </div>
             </div>
 

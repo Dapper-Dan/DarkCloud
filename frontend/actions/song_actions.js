@@ -91,8 +91,8 @@ export const getBunchSongs = () => dispatch => (
 
 export const like = ({like, song}) => dispatch => (
     LikesAPIUtil.like(like)
-        .then(() => 
-           dispatch(receiveSong(song))  )
+        // .then(() => 
+        //    dispatch(receiveSong(song))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));
@@ -101,8 +101,8 @@ export const like = ({like, song}) => dispatch => (
 
 export const unlike = ({like, song}) => dispatch => (
     LikesAPIUtil.unlike(like)
-        .then(() => 
-           dispatch(receiveSong(song))  )
+        // .then(() => 
+        //    dispatch(receiveSong(song))  )
         
         // .catch((err) => {
         //     return dispatch(receiveErrors(err.response.data));

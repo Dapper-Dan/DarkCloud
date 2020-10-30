@@ -171,26 +171,31 @@ class Profile extends React.Component {
 
     uploadProfileImage(e) {
       e.preventDefault()
+      let confirmButton = document.getElementById("profile-confirm")
+      confirmButton.innerHTML = "Uploading picture..."
       const formData = new FormData();
       formData.append('user[profile_photo]', this.profile_pic);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-      this.setState({
+      .then(() => this.setState({
         showConfirmProfile: false,
         showConfirmCover: false,
         showPicOption: false
-      })
+      }))
+      
     }
 
     uploadCoverImage(e) {
       e.preventDefault()
+      let confirmButton = document.getElementById("cover-confirm")
+      confirmButton.innerHTML = "Uploading picture..."
       const formData = new FormData();
       formData.append('user[cover_photo]', this.cover_pic);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-      this.setState({
-        showConfirmCover: false,
+      .then(() => this.setState({
         showConfirmProfile: false,
+        showConfirmCover: false,
         showPicOption: false
-      })
+      }))
     }
 
     cancelUpload() {
@@ -231,15 +236,7 @@ class Profile extends React.Component {
           if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
       })
      
-      // } else if (this.props.state.entities.songs) {
-      //   songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
-      //     if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
-      //     if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
-      //     if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
-      //   })
-      // } else {
-      // } else {
-      //   return (<div>loading...</div>)
+   
       }
 
       
@@ -281,34 +278,6 @@ class Profile extends React.Component {
         if (this.props.currentUser.id === user.id) currentUserProfile = true;
       }
 
-      // let liked_songs
-      // if (currentUserProfile) liked_songs = user.likes
-
-      // // console.log(liked_songs)
-
-      // let location
-      // if (user.location) {
-      //   location = user.location
-      // } else {
-      //   location = ""
-      // }
-
-      // let pictureUpload
-      // if (currentUserProfile) {  CHANGE DISPLAY INFO
-      
-      //   pictureUpload = (
-      //     <>
-      //     <input
-      //     className="signup-email-input" 
-      //     placeholder="Your email address"
-      //     type="text"
-      //     onChange={this.update('email')}
-      //     value={this.val}
-      //   />
-      //     <button onClick={this.change}>Upload image</button>
-      //     </>
-      //     )
-      // }
       let profPic
       if (this.profile_pic && this.state.showPicOption) {
         profPic = this.state.profile_pic

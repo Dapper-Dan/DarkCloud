@@ -50,7 +50,7 @@ class SongPart extends React.Component {
         this.props.song.likes[user_id] ? this.props.unlike({like, song}) : this.props.like({like, song})
        
         this.props.getSongs(this.props.song.display_name)
-        this.props.getSong(this.props.song.id)
+        // this.props.getSong(this.props.song.id)
 
         if (this.props.searchResults) this.props.getBunchSongs()
        

@@ -284,9 +284,9 @@ var like = function like(_ref) {
   var like = _ref.like,
       song = _ref.song;
   return function (dispatch) {
-    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["like"](like).then(function () {
-      return dispatch(receiveSong(song));
-    }) // .catch((err) => {
+    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["like"](like) // .then(() => 
+    //    dispatch(receiveSong(song))  )
+    // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
     ;
@@ -296,9 +296,9 @@ var unlike = function unlike(_ref2) {
   var like = _ref2.like,
       song = _ref2.song;
   return function (dispatch) {
-    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["unlike"](like).then(function () {
-      return dispatch(receiveSong(song));
-    }) // .catch((err) => {
+    return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["unlike"](like) // .then(() => 
+    //    dispatch(receiveSong(song))  )
+    // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
     ;
@@ -2439,35 +2439,45 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "uploadProfileImage",
     value: function uploadProfileImage(e) {
+      var _this4 = this;
+
       e.preventDefault();
+      var confirmButton = document.getElementById("profile-confirm");
+      confirmButton.innerHTML = "Uploading picture...";
       var formData = new FormData();
       formData.append('user[profile_photo]', this.profile_pic);
       this.props.editUser({
         form: formData,
         user: this.props.currentUser,
         songs: this.props.songs
-      });
-      this.setState({
-        showConfirmProfile: false,
-        showConfirmCover: false,
-        showPicOption: false
+      }).then(function () {
+        return _this4.setState({
+          showConfirmProfile: false,
+          showConfirmCover: false,
+          showPicOption: false
+        });
       });
     }
   }, {
     key: "uploadCoverImage",
     value: function uploadCoverImage(e) {
+      var _this5 = this;
+
       e.preventDefault();
+      var confirmButton = document.getElementById("cover-confirm");
+      confirmButton.innerHTML = "Uploading picture...";
       var formData = new FormData();
       formData.append('user[cover_photo]', this.cover_pic);
       this.props.editUser({
         form: formData,
         user: this.props.currentUser,
         songs: this.props.songs
-      });
-      this.setState({
-        showConfirmCover: false,
-        showConfirmProfile: false,
-        showPicOption: false
+      }).then(function () {
+        return _this5.setState({
+          showConfirmProfile: false,
+          showConfirmCover: false,
+          showPicOption: false
+        });
       });
     }
   }, {
@@ -2497,15 +2507,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1;
           if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1;
           if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0;
-        }); // } else if (this.props.state.entities.songs) {
-        //   songs = Object.values(this.props.state.entities.songs).sort((a, b) => {
-        //     if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
-        //     if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
-        //     if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
-        //   })
-        // } else {
-        // } else {
-        //   return (<div>loading...</div>)
+        });
       }
 
       var renderSongs;
@@ -2538,31 +2540,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       if (this.props.currentUser) {
         if (this.props.currentUser.id === user.id) currentUserProfile = true;
-      } // let liked_songs
-      // if (currentUserProfile) liked_songs = user.likes
-      // // console.log(liked_songs)
-      // let location
-      // if (user.location) {
-      //   location = user.location
-      // } else {
-      //   location = ""
-      // }
-      // let pictureUpload
-      // if (currentUserProfile) {  CHANGE DISPLAY INFO
-      //   pictureUpload = (
-      //     <>
-      //     <input
-      //     className="signup-email-input" 
-      //     placeholder="Your email address"
-      //     type="text"
-      //     onChange={this.update('email')}
-      //     value={this.val}
-      //   />
-      //     <button onClick={this.change}>Upload image</button>
-      //     </>
-      //     )
-      // }
-
+      }
 
       var profPic;
 
@@ -4069,6 +4047,8 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.preventDefault();
+      var submitButton = document.getElementById('songFormSubmitButton');
+      submitButton.innerHTML = "Uploading song...";
       var formData = new FormData();
       formData.append('song[songImage]', this.state.songImage);
       formData.append('song[title]', this.state.title);
@@ -4077,14 +4057,16 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       formData.append('song[display_name]', this.props.currentUser.display_name);
       formData.append('song[music]', this.state.music);
       formData.append('song[waveForm]', this.state.waveForm);
-      this.props.action(formData);
-      setTimeout(function () {
-        if (_this3.props.state.entities.songs.currentSong) {
-          console.log('hello');
-
-          _this3._next();
-        }
-      }, 500);
+      this.props.action(formData).then(function () {
+        return _this3._next();
+      }); // let submitButton = document.getElementById('songFormSubmitButton')
+      // submitButton.innerHTML = "Uploading song..."
+      // setTimeout(() => {
+      //   if (this.props.state.entities.songs.newSong) {
+      //     console.log('hello')
+      //     this._next()
+      //   }
+      // }, 1000)
     }
   }, {
     key: "_next",
@@ -4316,6 +4298,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
             className: "songFormCancelButton",
             onClick: this.handleCancel
           }, " Cancel "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            id: "songFormSubmitButton",
             className: "songFormButton",
             onClick: this.handleSubmit
           }, "  Submit Song ")))))));
@@ -4637,8 +4620,8 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
         like: like,
         song: song
       });
-      this.props.getSongs(this.props.song.display_name);
-      this.props.getSong(this.props.song.id);
+      this.props.getSongs(this.props.song.display_name); // this.props.getSong(this.props.song.id)
+
       if (this.props.searchResults) this.props.getBunchSongs();
     }
   }, {

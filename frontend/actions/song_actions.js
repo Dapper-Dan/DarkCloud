@@ -5,9 +5,15 @@ export const RECEIVE_SONG = "RECEIVE_SONG";
 export const RECEIVE_SONGS = "RECEIVE_SONGS";
 export const RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
 export const RECEIVE_BUNCH_SONGS = "RECEIVE_BUNCH_SONGS";
+export const RECEIVE_NEW_SONG = "RECEIVE_NEW_SONG"
 
 export const receiveSong = (song) => ({
     type: RECEIVE_SONG,
+    song
+});
+
+export const receiveNewSong = (song) => ({
+    type: RECEIVE_NEW_SONG,
     song
 });
 
@@ -35,9 +41,8 @@ export const receiveBunchSongs = (songs) => ({
 export const createSong = (song) =>dispatch =>(
     APIUtil.createSong(song) 
         .then((song) => {
-            console.log(song)
-            // const song = res.data;
-            dispatch(receiveSong(song));
+            dispatch(receiveNewSong(song));
+            // dispatch(receiveSong(song));
         })
         // .catch(err => {
         //     return dispatch(receiveErrors(err.response.data));

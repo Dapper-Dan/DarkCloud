@@ -169,7 +169,7 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/song_actions.js ***!
   \******************************************/
-/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, RECEIVE_BUNCH_SONGS, receiveSong, receiveSongs, receiveBunchSongs, createSong, getSong, getSongs, getBunchSongs, like, unlike */
+/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, RECEIVE_BUNCH_SONGS, RECEIVE_NEW_SONG, receiveSong, receiveNewSong, receiveSongs, receiveBunchSongs, createSong, getSong, getSongs, getBunchSongs, like, unlike */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -179,7 +179,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONGS", function() { return RECEIVE_SONGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONG_ERRORS", function() { return RECEIVE_SONG_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_BUNCH_SONGS", function() { return RECEIVE_BUNCH_SONGS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_SONG", function() { return RECEIVE_NEW_SONG; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSong", function() { return receiveSong; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewSong", function() { return receiveNewSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSongs", function() { return receiveSongs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveBunchSongs", function() { return receiveBunchSongs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSong", function() { return createSong; });
@@ -197,9 +199,16 @@ var RECEIVE_SONG = "RECEIVE_SONG";
 var RECEIVE_SONGS = "RECEIVE_SONGS";
 var RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
 var RECEIVE_BUNCH_SONGS = "RECEIVE_BUNCH_SONGS";
+var RECEIVE_NEW_SONG = "RECEIVE_NEW_SONG";
 var receiveSong = function receiveSong(song) {
   return {
     type: RECEIVE_SONG,
+    song: song
+  };
+};
+var receiveNewSong = function receiveNewSong(song) {
+  return {
+    type: RECEIVE_NEW_SONG,
     song: song
   };
 };
@@ -225,9 +234,7 @@ var receiveBunchSongs = function receiveBunchSongs(songs) {
 var createSong = function createSong(song) {
   return function (dispatch) {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["createSong"](song).then(function (song) {
-      console.log(song); // const song = res.data;
-
-      dispatch(receiveSong(song));
+      dispatch(receiveNewSong(song)); // dispatch(receiveSong(song));
     }) // .catch(err => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
@@ -4211,8 +4218,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var title = this.state.title; // console.log({title})
-
+      var title = this.state.title;
       var values = {
         title: title
       };
@@ -5065,6 +5071,11 @@ var songsReducer = function songsReducer() {
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG"]:
       return Object.assign({}, state, {
         currentSong: action.song
+      });
+
+    case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_NEW_SONG"]:
+      return Object.assign({}, state, {
+        newSong: action.song
       });
     // case REMOVE_SONG:
     //     delete nextState[action.songId]

@@ -172,7 +172,7 @@ class Profile extends React.Component {
     uploadProfileImage(e) {
       e.preventDefault()
       let confirmButton = document.getElementById("profile-confirm")
-      confirmButton.innerHTML = "Uploading picture..."
+      confirmButton.innerHTML = "Uploading..."
       const formData = new FormData();
       formData.append('user[profile_photo]', this.profile_pic);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
@@ -187,13 +187,13 @@ class Profile extends React.Component {
     uploadCoverImage(e) {
       e.preventDefault()
       let confirmButton = document.getElementById("cover-confirm")
-      confirmButton.innerHTML = "Uploading picture..."
+      confirmButton.innerHTML = "Uploading..."
       const formData = new FormData();
       formData.append('user[cover_photo]', this.cover_pic);
       this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
       .then(() => this.setState({
-        showConfirmProfile: false,
         showConfirmCover: false,
+        showConfirmProfile: false,
         showPicOption: false
       }))
     }

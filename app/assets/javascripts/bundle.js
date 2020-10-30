@@ -2443,7 +2443,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       e.preventDefault();
       var confirmButton = document.getElementById("profile-confirm");
-      confirmButton.innerHTML = "Uploading picture...";
+      confirmButton.innerHTML = "Uploading...";
       var formData = new FormData();
       formData.append('user[profile_photo]', this.profile_pic);
       this.props.editUser({
@@ -2465,7 +2465,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       e.preventDefault();
       var confirmButton = document.getElementById("cover-confirm");
-      confirmButton.innerHTML = "Uploading picture...";
+      confirmButton.innerHTML = "Uploading...";
       var formData = new FormData();
       formData.append('user[cover_photo]', this.cover_pic);
       this.props.editUser({
@@ -2474,8 +2474,8 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         songs: this.props.songs
       }).then(function () {
         return _this5.setState({
-          showConfirmProfile: false,
           showConfirmCover: false,
+          showConfirmProfile: false,
           showPicOption: false
         });
       });
@@ -4607,18 +4607,20 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       var user_id;
       if (this.props.currentUser) user_id = this.props.currentUser.id;
       var likeId;
-      if (this.props.song.likes.length > 0) likeId = this.props.song.likes[0].id;
+      if (this.props.song.likes.length > 0) likeId = this.props.song.likes[0].id; // let like = { song_id, user_id, likeId }
+
       var like = {
         song_id: song_id,
-        user_id: user_id,
-        likeId: likeId
+        user_id: user_id
       };
       this.props.song.likes[user_id] ? this.props.unlike({
         like: like,
-        song: song
+        song: song,
+        likeId: likeId
       }) : this.props.like({
         like: like,
-        song: song
+        song: song,
+        likeId: likeId
       });
       this.props.getSongs(this.props.song.display_name); // this.props.getSong(this.props.song.id)
 

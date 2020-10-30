@@ -42,7 +42,9 @@ class Api::UsersController < ApplicationController
         old_Display_Name = @user.display_name
         if @user.update(user_params)
             new_Display_Name = params[:user][:display_name]
-            if new_Display_Name != old_Display_Name
+            if new_Display_Name != old_Display_Name && new_Display_Name != nil
+                # puts "Hello, #{new_Display_Name}!"
+                # puts "222222222222222222222222222222222222222222222222222222222222"
                 @songs.each do |song|
                     song.update({ display_name: new_Display_Name })
                 end

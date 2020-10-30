@@ -45,9 +45,10 @@ class SongPart extends React.Component {
         if (this.props.currentUser) user_id = this.props.currentUser.id
         let likeId
         if (this.props.song.likes.length > 0) likeId = this.props.song.likes[0].id
-        let like = { song_id, user_id, likeId }
+        // let like = { song_id, user_id, likeId }
+        let like = { song_id, user_id }  
 
-        this.props.song.likes[user_id] ? this.props.unlike({like, song}) : this.props.like({like, song})
+        this.props.song.likes[user_id] ? this.props.unlike({like, song, likeId}) : this.props.like({like, song, likeId})
        
         this.props.getSongs(this.props.song.display_name)
         // this.props.getSong(this.props.song.id)

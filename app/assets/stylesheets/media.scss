@@ -67,6 +67,8 @@
     width: 117px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0px;
 }
 
 .artist-name {
@@ -203,6 +205,3 @@ p {
     align-items: center;
     justify-content: center;
 }
-
-
- 

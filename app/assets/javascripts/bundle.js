@@ -2268,8 +2268,9 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       last_name: ""
     };
 
-    _this.props.getSongs(_this.props.match.params.display_name); // this.props.fetchUserInfo(this.props.match.params.display_name);
+    _this.props.getSongs(_this.props.match.params.display_name);
 
+    _this.props.fetchUserInfo(_this.props.match.params.display_name);
 
     if (_this.props.state.session.currentUser) {
       _this.props.fetchUser(_this.props.state.session.currentUser.id);
@@ -4725,10 +4726,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       var likeButtonStyle;
 
       if (this.props.currentUser) {
-        console.log('firstlvl');
-
         if (song.likes && song.likes[this.props.currentUser.id]) {
-          console.log('second');
           likeButtonStyle = "greenButton";
         }
       }

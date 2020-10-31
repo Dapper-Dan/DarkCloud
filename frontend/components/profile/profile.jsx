@@ -27,7 +27,7 @@ class Profile extends React.Component {
     }
 
       this.props.getSongs(this.props.match.params.display_name)
-      // this.props.fetchUserInfo(this.props.match.params.display_name);
+      this.props.fetchUserInfo(this.props.match.params.display_name);
 
       if (this.props.state.session.currentUser) {
         this.props.fetchUser(this.props.state.session.currentUser.id)

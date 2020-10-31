@@ -1444,6 +1444,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.drag = _this.drag.bind(_assertThisInitialized(_this));
     _this.handleMouseLeave = _this.handleMouseLeave.bind(_assertThisInitialized(_this));
     _this.handleMouseOver = _this.handleMouseOver.bind(_assertThisInitialized(_this));
+    _this.likeSong = _this.likeSong.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1566,6 +1567,31 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "likeSong",
+    value: function likeSong() {
+      var song = this.props.currentSong;
+      var song_id = song.id;
+      var user_id;
+      if (this.props.currentUser) user_id = this.props.currentUser.id;
+      var likeId;
+      if (song.likes.length > 0) likeId = song.likes[0].id;
+      var like = {
+        song_id: song_id,
+        user_id: user_id
+      };
+      song.likes[user_id] ? this.props.unlike({
+        like: like,
+        song: song,
+        likeId: likeId
+      }) : this.props.like({
+        like: like,
+        song: song,
+        likeId: likeId
+      });
+      this.props.getSongs(song.display_name);
+      this.props.getSong(song_id);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -1623,6 +1649,16 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         document.getElementById("vol").oninput = function () {
           this.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (this.value - this.min) / (this.max - this.min) * 100 + '%, #fff ' + (this.value - this.min) / (this.max - this.min) * 100 + '%, white 100%)';
         };
+      }
+
+      var likeButtonStyle;
+
+      if (this.props.currentUser && this.props.currentSong) {
+        if (this.props.currentSong.likes && this.props.currentSong.likes[this.props.currentUser.id]) {
+          likeButtonStyle = "greenButton";
+        } else {
+          likeButtonStyle = "heart";
+        }
       }
 
       if (!song) {
@@ -1694,7 +1730,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           className: "song-title"
         }, song_title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.heart,
-          id: "heart",
+          onClick: this.likeSong,
+          className: "heartMedia",
+          id: likeButtonStyle,
           width: "15px"
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
           id: "myAudio",
@@ -1737,15 +1775,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var mapSTP = function mapSTP(state) {
   return {
-    state: state
+    state: state,
+    currentSong: state.session.currentSong,
+    currentUser: state.session.currentUser
   };
 };
 
 var mapDTP = function mapDTP(dispatch) {
   return {
-    // getSong: (song) => dispatch(receiveCurrentSong(song)),
+    getSong: function getSong(songId) {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_4__["getSong"])(songId));
+    },
+    like: function like(data) {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_4__["like"])(data));
+    },
+    unlike: function unlike(data) {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_4__["unlike"])(data));
+    },
+    getSongs: function getSongs(display_name) {
+      return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_4__["getSongs"])(display_name));
+    },
     getBunchSongs: function getBunchSongs() {
       return dispatch(Object(_actions_song_actions__WEBPACK_IMPORTED_MODULE_4__["getBunchSongs"])());
     }

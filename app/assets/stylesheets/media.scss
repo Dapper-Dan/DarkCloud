@@ -159,10 +159,12 @@ p {
     margin-right: 28px;
 }
 
-#heart {
+.heartMedia {
     margin: auto;
     margin-left: 33px;
     margin-right: 13px;
+    cursor: pointer;
+    align-self: center;
 }
 
 #vol {
@@ -204,4 +206,10 @@ p {
     border: solid #ccc6c6 thin;
     align-items: center;
     justify-content: center;
+}
+
+
+.heartMedia#greenButton {
+    filter: invert(59%) sepia(13%) saturate(2372%) hue-rotate(88deg) brightness(94%) contrast(94%);
+    align-self: center;
 }

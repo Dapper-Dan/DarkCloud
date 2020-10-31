@@ -37,6 +37,7 @@ class MusicPlayer extends React.Component {
         this.drag = this.drag.bind(this)
         this.handleMouseLeave = this.handleMouseLeave.bind(this)
         this.handleMouseOver = this.handleMouseOver.bind(this)
+        this.likeSong = this.likeSong.bind(this)
 
     }
 
@@ -142,6 +143,19 @@ class MusicPlayer extends React.Component {
     handleMouseLeave() {
         this.setState({showVolume: false})
     }
+
+    likeSong() {
+        let song = this.props.currentSong
+        let song_id = song.id
+        let user_id 
+        if (this.props.currentUser) user_id = this.props.currentUser.id
+        let likeId
+        if (song.likes.length > 0) likeId = song.likes[0].id
+        let like = { song_id, user_id } 
+        song.likes[user_id] ? this.props.unlike({like, song, likeId}) : this.props.like({like, song, likeId})
+        this.props.getSongs(song.display_name)
+        this.props.getSong(song_id)
+    }
     
 
     render() { 
@@ -188,6 +202,16 @@ class MusicPlayer extends React.Component {
             this.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (this.value-this.min)/(this.max-this.min)*100 + '%, #fff ' + (this.value-this.min)/(this.max-this.min)*100 + '%, white 100%)'
           };
         }
+
+        let likeButtonStyle
+        if(this.props.currentUser && this.props.currentSong) {
+        
+            if (this.props.currentSong.likes && this.props.currentSong.likes[this.props.currentUser.id]) {
+                likeButtonStyle = "greenButton"
+            } else {
+                likeButtonStyle = "heart"
+            }
+      }
 
        
         
@@ -249,7 +273,7 @@ class MusicPlayer extends React.Component {
                                 <p className="artist-name">{artist_name}</p>
                                 <p className="song-title">{song_title}</p>
                             </div>
-                            <img src={window.heart} id="heart" width="15px" />
+                            <img src={window.heart} onClick={this.likeSong} className="heartMedia" id={likeButtonStyle} width="15px" />
                         </div>
                         
                     </div>

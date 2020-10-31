@@ -20,7 +20,7 @@ class SongForm extends React.Component {
         step: 1,
         pictureSamp: null
       }
-      this.props.getUser()
+      // this.props.getUser()
 
 
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,7 +42,7 @@ class SongForm extends React.Component {
       let submitButton = document.getElementById('songFormSubmitButton')
       submitButton.innerHTML = "Uploading song..."
       const formData = new FormData();
-      formData.append('song[songImage]', this.state.songImage);
+      if (this.state.songImage) formData.append('song[songImage]', this.state.songImage);
       formData.append('song[title]', this.state.title);
       formData.append('song[genre]', this.state.genre);
       formData.append('song[duration]', this.state.duration);

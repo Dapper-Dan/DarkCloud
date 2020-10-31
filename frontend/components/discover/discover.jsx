@@ -141,11 +141,11 @@ export default class Discover extends React.Component {
                                 ))}
                             </Carousel.Item>
 
-                            <Carousel.Item>
+                            {/* <Carousel.Item>
                                 {trendingEDM.slice(8, 12).map((song) => ( 
                                     <SongPartContainer song={song} />
                                 ))}
-                            </Carousel.Item>
+                            </Carousel.Item> */}
 
                         </Carousel>
 
@@ -180,7 +180,7 @@ export default class Discover extends React.Component {
                                 ))}
                             </Carousel.Item>
 
-                            <Carousel.Item>
+                            {/* <Carousel.Item>
                                 {recentUsers.slice(8, 12).map((user) => ( 
                                    <>
                                    {console.log(user.profilePicUrl)}
@@ -192,7 +192,7 @@ export default class Discover extends React.Component {
                                    </div>
                                    </>
                                 ))}
-                            </Carousel.Item>
+                            </Carousel.Item> */}
 
                         </Carousel>
 
@@ -212,11 +212,11 @@ export default class Discover extends React.Component {
                                 ))}
                             </Carousel.Item>
 
-                            <Carousel.Item>
+                            {/* <Carousel.Item>
                                 {trendingJazz.slice(8, 12).map((song) => ( 
                                     <SongPartContainer song={song} />
                                 ))}
-                            </Carousel.Item>
+                            </Carousel.Item> */}
 
                         </Carousel>
 
@@ -235,12 +235,12 @@ export default class Discover extends React.Component {
          
                                 ))}
                             </Carousel.Item>
-
+{/* 
                             <Carousel.Item>
                                 {trendingHipHop.slice(8, 12).map((song) => ( 
                                     <SongPartContainer song={song} />
                                 ))}
-                            </Carousel.Item>
+                            </Carousel.Item> */}
 
                         </Carousel>
 

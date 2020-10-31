@@ -23,6 +23,8 @@ class Api::SongsController < ApplicationController
     def create
       
         @song = Song.new(song_params)
+        @song.songImage.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'songGradient.png')), filename: 'songGradient.png')
+     
         if (@song.save)
             # @songs = Song.all
 

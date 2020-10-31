@@ -94,6 +94,7 @@ class Profile extends React.Component {
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
      
         this.props.fetchUserInfo(this.props.match.params.display_name);
+        this.props.getSongs(this.props.match.params.display_name)
         // this.props.fetchUserInfo(this.props.profileUser.display_name);
        
       }

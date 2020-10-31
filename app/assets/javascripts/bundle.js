@@ -2332,8 +2332,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-        // this.props.fetchUserInfo(this.props.match.params.display_name);
-        this.props.fetchUserInfo(this.props.profileUser.display_name);
+        this.props.fetchUserInfo(this.props.match.params.display_name); // this.props.fetchUserInfo(this.props.profileUser.display_name);
       }
     }
   }, {

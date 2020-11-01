@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginFormContainer from '../session/login_form_container';
 import SignupFormContainer from '../session/signup_form_container';
-import Caro from '../caro';
+import Carousel from 'react-bootstrap/Carousel';
 import SongIndexContainer from '../song/song_index_container';
 import SearchBarContainer from '../search_bar/search_bar_container';
 
@@ -77,7 +77,15 @@ class HomePage extends React.Component {
             <img src={window.transLogo} width="105px" className="transWhite"/>
           </div>
           <div className="caro-container">  
-            <Caro/>
+            <Carousel interval="999000" controls={false} className="caroMain">
+              <Carousel.Item>
+                <img className="landing-slide" src={window.landing1} alt="First slide"/>
+              </Carousel.Item>
+              <Carousel.Item id="gitHub">
+                <img className="landing-slide" src={window.landing2} alt="Third slide"/>
+                <a className="signup-modal-button" id="gitHubLink" href={"https://github.com/Dapper-Dan/AudioCloud"}>GitHub</a>
+              </Carousel.Item>
+            </Carousel>
           </div>
           <div className="buttonsDiv" >
             <button className="login-modal-button" onClick={this.loginModelShow}>Sign in</button>
@@ -87,7 +95,7 @@ class HomePage extends React.Component {
         <div className="mainSearch">
           <SearchBarContainer/>
           <p>or</p>
-          <button className="homePageUploadButton">UPLOAD YOUR OWN TRACK</button>
+          <button className="homePageUploadButton" onClick={this.registerModelShow}>UPLOAD YOUR OWN TRACK</button>
         </div>
         <SongIndexContainer/>
         <div className="mainLanding" id="break">
@@ -100,8 +108,8 @@ class HomePage extends React.Component {
         </div>
         <div className="homePageFooter">
           <div id="links">
-            GitHub
-            LinkedIn
+            <a href={"https://github.com/Dapper-Dan/AudioCloud"}>GitHub</a>
+            <a href={"https://www.linkedin.com/in/daniel-r-lancaster/"}>LinkedIn</a>
           </div>
           Created by Daniel Lancaster
         </div>

@@ -104,6 +104,10 @@
     display: flex;
 }
 
+#links a {
+    margin-right: 11px;
+}
+
 .homePageFooter {
     display: flex;
     flex-direction: column;
@@ -321,4 +325,23 @@ audio {
     border: none;
     padding: 5px;
     margin-left: 23px;
+}
+
+.signup-modal-button#gitHubLink {
+    align-self: center;
+    margin: auto;
+    position: absolute;
+    bottom: 93px;
+    display: flex;
+    align-items: center;
+    margin-right: 175px;
+    padding: 1px 10px 0px 10px;
+}
+
+.carousel-item#gitHub {
+    justify-content: center;
+}
+
+.signup-modal-button#gitHubLink:hover {
+    text-decoration: none;
 }

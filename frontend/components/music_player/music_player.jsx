@@ -1,17 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import NavBar from '../nav_bar/nav_bar';
-import LoginFormContainer from '../session/login_form_container.jsx';
-import SignupFormContainer from '../session/signup_form_container.jsx';
-import ReactDOM from 'react-dom';
-import Carousel from 'react-bootstrap/Carousel';
-import Caro from '../caro'
-import SongList from '../song/song_index';
-import SongIndexContainer from '../song/song_index_container'
-import SongForm from '../song/song_form'
-import SongFormContainer from '../song/song_form_container'
-import ReactAudioPlayer from 'react-audio-player';
-
 
 class MusicPlayer extends React.Component {
     constructor(props) {

@@ -16,7 +16,8 @@ export default class NavBar extends React.Component {
             registerForm: false,
             showModal: false,
             showDropDown: false,
-            redirect: false
+            redirect: false,
+            logoutModal: false
         };
 
 
@@ -38,7 +39,6 @@ export default class NavBar extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('click', this.handleClickOutside, true);
-        this.setState({redirect: false}) // useless?
 
     }
 
@@ -72,7 +72,8 @@ export default class NavBar extends React.Component {
 
     logout() {
         this.props.logout()
-        this.setState({redirect: true})
+        .then(() => this.setState({redirect: true}))
+        
         
     }
 
@@ -88,8 +89,6 @@ export default class NavBar extends React.Component {
             this.setState({ showDropDown: false })
         }
     }
-
-  
 
 
     render() {
@@ -180,7 +179,7 @@ export default class NavBar extends React.Component {
                             <NavLink to="/discover" className="home-button" style={{ textDecoration: 'none' }}>   
                                 Home
                             </NavLink>
-                            <a className="library-button"> Library </a>
+                            <a className="library-button" onClick={ this.registerModelShow}>Library</a>
                         </nav>
 
                         <nav className="right_nav">
@@ -222,9 +221,11 @@ export default class NavBar extends React.Component {
                                 Home
                             </NavLink>
 
+                            
                             <NavLink to="/library" className="library-button" style={{ textDecoration: 'none' }}>
                                Library
                             </NavLink>
+                            
                         </nav>
 
                         <nav className="right_nav">

@@ -244,7 +244,7 @@ class Profile extends React.Component {
       
 
       let currentUserProfile
-      if (this.props.currentUser) {
+      if (this.props.currentUser && this.props.sessionUser) {
         if (this.props.currentUser.id === user.id) currentUserProfile = true;
       }
 
@@ -470,7 +470,7 @@ class Profile extends React.Component {
        <div className="nav_bar_background" ></div>
        
        <div className="nav-con" >
-          { this.props.currentUser ? <UserNavBarContainer /> : <NavBarContainer /> }
+          { this.props.sessionUser ? <UserNavBarContainer /> : <NavBarContainer /> }
           <SearchBarContainer/>
         </div>
 

@@ -477,20 +477,11 @@ var customHistory = Object(history__WEBPACK_IMPORTED_MODULE_5__["createBrowserHi
 var App = function App() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["BrowserRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "main"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_4__["ProtectedRoute"], {
-    exact: true,
-    path: "/register",
-    component: _session_signup_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__["default"],
-    loggedIn: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_4__["ProtectedRoute"], {
-    exact: true,
-    path: "/login",
-    component: _session_login_form_container_jsx__WEBPACK_IMPORTED_MODULE_7__["default"],
-    loggedIn: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_4__["AuthRoute"], {
     exact: true,
     path: "/",
-    component: _home_page_home_page_jsx__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _home_page_home_page_jsx__WEBPACK_IMPORTED_MODULE_6__["default"],
+    loggedIn: true
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
     exact: true,
     path: "/discover",
@@ -1766,7 +1757,8 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
       registerForm: false,
       showModal: false,
       showDropDown: false,
-      redirect: false
+      redirect: false,
+      logoutModal: false
     };
     _this.loginModelShow = _this.loginModelShow.bind(_assertThisInitialized(_this));
     _this.registerModelShow = _this.registerModelShow.bind(_assertThisInitialized(_this));
@@ -1787,9 +1779,6 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       document.removeEventListener('click', this.handleClickOutside, true);
-      this.setState({
-        redirect: false
-      }); // useless?
     }
   }, {
     key: "componentDidUpdate",
@@ -1828,9 +1817,12 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "logout",
     value: function logout() {
-      this.props.logout();
-      this.setState({
-        redirect: true
+      var _this2 = this;
+
+      this.props.logout().then(function () {
+        return _this2.setState({
+          redirect: true
+        });
       });
     }
   }, {
@@ -1946,8 +1938,9 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
               textDecoration: 'none'
             }
           }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-            className: "library-button"
-          }, " Library ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+            className: "library-button",
+            onClick: this.registerModelShow
+          }, "Library")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
             className: "right_nav"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "login-modal-button",
@@ -2458,7 +2451,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       var currentUserProfile;
 
-      if (this.props.currentUser) {
+      if (this.props.currentUser && this.props.sessionUser) {
         if (this.props.currentUser.id === user.id) currentUserProfile = true;
       }
 
@@ -2661,7 +2654,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "nav_bar_background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav-con"
-      }, this.props.currentUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_7__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.sessionUser ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_user_nav_bar_container__WEBPACK_IMPORTED_MODULE_7__["default"], null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_nav_bar_nav_bar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar_search_bar_container__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "outtermost"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cover"
@@ -2733,7 +2726,8 @@ var mapSTP = function mapSTP(state) {
     state: state,
     songs: state.entities.songs.songs,
     currentUser: state.entities.users.user,
-    profileUser: state.entities.users.profile_user
+    profileUser: state.entities.users.profile_user,
+    sessionUser: state.session.currentUser
   };
 };
 
@@ -5182,7 +5176,7 @@ var Auth = function Auth(_ref) {
     exact: exact,
     render: function render(props) {
       return !loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
-        to: "/"
+        to: "/discover"
       });
     }
   });

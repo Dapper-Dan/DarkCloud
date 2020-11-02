@@ -14,7 +14,8 @@ const mapSTP = state => ({
     state: state,
     songs: state.entities.songs.songs,
     currentUser: state.entities.users.user,
-    profileUser: state.entities.users.profile_user
+    profileUser: state.entities.users.profile_user,
+    sessionUser: state.session.currentUser
 })
 
 const mapDTP = dispatch => ({

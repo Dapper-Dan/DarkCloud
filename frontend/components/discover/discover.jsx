@@ -249,11 +249,13 @@ export default class Discover extends React.Component {
                     </div>
                     
                     <div className="sideBar" >
-            
-            
-                        side bar stuff
-            
-            
+                        <div className="sideBarCreatorContainer">
+                            <p>Message from the creator:</p>
+                            <img id="profilePic"  src={window.myPic} />
+                            <p id="discoverThanks">Hope you're enjoying the site. If you would like to see more of my work or know more about me, check out my GitHub or LinkedIn.</p>   
+                            <a className="signup-modal-button" id="discoverGitHub" href={"https://github.com/Dapper-Dan/AudioCloud"}>GitHub</a>
+                            <a className="signup-modal-button" id="discoverLinked" href={"https://www.linkedin.com/in/daniel-r-lancaster/"}>LinkedIn</a>
+                        </div>
                     </div>
                 </div>
         

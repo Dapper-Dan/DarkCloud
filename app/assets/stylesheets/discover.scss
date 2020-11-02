@@ -17,8 +17,8 @@
 
 #discoverCaro {
     width: 880px;
-    // border-bottom: 2px solid #f2f2f2;
     padding-bottom: 30px;
+    margin-right: 36px;
 }
 
 #discoverCaro .songTile {
@@ -107,3 +107,41 @@
     text-align-last: center;
 }
 
+.sideBar #profilePic {
+    border-radius: 13%;
+    height: 180px;
+    width: 180px;
+    align-self: center;
+}
+
+.sideBar {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid #f2f2f2;
+    width: 100%;
+    
+}
+
+.sideBar p {
+    align-self: center;
+}
+
+.sideBar #discoverThanks {
+    width: 81%;
+    margin-top: 22px;
+    margin-left: 12px;
+}
+
+.sideBar a {
+    align-self: center;
+    margin-top: 14px;
+    padding: 5px 5px 0px 5px;
+}
+
+.sideBarCreatorContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 285px;
+}
+    

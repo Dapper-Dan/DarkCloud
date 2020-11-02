@@ -736,7 +736,22 @@ var Discover = /*#__PURE__*/function (_React$Component) {
         });
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sideBar"
-      }, "side bar stuff"))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sideBarCreatorContainer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Message from the creator:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        id: "profilePic",
+        src: window.myPic
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        id: "discoverThanks"
+      }, "Hope you're enjoying the site. If you would like to see more of my work or know more about me, check out my GitHub or LinkedIn."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "signup-modal-button",
+        id: "discoverGitHub",
+        href: "https://github.com/Dapper-Dan/AudioCloud"
+      }, "GitHub"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "signup-modal-button",
+        id: "discoverLinked",
+        href: "https://www.linkedin.com/in/daniel-r-lancaster/"
+      }, "LinkedIn"))))));
     }
   }]);
 

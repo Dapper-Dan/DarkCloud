@@ -44,15 +44,8 @@ class Profile extends React.Component {
       this.closeModal = this.closeModal.bind(this)
       this.handleClickOutside = this.handleClickOutside.bind(this);
       this.submitChanges = this.submitChanges.bind(this)
-     
-
-      
-      
-
     }
-   
-
-
+  
     componentDidMount() {
       if (this.props.profileUser && this.props.profileUser.city) {
         this.setState({city: this.props.profileUser.city})
@@ -60,23 +53,10 @@ class Profile extends React.Component {
       
       this.setState({
         loading: false,
-       
-        // city: this.props.profileUser.city
       })
-      // console.log(this.props.profileUser)
+    
       this.props.fetchUserInfo(this.props.match.params.display_name);
-
-    
     }
-
-    
-
-   
-
-  //   componentWillUnmount() {
-  //     // let editModal = document.getElementById('editModal')
-  //     // editModal.removeEventListener('click', this.handleClickOutside, true);
-  // }
 
     handleClickOutside(event) {
        let editModal = document.getElementById('editModal')
@@ -106,6 +86,7 @@ class Profile extends React.Component {
    
 
     update(value) {
+      
       return e => {
       this[value] = e.target.files[0]
       let file = e.target.files[0]
@@ -116,6 +97,7 @@ class Profile extends React.Component {
         this.setState({ [value]: fileReader.result })
       }
       
+      
       if (value === "cover_pic") {
         this.setState({showConfirmCover: true})
       } else {
@@ -125,16 +107,6 @@ class Profile extends React.Component {
       
       }
     }
-
-    // change() {
-    //   const formData = new FormData();
-    //   formData.append('user[display_name]', this.val);
-    //   this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-    //   .then(() => history.pushState({}, "", `/${this.val}`))
-      
-    // }
-
-
 
     change(value) {
       return e => this.setState({ [value]: e.target.value });
@@ -200,22 +172,19 @@ class Profile extends React.Component {
     }
 
     cancelUpload() {
+      let targetCover = document.getElementById("cover-pic-input")
+      let targetProfile = document.getElementById("profile-pic-input")
+      targetCover.value = null
+      targetProfile.value = null
       this.setState({
         showConfirmCover: false, 
         showPicOption: false,
-        showConfirmProfile: false
+        showConfirmProfile: false,
       })
     }
 
 
     render(){
-    //  console.log('render')
-
-    
-   
-
-    
-
     if (this.state.showEditModal) {
      
       document.body.style.overflow = 'hidden';
@@ -289,8 +258,10 @@ class Profile extends React.Component {
       let coverPic
       if (this.cover_pic && this.state.showPicOption) {
         coverPic = this.state.cover_pic
-      } else {
+      } else if (user.coverPicUrl) {
         coverPic = user.coverPicUrl
+      } else {
+        coverPic = window.cover
       }
 
 
@@ -510,11 +481,9 @@ class Profile extends React.Component {
         
 
           <div className="cover" >
-            {user.coverPicUrl ? (
+           
              <img src={coverPic} className="cover-photo" width="1200px" />
-            ):(
-             <img src={window.cover} className="cover-photo" />
-            )}
+          
             
 
             <div className="profile-box" >

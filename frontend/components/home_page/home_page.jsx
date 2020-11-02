@@ -5,9 +5,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import SongIndexContainer from '../song/song_index_container';
 import SearchBarContainer from '../search_bar/search_bar_container';
 
-
-
-
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -77,7 +74,7 @@ class HomePage extends React.Component {
             <img src={window.transLogo} width="105px" className="transWhite"/>
           </div>
           <div className="caro-container">  
-            <Carousel interval="999000" controls={false} className="caroMain">
+            <Carousel interval="4000" controls={false} className="caroMain">
               <Carousel.Item>
                 <img className="landing-slide" src={window.landing1} alt="First slide"/>
               </Carousel.Item>

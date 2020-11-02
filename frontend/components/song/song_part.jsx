@@ -52,6 +52,7 @@ class SongPart extends React.Component {
        
         this.props.getSongs(this.props.song.display_name)
         // this.props.getSong(this.props.song.id)
+        
 
         if (this.props.searchResults) this.props.getBunchSongs()
        

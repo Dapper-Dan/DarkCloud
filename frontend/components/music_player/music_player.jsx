@@ -142,6 +142,7 @@ class MusicPlayer extends React.Component {
         song.likes[user_id] ? this.props.unlike({like, song, likeId}) : this.props.like({like, song, likeId})
         this.props.getSongs(song.display_name)
         this.props.getSong(song_id)
+        this.props.getBunchSongs()
     }
     
 
@@ -191,9 +192,12 @@ class MusicPlayer extends React.Component {
         }
 
         let likeButtonStyle
-        if(this.props.currentUser && this.props.currentSong) {
+        let songs = this.props.state.entities.songs
+       
+        if(this.props.currentUser && this.props.currentSong && songs.songs) {
         
-            if (this.props.currentSong.likes && this.props.currentSong.likes[this.props.currentUser.id]) {
+            if (songs.songs[this.props.currentSong.id] && songs.songs[this.props.currentSong.id].likes[this.props.currentUser.id]) {
+                
                 likeButtonStyle = "greenButton"
             } else {
                 likeButtonStyle = "heart"

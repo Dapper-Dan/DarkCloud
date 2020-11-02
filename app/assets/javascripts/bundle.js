@@ -915,7 +915,7 @@ var HomePage = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "caro-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        interval: "999000",
+        interval: "4000",
         controls: false,
         className: "caroMain"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_3__["default"].Item, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1466,6 +1466,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       });
       this.props.getSongs(song.display_name);
       this.props.getSong(song_id);
+      this.props.getBunchSongs();
     }
   }, {
     key: "render",
@@ -1528,9 +1529,10 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       }
 
       var likeButtonStyle;
+      var songs = this.props.state.entities.songs;
 
-      if (this.props.currentUser && this.props.currentSong) {
-        if (this.props.currentSong.likes && this.props.currentSong.likes[this.props.currentUser.id]) {
+      if (this.props.currentUser && this.props.currentSong && songs.songs) {
+        if (songs.songs[this.props.currentSong.id] && songs.songs[this.props.currentSong.id].likes[this.props.currentUser.id]) {
           likeButtonStyle = "greenButton";
         } else {
           likeButtonStyle = "heart";
@@ -2230,16 +2232,10 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       }
 
       this.setState({
-        loading: false // city: this.props.profileUser.city
-
-      }); // console.log(this.props.profileUser)
-
+        loading: false
+      });
       this.props.fetchUserInfo(this.props.match.params.display_name);
-    } //   componentWillUnmount() {
-    //     // let editModal = document.getElementById('editModal')
-    //     // editModal.removeEventListener('click', this.handleClickOutside, true);
-    // }
-
+    }
   }, {
     key: "handleClickOutside",
     value: function handleClickOutside(event) {
@@ -2295,13 +2291,7 @@ var Profile = /*#__PURE__*/function (_React$Component) {
           showPicOption: true
         });
       };
-    } // change() {
-    //   const formData = new FormData();
-    //   formData.append('user[display_name]', this.val);
-    //   this.props.editUser({form: formData, user: this.props.currentUser, songs: this.props.songs})
-    //   .then(() => history.pushState({}, "", `/${this.val}`))
-    // }
-
+    }
   }, {
     key: "change",
     value: function change(value) {
@@ -2395,6 +2385,10 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "cancelUpload",
     value: function cancelUpload() {
+      var targetCover = document.getElementById("cover-pic-input");
+      var targetProfile = document.getElementById("profile-pic-input");
+      targetCover.value = null;
+      targetProfile.value = null;
       this.setState({
         showConfirmCover: false,
         showPicOption: false,
@@ -2404,7 +2398,6 @@ var Profile = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      //  console.log('render')
       if (this.state.showEditModal) {
         document.body.style.overflow = 'hidden';
       } else {
@@ -2466,8 +2459,10 @@ var Profile = /*#__PURE__*/function (_React$Component) {
 
       if (this.cover_pic && this.state.showPicOption) {
         coverPic = this.state.cover_pic;
-      } else {
+      } else if (user.coverPicUrl) {
         coverPic = user.coverPicUrl;
+      } else {
+        coverPic = window.cover;
       }
 
       var profilePictureUpload;
@@ -2655,13 +2650,10 @@ var Profile = /*#__PURE__*/function (_React$Component) {
         className: "outtermost"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cover"
-      }, user.coverPicUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: coverPic,
         className: "cover-photo",
         width: "1200px"
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: window.cover,
-        className: "cover-photo"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-box"
       }, user.profilePicUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {

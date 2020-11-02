@@ -1,5 +1,6 @@
 import React from 'react';
 import UserNavBarContainer from '../nav_bar/user_nav_bar_container';
+import NavBarContainer from '../nav_bar/nav_bar_container';
 import { NavLink, Link } from 'react-router-dom';
 import SearchBarContainer from '../search_bar/search_bar_container'
 import SongPartContainer from '../song/song_part_container'
@@ -71,9 +72,16 @@ export default class SearchResults extends React.Component {
                 let songs = Object.values(this.props.songs);
                 filteredSongs = songs.filter(
                     songItem => {
-                        // console.log(songItem.title)
+                     
+                        // let songName = songItem.title.toLowerCase()
+                        // return songName.indexOf(searchInput.toLowerCase()) > -1
                         let songName = songItem.title.toLowerCase()
-                        return songName.indexOf(searchInput.toLowerCase()) > -1
+                        let username = songItem.display_name.toLowerCase()
+                        
+                        if (username.indexOf(searchInput.toLowerCase()) > -1) return songItem
+                        if (songName.indexOf(searchInput.toLowerCase()) > -1) return songItem;
+                        // if (username.indexOf(searchInput.toLowerCase()) > -1) return;
+                        
                     }
                 )
             }
@@ -100,13 +108,6 @@ export default class SearchResults extends React.Component {
         if (filteredSongs) {
             optionsEverythingArray = (
                 <ul className="optionsArray">
-                    {filteredSongs.map((song, i) => (
-                        <li key={i}>
-                            <SongPartContainer song={song} profile={true} searchResults={true}/>
-                        </li>
-
-                    ))}
-
                     {filteredUsers.map((user, i) => 
                         <li key={i}>
                             <div className="filteredUsers">
@@ -121,6 +122,13 @@ export default class SearchResults extends React.Component {
                             </div>
                         </li>
                     )}
+
+                    {filteredSongs.map((song, i) => (
+                        <li key={i}>
+                            <SongPartContainer song={song} profile={true} searchResults={true}/>
+                        </li>
+
+                    ))}
 
                 </ul>
             )
@@ -191,7 +199,7 @@ export default class SearchResults extends React.Component {
         <>
             <div className="nav_bar_background" ></div>
             <div className="nav-con"  >
-                <UserNavBarContainer />
+        {this.props.currentUser ? <UserNavBarContainer/> : <NavBarContainer/>}
                 <SearchBarContainer/>
             </div>
             

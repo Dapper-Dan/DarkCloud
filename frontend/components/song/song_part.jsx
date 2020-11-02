@@ -1,8 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import ReactAudioPlayer from 'react-audio-player';
-import { like } from '../../util/like_api_util';
+import SignupFormContainer from '../session/signup_form_container.jsx';
+
 
 
 class SongPart extends React.Component {
@@ -12,12 +11,14 @@ class SongPart extends React.Component {
             currentTime: 0,
             songTime: "0:00",
             loading: true,
-            playing: false
+            playing: false,
+            showSignUp: false
         }
         
         this.handleClick = this.handleClick.bind(this)
         this.play = this.play.bind(this)
         this.likeSong = this.likeSong.bind(this)
+        this.changeShow = this.changeShow.bind(this)
 
         
       
@@ -38,6 +39,10 @@ class SongPart extends React.Component {
       }
 
       likeSong() {
+        if (!this.props.currentUser) {
+          this.setState({showSignUp: true})
+          return
+        }
       
         let song = this.props.song
         let song_id = this.props.song.id;
@@ -61,6 +66,7 @@ class SongPart extends React.Component {
 
     componentDidMount() {
       this.setState({loading: false})
+      
     }
 
     handleClick() {
@@ -123,11 +129,23 @@ class SongPart extends React.Component {
 
     }
 
+    changeShow() {
+      this.setState({showSignUp: false})
+    }
+
     render() {
       
       if (!this.props.song || this.state.loading) {
         return (<p>loading...</p>)
       }
+
+      if (this.state.showSignUp) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'unset';
+      }
+
+
 
       // let playPause
       // let audioEle = document.getElementById('myAudio')
@@ -233,8 +251,16 @@ class SongPart extends React.Component {
       } else if(this.props.song) {
         return (
           <>
-          
+          {this.state.showSignUp ?
+            <div className="modal-background">
+              <div className="signModal">
+                <SignupFormContainer changeShow={this.changeShow}/> 
+              </div>
+            </div>
+          :
+            ""}
           <div className="songProfileTile">
+            
               
             {song.pictureUrl ? (
                 <img src={song.pictureUrl} height="180px" width="180px"/>

@@ -28,6 +28,7 @@ class SignupForm extends React.Component {
     this._next = this._next.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
     
   }
     
@@ -98,6 +99,21 @@ class SignupForm extends React.Component {
       }
   }
 
+  onKeyDown(event) {
+   
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.target.id === "lastPageLogin") {
+        this.handleLogin(event)
+      } else if (event.target.id === "lastPageSignUp") {
+        this.handleSignup(event)
+      } else {
+        this._next()
+      }
+    }
+  }
+
   
 
   render() {
@@ -119,6 +135,7 @@ class SignupForm extends React.Component {
               className="signup-email-input" 
               placeholder="Your email address"
               type="text"
+              onKeyDown={this.onKeyDown}
               onChange={this.update('email')}
               value={values.email}   
             />
@@ -141,6 +158,7 @@ class SignupForm extends React.Component {
             autoComplete="password"
             type="password"
             value={values.password}
+            onKeyDown={this.onKeyDown}
             onChange={this.update('password')}
             placeholder="Your password"
           />
@@ -161,6 +179,7 @@ class SignupForm extends React.Component {
           className="signup-age-input"
           type="number"
           value={values.age}
+          onKeyDown={this.onKeyDown}
           onChange={this.update('age')}
         />
 
@@ -182,8 +201,10 @@ class SignupForm extends React.Component {
         <h1 id="tellUsAboutYourselfHeader">Tell us a bit about yourself</h1>
         <p id="signup-displayName">Choose your display name</p>
         <input
+          id="lastPageSignUp"
           className="signup-displayName-input"
           type="text"
+          onKeyDown={this.onKeyDown}
           value={values.display_name}
           onChange={this.update('display_name')}
         />
@@ -208,11 +229,12 @@ class SignupForm extends React.Component {
                 className="signup-email-input" 
                 placeholder="Your email address"
                 type="text"
+                onKeyDown={this.onKeyDown}
                 onChange={this.update('email')}
                 value={values.email}   
               />
   
-          <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
+          <button className="signup-form-button" onClick={ this._next }> Continue </button>
           </div>
         )
         case 2:
@@ -222,9 +244,11 @@ class SignupForm extends React.Component {
             <p id="login-password">Please enter your password</p>
             <form id="login-password-form">
             <input
+              id="lastPageLogin"
               className="signup-password-input"
               autoComplete="password"
               type="password"
+              onKeyDown={this.onKeyDown}
               value={values.password}
               onChange={this.update('password')} 
               placeholder="Your password"
@@ -247,9 +271,11 @@ class SignupForm extends React.Component {
             <p id="login-password">Please enter your password</p>
             <form id="login-password-form">
             <input
+              id="lastPageLogin"
               className="signup-password-input"
               autoComplete="password"
               type="password"
+              onKeyDown={this.onKeyDown}
               value={values.password}
               onChange={this.update('password')} 
               placeholder="Your password"
@@ -257,7 +283,7 @@ class SignupForm extends React.Component {
             </form>
             
                         
-              <button className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>
+              <button type="submit" className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>
               
           </div>
         )}

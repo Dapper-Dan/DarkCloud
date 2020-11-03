@@ -81,12 +81,22 @@ export default class SearchBar extends React.Component {
     }
 
     onClick(e) {
-        console.log('click')
-        this.setState({
-          showOptions: false,
-          searchInput: e.currentTarget.innerText,
-          redirect: true
-        });
+       
+
+        if (e.currentTarget.id === 'customOption') {
+            this.setState({
+                showOptions: false,
+                searchInput: this.state.searchInput,
+                redirect: true
+              });
+        } else {
+
+            this.setState({
+            showOptions: false,
+            searchInput: e.currentTarget.innerText,
+            redirect: true
+            });
+        }
 
     };
 
@@ -110,14 +120,24 @@ export default class SearchBar extends React.Component {
     onKeyDown(e) {
         const { activeOption, filteredOptions } = this.state;
 
-        if (e.keyCode === 13) {
+        if (e.key === 'Enter') {
+            console.log(e.currentTarget)
+            if (!activeOption) {
+                this.setState({
+                    showOptions: false,
+                    searchInput: e.currentTarget.value,
+                    redirect: true
+                  });
+            }
+
             this.setState({
-                activeOption: 0,
                 showOptions: false,
-                searchInput: filteredOptions[activeOption]
-            });
+                searchInput: filteredOptions[activeOption].title ? filteredOptions[activeOption].title : (filteredOptions[activeOption].display_name),
+                redirect: true
+              });
+       
         } else if (e.keyCode === 38) {
-            if (activeOption === 0) {
+            if (activeOption === -1) {
                 return;
             }
             this.setState({ activeOption: activeOption - 1 });
@@ -138,7 +158,10 @@ export default class SearchBar extends React.Component {
                 this.setState({
                     activeOption: i
                 })
+                return
             }
+
+            this.setState({activeOption: null})
         }
     }
 
@@ -160,11 +183,12 @@ export default class SearchBar extends React.Component {
 
             let optionList;
 
-            if (this.state.showOptions && this.state.searchInput && this.state.filteredOptions.length) {
+            if (this.state.showOptions && this.state.searchInput ) {
                     
                     optionList = (
                         <div className="options-drop">
                         <ul className="options">
+                        <li className='option-active' id="customOption" key="searchInputOption" onKeyDown={this.onKeyDown} onClick={this.onClick} onMouseOver={this.onMouseOver}>Search for "{this.state.searchInput}"</li>
                             {this.state.filteredOptions.map((optionName, index) => {
                             if (optionName.title) {
                                 optionName = optionName.title
@@ -177,11 +201,12 @@ export default class SearchBar extends React.Component {
                                 className = 'option-active';
                             }
                             return (
-                                <li className={className} key={optionName} onClick={this.onClick} onMouseOver={this.onMouseOver}>
+                                <li className={className} key={optionName} onKeyDown={this.onKeyDown} onClick={this.onClick} onMouseOver={this.onMouseOver}>
                                 {optionName}
                                 </li>
                             );
                             })}
+                            
                         </ul>
                         </div>
                     )

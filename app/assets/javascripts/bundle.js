@@ -2907,12 +2907,19 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onClick",
     value: function onClick(e) {
-      console.log('click');
-      this.setState({
-        showOptions: false,
-        searchInput: e.currentTarget.innerText,
-        redirect: true
-      });
+      if (e.currentTarget.id === 'customOption') {
+        this.setState({
+          showOptions: false,
+          searchInput: this.state.searchInput,
+          redirect: true
+        });
+      } else {
+        this.setState({
+          showOptions: false,
+          searchInput: e.currentTarget.innerText,
+          redirect: true
+        });
+      }
     }
   }, {
     key: "componentWillUnmount",
@@ -2944,14 +2951,24 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
           activeOption = _this$state.activeOption,
           filteredOptions = _this$state.filteredOptions;
 
-      if (e.keyCode === 13) {
+      if (e.key === 'Enter') {
+        console.log(e.currentTarget);
+
+        if (!activeOption) {
+          this.setState({
+            showOptions: false,
+            searchInput: e.currentTarget.value,
+            redirect: true
+          });
+        }
+
         this.setState({
-          activeOption: 0,
           showOptions: false,
-          searchInput: filteredOptions[activeOption]
+          searchInput: filteredOptions[activeOption].title ? filteredOptions[activeOption].title : filteredOptions[activeOption].display_name,
+          redirect: true
         });
       } else if (e.keyCode === 38) {
-        if (activeOption === 0) {
+        if (activeOption === -1) {
           return;
         }
 
@@ -2980,7 +2997,12 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
           this.setState({
             activeOption: i
           });
+          return;
         }
+
+        this.setState({
+          activeOption: null
+        });
       }
     }
   }, {
@@ -3003,12 +3025,19 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
       } else {
         var optionList;
 
-        if (this.state.showOptions && this.state.searchInput && this.state.filteredOptions.length) {
+        if (this.state.showOptions && this.state.searchInput) {
           optionList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "options-drop"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
             className: "options"
-          }, this.state.filteredOptions.map(function (optionName, index) {
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            className: "option-active",
+            id: "customOption",
+            key: "searchInputOption",
+            onKeyDown: this.onKeyDown,
+            onClick: this.onClick,
+            onMouseOver: this.onMouseOver
+          }, "Search for \"", this.state.searchInput, "\""), this.state.filteredOptions.map(function (optionName, index) {
             if (optionName.title) {
               optionName = optionName.title;
             } else {
@@ -3024,6 +3053,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
               className: className,
               key: optionName,
+              onKeyDown: _this2.onKeyDown,
               onClick: _this2.onClick,
               onMouseOver: _this2.onMouseOver
             }, optionName);
@@ -3540,6 +3570,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     _this._next = _this._next.bind(_assertThisInitialized(_this));
     _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
     _this.handleLogin = _this.handleLogin.bind(_assertThisInitialized(_this));
+    _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3620,6 +3651,22 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "onKeyDown",
+    value: function onKeyDown(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (event.target.id === "lastPageLogin") {
+          this.handleLogin(event);
+        } else if (event.target.id === "lastPageSignUp") {
+          this.handleSignup(event);
+        } else {
+          this._next();
+        }
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       console.log(window.profile);
@@ -3650,6 +3697,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               className: "signup-email-input",
               placeholder: "Your email address",
               type: "text",
+              onKeyDown: this.onKeyDown,
               onChange: this.update('email'),
               value: values.email
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -3674,6 +3722,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               autoComplete: "password",
               type: "password",
               value: values.password,
+              onKeyDown: this.onKeyDown,
               onChange: this.update('password'),
               placeholder: "Your password"
             })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -3695,6 +3744,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               className: "signup-age-input",
               type: "number",
               value: values.age,
+              onKeyDown: this.onKeyDown,
               onChange: this.update('age')
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
               id: "signup-gender"
@@ -3727,8 +3777,10 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
             }, "Tell us a bit about yourself"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
               id: "signup-displayName"
             }, "Choose your display name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+              id: "lastPageSignUp",
               className: "signup-displayName-input",
               type: "text",
+              onKeyDown: this.onKeyDown,
               value: values.display_name,
               onChange: this.update('display_name')
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
@@ -3754,11 +3806,11 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               className: "signup-email-input",
               placeholder: "Your email address",
               type: "text",
+              onKeyDown: this.onKeyDown,
               onChange: this.update('email'),
               value: values.email
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
-              type: "button",
               onClick: this._next
             }, " Continue "));
 
@@ -3770,9 +3822,11 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
             }, "Please enter your password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
               id: "login-password-form"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+              id: "lastPageLogin",
               className: "signup-password-input",
               autoComplete: "password",
               type: "password",
+              onKeyDown: this.onKeyDown,
               value: values.password,
               onChange: this.update('password'),
               placeholder: "Your password"
@@ -3794,13 +3848,16 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               }, "Please enter your password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
                 id: "login-password-form"
               }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+                id: "lastPageLogin",
                 className: "signup-password-input",
                 autoComplete: "password",
                 type: "password",
+                onKeyDown: this.onKeyDown,
                 value: values.password,
                 onChange: this.update('password'),
                 placeholder: "Your password"
               })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+                type: "submit",
                 className: "signup-form-button",
                 onClick: this.handleLogin
               }, " Sign in "));
@@ -3945,6 +4002,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     _this.draw = _this.draw.bind(_assertThisInitialized(_this));
     _this._next = _this._next.bind(_assertThisInitialized(_this));
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
+    _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3975,14 +4033,7 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData).then(function () {
         return _this3._next();
-      }); // let submitButton = document.getElementById('songFormSubmitButton')
-      // submitButton.innerHTML = "Uploading song..."
-      // setTimeout(() => {
-      //   if (this.props.state.entities.songs.newSong) {
-      //     console.log('hello')
-      //     this._next()
-      //   }
-      // }, 1000)
+      });
     }
   }, {
     key: "_next",
@@ -3991,6 +4042,15 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       this.setState({
         step: step + 1
       });
+    }
+  }, {
+    key: "onKeyDown",
+    value: function onKeyDown(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+        this.handleSubmit(event);
+      }
     }
   }, {
     key: "handleCancel",
@@ -4182,7 +4242,8 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
               display: 'none'
             }
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "songUploadInfo"
+            className: "songUploadInfo",
+            onKeyDown: this.onKeyDown
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             className: "nameInput",
             placeholder: "Enter track title",

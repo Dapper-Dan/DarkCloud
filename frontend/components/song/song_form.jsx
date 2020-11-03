@@ -31,6 +31,7 @@ class SongForm extends React.Component {
       this.draw = this.draw.bind(this)
       this._next = this._next.bind(this);
       this.handleCancel = this.handleCancel.bind(this)
+      this.onKeyDown = this.onKeyDown.bind(this)
     }
 
     update(value) {
@@ -51,15 +52,6 @@ class SongForm extends React.Component {
       formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData)
       .then(() => this._next())
-      // let submitButton = document.getElementById('songFormSubmitButton')
-      // submitButton.innerHTML = "Uploading song..."
-      // setTimeout(() => {
-      //   if (this.props.state.entities.songs.newSong) {
-      //     console.log('hello')
-      //     this._next()
-      //   }
-      // }, 1000)
-      
     }
 
     _next() {
@@ -67,6 +59,15 @@ class SongForm extends React.Component {
           this.setState({
               step : step + 1
           })
+    }
+
+    onKeyDown(event) {
+   
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        event.stopPropagation();
+        this.handleSubmit(event)
+      }
     }
 
 
@@ -233,8 +234,8 @@ class SongForm extends React.Component {
             <UserNavBarContainer /> 
         </div>
 
-        <div className="outtermost"> 
-          <div className="songFormBackGround">
+        <div className="outtermost" > 
+          <div className="songFormBackGround" >
 
           
 
@@ -256,7 +257,7 @@ class SongForm extends React.Component {
             </div>
 
             
-            <div className="songUploadInfo">
+            <div className="songUploadInfo" onKeyDown={this.onKeyDown} >
               <h3>Title</h3>
               <input 
                 className="nameInput"
@@ -286,7 +287,7 @@ class SongForm extends React.Component {
               />
 
               <div className="songFormButtonContainer">
-
+              
                 <button className="songFormCancelButton" onClick={this.handleCancel}> Cancel </button>
                 <button id="songFormSubmitButton" className="songFormButton" onClick={this.handleSubmit}>  Submit Song </button>
               </div>

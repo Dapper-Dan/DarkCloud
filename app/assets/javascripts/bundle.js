@@ -2907,7 +2907,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onClick",
     value: function onClick(e) {
-      if (e.currentTarget.id === 'customOption') {
+      if (e.currentTarget.id === 'customOption' || e.currentTarget.className === "search-button") {
         this.setState({
           showOptions: false,
           searchInput: this.state.searchInput,
@@ -3069,7 +3069,8 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
           onKeyDown: this.onKeyDown,
           onMouseOver: this.onMouseOver
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "search-button"
+          className: "search-button",
+          onClick: this.onClick
         }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.searchButton,
           width: "15px"
@@ -3262,8 +3263,10 @@ var SearchResults = /*#__PURE__*/function (_React$Component) {
             // return songName.indexOf(searchInput.toLowerCase()) > -1
             var songName = songItem.title.toLowerCase();
             var username = songItem.display_name.toLowerCase();
+            var genre = songItem.genre.toLowerCase();
             if (username.indexOf(searchInput.toLowerCase()) > -1) return songItem;
-            if (songName.indexOf(searchInput.toLowerCase()) > -1) return songItem; // if (username.indexOf(searchInput.toLowerCase()) > -1) return;
+            if (songName.indexOf(searchInput.toLowerCase()) > -1) return songItem;
+            if (genre.indexOf(searchInput.toLowerCase()) > -1) return songItem;
           });
         }
 

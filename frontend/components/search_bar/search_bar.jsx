@@ -83,7 +83,7 @@ export default class SearchBar extends React.Component {
     onClick(e) {
        
 
-        if (e.currentTarget.id === 'customOption') {
+        if (e.currentTarget.id === 'customOption' || e.currentTarget.className === "search-button") {
             this.setState({
                 showOptions: false,
                 searchInput: this.state.searchInput,
@@ -226,7 +226,7 @@ export default class SearchBar extends React.Component {
                 <>
                 {/* <div className="searchBarContainer"> */}
                 <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate} onKeyDown={this.onKeyDown} onMouseOver={this.onMouseOver}/>
-                <button className="search-button"> <img src={window.searchButton} width="15px" /> </button> 
+                <button className="search-button" onClick={this.onClick}> <img src={window.searchButton} width="15px" /> </button> 
                 {optionList}
                 {/* </div> */}
                 

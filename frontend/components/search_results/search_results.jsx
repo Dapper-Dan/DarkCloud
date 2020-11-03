@@ -77,10 +77,11 @@ export default class SearchResults extends React.Component {
                         // return songName.indexOf(searchInput.toLowerCase()) > -1
                         let songName = songItem.title.toLowerCase()
                         let username = songItem.display_name.toLowerCase()
+                        let genre = songItem.genre.toLowerCase()
                         
                         if (username.indexOf(searchInput.toLowerCase()) > -1) return songItem
                         if (songName.indexOf(searchInput.toLowerCase()) > -1) return songItem;
-                        // if (username.indexOf(searchInput.toLowerCase()) > -1) return;
+                        if (genre.indexOf(searchInput.toLowerCase()) > -1) return songItem;
                         
                     }
                 )

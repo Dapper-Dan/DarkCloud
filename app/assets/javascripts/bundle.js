@@ -3492,7 +3492,7 @@ var mapSTP = function mapSTP(state) {
 
 var mapDTP = function mapDTP(dispatch) {
   return {
-    action: function action(user) {
+    login: function login(user) {
       return dispatch(Object(_actions_session_actions_js__WEBPACK_IMPORTED_MODULE_2__["login"])(user));
     }
   };
@@ -3574,6 +3574,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
     _this.handleLogin = _this.handleLogin.bind(_assertThisInitialized(_this));
     _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
+    _this.loginDemoUser = _this.loginDemoUser.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3592,12 +3593,20 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       // formData.append('user[profile_photo]',  window.profile);
       // formData.append('user[cover_photo]', this.state.cover_photo);
 
-      this.props.action(formData); // this.setState({redirect: true})
+      this.props.signup(formData); // this.setState({redirect: true})
 
       setTimeout(function () {
         if (_this2.props.currentUser) console.log('eeeyyyo');
         if (_this2.props.currentUser) _this2.props.changeShow();
       }, 300);
+    }
+  }, {
+    key: "loginDemoUser",
+    value: function loginDemoUser() {
+      this.props.login({
+        email: "dan@aol.com",
+        password: "123456"
+      });
     }
   }, {
     key: "handleLogin",
@@ -3608,7 +3617,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
       var _this$state = this.state,
           email = _this$state.email,
           password = _this$state.password;
-      this.props.action({
+      this.props.login({
         email: email,
         password: password
       });
@@ -3672,8 +3681,6 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(window.profile);
-      console.log(this.props.currentUser);
       var step = this.state.step;
       var _this$state2 = this.state,
           email = _this$state2.email,
@@ -3708,6 +3715,11 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
               type: "button",
               onClick: this._next
             }, " Continue "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "or"
+            }, "or"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: "demo-login-button",
+              onClick: this.loginDemoUser
+            }, "Demo Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
               id: "thanks"
             }, "Thanks for using my site! The information you provide will not be used for anything! There will be no ads, no email notifications, and no nonsense. "));
 
@@ -3815,7 +3827,14 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "signup-form-button",
               onClick: this._next
-            }, " Continue "));
+            }, " Continue "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "or"
+            }, "or"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: "demo-login-button",
+              onClick: this.loginDemoUser
+            }, "Demo Login"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              id: "thanks"
+            }, "Thanks for using my site! The information you provide will not be used for anything! There will be no ads, no email notifications, and no nonsense. "));
 
           case 2:
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3897,6 +3916,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var mapSTP = function mapSTP(state) {
   return {
     formType: 'signup',
@@ -3906,8 +3926,11 @@ var mapSTP = function mapSTP(state) {
 
 var mapDTP = function mapDTP(dispatch) {
   return {
-    action: function action(user) {
+    signup: function signup(user) {
       return dispatch(Object(_actions_session_actions_js__WEBPACK_IMPORTED_MODULE_2__["signup"])(user));
+    },
+    login: function login(user) {
+      return dispatch(Object(_actions_session_actions_js__WEBPACK_IMPORTED_MODULE_2__["login"])(user));
     }
   };
 };

@@ -29,6 +29,7 @@ class SignupForm extends React.Component {
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
     this.onKeyDown = this.onKeyDown.bind(this)
+    this.loginDemoUser = this.loginDemoUser.bind(this)
     
   }
     
@@ -44,7 +45,7 @@ class SignupForm extends React.Component {
       // formData.append('user[location]', this.state.location);
       // formData.append('user[profile_photo]',  window.profile);
       // formData.append('user[cover_photo]', this.state.cover_photo);
-      this.props.action(formData)
+      this.props.signup(formData)
       // this.setState({redirect: true})
 
       
@@ -55,12 +56,16 @@ class SignupForm extends React.Component {
       }, 300)
   }
 
+  loginDemoUser() {
+    this.props.login({email: "dan@aol.com", password: "123456"});
+  }
+
 
 
   handleLogin(e) {
     e.preventDefault();
     const {email, password} = this.state;
-    this.props.action({email, password});
+    this.props.login({email, password});
     setTimeout(() => {
       if (this.props.currentUser) this.props.changeShow()
     }, 300)
@@ -117,12 +122,10 @@ class SignupForm extends React.Component {
   
 
   render() {
-    console.log(window.profile)
-    console.log(this.props.currentUser)
     const {step} = this.state;
     const {email, password, display_name, age, gender } = this.state;
     const values = {email, password, display_name, age, gender };
-    
+
     if (this.props.formType === "signup") {
     switch(step) {
       case 1: 
@@ -141,6 +144,8 @@ class SignupForm extends React.Component {
             />
 
           <button className="signup-form-button" type="button" onClick={ this._next }> Continue </button>
+          <p id="or">or</p>
+          <button className="demo-login-button" onClick={this.loginDemoUser}>Demo Login</button>
           <p id="thanks">Thanks for using my site! The information you provide will not be used for anything! There will be no ads, no email notifications, and no nonsense. </p>
         </div>
        
@@ -235,6 +240,9 @@ class SignupForm extends React.Component {
               />
   
           <button className="signup-form-button" onClick={ this._next }> Continue </button>
+          <p id="or">or</p>
+          <button className="demo-login-button" onClick={this.loginDemoUser}>Demo Login</button>
+          <p id="thanks">Thanks for using my site! The information you provide will not be used for anything! There will be no ads, no email notifications, and no nonsense. </p>
           </div>
         )
         case 2:

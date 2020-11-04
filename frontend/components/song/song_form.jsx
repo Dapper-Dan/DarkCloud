@@ -52,6 +52,7 @@ class SongForm extends React.Component {
       formData.append('song[waveForm]', this.state.waveForm);
       this.props.action(formData)
       .then(() => this._next())
+      
     }
 
     _next() {

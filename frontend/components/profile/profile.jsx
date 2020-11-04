@@ -88,23 +88,27 @@ class Profile extends React.Component {
     update(value) {
       
       return e => {
-      this[value] = e.target.files[0]
-      let file = e.target.files[0]
-      
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onloadend = () => {
-        this.setState({ [value]: fileReader.result })
-      }
-      
-      
-      if (value === "cover_pic") {
-        this.setState({showConfirmCover: true})
-      } else {
-        this.setState({showConfirmProfile: true})
-      }
-      this.setState({showPicOption: true})
-      
+        this[value] = e.target.files[0]
+        let file = e.target.files[0]
+
+        if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif") {
+        
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+          fileReader.onloadend = () => {
+            this.setState({ [value]: fileReader.result })
+          }
+          
+          
+          if (value === "cover_pic") {
+            this.setState({showConfirmCover: true})
+          } else {
+            this.setState({showConfirmProfile: true})
+          }
+          this.setState({showPicOption: true})
+        } else {
+          alert("Invalid file type. Valid types are JPEG, PNG, and GIF.")
+        }
       }
     }
 

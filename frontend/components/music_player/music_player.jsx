@@ -155,7 +155,7 @@ class MusicPlayer extends React.Component {
         song = this.props.state.session.currentSong.songUrl
         artist_name = this.props.state.session.currentSong.display_name
         song_title = this.props.state.session.currentSong.title
-        song_pic = this.props.state.session.currentSong.pictureUrl
+        song_pic = this.props.state.session.currentSong.pictureUrl || window.songGradient
         } else {
             song = ""
         }

@@ -1471,7 +1471,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         song = this.props.state.session.currentSong.songUrl;
         artist_name = this.props.state.session.currentSong.display_name;
         song_title = this.props.state.session.currentSong.title;
-        song_pic = this.props.state.session.currentSong.pictureUrl;
+        song_pic = this.props.state.session.currentSong.pictureUrl || window.songGradient;
       } else {
         song = "";
       }
@@ -2261,26 +2261,31 @@ var Profile = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         _this2[value] = e.target.files[0];
         var file = e.target.files[0];
-        var fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
 
-        fileReader.onloadend = function () {
-          _this2.setState(_defineProperty({}, value, fileReader.result));
-        };
+        if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif") {
+          var fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
 
-        if (value === "cover_pic") {
+          fileReader.onloadend = function () {
+            _this2.setState(_defineProperty({}, value, fileReader.result));
+          };
+
+          if (value === "cover_pic") {
+            _this2.setState({
+              showConfirmCover: true
+            });
+          } else {
+            _this2.setState({
+              showConfirmProfile: true
+            });
+          }
+
           _this2.setState({
-            showConfirmCover: true
+            showPicOption: true
           });
         } else {
-          _this2.setState({
-            showConfirmProfile: true
-          });
+          alert("Invalid file type. Valid types are JPEG, PNG, and GIF.");
         }
-
-        _this2.setState({
-          showPicOption: true
-        });
       };
     }
   }, {

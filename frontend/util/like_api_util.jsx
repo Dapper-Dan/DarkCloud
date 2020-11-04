@@ -1,18 +1,10 @@
-// export const like = like => (
-//     $.ajax({
-//       url: 'api/likes',
-//       method: 'POST',
-//       data: {like}
-//     })
-//   )
-
 export const like = like => (
     $.ajax({
       url: '/api/likes',
       method: 'POST',
       data: {like}
     })
-  )
+);
   
 export const unlike = like => (
     $.ajax({
@@ -20,11 +12,4 @@ export const unlike = like => (
       method: 'DELETE',
       data: {like}
     })
-)
-// export const unlike = like => (
-//     $.ajax({
-//       url: `api/likes/${like.likeId}`,
-//       method: 'DELETE',
-//       data: {like}
-//     })
-// )
+);

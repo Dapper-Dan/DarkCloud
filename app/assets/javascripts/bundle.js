@@ -169,7 +169,7 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/song_actions.js ***!
   \******************************************/
-/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, RECEIVE_BUNCH_SONGS, RECEIVE_NEW_SONG, receiveSong, receiveNewSong, receiveSongs, receiveBunchSongs, createSong, getSong, getSongs, getBunchSongs, like, unlike */
+/*! exports provided: REMOVE_GAME_ERRORS, RECEIVE_SONG, RECEIVE_SONGS, RECEIVE_SONG_ERRORS, RECEIVE_BUNCH_SONGS, RECEIVE_NEW_SONG, receiveSongErrors, receiveSong, receiveNewSong, receiveSongs, receiveBunchSongs, createSong, getSong, getSongs, getBunchSongs, like, unlike */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -180,6 +180,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SONG_ERRORS", function() { return RECEIVE_SONG_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_BUNCH_SONGS", function() { return RECEIVE_BUNCH_SONGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_SONG", function() { return RECEIVE_NEW_SONG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSongErrors", function() { return receiveSongErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSong", function() { return receiveSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewSong", function() { return receiveNewSong; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveSongs", function() { return receiveSongs; });
@@ -200,6 +201,12 @@ var RECEIVE_SONGS = "RECEIVE_SONGS";
 var RECEIVE_SONG_ERRORS = "RECEIVE_SONG_ERRORS";
 var RECEIVE_BUNCH_SONGS = "RECEIVE_BUNCH_SONGS";
 var RECEIVE_NEW_SONG = "RECEIVE_NEW_SONG";
+var receiveSongErrors = function receiveSongErrors(errors) {
+  return {
+    type: RECEIVE_SONG_ERRORS,
+    errors: errors
+  };
+};
 var receiveSong = function receiveSong(song) {
   return {
     type: RECEIVE_SONG,
@@ -223,57 +230,38 @@ var receiveBunchSongs = function receiveBunchSongs(songs) {
     type: RECEIVE_BUNCH_SONGS,
     songs: songs
   };
-}; // export const receiveErrors = errors => ({
-//     type: RECEIVE_GAME_ERRORS,
-//     errors
-// });
-// export const removeErrors = () => ({
-//     type: REMOVE_GAME_ERRORS
-// });
-
+};
 var createSong = function createSong(song) {
   return function (dispatch) {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["createSong"](song).then(function (song) {
-      dispatch(receiveNewSong(song)); // dispatch(receiveSong(song));
-    }) // .catch(err => {
-    //     return dispatch(receiveErrors(err.response.data));
-    // })
-    ;
+      dispatch(receiveNewSong(song));
+    }, function (err) {
+      return dispatch(receiveSongErrors(err.response.data));
+    });
   };
 };
 var getSong = function getSong(songId) {
   return function (dispatch) {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSong"](songId).then(function (song) {
-      // const song = res.data;
       dispatch(receiveSong(song));
-    }) // .catch(err => {
-    //     return dispatch(receiveErrors(err.response.data));
-    // })
-    ;
+    }, function (err) {
+      return dispatch(receiveSongErrors(err.response.data));
+    });
   };
 };
 var getSongs = function getSongs(display_name) {
   return function (dispatch) {
-    return (// console.log(display_name),
-      _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"](display_name).then(function (songs) {
-        return (// console.log(songs))
-          // const songs = res.data;
-          dispatch(receiveSongs(songs))
-        );
-      }) // .catch((err) => {
-      //     return dispatch(receiveErrors(err.response.data));
-      // })
-
-    );
+    return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["getSongs"](display_name).then(function (songs) {
+      dispatch(receiveSongs(songs));
+    }, function (err) {
+      return dispatch(receiveSongErrors(err.response.data));
+    });
   };
 };
 var getBunchSongs = function getBunchSongs() {
   return function (dispatch) {
     return _util_song_api_util__WEBPACK_IMPORTED_MODULE_0__["bunch_o_songs"]().then(function (songs) {
-      return (// console.log(songs))
-        // const songs = res.data;
-        dispatch(receiveBunchSongs(songs))
-      );
+      dispatch(receiveBunchSongs(songs));
     }) // .catch((err) => {
     //     return dispatch(receiveErrors(err.response.data));
     // })
@@ -281,8 +269,7 @@ var getBunchSongs = function getBunchSongs() {
   };
 };
 var like = function like(_ref) {
-  var like = _ref.like,
-      song = _ref.song;
+  var like = _ref.like;
   return function (dispatch) {
     return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["like"](like) // .then(() => 
     //    dispatch(receiveSong(song))  )
@@ -293,8 +280,7 @@ var like = function like(_ref) {
   };
 };
 var unlike = function unlike(_ref2) {
-  var like = _ref2.like,
-      song = _ref2.song;
+  var like = _ref2.like;
   return function (dispatch) {
     return _util_like_api_util__WEBPACK_IMPORTED_MODULE_1__["unlike"](like) // .then(() => 
     //    dispatch(receiveSong(song))  )
@@ -303,10 +289,7 @@ var unlike = function unlike(_ref2) {
     // })
     ;
   };
-}; // export const createDeleteLike = ({song, like}) => dispatch => (
-//     LikesAPIUtil.createDeleteLike(like)
-//         .then(() => dispatch(receiveSong(song)))
-// )
+};
 
 /***/ }),
 
@@ -4090,34 +4073,40 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     value: function handleMusicUpload(e) {
       var _this4 = this;
 
-      var track = document.createElement('audio');
-      var reader = new FileReader();
+      var file = e.target.files[0];
 
-      reader.onloadend = function () {
-        track.src = reader.result;
-      };
+      if (file.type === 'audio/mpeg') {
+        var track = document.createElement('audio');
+        var reader = new FileReader();
 
-      reader.readAsDataURL(e.target.files[0]);
-      track.addEventListener('loadedmetadata', function () {
-        _this4.setState({
-          duration: track.duration
+        reader.onloadend = function () {
+          track.src = reader.result;
+        };
+
+        reader.readAsDataURL(e.target.files[0]);
+        track.addEventListener('loadedmetadata', function () {
+          _this4.setState({
+            duration: track.duration
+          });
         });
-      });
-      this.setState({
-        music: e.target.files[0]
-      });
-      var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      e.target.files[0].arrayBuffer().then(function (arrayBuffer) {
-        return audioContext.decodeAudioData(arrayBuffer);
-      }).then(function (audioBuffer) {
-        // this.draw(this.normalizeData(this.filterData(audioBuffer)))
-        // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
-        _this4.setState({
-          waveForm: _this4.draw(_this4.normalizeData(_this4.filterData(audioBuffer)))
+        this.setState({
+          music: e.target.files[0]
         });
-      });
+        var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        e.target.files[0].arrayBuffer().then(function (arrayBuffer) {
+          return audioContext.decodeAudioData(arrayBuffer);
+        }).then(function (audioBuffer) {
+          // this.draw(this.normalizeData(this.filterData(audioBuffer)))
+          // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
+          _this4.setState({
+            waveForm: _this4.draw(_this4.normalizeData(_this4.filterData(audioBuffer)))
+          });
+        });
 
-      this._next();
+        this._next();
+      } else {
+        alert("Invalid file type.");
+      }
     }
   }, {
     key: "filterData",
@@ -4178,18 +4167,23 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     value: function handlePictureUpload(e) {
       var _this5 = this;
 
-      this.setState({
-        songImage: e.target.files[0]
-      });
       var file = e.target.files[0];
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
 
-      fileReader.onloadend = function () {
-        _this5.setState({
-          pictureSamp: fileReader.result
+      if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif") {
+        this.setState({
+          songImage: file
         });
-      };
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        fileReader.onloadend = function () {
+          _this5.setState({
+            pictureSamp: fileReader.result
+          });
+        };
+      } else {
+        alert("Invalid file type. Valid types are JPEG, PNG, and GIF.");
+      }
     }
   }, {
     key: "showUploadInput",
@@ -4969,6 +4963,131 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
 
 /***/ }),
 
+/***/ "./frontend/reducers/errors/errors_reducer.js":
+/*!****************************************************!*\
+  !*** ./frontend/reducers/errors/errors_reducer.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _songs_errors_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./songs_errors_reducer */ "./frontend/reducers/errors/songs_errors_reducer.js");
+/* harmony import */ var _session_errors_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_errors_reducer */ "./frontend/reducers/errors/session_errors_reducer.js");
+/* harmony import */ var _users_errors_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./users_errors_reducer */ "./frontend/reducers/errors/users_errors_reducer.js");
+
+
+
+
+var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  songs: _songs_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  users: _users_errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
+/* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/errors/session_errors_reducer.js":
+/*!************************************************************!*\
+  !*** ./frontend/reducers/errors/session_errors_reducer.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
+
+var sessionErrorsReducer = function sessionErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SESSION_ERRORS"]:
+      return action.errors;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+      return [];
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (sessionErrorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/errors/songs_errors_reducer.js":
+/*!**********************************************************!*\
+  !*** ./frontend/reducers/errors/songs_errors_reducer.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/song_actions */ "./frontend/actions/song_actions.js");
+
+
+var songErrorsReducer = function songErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG_ERRORS"]:
+      return action.errors;
+
+    case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONG"]:
+      return [];
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (songErrorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/errors/users_errors_reducer.js":
+/*!**********************************************************!*\
+  !*** ./frontend/reducers/errors/users_errors_reducer.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
+
+var userErrorsReducer = function userErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER_ERRORS"]:
+      return action.errors;
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
+      return [];
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (userErrorsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/root_reducer.js":
 /*!*******************************************!*\
   !*** ./frontend/reducers/root_reducer.js ***!
@@ -4981,12 +5100,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _session_reducer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_reducer.js */ "./frontend/reducers/session_reducer.js");
 /* harmony import */ var _entities_reducer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./entities_reducer.js */ "./frontend/reducers/entities_reducer.js");
+/* harmony import */ var _errors_errors_reducer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./errors/errors_reducer.js */ "./frontend/reducers/errors/errors_reducer.js");
+
 
 
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   session: _session_reducer_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  entities: _entities_reducer_js__WEBPACK_IMPORTED_MODULE_2__["default"]
+  entities: _entities_reducer_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+  errors: _errors_errors_reducer_js__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);
 
@@ -5052,24 +5174,7 @@ __webpack_require__.r(__webpack_exports__);
 var songsReducer = function songsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  Object.freeze(state); // let nextState = Object.assign({}, state)
-  // switch (action.type) {
-  //     case RECEIVE_SONGS:
-  //         nextState = action.songs
-  //     case RECEIVE_BUNCH_SONGS: 
-  //         nextState['all_songs'] = action.songs   
-  //         return nextState;
-  //     case RECEIVE_SONG:
-  //         nextState[action.song.id] = action.song
-  //         return nextState;
-  //     // case REMOVE_SONG:
-  //     //     delete nextState[action.songId]
-  //     //     return nextState;
-  //     // case REMOVE_SONGS:
-  //     //     return {};
-  //     default:
-  //         return state;
-  // }
+  Object.freeze(state);
 
   switch (action.type) {
     case _actions_song_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SONGS"]:
@@ -5194,13 +5299,6 @@ var configureStore = function configureStore() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "like", function() { return like; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unlike", function() { return unlike; });
-// export const like = like => (
-//     $.ajax({
-//       url: 'api/likes',
-//       method: 'POST',
-//       data: {like}
-//     })
-//   )
 var like = function like(_like) {
   return $.ajax({
     url: '/api/likes',
@@ -5218,13 +5316,7 @@ var unlike = function unlike(like) {
       like: like
     }
   });
-}; // export const unlike = like => (
-//     $.ajax({
-//       url: `api/likes/${like.likeId}`,
-//       method: 'DELETE',
-//       data: {like}
-//     })
-// )
+};
 
 /***/ }),
 

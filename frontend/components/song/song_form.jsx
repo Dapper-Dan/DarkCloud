@@ -79,28 +79,33 @@ class SongForm extends React.Component {
 
 
     handleMusicUpload(e) {
-      const track = document.createElement('audio');
-      const reader = new FileReader()
-      reader.onloadend = () => { 
-        track.src = reader.result;
-      }
-      reader.readAsDataURL(e.target.files[0])
-      track.addEventListener('loadedmetadata', () => {
-        this.setState({ duration: track.duration});
-      })
-                       
-      this.setState({ music: e.target.files[0] }); 
-     
-      let audioContext = new (window.AudioContext || window.webkitAudioContext)()
-      e.target.files[0].arrayBuffer()
-        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        .then(audioBuffer => {
-          // this.draw(this.normalizeData(this.filterData(audioBuffer)))
-          // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
-          this.setState({ waveForm: this.draw(this.normalizeData(this.filterData(audioBuffer))) })
+      const file = e.target.files[0]
+      if (file.type === 'audio/mpeg') {
+        const track = document.createElement('audio');
+        const reader = new FileReader()
+        reader.onloadend = () => { 
+          track.src = reader.result;
+        }
+        reader.readAsDataURL(e.target.files[0])
+        track.addEventListener('loadedmetadata', () => {
+          this.setState({ duration: track.duration});
         })
+                        
+        this.setState({ music: e.target.files[0] }); 
       
-      this._next()
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)()
+        e.target.files[0].arrayBuffer()
+          .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+          .then(audioBuffer => {
+            // this.draw(this.normalizeData(this.filterData(audioBuffer)))
+            // this.sampleArray = this.normalizeData(this.filterData(audioBuffer))
+            this.setState({ waveForm: this.draw(this.normalizeData(this.filterData(audioBuffer))) })
+          })
+        
+        this._next()
+        } else {
+          alert("Invalid file type.")
+        }
     }
 
     filterData(audioBuffer) {
@@ -154,13 +159,16 @@ class SongForm extends React.Component {
     }
 
     handlePictureUpload(e) {
-      this.setState({ songImage: e.target.files[0] });
-
       let file = e.target.files[0]
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onloadend = () => {
-        this.setState({ pictureSamp: fileReader.result })
+      if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif") {
+        this.setState({ songImage: file });
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onloadend = () => {
+          this.setState({ pictureSamp: fileReader.result })
+        }
+      } else {
+        alert("Invalid file type. Valid types are JPEG, PNG, and GIF.")
       }
      
     }

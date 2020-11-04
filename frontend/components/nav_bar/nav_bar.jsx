@@ -154,10 +154,11 @@ export default class NavBar extends React.Component {
                             }} > <img id="trackIcon" src={window.trackIcon}/> Tracks </Link>
                             
                         </li>
-
-                        <li>
-                            <a onClick={this.logout} ><img id="signoutIcon" src={window.signoutIcon}/> Sign out</a>
-                        </li>
+                        {/* <div className="dropDownEnd"> */}
+                            <li id="dropDownEnd">
+                                <a onClick={this.logout} ><img id="signoutIcon" src={window.signoutIcon}/> Sign out</a>
+                            </li>
+                        {/* </div> */}
                     </ul>
                 </div>
             )

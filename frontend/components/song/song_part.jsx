@@ -29,10 +29,12 @@ class SongPart extends React.Component {
 
       play() {
         let audioEle = document.getElementById('myAudio')
-        if (audioEle.paused) {
+        if (!this.state.playing) {
+        // if (audioEle.paused) {
           audioEle.play()
           this.setState({playing: true})
-        } else if (!audioEle.paused) {
+        } else if (this.state.playing) {
+        // } else if (!audioEle.paused) {
           audioEle.pause()
           this.setState({playing: false})
         }
@@ -76,7 +78,7 @@ class SongPart extends React.Component {
     }
   
     componentDidUpdate() {
-      if (this.props.state.session.currentSong && this.props.song && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) { 
+      if (document.getElementById('myAudio') && this.props.state.session.currentSong && this.props.song && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) { 
         let audioEle = document.getElementById('myAudio')
         
         audioEle.ontimeupdate = () => {

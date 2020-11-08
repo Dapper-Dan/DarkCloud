@@ -163,7 +163,7 @@ export default class NavBar extends React.Component {
                 </div>
             )
         }
-        // console.log(dropDownOptions)
+        
         
         switch(this.props.navType) {
             case 'default':

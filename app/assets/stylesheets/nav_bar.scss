@@ -289,10 +289,10 @@
     position: relative;
     top: 43px;
     right: 91px;
-    // border: 1px solid grey;
+    border: 1px solid grey;
     border-radius: 0px 0px 7px 7px;
     background-color: white;
-    border-top-color: white;
+    // border-top-color: white;
     // padding-bottom: 4px;
     // padding-top: 4px;
 }
@@ -360,7 +360,7 @@
 
 
 #dropDownOptionsList li:hover {
-    background-color: gray;
+    background-color: #ccc;
 }
 
 

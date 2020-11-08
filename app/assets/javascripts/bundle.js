@@ -1295,7 +1295,11 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       mouseDown: false,
       playing: false,
       volume: .5,
-      showVolume: false
+      showVolume: false,
+      currentSongDisplayName: "",
+      queue: null,
+      listener: false,
+      queueIndex: 0
     };
 
     _this.props.getBunchSongs();
@@ -1458,9 +1462,52 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       this.props.getBunchSongs();
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      var _this2 = this;
+
+      if (!this.state.queue) {
+        var queueSongs;
+        if (this.props.state.entities.songs.all_songs) queueSongs = Object.values(this.props.state.entities.songs.all_songs);
+        var queueOrder;
+
+        if (queueSongs && this.props.currentSong) {
+          var userSongs = queueSongs.filter(function (song) {
+            return song.display_name === _this2.props.currentSong.display_name;
+          });
+          var currentSongId;
+          if (this.props.currentSong.id) currentSongId = userSongs.findIndex(function (obj) {
+            return obj.id === _this2.props.currentSong.id;
+          });
+          userSongs.unshift(userSongs.splice(currentSongId, 1)[0]);
+          var otherSongs = queueSongs.filter(function (song) {
+            return song.display_name !== _this2.props.currentSong.display_name;
+          });
+          queueOrder = userSongs.concat(otherSongs);
+          this.setState({
+            queue: queueOrder
+          });
+        }
+      }
+
+      if (!this.state.listener && document.getElementById('myAudio')) {
+        var song = document.getElementById('myAudio');
+        this.setState({
+          listener: true
+        });
+        song.addEventListener('ended', function () {
+          _this2.setState({
+            queueIndex: _this2.state.queueIndex += 1
+          });
+
+          _this2.props.getSong(_this2.state.queue[_this2.state.queueIndex].id).then(song.play());
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var song;
       var artist_name;
@@ -1496,7 +1543,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "range",
         onChange: function onChange(e) {
-          _this2.changeVolume(e);
+          _this3.changeVolume(e);
         },
         id: "vol",
         name: "vol",
@@ -1603,10 +1650,11 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           width: "15px"
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
           id: "myAudio",
+          autoPlay: true,
           hidden: true,
           src: song,
           onTimeUpdate: function onTimeUpdate() {
-            _this2.getCurrentTime();
+            _this3.getCurrentTime();
           }
         })));
       }
@@ -1901,8 +1949,7 @@ var NavBar = /*#__PURE__*/function (_React$Component) {
           id: "signoutIcon",
           src: window.signoutIcon
         }), " Sign out"))));
-      } // console.log(dropDownOptions)
-
+      }
 
       switch (this.props.navType) {
         case 'default':
@@ -4591,12 +4638,14 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     value: function play() {
       var audioEle = document.getElementById('myAudio');
 
-      if (audioEle.paused) {
+      if (!this.state.playing) {
+        // if (audioEle.paused) {
         audioEle.play();
         this.setState({
           playing: true
         });
-      } else if (!audioEle.paused) {
+      } else if (this.state.playing) {
+        // } else if (!audioEle.paused) {
         audioEle.pause();
         this.setState({
           playing: false
@@ -4656,7 +4705,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     value: function componentDidUpdate() {
       var _this2 = this;
 
-      if (this.props.state.session.currentSong && this.props.song && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
+      if (document.getElementById('myAudio') && this.props.state.session.currentSong && this.props.song && this.props.song.songUrl === this.props.state.session.currentSong.songUrl) {
         var audioEle = document.getElementById('myAudio');
 
         audioEle.ontimeupdate = function () {

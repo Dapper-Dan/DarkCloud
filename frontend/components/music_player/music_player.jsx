@@ -9,7 +9,11 @@ class MusicPlayer extends React.Component {
             mouseDown: false,
             playing: false,
             volume: .5,
-            showVolume: false
+            showVolume: false,
+            currentSongDisplayName: "",
+            queue: null,
+            listener: false,
+            queueIndex: 0
             
         }
       
@@ -144,7 +148,36 @@ class MusicPlayer extends React.Component {
         this.props.getSong(song_id)
         this.props.getBunchSongs()
     }
+
+   
+    componentDidUpdate() {
+      
+        if (!this.state.queue) {
+            let queueSongs
+            if (this.props.state.entities.songs.all_songs) queueSongs = Object.values(this.props.state.entities.songs.all_songs)
     
+            let queueOrder
+            if (queueSongs && this.props.currentSong) {
+                let userSongs = queueSongs.filter((song) => song.display_name === this.props.currentSong.display_name)
+                let currentSongId
+                if (this.props.currentSong.id) currentSongId = userSongs.findIndex(obj => obj.id === this.props.currentSong.id)
+                userSongs.unshift(userSongs.splice(currentSongId, 1)[0])
+                let otherSongs = queueSongs.filter((song) => song.display_name !== this.props.currentSong.display_name)
+                queueOrder = userSongs.concat(otherSongs)
+                this.setState({queue: queueOrder})
+            }
+        }
+
+        if (!this.state.listener && document.getElementById('myAudio')) {
+            let song = document.getElementById('myAudio')
+            this.setState({listener: true})
+            song.addEventListener('ended', () => {
+                this.setState({queueIndex: this.state.queueIndex += 1})
+                this.props.getSong(this.state.queue[this.state.queueIndex].id).then(song.play())
+            })
+        }
+
+    }
 
     render() { 
         let song
@@ -269,7 +302,7 @@ class MusicPlayer extends React.Component {
                         
                     </div>
             
-                    <audio id="myAudio" hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
+                    <audio id="myAudio" autoPlay={true} hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
          
                 </div>
                 

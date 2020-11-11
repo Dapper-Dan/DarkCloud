@@ -44,7 +44,6 @@ class HomePage extends React.Component {
     });
   }
 
-
   render() {
     if (this.state.showModal) {
       document.body.style.overflow = 'hidden';

@@ -9,7 +9,6 @@
     font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
 }
 
-
 @media (max-width:2000px) {
     .outtermost {
         width: 85%;
@@ -17,7 +16,6 @@
         display: block;
         background-color: white;
         z-index: 9;
-       
     }
 }
 
@@ -35,7 +33,6 @@
     color: red;
     margin-top: 20px;
     padding-bottom: 50px;
-
 }
 
 .cover-photo {
@@ -64,9 +61,7 @@
     margin-left: 42px;
     display: flex;
     height: fit-content;
-    flex-direction: column;
-
-    
+    flex-direction: column; 
 }
 
 .info-basic a {
@@ -98,16 +93,11 @@
     list-style-type: none;
 }
 
-
-
 .songProfileTile {
     margin-bottom: 45px;
     justify-content: flex-start;
     display: flex;
-    
 }
-
-
 
 .songProfileTile .play {
     width: 40px;
@@ -135,7 +125,6 @@
     background-repeat: no-repeat;
     background-image: url(media_player_assets/songTilePause.png);
 }
-
 
 .songProfileTile .songTitle {
     font-size: 16px;
@@ -179,7 +168,6 @@
  
 }
 
-
 .progressWaveFormContainer {
     overflow: hidden;
 }
@@ -194,7 +182,6 @@
     z-index: 99;
     padding: 0px 1px 0px 1px;
     font-size: 10px;
-
 }
 
 .songEndTimer {
@@ -208,16 +195,13 @@
     z-index: 99;
     padding: 0px 1px 0px 1px;
     font-size: 10px;
-
 }
 
 #recent {
     margin-top: 10px;
     margin-left: 38px;
     font-size: 23px;
-
 }
-
 
 .likeButton {
     border: solid thin lightgrey;
@@ -267,8 +251,6 @@
     white-space: nowrap;
 }
 
-
-
 .profile-song-info {
     justify-content: space-between;
 }
@@ -276,7 +258,6 @@
 .playNameContainer {
     display: flex;
 }
-
 
 .cover-pic-upload-button {
     position: relative;
@@ -314,7 +295,6 @@
     color: white;
 }
 
-
 .cover-pic-cancelConfirm {
     position: relative;
     align-self: center;
@@ -324,7 +304,6 @@
     display: flex;
     width: 147px;
 }
-
 
 .cover-pic-cancelConfirm button {
     border-radius: 3px;
@@ -337,19 +316,6 @@
     color: white;
 }
 
-// .userEditForm {
-//     height: 500px;
-//     width: 23%;
-//     background-color: beige;
-//     position: absolute;
-//     z-index: 999;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     left: 39%;
-//     top: 16%;
-
-// }
 .userEditForm {
     background: white;
     display: flex;
@@ -358,7 +324,6 @@
     margin-top: 89px;
     margin-bottom: auto;
     height: 535px;
-    // width: 32%;
     width: fit-content;
     font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;
     flex-direction: column;
@@ -367,13 +332,11 @@
 
 .userEditInfoBox {
     margin: auto;
-    // margin-top: 20px;
     margin-left: 27px;
     margin-top: 20px;
     margin-right: 23px;
     width: 416px;
 }
-
 
 .userEditInfoBox input {
     height: 20px;
@@ -384,14 +347,12 @@
     font-size: 13px;
 }
 
-
 .userEditWrapper {
     display: flex;
 }
 
 .userEditHeader {
     border-bottom: 2px solid #f2f2f2;
-    /* margin: auto; */
     margin-left: 23px;
     margin-right: 25px;
     margin-top: 22px;
@@ -409,7 +370,6 @@
     margin-bottom: 58px;
 }
 
-
 .locationCountryWrapper {
     margin-left: 29px;
 }
@@ -418,7 +378,6 @@
     display: flex;
     margin-bottom: 14px;
 }
-
 
 .lastNameWrapper {
     margin-left: 29px;

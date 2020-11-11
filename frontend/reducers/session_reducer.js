@@ -1,5 +1,5 @@
-import { RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_CURRENT_SONG } from "../actions/session_actions.js";
-import { RECEIVE_SONG} from "../actions/song_actions"
+import { RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER} from "../actions/session_actions.js";
+import { RECEIVE_SONG} from "../actions/song_actions";
 
 const _nullSession = {
   id: null

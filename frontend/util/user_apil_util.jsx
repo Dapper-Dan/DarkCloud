@@ -12,8 +12,6 @@ export const fetchUsers = () => (
   })
 );
   
-
-
 export const fetchUserInfo = display_name => (
   $.ajax({
     url: `/api/users/${display_name}/fetchUserInfo`,
@@ -22,8 +20,6 @@ export const fetchUserInfo = display_name => (
   })
 );
   
-
-
 export const editCurrentUser = data => (
   $.ajax({
     url: `/api/users/${data.user.id}`,
@@ -32,4 +28,4 @@ export const editCurrentUser = data => (
     contentType: false,
     processData: false
   })
-)
+);

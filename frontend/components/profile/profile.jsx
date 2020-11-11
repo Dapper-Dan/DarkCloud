@@ -1,13 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import SongPartContainer from '../song/song_part_container';
 import NavBarContainer from '../nav_bar/nav_bar_container';
-import SongNavBarContainer from '../nav_bar/song_nav_bar_container'
-import SearchBarContainer from '../search_bar/search_bar_container'
-import MusicPlayerContainer from '../music_player/music_player_container'
-import UserNavBarContainer from '../nav_bar/user_nav_bar_container'
-import ReactDOM from 'react-dom'
-
+import SongNavBarContainer from '../nav_bar/song_nav_bar_container';
+import SearchBarContainer from '../search_bar/search_bar_container';
+import UserNavBarContainer from '../nav_bar/user_nav_bar_container';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -24,11 +20,10 @@ class Profile extends React.Component {
         country: "",
         first_name: "",
         last_name: ""
-    }
+      }
 
       this.props.getSongs(this.props.match.params.display_name)
       this.props.fetchUserInfo(this.props.match.params.display_name);
-
       if (this.props.state.session.currentUser) {
         this.props.fetchUser(this.props.state.session.currentUser.id)
       }
@@ -50,11 +45,9 @@ class Profile extends React.Component {
       if (this.props.profileUser && this.props.profileUser.city) {
         this.setState({city: this.props.profileUser.city})
       }
-      
       this.setState({
         loading: false,
       })
-    
       this.props.fetchUserInfo(this.props.match.params.display_name);
     }
 
@@ -70,36 +63,22 @@ class Profile extends React.Component {
     }
 
     componentDidUpdate() {
-
       if (this.props.state.entities.users.profile_user && this.props.state.entities.users.profile_user.display_name !== this.props.match.params.display_name) {
-     
         this.props.fetchUserInfo(this.props.match.params.display_name);
         this.props.getSongs(this.props.match.params.display_name)
-        // this.props.fetchUserInfo(this.props.profileUser.display_name);
-       
       }
-
-   
-      
     }
 
-   
-
     update(value) {
-      
       return e => {
         this[value] = e.target.files[0]
         let file = e.target.files[0]
-
         if (file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/gif") {
-        
           const fileReader = new FileReader();
           fileReader.readAsDataURL(file);
           fileReader.onloadend = () => {
             this.setState({ [value]: fileReader.result })
           }
-          
-          
           if (value === "cover_pic") {
             this.setState({showConfirmCover: true})
           } else {
@@ -133,9 +112,6 @@ class Profile extends React.Component {
       this.closeModal()
     }
 
-    
-    
-
     showProfileUploadInput() {
       let input = document.getElementById("profile-pic-input")
       input.click()
@@ -158,7 +134,6 @@ class Profile extends React.Component {
         showConfirmCover: false,
         showPicOption: false
       }))
-      
     }
 
     uploadCoverImage(e) {
@@ -187,346 +162,268 @@ class Profile extends React.Component {
       })
     }
 
-
     render(){
-    if (this.state.showEditModal) {
-     
-      document.body.style.overflow = 'hidden';
-    } else {
-   
-      document.body.style.overflow = 'unset';
-    }
-
-
-  
-     
-      if(this.state.loading) return (<div>loading....</div>)
-    
-      let songs
-      if (this.props.state.entities.songs.songs) {
-      songs = Object.values(this.props.state.entities.songs.songs).sort((a, b) => {
-          if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
-          if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
-          if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
-      })
-     
-   
-      }
-
-      
-
-      let renderSongs
-      if (songs && songs.length > 0) {
-    
-        renderSongs = (
-          <ul>
-            {songs.map((song, i) => ( 
-              <li key={i} className="song-box" >
-                <SongPartContainer song={song} profile={true} />
-                    
-              </li>
-            ))}
-          </ul>
-        )
+      if (this.state.showEditModal) {
+        document.body.style.overflow = 'hidden';
       } else {
-        renderSongs = (
-          <div className="profileNoSongs" >
-            <p>Listening to music is fun but so is sharing. Upload some tunes today!</p>
-          </div>
-        )
+        document.body.style.overflow = 'unset';
       }
 
-     
-
-      let user
-      
-      if (this.props.profileUser) {
-        user = this.props.profileUser
-      } else {
-        user = ""
-      }
-      
-
-      let currentUserProfile
-      if (this.props.currentUser && this.props.sessionUser) {
-        if (this.props.currentUser.id === user.id) currentUserProfile = true;
-      }
-
-      let profPic
-      if (this.profile_pic && this.state.showPicOption) {
-        profPic = this.state.profile_pic
-      } else {
-        profPic = user.profilePicUrl
-      }
-
-      let coverPic
-      if (this.cover_pic && this.state.showPicOption) {
-        coverPic = this.state.cover_pic
-      } else if (user.coverPicUrl) {
-        coverPic = user.coverPicUrl
-      } else {
-        coverPic = window.cover
-      }
-
-
-      let profilePictureUpload
-      if (currentUserProfile) {  
-      
-        profilePictureUpload = (
-          <>
-          <input
-          id="profile-pic-input"
-          type="file"
-          onChange={this.update('profile_pic')}
-          style={{display:'none'}}
-        />
-{/* 
-        <div className="profille-pic-upload-button"> */}
-
-        {!this.state.showConfirmProfile ? 
-          (<button className="profille-pic-upload-button" onClick={this.showProfileUploadInput}>Upload image</button>) : (
-          <>
-          <div className="profile-pic-cancelConfirm">
-            <button onClick={this.cancelUpload}>Cancel</button>
-            <button id="profile-confirm" onClick={this.uploadProfileImage}>Confirm</button>
-          </div>
-          </>)
-        }
-        {/* </div> */}
-          </>
-          
-          )
-      }
-
-      let coverPictureUpload
-      if (currentUserProfile) {  
-      
-        coverPictureUpload = (
-          <>
-          <input
-          id="cover-pic-input"
-          type="file"
-          onChange={this.update('cover_pic')}
-          style={{display:'none'}}
-        />
-
-        {/* <div className="cover-pic-upload-button"> */}
-
-        {!this.state.showConfirmCover ? 
-          (<button className="cover-pic-upload-button" onClick={this.showCoverUploadInput}>Upload image</button>) : (
-          <>
-          <div className="cover-pic-cancelConfirm">
-            <button onClick={this.cancelUpload}>Cancel</button>
-            <button id="cover-confirm" onClick={this.uploadCoverImage}>Confirm</button>
-          </div>
-          </>)
+      if(this.state.loading) return (<div>loading....</div>);
+        let songs
+        if (this.props.state.entities.songs.songs) {
+          songs = Object.values(this.props.state.entities.songs.songs).sort((a, b) => {
+            if (new Date(a.music.record.created_at).valueOf() > new Date(b.music.record.created_at).valueOf()) return -1
+            if (new Date(a.music.record.created_at).valueOf() < new Date(b.music.record.created_at).valueOf()) return 1
+            if (new Date(a.music.record.created_at).valueOf() === new Date(b.music.record.created_at).valueOf()) return 0
+          })
         }
 
-        {/* </div> */}
-          </>
-          
-        )
-      }
-
-
-      let userEditButton
-      if (currentUserProfile) {
-        userEditButton = (
-          
-            <button id="userEditButton" onClick={this.handleUserClick}>Edit</button>
-          
-        )
-      }
-
-      let location
-      if (this.props.profileUser) {
-        if (this.props.profileUser.city && this.props.profileUser.country) {
-          location = `${this.props.profileUser.city}, ${this.props.profileUser.country}`
-        } else if (this.props.profileUser.city) {
-          location = `${this.props.profileUser.city}`
-        } else if (this.props.profileUser.country) {
-          location = `${this.props.profileUser.country}`
+        let renderSongs
+        if (songs && songs.length > 0) {
+          renderSongs = (
+            <ul>
+              {songs.map((song, i) => ( 
+                <li key={i} className="song-box" >
+                  <SongPartContainer song={song} profile={true} />   
+                </li>
+              ))}
+            </ul>
+          );
         } else {
-          location = ""
+          renderSongs = (
+            <div className="profileNoSongs" >
+              <p>Listening to music is fun but so is sharing. Upload some tunes today!</p>
+            </div>
+          );
         }
-      }
 
-      let name
-      if (this.props.profileUser) {
-        if (this.props.profileUser.first_name && this.props.profileUser.last_name) {
-          name = `${this.props.profileUser.first_name} ${this.props.profileUser.last_name}`
-        } else if (this.props.first_name) {
-          name = this.props.profileUser.first_name 
-        } else if (this.props.profileUser.last_name) {
-          name = this.props.profileUser.last_name
+        let user
+        if (this.props.profileUser) {
+          user = this.props.profileUser
         } else {
-          name = ""
+          user = ""
         }
-       
-      }
-
-
-    
-      let values
-      
-      if (this.props && this.props.profileUser) {
-        let {country, city, first_name, last_name} = this.props.profileUser
-        values = {country, city, first_name, last_name}
-      } else {
-        values = {}
-      }
-
-
-      
-      let userEditModal 
-      if (this.props.currentUser) {
-      userEditModal = (
-        <>
-
         
-        <div className="userEditFormBackground" id="editModal" onClick={this.handleClickOutside}>
-          <div className="userEditForm">
-            <div className="userEditHeader">Edit your profile</div>
-            <div className="userEditWrapper">
-              <div className="picUploadBox">
+        let currentUserProfile
+        if (this.props.currentUser && this.props.sessionUser) {
+          if (this.props.currentUser.id === user.id) currentUserProfile = true;
+        }
 
-                {this.props.currentUser ? <img src={this.props.currentUser.profilePicUrl} width="250px" height="250px" ></img> : ""}
-                
-              </div>
+        let profPic
+        if (this.profile_pic && this.state.showPicOption) {
+          profPic = this.state.profile_pic
+        } else {
+          profPic = user.profilePicUrl
+        }
 
-              <div className="userEditInfoBox">
+        let coverPic
+        if (this.cover_pic && this.state.showPicOption) {
+          coverPic = this.state.cover_pic
+        } else if (user.coverPicUrl) {
+          coverPic = user.coverPicUrl
+        } else {
+          coverPic = window.cover
+        }
 
-                <h3>Display name</h3>
-                <input 
-                      className="displayNameInput"
-                      placeholder={this.props.currentUser.display_name}
-                      type="text"
-                      onChange={this.change('display_name')}
-                      value={this.state.display_name} 
-                /> 
+        let profilePictureUpload
+        if (currentUserProfile) {  
+          profilePictureUpload = (
+            <>
+            <input
+            id="profile-pic-input"
+            type="file"
+            onChange={this.update('profile_pic')}
+            style={{display:'none'}}
+            />
 
-                <div className="locationWrapper">
-                  <div className="locationCityWrapper">
-                    <h3>City</h3>
-                    <input 
-                          className="cityInput"
-                          placeholder={this.props.currentUser.city}
-                          type="text"
-                          onChange={this.change('city')}
-                          defaultValue={values.city}
-                          // value={this.state.city} 
-                    />
-                  </div> 
+            {!this.state.showConfirmProfile ? 
+            (<button className="profille-pic-upload-button" onClick={this.showProfileUploadInput}>Upload image</button>) : (
+            <>
+            <div className="profile-pic-cancelConfirm">
+              <button onClick={this.cancelUpload}>Cancel</button>
+              <button id="profile-confirm" onClick={this.uploadProfileImage}>Confirm</button>
+            </div>
+            </>)
+            }
+            </>
+          );
+        }
 
-                  <div className="locationCountryWrapper">
-                    <h3>Country</h3>
-                    <input 
-                          className="countryInput"
-                          placeholder={this.props.currentUser.country}
-                          type="text"
-                          onChange={this.change('country')}
-                          defaultValue={values.country} 
-                          // value={this.state.country} 
-                    />
-                  </div> 
+        let coverPictureUpload
+        if (currentUserProfile) {  
+          coverPictureUpload = (
+            <>
+            <input
+            id="cover-pic-input"
+            type="file"
+            onChange={this.update('cover_pic')}
+            style={{display:'none'}}
+            />
+
+            {!this.state.showConfirmCover ? 
+            (<button className="cover-pic-upload-button" onClick={this.showCoverUploadInput}>Upload image</button>) : (
+            <>
+            <div className="cover-pic-cancelConfirm">
+              <button onClick={this.cancelUpload}>Cancel</button>
+              <button id="cover-confirm" onClick={this.uploadCoverImage}>Confirm</button>
+            </div>
+            </>)
+            }
+            </>
+          );
+        }
+
+        let userEditButton
+        if (currentUserProfile) {
+          userEditButton = (
+              <button id="userEditButton" onClick={this.handleUserClick}>Edit</button>
+          );
+        }
+
+        let location
+        if (this.props.profileUser) {
+          if (this.props.profileUser.city && this.props.profileUser.country) {
+            location = `${this.props.profileUser.city}, ${this.props.profileUser.country}`
+          } else if (this.props.profileUser.city) {
+            location = `${this.props.profileUser.city}`
+          } else if (this.props.profileUser.country) {
+            location = `${this.props.profileUser.country}`
+          } else {
+            location = ""
+          }
+        }
+
+        let name
+        if (this.props.profileUser) {
+          if (this.props.profileUser.first_name && this.props.profileUser.last_name) {
+            name = `${this.props.profileUser.first_name} ${this.props.profileUser.last_name}`
+          } else if (this.props.first_name) {
+            name = this.props.profileUser.first_name 
+          } else if (this.props.profileUser.last_name) {
+            name = this.props.profileUser.last_name
+          } else {
+            name = ""
+          }
+        }
+
+        let values
+        if (this.props && this.props.profileUser) {
+          let {country, city, first_name, last_name} = this.props.profileUser
+          values = {country, city, first_name, last_name}
+        } else {
+          values = {}
+        }
+
+        let userEditModal 
+        if (this.props.currentUser) {
+        userEditModal = (
+          <>
+          <div className="userEditFormBackground" id="editModal" onClick={this.handleClickOutside}>
+            <div className="userEditForm">
+              <div className="userEditHeader">Edit your profile</div>
+              <div className="userEditWrapper">
+                <div className="picUploadBox">
+                  {this.props.currentUser ? <img src={this.props.currentUser.profilePicUrl} width="250px" height="250px" ></img> : ""}
                 </div>
-
-                <div className="nameWrapper">
-                  <div className="firstNameWrapper" >
-                    <h3>First name</h3>
-                    <input 
-                          className="firstNameInput"
-                          placeholder={this.props.currentUser.first_name}
-                          type="text"
-                          onChange={this.change('first_name')}
-                          defaultValue={values.first_name} 
-                          // value={this.state.first_name} 
-                    />
-                  </div> 
-
-                  <div className="lastNameWrapper">
-                    <h3>Last name</h3>
-                    <input 
-                          className="lastNameInput"
-                          placeholder={this.props.currentUser.last_name}
-                          type="text"
-                          onChange={this.change('last_name')}
-                          defaultValue={values.last_name} 
-                          // value={this.state.last_name} 
-                    />
-                  </div> 
+                <div className="userEditInfoBox">
+                  <h3>Display name</h3>
+                  <input 
+                        className="displayNameInput"
+                        placeholder={this.props.currentUser.display_name}
+                        type="text"
+                        onChange={this.change('display_name')}
+                        value={this.state.display_name} 
+                  /> 
+                  <div className="locationWrapper">
+                    <div className="locationCityWrapper">
+                      <h3>City</h3>
+                      <input 
+                        className="cityInput"
+                        placeholder={this.props.currentUser.city}
+                        type="text"
+                        onChange={this.change('city')}
+                        defaultValue={values.city}
+                      />
+                    </div> 
+                    <div className="locationCountryWrapper">
+                      <h3>Country</h3>
+                      <input 
+                        className="countryInput"
+                        placeholder={this.props.currentUser.country}
+                        type="text"
+                        onChange={this.change('country')}
+                        defaultValue={values.country} 
+                      />
+                    </div> 
+                  </div>
+                  <div className="nameWrapper">
+                    <div className="firstNameWrapper" >
+                      <h3>First name</h3>
+                      <input 
+                        className="firstNameInput"
+                        placeholder={this.props.currentUser.first_name}
+                        type="text"
+                        onChange={this.change('first_name')}
+                        defaultValue={values.first_name} 
+                      />
+                    </div> 
+                    <div className="lastNameWrapper">
+                      <h3>Last name</h3>
+                      <input 
+                        className="lastNameInput"
+                        placeholder={this.props.currentUser.last_name}
+                        type="text"
+                        onChange={this.change('last_name')}
+                        defaultValue={values.last_name} 
+                      />
+                    </div> 
+                  </div>
+                  <button className="songFormCancelButton" onClick={this.closeModal}>Cancel</button>
+                  <button className="songFormButton" onClick={this.submitChanges}>Save changes</button>
                 </div>
-              <button className="songFormCancelButton" onClick={this.closeModal}>Cancel</button>
-              <button className="songFormButton" onClick={this.submitChanges}>Save changes</button>
               </div>
             </div>
+          </div> 
+          </>
+        )}
+    
+        return(
+          <>
+          {this.state.showEditModal ? userEditModal : ""}
+          <div className="nav_bar_background" ></div>
+          <div className="nav-con" >
+            { this.props.sessionUser ? <UserNavBarContainer /> : <NavBarContainer /> }
+            <SearchBarContainer/>
           </div>
-        </div> 
-        </>
-      )}
-  
-     
-      
-      return(
-        <>
-   
-    {this.state.showEditModal ? userEditModal : ""}
-       <div className="nav_bar_background" ></div>
-       
-       <div className="nav-con" >
-          { this.props.sessionUser ? <UserNavBarContainer /> : <NavBarContainer /> }
-          <SearchBarContainer/>
-        </div>
-
-        {/* {this.state.showEditModal ? userEditModal : ""} */}
-
-       <div className="outtermost" > 
-
-        
-
-          <div className="cover" >
-           
-             <img src={coverPic} className="cover-photo" width="1200px" />
-          
-            
-
-            <div className="profile-box" >
+          <div className="outtermost" > 
+            <div className="cover" >
+              <img src={coverPic} className="cover-photo" width="1200px" />
+              <div className="profile-box" >
                 {user.profilePicUrl ? (
                 <img src={profPic} className="profile-photo" />
                 ):(
                 <img src={window.profile} className="profile-photo" />
-                )}
-                     
+                )}    
                 <div className="info-basic">
                   <a className="nameplate" > {user.display_name} </a>
                   {name ? <a className="nameplate" id="realName" > {name} </a> : ""}
-
                   {location ? <a className="location-plate" > {location} </a> : "" }
                 </div>
-
-                
-            </div>
-            {coverPictureUpload}
-          </div> 
-          {profilePictureUpload}
-          {currentUserProfile ? userEditButton : ""}
-          <SongNavBarContainer /> 
-          
-
-
+              </div>
+              {coverPictureUpload}
+            </div> 
+            {profilePictureUpload}
+            {currentUserProfile ? userEditButton : ""}
+            <SongNavBarContainer /> 
             <p id="recent">Recent</p>
             <div className="profile-songs">
               {renderSongs}
-           </div> 
-
-       
-        
-           <div className="endOfContentFooter"></div>
-       </div>
-
-      
-        </>
-      )
+            </div> 
+            <div className="endOfContentFooter"></div>
+          </div>
+          </>
+        );
     }
 }
 

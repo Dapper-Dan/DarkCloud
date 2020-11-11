@@ -1,18 +1,13 @@
 import { connect } from "react-redux";
-import Library from './library.jsx'
-import {getSongs} from '../../actions/song_actions'
-import {fetchUsers} from '../../actions/user_actions'
-import {fetchUserInfo} from '../../actions/user_actions'
-import {fetchUser} from '../../actions/user_actions'
-
-
+import Library from './library.jsx';
+import {getSongs} from '../../actions/song_actions';
+import {fetchUsers, fetchUserInfo, fetchUser} from '../../actions/user_actions';
 
 const mSTP = state => ({
   currentUser: state.session.currentUser,
   songs: state.entities.songs.all_songs,
   state: state,
   users: state.entities.users
- 
 });
 
 const mDTP = (dispatch) => ({

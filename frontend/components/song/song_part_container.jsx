@@ -1,10 +1,6 @@
 import { connect } from "react-redux";
-import { getSong } from "../../actions/song_actions";
-import {like} from "../../actions/song_actions"
-import {unlike} from "../../actions/song_actions"
+import { getSong, like, unlike, getSongs, getBunchSongs } from "../../actions/song_actions";
 import SongPart from "./song_part";
-import {getSongs} from "../../actions/song_actions"
-import {getBunchSongs} from '../../actions/song_actions'
 
 const mSTP = state => ({
   songs: state.entities.songs.songs,

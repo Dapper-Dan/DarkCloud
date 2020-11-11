@@ -1,8 +1,7 @@
 import { connect } from "react-redux";
-import SearchBar from './search_bar'
-import {getBunchSongs} from '../../actions/song_actions'
-import {fetchUsers} from '../../actions/user_actions'
-
+import SearchBar from './search_bar';
+import {getBunchSongs} from '../../actions/song_actions';
+import {fetchUsers} from '../../actions/user_actions';
 
 const mSTP = state => ({
   state: state,

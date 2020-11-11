@@ -1,14 +1,10 @@
 import {connect} from 'react-redux';
-import React from 'react';
-import {login} from '../../actions/session_actions.js'
-import SignupForm from './signup_form.jsx'
-
+import {login} from '../../actions/session_actions.js';
+import SignupForm from './signup_form.jsx';
 
 const mapSTP = state => ({
-    
     formType: 'login',
     currentUser: state.session.currentUser
-
 })
 
 const mapDTP = dispatch => ({

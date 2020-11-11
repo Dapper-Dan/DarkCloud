@@ -1,9 +1,7 @@
 import { connect } from "react-redux";
 import { createSong } from "../../actions/song_actions";
 import SongForm from "./song_form";
-import {login} from '../../actions/session_actions.js'
-import {fetchUser, fetchUsers} from '../../actions/user_actions'
-
+import {fetchUser} from '../../actions/user_actions';
 
 const mSTP = state => ({
   currentUser: state.session.currentUser,

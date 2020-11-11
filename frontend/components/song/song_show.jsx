@@ -1,22 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-
 
 class SongShow extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {
-          
-      }
     }
-
-
-
 
     render(){
       let songs = Object.values(this.props.songs);
       return(
-       <div > 
+        <div > 
           <ul>
             {songs.map((song) => (
               <li key={song.id} className="song-box">
@@ -25,9 +17,7 @@ class SongShow extends React.Component {
             ))}
           </ul>
         </div>
-    
-      
-      )
+      );
     }
 }
 

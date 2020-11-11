@@ -9,10 +9,8 @@ class Api::SongsController < ApplicationController
         end
     end
 
-
     def show
         @song = Song.find(params[:id])
-      
         if (@song)
             render :show
         else
@@ -21,16 +19,12 @@ class Api::SongsController < ApplicationController
     end
 
     def create
-      
         @song = Song.new(song_params)
-
         if !@song.songImage
             @song.songImage.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'songGradient.png')), filename: 'songGradient.png')
         end
         
         if (@song.save)
-            # @songs = Song.all
-
             render :show
         else
             render json: @song.errors.full_messages, status: 422
@@ -60,11 +54,10 @@ class Api::SongsController < ApplicationController
         @songs = Song.all
         render :bunch_songs
     end
+    
     private
     def song_params
-        puts params.inspect
         params.inspect
         params.require(:song).permit(:title, :display_name, :music, :genre, :songImage, :duration, :waveForm)
     end
-
 end

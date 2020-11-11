@@ -77,11 +77,9 @@
     color: rgb(132, 131, 131);
 }
 
-
 .song-pic {
     margin: auto;
 }
-
 
 .song-progress-bar-container {
     display: flex;
@@ -89,7 +87,6 @@
     height: 50px;
     width: 45%;
 }
-
 
 @media (max-width:2000px) {
     .song-progress-bar-container {
@@ -99,7 +96,6 @@
     width: 85%
     }
 }
-
 
 .song-bar {
     height: 1px;
@@ -119,7 +115,6 @@
     cursor: pointer;
 }
 
-
 .current-time {
     font-size: 12px;
     margin-top: auto;
@@ -135,8 +130,6 @@
     margin-left: 3px;
     margin-right: 0px;
 }
-
-
 
 .bar-dot {
     border-radius: 50%;
@@ -177,9 +170,7 @@ p {
   transition: opacity .2s;
   cursor: pointer;
   transform: rotate(270deg);
-  
 }
-
 
 #vol::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -189,9 +180,7 @@ p {
     border-radius: 50%; 
     background: #1DB954;
     color: #1DB954;
-    cursor: pointer;
-    
-    
+    cursor: pointer; 
 }
 
 #volRangeContainer {
@@ -207,7 +196,6 @@ p {
     align-items: center;
     justify-content: center;
 }
-
 
 .heartMedia#greenButton {
     filter: invert(59%) sepia(13%) saturate(2372%) hue-rotate(88deg) brightness(94%) contrast(94%);

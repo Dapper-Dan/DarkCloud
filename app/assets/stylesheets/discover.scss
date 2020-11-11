@@ -3,13 +3,11 @@
     flex-direction: column;
 }
 
-
 .discover2blocks {
     display: flex;
     margin-left: 30px;
     margin-top: 30px;
 }
-
 
 .carousel-item-next, .carousel-item-prev, .carousel-item.active {
     display: flex !important;
@@ -28,7 +26,6 @@
 .carousel-control-next-icon {
     margin-bottom: 43px;
     background: black no-repeat;
-   
 }
 
 .carousel-control-next-icon, .carousel-control-prev-icon {
@@ -46,9 +43,7 @@
     border: solid thin #1DB954 !important;
     height: 35px !important;
     width: 35px !important;
-    border-radius: 5px !important;
-    
-    
+    border-radius: 5px !important; 
 }
 
 .carousel-control-next {
@@ -82,7 +77,7 @@
     height: 180px;
     width: 180px;
     margin-bottom: 15px;
-  
+ 
 }
 
 #discoverCaro .carousel-indicators {
@@ -94,7 +89,6 @@
     color: #333;
     text-decoration: none;
     font-weight: normal;
-    
 }
 
 .discoverNewUsersBox a:hover {
@@ -119,7 +113,6 @@
     flex-direction: column;
     border-left: 2px solid #f2f2f2;
     width: 100%;
-    
 }
 
 .sideBar p {

@@ -1,9 +1,5 @@
 import React from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
-import ReactDOM from 'react-dom';
-// import { Redirect } from 'react-router'
-
-
+import {Redirect} from 'react-router-dom';
 
 export default class SearchBar extends React.Component {
     constructor(props) {
@@ -15,13 +11,10 @@ export default class SearchBar extends React.Component {
             activeOption: 0,
             showOptions: false,
             redirect: false
-           
-
-
         }
+
         this.props.fetchUsers()
         this.props.getBunchSongs()
-        
         this.searchUpdate = this.searchUpdate.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
@@ -35,7 +28,6 @@ export default class SearchBar extends React.Component {
         } else {
             return true
         }
-       
     }
 
     componentDidUpdate() {
@@ -44,23 +36,15 @@ export default class SearchBar extends React.Component {
         }
     }
 
-
     componentDidMount() {
-
         document.addEventListener('click', this.handleClickOutside, true);
-     
         this.setState( {loading: false})
-      
     }
 
-  
-
-
-     searchUpdate(e) {
+    searchUpdate(e) {
         const searchInput = e.currentTarget.value
         let songs = Object.values(this.props.songs);
         let users = Object.values(this.props.users);
-    
         const filteredOptions = songs.filter(
             songItem => {
                 let songName = songItem.title.toLowerCase()
@@ -81,8 +65,6 @@ export default class SearchBar extends React.Component {
     }
 
     onClick(e) {
-       
-
         if (e.currentTarget.id === 'customOption' || e.currentTarget.className === "search-button") {
             this.setState({
                 showOptions: false,
@@ -90,20 +72,15 @@ export default class SearchBar extends React.Component {
                 redirect: true
               });
         } else {
-
             this.setState({
             showOptions: false,
             searchInput: e.currentTarget.innerText,
             redirect: true
             });
         }
-
-    };
-
-    
+    }
 
     componentWillUnmount() {
-        console.log('bye')
         this.setState({redirect: false})
         document.removeEventListener('click', this.handleClickOutside, true);
     }
@@ -119,9 +96,7 @@ export default class SearchBar extends React.Component {
 
     onKeyDown(e) {
         const { activeOption, filteredOptions } = this.state;
-
         if (e.key === 'Enter') {
-            console.log(e.currentTarget)
             if (!activeOption) {
                 this.setState({
                     showOptions: false,
@@ -151,8 +126,6 @@ export default class SearchBar extends React.Component {
 
     onMouseOver(e) {
         const { activeOption, filteredOptions } = this.state; 
-        // console.log(e.currentTarget.innerText)
-        
         for(let i = 0; i < filteredOptions.length; i++) {
             if (Object.values(filteredOptions[i]).includes(e.currentTarget.innerText)) {
                 this.setState({
@@ -165,74 +138,52 @@ export default class SearchBar extends React.Component {
         }
     }
 
-
     render() {
-
         if (this.state.redirect) {
             return <Redirect to={{
                 pathname: `/search_results/${this.state.searchInput}`,
-                // pathname: "/search_results",
                 searchInput: this.state.searchInput,
             }}/>
         }
         
-        
         if (this.state.loading) {
             return (<p>loading...</p>)
         } else {
-
             let optionList;
-
             if (this.state.showOptions && this.state.searchInput ) {
-                    
-                    optionList = (
-                        <div className="options-drop">
+                optionList = (
+                    <div className="options-drop">
                         <ul className="options">
-                        <li className='option-active' id="customOption" key="searchInputOption" onKeyDown={this.onKeyDown} onClick={this.onClick} onMouseOver={this.onMouseOver}>Search for "{this.state.searchInput}"</li>
+                            <li className='option-active' id="customOption" key="searchInputOption" onKeyDown={this.onKeyDown} onClick={this.onClick} onMouseOver={this.onMouseOver}>Search for "{this.state.searchInput}"</li>
                             {this.state.filteredOptions.map((optionName, index) => {
-                            if (optionName.title) {
-                                optionName = optionName.title
-                            } else {
-                                optionName = optionName.display_name
-                            }
-                            let className;
-                            if (index === this.state.activeOption) {
-                                
-                                className = 'option-active';
-                            }
-                            return (
-                                <li className={className} key={optionName} onKeyDown={this.onKeyDown} onClick={this.onClick} onMouseOver={this.onMouseOver}>
-                                {optionName}
-                                </li>
-                            );
+                                if (optionName.title) {
+                                    optionName = optionName.title
+                                } else {
+                                    optionName = optionName.display_name
+                                }
+
+                                let className;
+                                if (index === this.state.activeOption) {
+                                    className = 'option-active';
+                                }
+                                return (
+                                    <li className={className} key={optionName} onKeyDown={this.onKeyDown} onClick={this.onClick} onMouseOver={this.onMouseOver}>
+                                        {optionName}
+                                    </li>
+                                );
                             })}
-                            
                         </ul>
-                        </div>
-                    )
+                    </div>
+                );
             }
-
-
-
-
-
-
-
-
-
-
 
             return (  
                 <>
-                {/* <div className="searchBarContainer"> */}
                 <input className="searchBar" placeholder="  Search for music or podcasts" type="text" value={this.state.searchInput} onChange={this.searchUpdate} onKeyDown={this.onKeyDown} onMouseOver={this.onMouseOver}/>
                 <button className="search-button" onClick={this.onClick}> <img src={window.searchButton} width="15px" /> </button> 
                 {optionList}
-                {/* </div> */}
-                
                 </>
-            )
+            );
         }
     }
-
 }

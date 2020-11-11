@@ -6,9 +6,9 @@ ul.options {
     margin: auto;
     position: relative;
     box-sizing: content-box;
-  }
+}
   
-  ul.options li {
+ul.options li {
     display: block;
     background: black;
     padding: 10px;
@@ -17,19 +17,18 @@ ul.options {
     color: #fff;
     height: 19px;
     box-sizing: content-box;
-    
-  }
-  ul.options li:hover {
+}
+
+ul.options li:hover {
     color: #fff;
     cursor: pointer;
     transition: 0.3s all;
-    
-  }
+}
   
-  ul.options li.option-active {
+ul.options li.option-active {
     background: #333;
     color: #fff;
-  }
+}
 
 .searchBar {
     height: 29px;
@@ -43,8 +42,7 @@ ul.options {
     box-sizing: border-box;
     border:none; 
     background-color: #f3eded;
-    outline: none;
-   
+    outline: none; 
 }
 
 .options-drop {
@@ -56,13 +54,12 @@ ul.options {
     left: -12px;
 }
 
-
 .search-button {
-  border: none;
-  position: relative;
-  top: -38px;
-  left: 372px;
-  z-index: 901;
-  outline: none !important;
+    border: none;
+    position: relative;
+    top: -38px;
+    left: 372px;
+    z-index: 901;
+    outline: none !important;
 }
 

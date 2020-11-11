@@ -1,12 +1,6 @@
 import {connect} from 'react-redux';
-import React from 'react';
-import MusicPlayer from './music_player.jsx'
-import {receiveCurrentSong} from '../../actions/session_actions'
-import {getSongs} from '../../actions/song_actions'
-import {getBunchSongs} from '../../actions/song_actions'
-import {like} from "../../actions/song_actions"
-import {unlike} from "../../actions/song_actions"
-import { getSong } from "../../actions/song_actions";
+import MusicPlayer from './music_player.jsx';
+import {getSongs, getBunchSongs, getSong, like, unlike} from '../../actions/song_actions';
 
 const mapSTP = state => ({
     state: state,

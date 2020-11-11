@@ -1,5 +1,4 @@
 class Api::UsersController < ApplicationController
-
     def index
         @users = User.all
         render :index
@@ -16,7 +15,6 @@ class Api::UsersController < ApplicationController
         end
     end
 
-
     def show
         @user = User.find(params[:id])
         if (@user)
@@ -25,7 +23,6 @@ class Api::UsersController < ApplicationController
             render json: ["The user was not found."], status: 404
         end
     end
-
 
     def fetchUserInfo
         @user = User.find_by(display_name: user_params[:display_name])
@@ -43,13 +40,10 @@ class Api::UsersController < ApplicationController
         if @user.update(user_params)
             new_Display_Name = params[:user][:display_name]
             if new_Display_Name != old_Display_Name && new_Display_Name != nil
-                # puts "Hello, #{new_Display_Name}!"
-                # puts "222222222222222222222222222222222222222222222222222222222222"
                 @songs.each do |song|
                     song.update({ display_name: new_Display_Name })
                 end
             end
-            # render 'api/songs/index'
             render :show
         else
             render json: song.errors.full_messages, status: 422
@@ -57,11 +51,8 @@ class Api::UsersController < ApplicationController
     end
 
     private
-
     def user_params
-        puts params.inspect
         params.inspect
         params.require(:user).permit(:email, :password, :display_name, :age, :gender, :cover_photo, :profile_photo, :city, :country, :first_name, :last_name)
     end
-
 end

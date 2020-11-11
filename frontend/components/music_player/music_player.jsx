@@ -14,11 +14,9 @@ class MusicPlayer extends React.Component {
             queue: null,
             listener: false,
             queueIndex: 0
-            
         }
       
         this.props.getBunchSongs()
-            
         this.play = this.play.bind(this)
         this.changeVolume = this.changeVolume.bind(this)
         this.getCurrentTime = this.getCurrentTime.bind(this)
@@ -29,14 +27,8 @@ class MusicPlayer extends React.Component {
         this.handleMouseLeave = this.handleMouseLeave.bind(this)
         this.handleMouseOver = this.handleMouseOver.bind(this)
         this.likeSong = this.likeSong.bind(this)
-
     }
 
-
-
-    
-
-   
     play() {
         let audioEle = document.getElementById('myAudio')
         if (audioEle.paused) {
@@ -48,7 +40,6 @@ class MusicPlayer extends React.Component {
         }
     }
 
-
     handleMouseDown(e) {
         e.preventDefault()
         e.persist()
@@ -57,7 +48,6 @@ class MusicPlayer extends React.Component {
         document.addEventListener('mousemove', this.drag);
         this.setTime = e.pageX;
         this.drag(e)
-
     }
 
     handleMouseUp(e) {
@@ -72,25 +62,16 @@ class MusicPlayer extends React.Component {
     }
 
     drag(e) {
-       
-        let progressLine = document.querySelector('.song-bar')
-     
-        let divAdjust = e.pageX - progressLine.offsetLeft   
-        
-    
+        let progressLine = document.querySelector('.song-bar');
+        let divAdjust = e.pageX - progressLine.offsetLeft;  
         let newWidth = Math.floor((divAdjust / progressLine.offsetWidth) * 100);
   
-
         if (this.state.mouseDown) {
-       
             this.setState({ currentTime: newWidth })
             document.querySelector('.song-progress-bar').style.width = `${newWidth}%`
         }
-      
     }
 
-
-        
     getCurrentTime() {
         let song = document.getElementById('myAudio')
         let unformattedTime = song.currentTime
@@ -100,31 +81,26 @@ class MusicPlayer extends React.Component {
         let formattedTime = minutes + ":" + seconds
         this.setState({ songTime: formattedTime })
         this.updateProgress()
-
         if (song.paused) {
             this.setState({playing: false})
         } else {
             this.setState({playing: true})
         }
-        
     }
 
     updateProgress() {
-        let song = document.getElementById('myAudio')
+        let song = document.getElementById('myAudio');
         let currentTime = song.currentTime;
         let endTime = song.duration;
-
         if (!this.state.mouseDown) {
             this.setState({currentTime: (currentTime / endTime) * 100})
         }
-
     }
 
     changeVolume(e) {
        this.setState({volume: e.target.value });
-       let song = document.getElementById('myAudio')
+       let song = document.getElementById('myAudio');
        song.volume = this.state.volume
-       
     }
 
     handleMouseOver() {
@@ -136,9 +112,9 @@ class MusicPlayer extends React.Component {
     }
 
     likeSong() {
-        let song = this.props.currentSong
-        let song_id = song.id
-        let user_id 
+        let song = this.props.currentSong;
+        let song_id = song.id;
+        let user_id;
         if (this.props.currentUser) user_id = this.props.currentUser.id
         let likeId
         if (song.likes.length > 0) likeId = song.likes[0].id
@@ -149,15 +125,19 @@ class MusicPlayer extends React.Component {
         this.props.getBunchSongs()
     }
 
-   
     componentDidUpdate() {
-      
-        if (!this.state.queue) {
+        let songDisplayName
+        if (this.props.currentSong) {
+            songDisplayName = this.props.currentSong.display_name
+            if (songDisplayName && this.state.currentSongDisplayName !== songDisplayName) this.setState({currentSongDisplayName: songDisplayName})
+        }
+
+        if (!this.state.queue || songDisplayName && this.state.currentSongDisplayName !== songDisplayName) {
             let queueSongs
             if (this.props.state.entities.songs.all_songs) queueSongs = Object.values(this.props.state.entities.songs.all_songs)
-    
             let queueOrder
             if (queueSongs && this.props.currentSong) {
+                this.setState({queueIndex: 0})
                 let userSongs = queueSongs.filter((song) => song.display_name === this.props.currentSong.display_name)
                 let currentSongId
                 if (this.props.currentSong.id) currentSongId = userSongs.findIndex(obj => obj.id === this.props.currentSong.id)
@@ -176,7 +156,6 @@ class MusicPlayer extends React.Component {
                 this.props.getSong(this.state.queue[this.state.queueIndex].id).then(song.play())
             })
         }
-
     }
 
     render() { 
@@ -200,23 +179,16 @@ class MusicPlayer extends React.Component {
             playPause = window.play
         }
 
-        
-
         let volumeRange = (
             <div id="volRangeContainer" onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={!this.state.showVolume ? {visibility: "hidden"} : {visibility: "visible"}}>
-             <input type="range" onChange={(e) => {this.changeVolume(e)}} id="vol" name="vol" min="0" max="1" step=".05" value={this.state.volume}  ></input>
+                <input type="range" onChange={(e) => {this.changeVolume(e)}} id="vol" name="vol" min="0" max="1" step=".05" value={this.state.volume}  ></input>
             </div>
-        )
+        );
 
-        
-
-
-        
         if (document.getElementById("vol")) {
             let slider =  document.getElementById("vol")
             slider.style.background = 'linear-gradient(to right, #1DB954 0%, #1DB954 ' + (slider.value-slider.min)/(slider.max-slider.min)*100 + '%, #fff ' + (slider.value-slider.min)/(slider.max-slider.min)*100 + '%, white 100%)'
         }
-
 
         if (document.getElementById("vol")) {
         document.getElementById("vol").oninput = function() {
@@ -225,23 +197,16 @@ class MusicPlayer extends React.Component {
         }
 
         let likeButtonStyle
-        let songs = this.props.state.entities.songs
+        let songs = this.props.state.entities.songs;
        
-        if(this.props.currentUser && this.props.currentSong && songs.songs) {
-        
+        if (this.props.currentUser && this.props.currentSong && songs.songs) {
             if (songs.songs[this.props.currentSong.id] && songs.songs[this.props.currentSong.id].likes[this.props.currentUser.id]) {
-                
                 likeButtonStyle = "greenButton"
             } else {
                 likeButtonStyle = "heart"
             }
-      }
+        }
 
-       
-        
-
-
-       
         if (!song) {
             return <div></div>
         } else {
@@ -251,12 +216,9 @@ class MusicPlayer extends React.Component {
             Math.floor(songTime % 60) > 9 ? seconds = Math.floor(songTime % 60) : seconds = "0" + Math.floor(songTime % 60)
             let endTime = minutes + ":" + seconds
 
-           
-
             return (
                 <>
                 <div className="media-player-container">
-                
                     <div className="song-progress-bar-container"> 
                         <div className="button-container">
                             <img src={window.back} width="21px"/>
@@ -267,30 +229,20 @@ class MusicPlayer extends React.Component {
                             <img src={window.shuffle} width="23px"/>
                             <img src={window.repeat} width="23px"/>
                         </div>
-
-
-
                         <div className="current-time">
                             {this.state.songTime}
                         </div>
-
-
                         <div className="song-bar" >
                             <div className="song-progress-bar" style={{ width:`${this.state.currentTime}%` }}>
                             </div>
                             <div className="bar-dot" onMouseDown={this.handleMouseDown}>
                             </div>
-                        </div>
-
-                        
-                            
+                        </div> 
                         <div className="end-time">
                             {endTime}
                         </div>
-
                         <img src={window.audio} className="audioButton" width="21px" onMouseOver={this.handleMouseOver} />
                         {volumeRange}
-
                         <div className="artist-info" >
                             <img className="song-pic" src={song_pic} width="40px" height="40px"/>
                             <div className="artist-small-info">
@@ -298,16 +250,12 @@ class MusicPlayer extends React.Component {
                                 <p className="song-title">{song_title}</p>
                             </div>
                             <img src={window.heart} onClick={this.likeSong} className="heartMedia" id={likeButtonStyle} width="15px" />
-                        </div>
-                        
+                        </div> 
                     </div>
-            
                     <audio id="myAudio" autoPlay={true} hidden={true} src={song} onTimeUpdate={ () => { this.getCurrentTime()} }  />
-         
                 </div>
-                
                 </>
-            )
+            );
         }
     }
 }

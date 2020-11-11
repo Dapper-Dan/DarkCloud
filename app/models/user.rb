@@ -10,7 +10,6 @@ class User < ApplicationRecord
     has_one_attached :profile_photo
     has_one_attached :cover_photo
 
-
     has_many :songs,
     primary_key: :display_name,
     foreign_key: :display_name,

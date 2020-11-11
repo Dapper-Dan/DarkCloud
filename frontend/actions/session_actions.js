@@ -1,10 +1,9 @@
-import * as SessionAPIUtil from "../util/session_api_util.jsx"
+import * as SessionAPIUtil from "../util/session_api_util.jsx";
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_ERRORS";
 export const RECEIVE_CURRENT_SONG = "RECEIVE_CURRENT_SONG";
-
 
 export const receiveCurrentUser = user => ({
   type: RECEIVE_CURRENT_USER,
@@ -24,7 +23,6 @@ export const receiveCurrentSong = song => ({
   type: RECEIVE_CURRENT_SONG,
   song 
 })
-
 
 export const signup = user => dispatch => (
   SessionAPIUtil.signup(user)

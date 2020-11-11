@@ -12,11 +12,6 @@ const songsReducer = (state = {}, action) => {
         return Object.assign({}, state, { currentSong: action.song });
     case RECEIVE_NEW_SONG:
         return Object.assign({}, state, { newSong: action.song });
-    // case REMOVE_SONG:
-    //     delete nextState[action.songId]
-    //     return nextState;
-    // case REMOVE_SONGS:
-    //     return {};
     default:
         return state;
     }

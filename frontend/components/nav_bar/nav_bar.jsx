@@ -1,9 +1,7 @@
 import React from 'react';
-// import SignupFormContainer from '../session/signup_form_container.jsx';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, Redirect, Link } from 'react-router-dom';
 import LoginFormContainer from '../session/login_form_container.jsx';
 import SignupFormContainer from '../session/signup_form_container.jsx';
-import { Link } from "react-router-dom";
 import ReactDOM from 'react-dom';
 
 
@@ -20,16 +18,12 @@ export default class NavBar extends React.Component {
             logoutModal: false
         };
 
-
-       
-
         this.loginModelShow = this.loginModelShow.bind(this);
         this.registerModelShow = this.registerModelShow.bind(this);
         this.changeShow = this.changeShow.bind(this)
         this.logout = this.logout.bind(this)
         this.handleDropDown = this.handleDropDown.bind(this)
         this.handleClickOutside = this.handleClickOutside.bind(this);
-     
     }
 
     componentDidMount() {
@@ -39,7 +33,6 @@ export default class NavBar extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('click', this.handleClickOutside, true);
-
     }
 
     componentDidUpdate() {
@@ -73,8 +66,6 @@ export default class NavBar extends React.Component {
     logout() {
         this.props.logout()
         .then(() => this.setState({redirect: true}))
-        
-        
     }
 
     handleDropDown() {
@@ -83,16 +74,12 @@ export default class NavBar extends React.Component {
 
     handleClickOutside(event) {
         const domNode = ReactDOM.findDOMNode(this);
-        
         if (!domNode || !domNode.contains(event.target)) {
-            
             this.setState({ showDropDown: false })
         }
     }
 
-
     render() {
-
         if (this.state.redirect) {
             return <Redirect to={{
                 pathname: "/",
@@ -105,7 +92,6 @@ export default class NavBar extends React.Component {
             document.body.style.overflow = 'unset';
         }
        
-        
         let signShowModal = (
             <div className="modal-background">
                 <div className="signModal">
@@ -113,21 +99,15 @@ export default class NavBar extends React.Component {
                     { this.state.registerForm ?  <SignupFormContainer changeShow={this.changeShow} /> : '' }
                 </div>
             </div>
-        )
+        );
         
         let noModal = ""
-        
         let sessionModal
-        
         this.state.showModal ? (sessionModal = signShowModal) : (sessionModal = noModal);
-
         let user
         let dropDownOptions
-        // if(this.props.state && this.props.currentUser){
-            
         if (this.props.state && this.props.currentUser && this.state.showDropDown) {
             user = this.props.currentUser
-        
             dropDownOptions = (
                 <div className="dropDownOptions">
                     <ul id="dropDownOptionsList">
@@ -136,45 +116,33 @@ export default class NavBar extends React.Component {
                                 <img id="profileIcon" src={window.profileIcon}/>Profile
                             </Link>
                         </li>
-  
-                        
                         <li>
-                        
                             <NavLink to={{
                                 pathname: '/library',
                                 libraryProps: {showLikes: true, showOverview: false, showTracks: false}
                             }} > <img id="heartIcon" src={window.heart}/> Likes </NavLink>
                             
                         </li>
-
                         <li>
                             <Link to={{
                                 pathname: '/library',
                                 libraryProps: {showTracks: true, showOverview: false, showLikes: false}
                             }} > <img id="trackIcon" src={window.trackIcon}/> Tracks </Link>
-                            
                         </li>
-                        {/* <div className="dropDownEnd"> */}
                             <li id="dropDownEnd">
                                 <a onClick={this.logout} ><img id="signoutIcon" src={window.signoutIcon}/> Sign out</a>
                             </li>
-                        {/* </div> */}
                     </ul>
                 </div>
-            )
+            );
         }
-        
         
         switch(this.props.navType) {
             case 'default':
-
             return (
-                
                 <div className="nav_bar">
                     {sessionModal}
-                
                     <div className="nav_buttons_container" >
-
                         <nav className="left_nav">
                             <img src={window.greenLogo} width="184px" className="nav-logo"/>
                             <NavLink to="/discover" className="home-button" style={{ textDecoration: 'none' }}>   
@@ -182,78 +150,48 @@ export default class NavBar extends React.Component {
                             </NavLink>
                             <a className="library-button" onClick={ this.registerModelShow}>Library</a>
                         </nav>
-
                         <nav className="right_nav">
                             <button className="login-modal-button" onClick={ this.loginModelShow }> Sign in </button>
                             <button className="signup-modal-button" onClick={ this.registerModelShow }> Create account</button>
-
-                            {/* <NavLink to="/upload" className="upload-button" style={{ textDecoration: 'none' }} >
-                               Upload 
-                            </NavLink> */}
                         </nav>
-
                     </div>
-
                 </div>
-            )
-
+            );
 
             case 'song':
             return (
                 <div className="song_nav_bar">
-                    {/* <a className="all-songs-button"> All </a>
-                    <a className="popular-songs-button"> Popular </a>
-                    <a className="albums-button"> Albums </a> */}
                 </div>
             )
-
-
 
             case 'user':
             return (
                 <div className="nav_bar">
-                    
-                
                     <div className="nav_buttons_container" >
-
                         <nav className="left_nav">
                             <img src={window.greenLogo} width="184px" className="nav-logo"/>
                             <NavLink to="/discover" className="home-button" style={{ textDecoration: 'none' }}>   
                                 Home
                             </NavLink>
-
-                            
                             <NavLink to="/library" className="library-button" style={{ textDecoration: 'none' }}>
                                Library
                             </NavLink>
-                            
                         </nav>
-
                         <nav className="right_nav">
                             <NavLink to="/upload" className="upload-button" style={{ textDecoration: 'none' }} >
                                Upload 
                             </NavLink>
-                            
                             <div className="profile-dropdown" onClick={this.handleDropDown}>
                                 <img id="navProfileImg" src={this.props.currentUser ? this.props.currentUser.profilePicUrl : ""} />
                                 <p id="dropdownUsername">{this.props.currentUser ? this.props.currentUser.display_name : ""}</p>
                                 <img id="downArrow" src={window.downArrow} />
-
                                <div className="dropDownUlContainer">{dropDownOptions}</div>
-                                
                             </div>
-                           
                         </nav>
-
                     </div>
-
                 </div>
-
-
-
-            )
-        }
-         
+            );
+        } 
     }
 
 }

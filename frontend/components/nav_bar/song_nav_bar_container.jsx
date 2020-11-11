@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
-import NavBar from './nav_bar'
-
+import NavBar from './nav_bar';
 
 const mSTP = state => ({
   user: state.session.currentUser,

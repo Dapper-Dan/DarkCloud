@@ -6,7 +6,6 @@ export const getSongs = (display_name) => (
     })
 );
     
-
 export const createSong = (song) => (
     $.ajax({
         url: "/api/songs",
@@ -16,7 +15,6 @@ export const createSong = (song) => (
         processData: false
     })
 )
-
 
 export const getSong = (songId) => (
     $.ajax({

@@ -15,8 +15,8 @@ export default class SearchResults extends React.Component {
             showEverything: true
         };
 
-        this.props.getBunchSongs()
-        this.changeShow = this.changeShow.bind(this)
+        this.props.getBunchSongs();
+        this.changeShow = this.changeShow.bind(this);
     }
 
     componentDidMount() {

@@ -22,13 +22,13 @@ class SongForm extends React.Component {
 
       this.handleSubmit = this.handleSubmit.bind(this);
       this.update = this.update.bind(this);
-      this.showUploadInput = this.showUploadInput.bind(this)
-      this.handleMusicUpload = this.handleMusicUpload.bind(this)
-      this.handlePictureUpload = this.handlePictureUpload.bind(this)
-      this.draw = this.draw.bind(this)
+      this.showUploadInput = this.showUploadInput.bind(this);
+      this.handleMusicUpload = this.handleMusicUpload.bind(this);
+      this.handlePictureUpload = this.handlePictureUpload.bind(this);
+      this.draw = this.draw.bind(this);
       this._next = this._next.bind(this);
-      this.handleCancel = this.handleCancel.bind(this)
-      this.onKeyDown = this.onKeyDown.bind(this)
+      this.handleCancel = this.handleCancel.bind(this);
+      this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     update(value) {

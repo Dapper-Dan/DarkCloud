@@ -8,7 +8,7 @@ class SongList extends React.Component {
         loading: true
       }
 
-      this.props.getBunchSongs()
+      this.props.getBunchSongs();
     }
 
     shouldComponentUpdate(nextProps) {

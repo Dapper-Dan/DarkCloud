@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentUser: window.currentUser
         }
     }
-}
+  }
 
   const store = configureStore(preloadedState);
   // window.store = store;

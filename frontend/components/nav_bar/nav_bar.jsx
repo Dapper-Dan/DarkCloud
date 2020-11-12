@@ -20,9 +20,9 @@ export default class NavBar extends React.Component {
 
         this.loginModelShow = this.loginModelShow.bind(this);
         this.registerModelShow = this.registerModelShow.bind(this);
-        this.changeShow = this.changeShow.bind(this)
-        this.logout = this.logout.bind(this)
-        this.handleDropDown = this.handleDropDown.bind(this)
+        this.changeShow = this.changeShow.bind(this);
+        this.logout = this.logout.bind(this);
+        this.handleDropDown = this.handleDropDown.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 

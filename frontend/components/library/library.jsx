@@ -7,8 +7,8 @@ import SongPartContainer from '../song/song_part_container';
 export default class Library extends React.Component {
     constructor(props) {
         super(props);
-        this.props.getSongs(this.props.currentUser.display_name)
-        this.props.fetchUserInfo(this.props.currentUser.display_name)
+        this.props.getSongs(this.props.currentUser.display_name);
+        this.props.fetchUserInfo(this.props.currentUser.display_name);
     }
 
     componentDidMount() {

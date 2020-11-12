@@ -22,10 +22,10 @@ class Profile extends React.Component {
         last_name: ""
       }
 
-      this.props.getSongs(this.props.match.params.display_name)
+      this.props.getSongs(this.props.match.params.display_name);
       this.props.fetchUserInfo(this.props.match.params.display_name);
       if (this.props.state.session.currentUser) {
-        this.props.fetchUser(this.props.state.session.currentUser.id)
+        this.props.fetchUser(this.props.state.session.currentUser.id);
       }
 
       this.change = this.change.bind(this)

@@ -13,20 +13,27 @@ class MusicPlayer extends React.Component {
             currentSongDisplayName: "",
             queue: null,
             listener: false,
-            queueIndex: 0
+            queueIndex: 0,
+            repeat: false,
+            shuffle: false
         }
       
-        this.props.getBunchSongs()
-        this.play = this.play.bind(this)
-        this.changeVolume = this.changeVolume.bind(this)
-        this.getCurrentTime = this.getCurrentTime.bind(this)
-        this.updateProgress = this.updateProgress.bind(this)
-        this.handleMouseDown = this.handleMouseDown.bind(this)
-        this.handleMouseUp = this.handleMouseUp.bind(this)
-        this.drag = this.drag.bind(this)
-        this.handleMouseLeave = this.handleMouseLeave.bind(this)
-        this.handleMouseOver = this.handleMouseOver.bind(this)
-        this.likeSong = this.likeSong.bind(this)
+        this.props.getBunchSongs();
+        this.play = this.play.bind(this);
+        this.changeVolume = this.changeVolume.bind(this);
+        this.getCurrentTime = this.getCurrentTime.bind(this);
+        this.updateProgress = this.updateProgress.bind(this);
+        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleMouseUp = this.handleMouseUp.bind(this);
+        this.drag = this.drag.bind(this);
+        this.handleMouseLeave = this.handleMouseLeave.bind(this);
+        this.handleMouseOver = this.handleMouseOver.bind(this);
+        this.likeSong = this.likeSong.bind(this);
+        this.nextQueue = this.nextQueue.bind(this);
+        this.prevQueue = this.prevQueue.bind(this);
+        this.repeatQueue = this.repeatQueue.bind(this);
+        this.shuffleQueue = this.shuffleQueue.bind(this);
+        
     }
 
     play() {
@@ -125,6 +132,24 @@ class MusicPlayer extends React.Component {
         this.props.getBunchSongs()
     }
 
+    nextQueue() {
+        this.setState({queueIndex: this.state.queueIndex += 1})
+        this.props.getSong(this.state.queue[this.state.queueIndex].id)
+    }
+
+    prevQueue() {
+        this.setState({queueIndex: this.state.queueIndex -= 1})
+        this.props.getSong(this.state.queue[this.state.queueIndex].id)
+    }
+
+    repeatQueue() {
+        this.setState({repeat: !this.state.repeat})
+    }
+
+    shuffleQueue() {
+        this.setState({shuffle: !this.state.shuffle})
+    }
+
     componentDidUpdate() {
         let songDisplayName
         if (this.props.currentSong) {
@@ -152,6 +177,13 @@ class MusicPlayer extends React.Component {
             let song = document.getElementById('myAudio')
             this.setState({listener: true})
             song.addEventListener('ended', () => {
+                if (this.state.repeat) {
+                    return this.props.getSong(this.state.queue[this.state.queueIndex].id).then(song.play());
+                }
+
+                if (this.state.shuffle) {
+                    return this.props.getSong(this.state.queue[Math.floor(Math.random() * this.state.queue.length)].id).then(song.play());
+                }
                 this.setState({queueIndex: this.state.queueIndex += 1})
                 this.props.getSong(this.state.queue[this.state.queueIndex].id).then(song.play())
             })
@@ -207,6 +239,17 @@ class MusicPlayer extends React.Component {
             }
         }
 
+        let repeatButton
+        let shuffleButton
+        if (this.state.repeat) {
+            repeatButton = "greenButton";
+        } else if (this.state.shuffle) {
+            shuffleButton = "greenButton";
+        } else {
+            repeatButton = "";
+            shuffleButton = "";
+        }
+
         if (!song) {
             return <div></div>
         } else {
@@ -221,13 +264,13 @@ class MusicPlayer extends React.Component {
                 <div className="media-player-container">
                     <div className="song-progress-bar-container"> 
                         <div className="button-container">
-                            <img src={window.back} width="21px"/>
+                            <img onClick={this.prevQueue} src={window.back} width="21px"/>
                             <button className="play-button" data-playing="false" role="switch" aria-checked="false" onClick={this.play}>
                                 <img src={playPause} width="21px"/>
                             </button>
-                            <img src={window.next} width="21px"/>
-                            <img src={window.shuffle} width="23px"/>
-                            <img src={window.repeat} width="23px"/>
+                            <img onClick={this.nextQueue} src={window.next} width="21px"/>
+                            <img id={shuffleButton} onClick={this.shuffleQueue} src={window.shuffle} width="23px"/>
+                            <img id={repeatButton} onClick={this.repeatQueue} src={window.repeat} width="23px"/>
                         </div>
                         <div className="current-time">
                             {this.state.songTime}

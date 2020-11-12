@@ -12,10 +12,10 @@ class SongPart extends React.Component {
         playing: false,
         showSignUp: false
       }
-      this.handleClick = this.handleClick.bind(this)
-      this.play = this.play.bind(this)
-      this.likeSong = this.likeSong.bind(this)
-      this.changeShow = this.changeShow.bind(this)
+      this.handleClick = this.handleClick.bind(this);
+      this.play = this.play.bind(this);
+      this.likeSong = this.likeSong.bind(this);
+      this.changeShow = this.changeShow.bind(this);
     }
 
     play() {

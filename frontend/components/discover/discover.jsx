@@ -11,10 +11,10 @@ export default class Discover extends React.Component {
     constructor(props) {
         super(props);
       
-        this.props.getBunchSongs()
-        this.props.fetchUsers()
-        this.getMostLiked = this.getMostLiked.bind(this)
-        this.getTrendingGenre = this.getTrendingGenre.bind(this)
+        this.props.getBunchSongs();
+        this.props.fetchUsers();
+        this.getMostLiked = this.getMostLiked.bind(this);
+        this.getTrendingGenre = this.getTrendingGenre.bind(this);
     }
 
     getMostLiked(songs) {

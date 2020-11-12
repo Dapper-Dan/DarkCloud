@@ -201,3 +201,11 @@ p {
     filter: invert(59%) sepia(13%) saturate(2372%) hue-rotate(88deg) brightness(94%) contrast(94%);
     align-self: center;
 }
+
+.button-container img {
+    cursor: pointer;
+}
+
+.button-container #greenButton {
+    filter: invert(59%) sepia(13%) saturate(2372%) hue-rotate(88deg) brightness(94%) contrast(94%);
+}

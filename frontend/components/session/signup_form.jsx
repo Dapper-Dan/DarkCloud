@@ -20,10 +20,10 @@ class SignupForm extends React.Component {
     this.handleSignup = this.handleSignup.bind(this);
     this.update = this.update.bind(this);
     this._next = this._next.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
-    this.onKeyDown = this.onKeyDown.bind(this)
-    this.loginDemoUser = this.loginDemoUser.bind(this)
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.loginDemoUser = this.loginDemoUser.bind(this);
   }
     
   handleSignup(e) {

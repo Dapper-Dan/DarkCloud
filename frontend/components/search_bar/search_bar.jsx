@@ -13,8 +13,8 @@ export default class SearchBar extends React.Component {
             redirect: false
         }
 
-        this.props.fetchUsers()
-        this.props.getBunchSongs()
+        this.props.fetchUsers();
+        this.props.getBunchSongs();
         this.searchUpdate = this.searchUpdate.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);

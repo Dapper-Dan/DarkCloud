@@ -1283,7 +1283,9 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       currentSongDisplayName: "",
       queue: null,
       listener: false,
-      queueIndex: 0
+      queueIndex: 0,
+      repeat: false,
+      shuffle: false
     };
 
     _this.props.getBunchSongs();
@@ -1298,6 +1300,10 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
     _this.handleMouseLeave = _this.handleMouseLeave.bind(_assertThisInitialized(_this));
     _this.handleMouseOver = _this.handleMouseOver.bind(_assertThisInitialized(_this));
     _this.likeSong = _this.likeSong.bind(_assertThisInitialized(_this));
+    _this.nextQueue = _this.nextQueue.bind(_assertThisInitialized(_this));
+    _this.prevQueue = _this.prevQueue.bind(_assertThisInitialized(_this));
+    _this.repeatQueue = _this.repeatQueue.bind(_assertThisInitialized(_this));
+    _this.shuffleQueue = _this.shuffleQueue.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1446,6 +1452,36 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
       this.props.getBunchSongs();
     }
   }, {
+    key: "nextQueue",
+    value: function nextQueue() {
+      this.setState({
+        queueIndex: this.state.queueIndex += 1
+      });
+      this.props.getSong(this.state.queue[this.state.queueIndex].id);
+    }
+  }, {
+    key: "prevQueue",
+    value: function prevQueue() {
+      this.setState({
+        queueIndex: this.state.queueIndex -= 1
+      });
+      this.props.getSong(this.state.queue[this.state.queueIndex].id);
+    }
+  }, {
+    key: "repeatQueue",
+    value: function repeatQueue() {
+      this.setState({
+        repeat: !this.state.repeat
+      });
+    }
+  }, {
+    key: "shuffleQueue",
+    value: function shuffleQueue() {
+      this.setState({
+        shuffle: !this.state.shuffle
+      });
+    }
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
       var _this2 = this;
@@ -1492,6 +1528,14 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           listener: true
         });
         song.addEventListener('ended', function () {
+          if (_this2.state.repeat) {
+            return _this2.props.getSong(_this2.state.queue[_this2.state.queueIndex].id).then(song.play());
+          }
+
+          if (_this2.state.shuffle) {
+            return _this2.props.getSong(_this2.state.queue[Math.floor(Math.random() * _this2.state.queue.length)].id).then(song.play());
+          }
+
           _this2.setState({
             queueIndex: _this2.state.queueIndex += 1
           });
@@ -1571,6 +1615,18 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         }
       }
 
+      var repeatButton;
+      var shuffleButton;
+
+      if (this.state.repeat) {
+        repeatButton = "greenButton";
+      } else if (this.state.shuffle) {
+        shuffleButton = "greenButton";
+      } else {
+        repeatButton = "";
+        shuffleButton = "";
+      }
+
       if (!song) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       } else {
@@ -1586,6 +1642,7 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "button-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          onClick: this.prevQueue,
           src: window.back,
           width: "21px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -1598,12 +1655,17 @@ var MusicPlayer = /*#__PURE__*/function (_React$Component) {
           src: playPause,
           width: "21px"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          onClick: this.nextQueue,
           src: window.next,
           width: "21px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          id: shuffleButton,
+          onClick: this.shuffleQueue,
           src: window.shuffle,
           width: "23px"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          id: repeatButton,
+          onClick: this.repeatQueue,
           src: window.repeat,
           width: "23px"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

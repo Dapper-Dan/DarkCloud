@@ -4,7 +4,8 @@ import SignupForm from './signup_form.jsx';
 
 const mapSTP = state => ({
     formType: 'login',
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    errors: state.errors.session
 })
 
 const mapDTP = dispatch => ({

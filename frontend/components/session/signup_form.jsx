@@ -59,7 +59,8 @@ class SignupForm extends React.Component {
     return e => this.setState({ [value]: e.target.value });
   }
   
-  _next() {
+  _next(e) {
+    if (e.currentTarget.id === "passwordSignup" && this.state.password.length < 6) return alert("Password must be at least 6 characters.");
     const { step } = this.state
     this.setState({
       step : step + 1
@@ -137,7 +138,7 @@ class SignupForm extends React.Component {
               />
             </form>
             <p id="accept-cookies"> By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy.</p>
-            <button className="signup-form-button" type="button" onClick={ this._next }> Accept & continue </button>
+            <button id="passwordSignup" className="signup-form-button" type="button" onClick={ this._next }> Accept & continue </button>
           </div>
         );
         case 3: 
@@ -241,7 +242,8 @@ class SignupForm extends React.Component {
                   onChange={this.update('password')} 
                   placeholder="Your password"
                 />
-              </form>     
+              </form>
+              <p>{this.props.errors[0]}</p>
               <button type="submit" className="signup-form-button" onClick={ this.handleLogin }> Sign in </button>
             </div>
           );

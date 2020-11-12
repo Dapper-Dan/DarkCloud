@@ -5,7 +5,8 @@ import {login} from '../../actions/session_actions.js'
 
 const mapSTP = state => ({
     formType: 'signup',
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    errors: state.errors.session
 })
 
 const mapDTP = dispatch => ({

@@ -407,8 +407,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  var store = Object(_store_store_js__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState); // window.store = store;
-
+  var store = Object(_store_store_js__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState);
+  window.store = store;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);
@@ -3521,7 +3521,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     formType: 'login',
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    errors: state.errors.session
   };
 };
 
@@ -3665,7 +3666,8 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "_next",
-    value: function _next() {
+    value: function _next(e) {
+      if (e.currentTarget.id === "passwordSignup" && this.state.password.length < 6) return alert("Password must be at least 6 characters.");
       var step = this.state.step;
       this.setState({
         step: step + 1
@@ -3771,6 +3773,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
             })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
               id: "accept-cookies"
             }, " By signing up I accept the Terms of Use. I have read and understood the Privacy Policy and Cookies Policy."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              id: "passwordSignup",
               className: "signup-form-button",
               type: "button",
               onClick: this._next
@@ -3906,7 +3909,7 @@ var SignupForm = /*#__PURE__*/function (_React$Component) {
                 value: values.password,
                 onChange: this.update('password'),
                 placeholder: "Your password"
-              })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.errors[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
                 type: "submit",
                 className: "signup-form-button",
                 onClick: this.handleLogin
@@ -3945,7 +3948,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapSTP = function mapSTP(state) {
   return {
     formType: 'signup',
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    errors: state.errors.session
   };
 };
 

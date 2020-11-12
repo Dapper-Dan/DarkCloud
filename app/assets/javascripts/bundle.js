@@ -408,7 +408,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var store = Object(_store_store_js__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState);
-  window.store = store;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);

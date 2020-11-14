@@ -32,34 +32,37 @@ ul.options li.option-active {
 
 .searchBar {
     height: 29px;
-    width: 35%;
+    width: 100%;
     z-index: 900;
-    position: relative;
-    top: -37px;
-    left: 403px;
     border-radius: 5px;
     font-size: 14px;
     box-sizing: border-box;
-    border:none; 
+    border: none;
     background-color: #f3eded;
-    outline: none; 
+    outline: none;
 }
 
 .options-drop {
     background-color: black;
-    width: 34.5%;
+    width: 101%;
     margin: auto;
+    margin-left: -11px;
     position: relative;
-    top: -29px;
-    left: -12px;
+    top: -18px;
 }
 
 .search-button {
     border: none;
     position: relative;
-    top: -38px;
-    left: 372px;
+    top: -29px;
+    left: 93%;
     z-index: 901;
     outline: none !important;
 }
 
+.searchBarContainer {
+    width: 35%;
+    position: relative;
+    left: 403px;
+    top: -37px;
+}

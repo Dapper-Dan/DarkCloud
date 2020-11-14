@@ -3109,7 +3109,9 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
           })));
         }
 
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "searchBarContainer"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           className: "searchBar",
           placeholder: "  Search for music or podcasts",
           type: "text",
@@ -3123,7 +3125,7 @@ var SearchBar = /*#__PURE__*/function (_React$Component) {
         }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: window.searchButton,
           width: "15px"
-        }), " "), optionList);
+        }), " "), optionList));
       }
     }
   }]);

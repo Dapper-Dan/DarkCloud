@@ -16,6 +16,7 @@ class SongPart extends React.Component {
       this.play = this.play.bind(this);
       this.likeSong = this.likeSong.bind(this);
       this.changeShow = this.changeShow.bind(this);
+      this.waveformClick = this.waveformClick.bind(this);
     }
 
     play() {
@@ -106,6 +107,13 @@ class SongPart extends React.Component {
 
     changeShow() {
       this.setState({showSignUp: false})
+    }
+
+    waveformClick(e) {
+      let waveFormContainer = e.currentTarget;
+      let divAdjust = e.pageX - waveFormContainer.offsetLeft;
+      let audioEle = document.getElementById('myAudio');
+      audioEle.currentTime = Math.floor((divAdjust / waveFormContainer.offsetWidth) * audioEle.duration);
     }
 
     render() {
@@ -221,7 +229,7 @@ class SongPart extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="waveFormContainer" style={{height: "84px"}} >
+              <div className="waveFormContainer" onClick={this.waveformClick}style={{height: "84px"}} >
                 <img className="waveFormImg" src={song.waveForm} />
                 {progressWaveForm}
               </div>

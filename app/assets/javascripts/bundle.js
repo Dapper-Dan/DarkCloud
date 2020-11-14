@@ -4661,6 +4661,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
     _this.play = _this.play.bind(_assertThisInitialized(_this));
     _this.likeSong = _this.likeSong.bind(_assertThisInitialized(_this));
     _this.changeShow = _this.changeShow.bind(_assertThisInitialized(_this));
+    _this.waveformClick = _this.waveformClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4800,6 +4801,14 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "waveformClick",
+    value: function waveformClick(e) {
+      var waveFormContainer = e.currentTarget;
+      var divAdjust = e.pageX - waveFormContainer.offsetLeft;
+      var audioEle = document.getElementById('myAudio');
+      audioEle.currentTime = Math.floor(divAdjust / waveFormContainer.offsetWidth * audioEle.duration);
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.props.song || this.state.loading) {
@@ -4932,6 +4941,7 @@ var SongPart = /*#__PURE__*/function (_React$Component) {
           className: "genreContainer"
         }, "# ".concat(songGenre)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "waveFormContainer",
+          onClick: this.waveformClick,
           style: {
             height: "84px"
           }

@@ -17,7 +17,8 @@ class SongForm extends React.Component {
         duration: null,
         waveForm: null,
         step: 1,
-        pictureSamp: null
+        pictureSamp: null,
+        dragging: false
       }
 
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,6 +30,10 @@ class SongForm extends React.Component {
       this._next = this._next.bind(this);
       this.handleCancel = this.handleCancel.bind(this);
       this.onKeyDown = this.onKeyDown.bind(this);
+      this.dragIn = this.dragIn.bind(this);
+      this.dragOut = this.dragOut.bind(this);
+      this.dragDrop = this.dragDrop.bind(this);
+      this.handleDrag = this.handleDrag.bind(this);
     }
 
     update(value) {
@@ -70,21 +75,27 @@ class SongForm extends React.Component {
       this.setState({step: 1})
     }
 
-    handleMusicUpload(e) {
-      const file = e.target.files[0]
+    handleMusicUpload(e, dropFile) {
+      let file
+      if (!dropFile) {
+        file = e.target.files[0]
+      } else {
+        file = dropFile
+      }
+
       if (file.type === 'audio/mpeg') {
         const track = document.createElement('audio');
         const reader = new FileReader()
         reader.onloadend = () => { 
           track.src = reader.result;
         }
-        reader.readAsDataURL(e.target.files[0])
+        reader.readAsDataURL(file)
         track.addEventListener('loadedmetadata', () => {
           this.setState({ duration: track.duration});
         })              
-        this.setState({ music: e.target.files[0] }); 
+        this.setState({ music: file }); 
         let audioContext = new (window.AudioContext || window.webkitAudioContext)()
-        e.target.files[0].arrayBuffer()
+        file.arrayBuffer()
           .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
           .then(audioBuffer => {
             this.setState({ waveForm: this.draw(this.normalizeData(this.filterData(audioBuffer))) })
@@ -158,6 +169,34 @@ class SongForm extends React.Component {
       input.click()
     }
 
+    dragIn(e) {
+      console.log('ghh')
+      e.preventDefault()
+      e.stopPropagation()
+      if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+        this.setState({dragging: true})
+      }
+    }
+
+    dragOut(e) {
+      console.log('bye')
+      e.preventDefault()
+      e.stopPropagation()
+      this.setState({dragging: false})
+    }
+
+    dragDrop(e) {
+      e.preventDefault()
+      e.stopPropagation()
+      this.setState({dragging: false})
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) this.handleMusicUpload(e, e.dataTransfer.files[0]);
+    }
+
+    handleDrag(e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+
     render() {
       const {title} = this.state
       const values = {title};
@@ -173,8 +212,8 @@ class SongForm extends React.Component {
           </div>
           <div className="outtermost"> 
             <div className="songFormBackGround">
-              <div className="songUpload-form" >
-                <h1> Drag and drop your tracks & albums here </h1>
+              <div className="songUpload-form" onDragEnter={this.dragIn}>
+                <h1> Drag and drop your tracks here </h1>
                 <button className="fileUploadButton" onClick={this.showUploadInput}> or choose files to upload </button>
                 <input
                   id="music-file-input"
@@ -182,6 +221,7 @@ class SongForm extends React.Component {
                   style={{display:'none'}}
                   onChange={this.handleMusicUpload}
                 />
+                {this.state.dragging ? <div className="dragOverlay" onDragLeave={this.dragOut} onDragOver={this.handleDrag} onDrop={this.dragDrop}></div> : ""}
               </div>
             </div> 
           </div>

@@ -4043,7 +4043,8 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       duration: null,
       waveForm: null,
       step: 1,
-      pictureSamp: null
+      pictureSamp: null,
+      dragging: false
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
@@ -4054,6 +4055,10 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     _this._next = _this._next.bind(_assertThisInitialized(_this));
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     _this.onKeyDown = _this.onKeyDown.bind(_assertThisInitialized(_this));
+    _this.dragIn = _this.dragIn.bind(_assertThisInitialized(_this));
+    _this.dragOut = _this.dragOut.bind(_assertThisInitialized(_this));
+    _this.dragDrop = _this.dragDrop.bind(_assertThisInitialized(_this));
+    _this.handleDrag = _this.handleDrag.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4112,10 +4117,16 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleMusicUpload",
-    value: function handleMusicUpload(e) {
+    value: function handleMusicUpload(e, dropFile) {
       var _this4 = this;
 
-      var file = e.target.files[0];
+      var file;
+
+      if (!dropFile) {
+        file = e.target.files[0];
+      } else {
+        file = dropFile;
+      }
 
       if (file.type === 'audio/mpeg') {
         var track = document.createElement('audio');
@@ -4125,17 +4136,17 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
           track.src = reader.result;
         };
 
-        reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(file);
         track.addEventListener('loadedmetadata', function () {
           _this4.setState({
             duration: track.duration
           });
         });
         this.setState({
-          music: e.target.files[0]
+          music: file
         });
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        e.target.files[0].arrayBuffer().then(function (arrayBuffer) {
+        file.arrayBuffer().then(function (arrayBuffer) {
           return audioContext.decodeAudioData(arrayBuffer);
         }).then(function (audioBuffer) {
           _this4.setState({
@@ -4232,6 +4243,45 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
       input.click();
     }
   }, {
+    key: "dragIn",
+    value: function dragIn(e) {
+      console.log('ghh');
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+        this.setState({
+          dragging: true
+        });
+      }
+    }
+  }, {
+    key: "dragOut",
+    value: function dragOut(e) {
+      console.log('bye');
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        dragging: false
+      });
+    }
+  }, {
+    key: "dragDrop",
+    value: function dragDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        dragging: false
+      });
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) this.handleMusicUpload(e, e.dataTransfer.files[0]);
+    }
+  }, {
+    key: "handleDrag",
+    value: function handleDrag(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, {
     key: "render",
     value: function render() {
       var title = this.state.title;
@@ -4252,8 +4302,9 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "songFormBackGround"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "songUpload-form"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, " Drag and drop your tracks & albums here "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "songUpload-form",
+            onDragEnter: this.dragIn
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, " Drag and drop your tracks here "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "fileUploadButton",
             onClick: this.showUploadInput
           }, " or choose files to upload "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -4263,7 +4314,12 @@ var SongForm = /*#__PURE__*/function (_React$Component) {
               display: 'none'
             },
             onChange: this.handleMusicUpload
-          })))));
+          }), this.state.dragging ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "dragOverlay",
+            onDragLeave: this.dragOut,
+            onDragOver: this.handleDrag,
+            onDrop: this.dragDrop
+          }) : ""))));
 
         case 2:
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5211,11 +5267,6 @@ var songsReducer = function songsReducer() {
       return Object.assign({}, state, {
         newSong: action.song
       });
-    // case REMOVE_SONG:
-    //     delete nextState[action.songId]
-    //     return nextState;
-    // case REMOVE_SONGS:
-    //     return {};
 
     default:
       return state;

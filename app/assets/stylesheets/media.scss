@@ -209,3 +209,17 @@ p {
 .button-container #greenButton {
     filter: invert(59%) sepia(13%) saturate(2372%) hue-rotate(88deg) brightness(94%) contrast(94%);
 }
+
+.dragOverlay {
+    border: dashed grey 4px;
+    background-color: rgba(255, 255, 255, 0.8);
+    position: absolute;
+    top: 282px;
+    left: 0;
+    right: 0;
+    z-index: 9999999;
+    width: 27%;
+    height: 53%;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -12,6 +12,7 @@ ul.options li {
     display: block;
     background: black;
     padding: 10px;
+    padding-right: 0px;
     font-size: 13px;
     width: 100%;
     color: #fff;
@@ -60,9 +61,14 @@ ul.options li.option-active {
     outline: none !important;
 }
 
-.searchBarContainer {
+.nav-con .searchBarContainer {
     width: 35%;
     position: relative;
     left: 403px;
     top: -37px;
+}
+
+.mainSearch .searchBarContainer {
+    width: 60%;
+    display: flex;
 }

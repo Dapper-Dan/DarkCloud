@@ -282,7 +282,7 @@ audio {
 
 .mainSearch .searchBar {
     height: 45px;
-    width: 60%;
+    width: 100%;
     z-index: 1;
     position: relative;
     top: 0;
@@ -301,11 +301,16 @@ audio {
 }
 
 .mainSearch .options-drop {
-    width: 57.4%;
+    width: 54%;
     position: absolute;
     z-index: 899;
     top: 75px;
     left: 0px;
+    margin-left: 0px;
+}
+
+.mainSearch .options-drop li {
+    padding-right: 2%;
 }
 
 .mainSearch p {

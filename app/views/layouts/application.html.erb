@@ -3,11 +3,12 @@
   <head>
     <title>AudioCloud</title>
     <meta property='og:title' content='AudioCloud'/>
-    <meta property='og:image' content='https://audiocloud--prod.s3-us-west-1.amazonaws.com/WikiScreenSHot1.png'>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:image" content="<%= image_url('WikiScreenShot1.png') %>">
+    <meta property="og:image:width" content="300" />
+    <meta property="og:image:height" content="300" />
     <meta property="og:type" content="website" />
     <meta property='og:description' content='An audio platform and music sharing site consisting of listeners and creators.'/>
-    <meta property='og:url' content='https://myaudiocloud.herokuapp.com/'/>
+   
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
    

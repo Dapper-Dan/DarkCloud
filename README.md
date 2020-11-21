@@ -25,4 +25,5 @@ Using the site is straightforward and simple. You can navigate through different
 
 ## Contact
 [LinkedIn](https://www.linkedin.com/in/daniel-r-lancaster/)
+<br>
 [Email](mailto:dlancaster08@gmail.com)

@@ -58,6 +58,36 @@ Using the site is straightforward and simple. You can navigate through different
 
 ![AudioCloud discover page](https://github.com/Dapper-Dan/AudioCloud/blob/master/app/assets/images/WikiScreenShot3.png)
 
+Here are some code snippets that show how the discover page sorts through tracks and artists for the site to render.
+```
+    getMostLiked(songs) {
+        let mostLikedSongs = Object.values(songs).sort((a, b) => {
+            if (Object.keys(a.likes).length > Object.keys(b.likes).length) return -1
+            if (Object.keys(a.likes).length < Object.keys(b.likes).length) return 1
+            if (Object.keys(a.likes).length === Object.keys(b.likes).length) return 0
+        })  
+
+        return mostLikedSongs;
+    }
+
+    getTrendingGenre(songs, genre) {
+       let genreTracks = Object.values(songs).filter((song) => song.genre === genre)
+       let trendingGenreTracks = this.getMostLiked(genreTracks)
+
+       return trendingGenreTracks;
+    }
+
+    getRecentUsers(users) {
+        let recentUsers = Object.values(users).sort((a, b) => {
+            if (new Date(a.created_at).valueOf() > new Date(b.created_at).valueOf()) return -1
+            if (new Date(a.created_at).valueOf() < new Date(b.created_at).valueOf()) return 1
+            if (new Date(a.created_at).valueOf() === new Date(b.created_at).valueOf()) return 0
+        })
+
+        return recentUsers;
+    }
+```
+
 ## Contact
 [LinkedIn](https://www.linkedin.com/in/daniel-r-lancaster/)
 <br>

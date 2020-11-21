@@ -2,13 +2,15 @@
 <html>
   <head>
     <title>AudioCloud</title>
+    <meta property='og:title' content='AudioCloud'/>
+    <meta property='og:image' content='<%= image_url('gradient_left.png') %>'>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:type" content="website" />
+    <meta property='og:description' content='An audio platform and music sharing site consisting of listeners and creators.'/>
+    <meta property='og:url' content='https://myaudiocloud.herokuapp.com/'/>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <meta prefix="og: http://ogp.me/ns#" property="og:image" content="<%= image_url('gradient_left.png') %>" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:type" content="{Your content}" />
-    
-    <meta prefix="og: http://ogp.me/ns#" property="og:url" content="{Your content}" />
-    <meta property="og:image" content='<%= image_url('gradient_left.png') %>' />
+   
     <%= stylesheet_link_tag    'application', media: 'all' %>
     
  

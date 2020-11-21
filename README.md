@@ -16,7 +16,6 @@ An audio platform and music sharing site consisting of listeners and creators. F
 
 ## The Crux
 The crux of this app is the media player and audio waveform. An audio waveform put simply is a graphic representation of the high and low frequencies throughout a song. My site, like SoundCloud, has a colored waveform overlayed on a grey waveform and the colored version covers more of the grey version as the song progresses. I initially attempted to use HTML Canvas to draw a waveform on render then if a song was played, Canvas would draw the colored version as the song went on. This proved to be quite heavy on the frontend as Canvas was continuously drawing a full image from scratch. My answer to this delimma was simple. A waveform image is drawn via Canvas when a user uploads a track and that image is saved to the database. When said track is played, an overlayed containing div with a colored version of the image has its width constantly adjusted to match the current progress in the song.
-
 ![AudioCloud waveform](https://github.com/Dapper-Dan/AudioCloud/blob/master/app/assets/images/wikiScreenShot2.png)
 
 ## Usage

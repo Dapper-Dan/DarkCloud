@@ -52,7 +52,6 @@ Here are some code snippets that show how the waveform works as a song is played
     }
     
   ```
-
 ## Usage
 Using the site is straightforward and simple. You can navigate through different pages and search and listen to music without an account, but some features will not be available. To sign up, all you need to enter is an email, password, age, and a display name of your choice. Optionally, you may later enter other details about yourself such as location and name. If you just want to check out all the site has to offer without entering information, you may click "Demo Login" on the sign up/login form and you will be granted immediate user access. Along with the search feature, a great way to get started and find great tracks is to check out the discover page. There you will find what songs and artists are trending based on users' likes and recent uploads.
 

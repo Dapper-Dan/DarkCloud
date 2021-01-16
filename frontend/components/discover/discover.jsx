@@ -13,23 +13,31 @@ export default class Discover extends React.Component {
       
         this.props.getBunchSongs();
         this.props.fetchUsers();
-        this.getMostLiked = this.getMostLiked.bind(this);
         this.getTrendingGenre = this.getTrendingGenre.bind(this);
+        this.quickSort = this.quickSort.bind(this);
     }
 
-    getMostLiked(songs) {
-        let mostLikedSongs = Object.values(songs).sort((a, b) => {
-            if (Object.keys(a.likes).length > Object.keys(b.likes).length) return -1
-            if (Object.keys(a.likes).length < Object.keys(b.likes).length) return 1
-            if (Object.keys(a.likes).length === Object.keys(b.likes).length) return 0
-        })  
-
-        return mostLikedSongs;
+    quickSort(songs) {
+        if (songs.length < 2) return songs;
+       
+        let pivot = songs[0];
+        let lesserArray = [];
+        let greaterArray = [];
+        
+        for (let i = 1; i < songs.length; i++) {
+          if (Object.keys(songs[i].likes).length > Object.keys(pivot.likes).length) {
+            greaterArray.push(songs[i]);
+          } else {
+            lesserArray.push(songs[i]);
+          }
+        }
+      
+        return this.quickSort(greaterArray).concat(pivot, this.quickSort(lesserArray));
     }
 
     getTrendingGenre(songs, genre) {
        let genreTracks = Object.values(songs).filter((song) => song.genre === genre)
-       let trendingGenreTracks = this.getMostLiked(genreTracks)
+       let trendingGenreTracks = this.quickSort(genreTracks)
 
        return trendingGenreTracks;
     }
@@ -53,7 +61,7 @@ export default class Discover extends React.Component {
         if (!this.props.songs) {
             return (<p>loading...</p>)
         } else {
-           trendingSongs = this.getMostLiked(this.props.songs)  
+           trendingSongs = this.quickSort(Object.values(this.props.songs))  
            trendingEDM = this.getTrendingGenre(this.props.songs, "Dance & EDM")
            trendingJazz = this.getTrendingGenre(this.props.songs, "Jazz")
            trendingHipHop = this.getTrendingGenre(this.props.songs, "Hip-Hop")

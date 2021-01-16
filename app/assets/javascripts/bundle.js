@@ -545,20 +545,28 @@ var Discover = /*#__PURE__*/function (_React$Component) {
 
     _this.props.fetchUsers();
 
-    _this.getMostLiked = _this.getMostLiked.bind(_assertThisInitialized(_this));
     _this.getTrendingGenre = _this.getTrendingGenre.bind(_assertThisInitialized(_this));
+    _this.quickSort = _this.quickSort.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Discover, [{
-    key: "getMostLiked",
-    value: function getMostLiked(songs) {
-      var mostLikedSongs = Object.values(songs).sort(function (a, b) {
-        if (Object.keys(a.likes).length > Object.keys(b.likes).length) return -1;
-        if (Object.keys(a.likes).length < Object.keys(b.likes).length) return 1;
-        if (Object.keys(a.likes).length === Object.keys(b.likes).length) return 0;
-      });
-      return mostLikedSongs;
+    key: "quickSort",
+    value: function quickSort(songs) {
+      if (songs.length < 2) return songs;
+      var pivot = songs[0];
+      var lesserArray = [];
+      var greaterArray = [];
+
+      for (var i = 1; i < songs.length; i++) {
+        if (Object.keys(songs[i].likes).length > Object.keys(pivot.likes).length) {
+          greaterArray.push(songs[i]);
+        } else {
+          lesserArray.push(songs[i]);
+        }
+      }
+
+      return this.quickSort(greaterArray).concat(pivot, this.quickSort(lesserArray));
     }
   }, {
     key: "getTrendingGenre",
@@ -566,7 +574,7 @@ var Discover = /*#__PURE__*/function (_React$Component) {
       var genreTracks = Object.values(songs).filter(function (song) {
         return song.genre === genre;
       });
-      var trendingGenreTracks = this.getMostLiked(genreTracks);
+      var trendingGenreTracks = this.quickSort(genreTracks);
       return trendingGenreTracks;
     }
   }, {
@@ -591,7 +599,7 @@ var Discover = /*#__PURE__*/function (_React$Component) {
       if (!this.props.songs) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
       } else {
-        trendingSongs = this.getMostLiked(this.props.songs);
+        trendingSongs = this.quickSort(Object.values(this.props.songs));
         trendingEDM = this.getTrendingGenre(this.props.songs, "Dance & EDM");
         trendingJazz = this.getTrendingGenre(this.props.songs, "Jazz");
         trendingHipHop = this.getTrendingGenre(this.props.songs, "Hip-Hop");

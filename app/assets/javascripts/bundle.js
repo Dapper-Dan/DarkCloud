@@ -4548,10 +4548,7 @@ var SongList = /*#__PURE__*/function (_React$Component) {
       if (this.state.loading) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "loading...");
       } else {
-        var songs = Object.values(this.props.songs).sort(function (a, b) {
-          if (a.title > b.title) return 1;
-          if (a.title < b.title) return -1;
-        });
+        var songs = Object.values(this.props.songs).slice(0, 12);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "songList"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, songs.map(function (song) {
@@ -4561,7 +4558,7 @@ var SongList = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_song_part_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
             song: song
           }));
-        }).slice(0, 12)));
+        })));
       }
     }
   }]);

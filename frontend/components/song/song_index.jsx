@@ -27,10 +27,7 @@ class SongList extends React.Component {
       if (this.state.loading) {
         return (<p>loading...</p>)
       } else {
-        let songs = Object.values(this.props.songs).sort((a, b) => {
-          if (a.title > b.title) return 1
-          if (a.title < b.title) return -1
-        })
+        let songs = Object.values(this.props.songs).slice(0,12)
 
         return(
           <div className="songList"> 
@@ -39,7 +36,7 @@ class SongList extends React.Component {
                 <li key={song.id} className="song-box">
                   <SongPartContainer song={song} />
                 </li>
-              )).slice(0,12)}
+              ))}
             </ul>
           </div>
         );
